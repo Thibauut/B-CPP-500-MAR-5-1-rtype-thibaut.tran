@@ -44,6 +44,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- TEAM -->
 ## TEAM
 
+Luffy, Zoro, Sanjii, Usop, Chopper
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
