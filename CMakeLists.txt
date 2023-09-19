@@ -7,9 +7,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(libs/SFML)
-find_package(SFML REQUIRED COMPONENTS graphics window system audio)
-set(CMAKE_MODULE_PATH "libs/SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
-
 
 set(SRC_CLIENT  client/main.cpp
 )
@@ -19,5 +16,4 @@ set(HPP_CLIENT client/include/menu.hpp
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 
-target_link_libraries(your_target_name vorbis)
 target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio)
