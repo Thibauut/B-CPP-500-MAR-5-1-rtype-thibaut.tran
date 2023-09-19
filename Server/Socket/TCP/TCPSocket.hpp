@@ -6,7 +6,8 @@
 */
 
 #pragma once
-#include "../ASocket.hpp"
+#include <boost/asio.hpp>
+#include <boost/array.hpp>
 #include <iostream>
 
 using namespace boost::asio::ip;
@@ -14,7 +15,7 @@ using namespace std;
 
 class TCPSocket {
     public:
-        virtual TCPSocket(boost::asio::io_service& ioService, int port);
+        TCPSocket(boost::asio::io_service& ioService, int port);
         ~TCPSocket() = default;
 
         void acceptSocket();

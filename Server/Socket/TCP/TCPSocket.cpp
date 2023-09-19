@@ -32,12 +32,12 @@ void TCPSocket::start()
 void TCPSocket::handleClient()
 {
     boost::asio::async_read_until(_socket, _buffer, '\n', [this](const boost::system::error_code& ec, size_t bytes_transferred) {
-            if (!ec) {
-                istream input_stream(&_buffer);
-                string message;
-                getline(input_stream, message);
-                cout << "Message du client : " << message << endl;
-                handleClient();
-            }
-        });
+        if (!ec) {
+            istream input_stream(&_buffer);
+            string message;
+            getline(input_stream, message);
+            cout << "Message du client : " << message << endl;
+            handleClient();
+        }
+    });
 }
