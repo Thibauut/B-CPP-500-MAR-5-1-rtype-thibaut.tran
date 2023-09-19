@@ -11,12 +11,12 @@
 
 class ASocket : public ISocket {
     public:
-        ASocket() {};
+        ASocket(){}
         virtual ~ASocket() = default;
         virtual void send(const std::string &message) {};
         virtual std::string receive() {};
         virtual void bindSocket() {};
-        virtual void connectSocket() {};
+        virtual void acceptSocket() {};
         virtual void closeSocket() {};
         virtual void setPort(const int &port) {};
         virtual void setIp(const std::string &ip) {};
@@ -30,6 +30,8 @@ class ASocket : public ISocket {
         virtual struct sockaddr_in getAddr() const {};
         virtual void setAddrLen(const socklen_t &addrLen) {};
         virtual socklen_t getAddrLen() const {};
+        virtual void start(){};
+        virtual void handleClient(){};
 
     private:
         

@@ -23,7 +23,7 @@ class ISocket {
         virtual void send(const std::string &message) = 0;
         virtual std::string receive() = 0;
         virtual void bindSocket() = 0;
-        virtual void connectSocket() = 0;
+        virtual void acceptSocket() = 0;
         virtual void closeSocket() = 0;
         virtual void setPort(const int &port) = 0;
         virtual void setIp(const std::string &ip) = 0;
@@ -37,5 +37,7 @@ class ISocket {
         virtual struct sockaddr_in getAddr() const = 0;
         virtual void setAddrLen(const socklen_t &addrLen) = 0;
         virtual socklen_t getAddrLen() const = 0;
+        virtual void start () = 0;
+        virtual void handleClient () = 0;
 
 };

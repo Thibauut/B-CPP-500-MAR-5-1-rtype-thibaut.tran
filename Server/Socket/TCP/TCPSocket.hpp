@@ -11,25 +11,29 @@
 #include <boost/array.hpp>
 #include <iostream>
 
-class TCPSocket : public ASocket {
+using namespace boost::asio::ip;
+using namespace std;
+
+class TCPSocket{
     public:
-        TCPSocket();
-        virtual ~TCPSocket() = default;
-using boost::asio::ip::tcp;
-        int port;
-        boost::asio::io_service& _ioService;
-        boost::asio::ip::tcp::acceptor _acceptor;
-        boost::asio::ip::tcp::socket _socket;
+        TCPSocket(boost::asio::io_service& ioService, int port);
+        ~TCPSocket() = default;
+
+        void acceptSocket();
+        void start();
+        void handleClient();
+
+        int _port;
+        boost::asio::io_service &_service;
         boost::asio::streambuf _buffer;
-
-
+        tcp::acceptor _acceptor;
+        tcp::socket _socket;
     private:
 };
 
         // virtual void send(const std::string &message) {};
         // virtual std::string receive() {};
         // virtual void bindSocket() {};
-        // virtual void connectSocket() {};
         // virtual void closeSocket() {};
         // virtual void setPort(const int &port) {};
         // virtual int getPort() {};
