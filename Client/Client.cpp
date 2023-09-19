@@ -1,9 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** client
+** Client
 ** File description:
 ** Client
 */
 
-
-
+#include "Client.hpp"
