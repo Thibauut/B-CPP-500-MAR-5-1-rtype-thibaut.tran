@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include <boost/asio.hpp>
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -16,18 +17,14 @@
 
 class Server {
     public:
-        Server(boost::asio::io_service &io_service, int port);
+        Server(boost::asio::io_context& io_context, int port);
         ~Server();
-
         void initServer();
         void run();
-
-    private:
         void createRoom();
         void addClientToRoom(int pos, int client);
         void deleteRoom(int pos);
-
-        // boost::asio::io_service _service;
+    private:
         TCPServer _menu;
         int _port;
         // std::vector <UDPSocket *> _lobbys;

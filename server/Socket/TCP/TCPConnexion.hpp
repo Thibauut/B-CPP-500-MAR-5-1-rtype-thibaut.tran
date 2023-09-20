@@ -1,39 +1,31 @@
-/*
-** EPITECH PROJECT, 2023
-** B-CPP-500-MAR-5-1-rtype-maori.dino
-** File description:
-** TCPConnexion.hpp
-*/
+#ifndef TCPConnection_HPP
+#define TCPConnection_HPP
 
-#pragma once
 #include <boost/asio.hpp>
-#include <boost/bind/bind.hpp>
-#include <boost/array.hpp>
-#include <iostream>
+using boost::asio::ip::tcp;
 
-using namespace std;
+class TCPConnection : public std::enable_shared_from_this<TCPConnection>
+{
+public:
+  typedef std::shared_ptr<TCPConnection> pointer;
 
-class TCPConnexion : public enable_shared_from_this<TCPConnexion> {
-    public:
-        typedef boost::shared_ptr<TCPConnexion> pointer;
-        static pointer create_new_connection(boost::asio::io_service& service) {return pointer(new TCPConnexion(service));}
-        boost::asio::ip::tcp::socket& socket() { return _socket;};
-        void start();
-        void do_read();
-        // void do_write(std::size_t length);
-        ~TCPConnexion() {};
+  static pointer create(boost::asio::io_context& io_context);
+     tcp::socket& socket()
+  {
+    return socket_;
+  }
+  void start();
 
-    private:
-        TCPConnexion(boost::asio::io_service& ioService) : _socket(ioService) {}
-        // void close();
-        void handle_read(const boost::system::error_code& error);
-        void handle_write(const boost::system::error_code& error);
+private:
+  TCPConnection(boost::asio::io_context& io_context);
+  void do_read();
+  void do_write();
+  void handle_read(const boost::system::error_code& error, size_t bytes_transferred);
+  void handle_write(const boost::system::error_code& error, size_t bytes_transferred);
 
-        std::string _message;
-        // boost::asio::deadline_timer cooldown_timer;
-        boost::asio::ip::tcp::socket _socket;
-        // std::string _buffer2;
-        boost::array<char, 1024> _buffer;
-        // enum { max_length = 1024 };
-        // char _data[max_length];
+  boost::asio::ip::tcp::socket socket_;
+  std::string message_;
+  std::array<char, 1024> data_;
 };
+
+#endif // TCPConnection_HPP

@@ -7,7 +7,7 @@
 
 #include "Server.hpp"
 
-Server::Server(boost::asio::io_service &io_service, int port) : _menu(io_service, port), _port(port) { initServer();}
+Server::Server(boost::asio::io_context& io_context, int port) : _menu(io_context), _port(port) { initServer();}
 
 Server::~Server() {}
 
@@ -38,14 +38,11 @@ void Server::deleteRoom(int pos)
 int main ()
 {
     try {
-        boost::asio::io_service service;
-        Server server(service, 1234);
-        service.run();
-        while (1) {}
+        boost::asio::io_context context;
+        Server server(context, 4000);
+        context.run();
     } catch (std::exception &e) {
         std::cerr << "Error in main: " << e.what() << std::endl;
-        std::cout << "Report logs ? (Y/n)" << std::endl;
-        std::cin.get();
         return (84);
     }
     return (0);

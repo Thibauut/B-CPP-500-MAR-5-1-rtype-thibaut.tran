@@ -1,58 +1,62 @@
-/*
-** EPITECH PROJECT, 2023
-** B-CPP-500-MAR-5-1-rtype-maori.dino
-** File description:
-** TCPConnexion.cpp
-*/
-
 #include "TCPConnexion.hpp"
+#include <iostream>
 
-void TCPConnexion::start() {
-    _message = "Bienvenue sur Hess-Type jeune joueur !";
-    boost::asio::async_write(
-        _socket, boost::asio::buffer(_message),
-        boost::bind(&TCPConnexion::handle_write, this,
-        boost::asio::placeholders::error
-    ));
-};
-
-void TCPConnexion::do_read() {
-    // auto self(shared_from_this());
-    // _socket.async_read_some(boost::asio::buffer(_data, max_length),
-    //     [this, self](boost::system::error_code ec, std::size_t length) {
-    //         if (!ec) {
-    //             std::cout << "Message reçu: ";
-    //             std::cout << _data << "." <<std::endl;
-    //             do_read();
-    //         }
-    //     });
-    boost::asio::async_read(_socket, boost::asio::buffer(_buffer),
-        boost::bind(&TCPConnexion::handle_read, this,
-        boost::asio::placeholders::error)
-    );
+TCPConnection::pointer TCPConnection::create(boost::asio::io_context& io_context)
+{
+  return pointer(new TCPConnection(io_context));
 }
 
-void TCPConnexion::handle_read(const boost::system::error_code& error) {
-    if (!error) {
-        std::cout << "Message reçu : ";
-        std::cout << _buffer.at(0) << std::endl;
-        do_read();
-    } else {
-        std::cerr << "Error at handle_read: " << error.message() << std::endl;
-        _socket.close();
-    }
-};
+TCPConnection::TCPConnection(boost::asio::io_context& io_context)
+  : socket_(io_context)
+{
+}
 
-// void TCPConnexion::close() {
-//     _socket.close();
-// };
+void TCPConnection::start()
+{
+  message_ = "coucou du server\n";
 
-void TCPConnexion::handle_write(const boost::system::error_code& error) {
-    if (!error) {
-        std::cout << "Message sent" << std::endl;
-        do_read();
-    } else {
-        cerr << "Error at handle_write: " << error.message() << endl;
-        _socket.close();
-    }
-};
+  boost::asio::async_write(socket_, boost::asio::buffer(message_),
+      [shared_this = shared_from_this()](const boost::system::error_code& error,
+                                          size_t bytes_transferred) {
+        shared_this->handle_write(error, bytes_transferred);
+      });
+}
+
+void TCPConnection::do_read()
+{
+  socket_.async_read_some(boost::asio::buffer(data_),
+      [shared_this = shared_from_this()](const boost::system::error_code& error,
+                                          size_t bytes_transferred) {
+        shared_this->handle_read(error, bytes_transferred);
+      });
+}
+
+void TCPConnection::do_write()
+{
+  socket_.async_write_some(boost::asio::buffer("bien reçu\n"),
+      [shared_this = shared_from_this()](const boost::system::error_code& error,
+                                          size_t bytes_transferred) {
+        shared_this->handle_write(error, bytes_transferred);
+      });
+}
+
+void TCPConnection::handle_read(const boost::system::error_code& error, size_t bytes_transferred)
+{
+  if (!error)
+  {
+    std::string data = std::string(data_.begin(), data_.begin() + bytes_transferred);
+    if (!data.empty())
+      std::cout << "Received from client: " << data << std::endl;
+    do_write();
+  }
+  else
+  {
+    socket_.close();
+  }
+}
+
+void TCPConnection::handle_write(const boost::system::error_code& /*error*/,
+                                 size_t /*bytes_transferred*/)
+{
+  do_read();
+}
