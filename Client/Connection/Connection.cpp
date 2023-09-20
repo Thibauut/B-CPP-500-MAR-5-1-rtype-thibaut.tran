@@ -7,18 +7,18 @@
 
 #include "Connection.hpp"
 
-ClientConnection::ClientConnection(const std::string& serverIp, const std::string& serverPort)
-    : ip_(serverIp), port_(serverPort), socket_(ioService) // Initialisez socket_ ici
+ClientConnection::ClientConnection(const std::string& userName, const std::string& serverIp, const std::string& serverPort)
+    : username_(userName), ip_(serverIp), port_(serverPort), socket_(ioService)
+
 {
     try {
         boost::asio::ip::tcp::resolver resolver(ioService);
         boost::asio::ip::tcp::resolver::query query(serverIp, serverPort);
         boost::asio::ip::tcp::resolver::iterator endpointIterator = resolver.resolve(query);
 
-        boost::asio::connect(socket_, endpointIterator); // Utilisez socket_ ici
+        boost::asio::connect(socket_, endpointIterator);
 
     } catch (const std::exception& e) {
-        // Gérez l'exception ici, par exemple, en lançant une exception personnalisée
         std::cerr << e.what() << std::endl;
         // throw Error::Except("Connection\nConnection/Connection.cpp\nLine 18");
     }
