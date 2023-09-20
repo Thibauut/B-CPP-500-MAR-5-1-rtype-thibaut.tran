@@ -7,20 +7,16 @@
 
 #include "Server.hpp"
 
-Server::Server(int port) : _menu(_service, port), _port(port) { initServer(); }
+Server::Server(boost::asio::io_service &io_service, int port) : _menu(io_service, port), _port(port) { initServer();}
 
 Server::~Server() {}
 
-void Server::initServer()
-{
-    _menu.start();
-    _menu.handleClient();
-}
+void Server::initServer(){}
 
 void Server::run()
 {
     while (1) {
-        
+        // cout <<"le while (1)"<< endl;
     }
 }
 
@@ -37,4 +33,16 @@ void Server::addClientToRoom(int pos, int client)
 void Server::deleteRoom(int pos)
 {
     // _lobbys.erase(_lobbys.begin() + pos);
+}
+
+int main ()
+{
+    try {
+        boost::asio::io_service service;
+        Server server(service, 1234);
+        service.run();
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return (0);
 }

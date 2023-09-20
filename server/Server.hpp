@@ -11,17 +11,12 @@
 #include <cstdlib>
 #include <cstdio>
 #include <unistd.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include "Socket/ISocket.hpp"
-#include "Socket/TCP/TCPSocket.hpp"
 #include <vector>
-
+#include "Socket/TCP/TCPServer.hpp"
 
 class Server {
     public:
-        Server(int port);
+        Server(boost::asio::io_service &io_service, int port);
         ~Server();
 
         void initServer();
@@ -32,8 +27,8 @@ class Server {
         void addClientToRoom(int pos, int client);
         void deleteRoom(int pos);
 
-        boost::asio::io_service _service;
-        TCPSocket _menu;
+        // boost::asio::io_service _service;
+        TCPServer _menu;
         int _port;
         // std::vector <UDPSocket *> _lobbys;
 };
