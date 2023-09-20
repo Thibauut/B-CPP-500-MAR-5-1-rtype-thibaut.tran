@@ -12,13 +12,14 @@
 
 class ClientConnection {
 public:
-    ClientConnection(const std::string& serverIp, const std::string& serverPort);
+    ClientConnection(const std::string&, const std::string&, const std::string&);
     bool sendMessage(const std::string&);
     bool readMessage(const std::string&);
 
 private:
     std::string ip_;
     std::string port_;
+    std::string username_;
     boost::asio::io_service ioService; // Ajout de ioService pour initialiser socket_
     boost::asio::ip::tcp::socket socket_;
 };
