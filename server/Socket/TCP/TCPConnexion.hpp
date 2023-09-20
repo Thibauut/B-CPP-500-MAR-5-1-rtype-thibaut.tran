@@ -8,6 +8,7 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
+#include <boost/array.hpp>
 #include <iostream>
 
 using namespace std;
@@ -15,34 +16,24 @@ using namespace std;
 class TCPConnexion : public enable_shared_from_this<TCPConnexion> {
     public:
         typedef boost::shared_ptr<TCPConnexion> pointer;
-
-        TCPConnexion(boost::asio::io_service& ioService) : _socket(ioService){}
-
-        static pointer create_new_connection(boost::asio::io_service& service) {
-            return pointer(new TCPConnexion(service));
-        }
+        static pointer create_new_connection(boost::asio::io_service& service) {return pointer(new TCPConnexion(service));}
         boost::asio::ip::tcp::socket& socket() { return _socket;};
-
-        void start() {
-            _message = "Salut pd";
-            boost::asio::async_write(_socket, boost::asio::buffer(_message),
-                boost::bind(&TCPConnexion::handle_write, this,
-                    boost::asio::placeholders::error
-            ));
-        };
-
+        void start();
+        void do_read();
+        // void do_write(std::size_t length);
         ~TCPConnexion() {};
 
     private:
-        void handle_write(const boost::system::error_code& error) {
-            if (!error) {
-                cout << "Message sent" << endl;
-            } else {
-                cerr << "Error: " << error.message() << endl;
-                _socket.close();
-            }
-        };
+        TCPConnexion(boost::asio::io_service& ioService) : _socket(ioService) {}
+        // void close();
+        void handle_read(const boost::system::error_code& error);
+        void handle_write(const boost::system::error_code& error);
 
         std::string _message;
+        // boost::asio::deadline_timer cooldown_timer;
         boost::asio::ip::tcp::socket _socket;
+        // std::string _buffer2;
+        boost::array<char, 1024> _buffer;
+        // enum { max_length = 1024 };
+        // char _data[max_length];
 };

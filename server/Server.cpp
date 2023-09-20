@@ -41,8 +41,12 @@ int main ()
         boost::asio::io_service service;
         Server server(service, 1234);
         service.run();
+        while (1) {}
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "Error in main: " << e.what() << std::endl;
+        std::cout << "Report logs ? (Y/n)" << std::endl;
+        std::cin.get();
+        return (84);
     }
     return (0);
 }
