@@ -9,16 +9,18 @@
 #include <boost/asio.hpp>
 #include "TCPConnexion.hpp"
 #include "TCPRequest.hpp"
+#include <iostream>
 
 class TCPServer
 {
 public:
   TCPServer(boost::asio::io_context& io_context);
+  void print_all_client_request();
 
 private:
   void start_accept();
   void handle_accept(TCPConnection::pointer new_connection, const boost::system::error_code& error);
-  std::list<TCPConnection::pointer> Clients(){return clients_;}
+  std::list<TCPConnection::pointer>& Clients(){return clients_;}
 
   boost::asio::io_context& io_context_;
   boost::asio::ip::tcp::acceptor acceptor_;

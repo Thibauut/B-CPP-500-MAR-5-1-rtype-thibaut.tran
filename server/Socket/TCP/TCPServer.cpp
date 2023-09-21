@@ -22,7 +22,21 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
   {
     new_connection->start();
     Clients().push_back(new_connection);
+    print_all_client_request();
   }
 
   start_accept();
 }
+
+  void TCPServer::print_all_client_request() {
+        std::cout<< "all request:"<<std::endl;
+       int i = 1, j = 1;
+        for (TCPConnection::pointer client : clients_) {
+              std::cout<< "client  " << i << " :"<<std::endl;
+            for (Request &request : client->requests()) {
+              std::cout<< "        res " << j << " = "<< request._data <<std::endl;
+              j++;
+            }
+            i++, j = 1;
+        }
+  }

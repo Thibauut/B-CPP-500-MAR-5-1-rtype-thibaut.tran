@@ -12,10 +12,8 @@ public:
   typedef std::shared_ptr<TCPConnection> pointer;
 
   static pointer create(boost::asio::io_context& io_context);
-     tcp::socket& socket()
-  {
-    return socket_;
-  }
+  tcp::socket& socket(){return socket_;}
+  std::list<Request>& requests(){return requests_;}
   void start();
 
 private:

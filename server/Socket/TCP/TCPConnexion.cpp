@@ -51,7 +51,6 @@ void TCPConnection::handle_read(const boost::system::error_code& error, size_t b
       requests_.push_back(new_request);
       int i = 0;
         for (const Request& request : requests_) {
-        std::cout << "Request " << i << " = " << request._data << std::endl;
         i++;
     }
     }
