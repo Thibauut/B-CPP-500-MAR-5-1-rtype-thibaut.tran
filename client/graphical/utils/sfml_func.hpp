@@ -21,5 +21,9 @@
 class SfmlFunc {
     public:
         SfmlFunc();
-        sf::Sprite CreateSprite(std::string path, float posX, float posY, float scaleX, float scaleY);
+        void LoadSprite(sf::Sprite& sprite,  sf::Texture &texture, const std::string& imagePath, float posX, float posY, float scaleX, float scaleY);
+        void CreateTextField(sf::RectangleShape& textField, sf::Text& text, const sf::Font& font, const std::string& labelText, const sf::Vector2f& size, const sf::Vector2f& position);
+        void createText(sf::Text& text, const sf::Font& font, const std::string& content, unsigned int characterSize, const sf::Color& fillColor, const sf::Vector2f& position);
+        void CreateButton(sf::RectangleShape& button, sf::Text& buttonText, const sf::Font& font, const std::string& label, const sf::Vector2f& size, const sf::Vector2f& position, int moveText);
+        void HandleButtonHover(sf::RectangleShape& button, sf::Text& buttonText, bool& isButtonHovered, const sf::Vector2f& mousePos, const sf::FloatRect& buttonBounds);
 };
