@@ -9,7 +9,7 @@
 #include <memory>
 #include <list>
 
-#include "IComponent.hpp"
+#include "../Interfaces/IComponent.hpp"
 
 namespace GameEngine {
 

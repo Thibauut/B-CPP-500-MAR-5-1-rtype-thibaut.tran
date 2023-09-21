@@ -45,7 +45,6 @@ namespace GameEngine {
                 }
             }
 
-            
 
         private:
             std::list<std::shared_ptr<GameEngine::Entity>> _listEntity;
