@@ -6,20 +6,8 @@
 */
 
 #pragma once
+#include "PlayerLobby.hpp"
 #include <string>
-
-class PlayerLobby {
-    public:
-        PlayerLobby(const std::string& username, const std::string& ip);
-        ~PlayerLobby();
-
-        std::string getUsername() const;
-        std::string getIp() const;
-
-    protected:
-        std::string username;
-        std::string ip;
-};
 
 class Player {
     public:
@@ -29,5 +17,4 @@ class Player {
 
     protected:
         std::string username;
-        
 };
