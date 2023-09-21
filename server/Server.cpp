@@ -7,7 +7,7 @@
 
 #include "Server.hpp"
 
-Server::Server(boost::asio::io_context& io_context, int port) : _menu(io_context), _port(port) { initServer();}
+Server::Server(boost::asio::io_context& io_context, int port) : _tcp_server(io_context), _port(port) { initServer();}
 
 Server::~Server() {}
 
@@ -20,30 +20,50 @@ void Server::run()
     }
 }
 
-void Server::createRoom()
+void Server::createRoom(std::string name, int nbSlots, std::string uid_owner)
 {
-    // _lobbys.push_back(UDPSocket(_service, _port));
+    _rooms.push_back(RoomLobby(_tcp_server.getPlayerByUid(uid_owner), nbSlots, name));
 }
 
-void Server::addClientToRoom(int pos, int client)
+bool Server::addPlayerToRoom(std::string uid_room, std::string uid_player)
 {
-    // _lobbys[pos].addClient(client);
+    int pos = 0;
+    for (int i = 0; i < _rooms.size(); i++)
+        if (_rooms.at(i).getUid() == uid_room)
+            pos = i;
+    if (_rooms.at(pos).getNbPlayers() >= _rooms.at(pos).getNbSlots())
+        return (false);
+    _rooms.at(pos).addPlayer(_tcp_server.getPlayerByUid(uid_player));
+    return (true);
 }
 
-void Server::deleteRoom(int pos)
+bool Server::deleteRoom(std::string uid_room)
 {
-    // _lobbys.erase(_lobbys.begin() + pos);
-}
-
-int main ()
-{
-    try {
-        boost::asio::io_context context;
-        Server server(context, 4000);
-        context.run();
-    } catch (std::exception &e) {
-        std::cerr << "Error in main: " << e.what() << std::endl;
-        return (84);
+    for (int i = 0; i < _rooms.size(); i++) {
+        if (_rooms.at(i).getUid() == uid_room) {
+            _rooms.erase(_rooms.begin() + i);
+            return (true);
+        }
     }
-    return (0);
+    return (false);
+}
+
+bool Server::removePlayerFromRoom(std::string uid_room, std::string uid_player)
+{
+    int pos = 0;
+    for (int i = 0; i < _rooms.size(); i++)
+        if (_rooms.at(i).getUid() == uid_room)
+            pos = i;
+    _rooms.at(pos).removePlayer(uid_player);
+    return (true);
+}
+
+bool Server::startGame(std::string uid_room)
+{
+    int pos = 0;
+    for (int i = 0; i < _rooms.size(); i++)
+        if (_rooms.at(i).getUid() == uid_room)
+            pos = i;
+    _rooms.at(pos).startGame();
+    return (true);
 }

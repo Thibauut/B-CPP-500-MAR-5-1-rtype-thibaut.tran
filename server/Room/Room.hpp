@@ -11,12 +11,14 @@
 
 class Room {
     public:
-        Room();
+        Room(std::string name, std::string owner_uid, unsigned int nbSlots);
         ~Room();
 
     protected:
-        unsigned int _id;
+        std::string _uid;
         std::string _name;
-        unsigned int _owner;
+        std::string _owner_uid;
+        unsigned int _nbPlayers;
+        unsigned int _nbSlots;
         // std::vector<Player> _players;
 };

@@ -7,29 +7,43 @@
 
 #include "RoomLobby.hpp"
 
-RoomLobby::RoomLobby(int owner)
+RoomLobby::RoomLobby(PlayerLobby &owner, unsigned int nbSlots, std::string name) : _owner(owner)
 {
-    _owner = owner;
+    _players.push_back(owner);
+    _nbPlayers = 1;
+    _nbSlots = nbSlots;
+    _name = name;
     _thread.setStatus(STARTED);
     _thread.create((void *(*)(void *)) &gameThread, this);
 }
 
-RoomLobby::~RoomLobby() {}
+RoomLobby::~RoomLobby() {
+    _thread.setStatus(STOPPED);
+    _thread.join();
+}
 
 void RoomLobby::join()
 {
     _thread.join();
 }
 
-// RoomLobby::RoomLobby(int owner)
-// {
-//     this->owner = owner;
-//     _thread = Thread([this](){
-//         while (true) {
-//             std::cout << "RoomLobby" << std::endl;
-//             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-//         }
-//     });
-// }    while (true) {
+void RoomLobby::startGame()
+{
+    _thread.setStatus(RUNNING);
+}
 
+void RoomLobby::addPlayer(PlayerLobby player)
+{
+    _players.push_back(player);
+    _nbPlayers++;
+}
 
+void RoomLobby::removePlayer(std::string uid)
+{
+    for (int i = 0; i < _players.size(); i++) {
+        if (_players[i].getUid() == uid) {
+            _players.erase(_players.begin() + i);
+            _nbPlayers--;
+        }
+    }
+}
