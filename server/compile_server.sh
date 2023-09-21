@@ -1,0 +1,1 @@
+g++ -o r-type_server LaunchServer.cpp Server.cpp Socket/TCP/TCPConnexion.cpp Socket/TCP/TCPServer.cpp Room/Thread/Thread.cpp Room/Room.cpp Room/RoomLobby.cpp Elements/PlayerLobby.cpp
