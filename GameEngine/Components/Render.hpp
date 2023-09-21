@@ -6,19 +6,22 @@
 */
 
 #pragma once
-#include "../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace GameEngine {
+
     class Render : public GameEngine::AComponenent {
         public:
-            Render();
-            virtual ~Render() = default;
+            Render() {};
+            ~Render() = default;
             
-            void update() {
-                std::cout << "Component : {rendered}" << std::endl;
+            void setComponent() {
+                std::cout << "Component : {render.set}" << std::endl;
             };
 
-            void setComponent() {};
-            void getComponent() {};
+        private:
+            std::string _pathTexture;
+            int _width;
+            int _height;
     };
 }

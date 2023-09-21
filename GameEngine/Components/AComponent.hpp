@@ -15,7 +15,7 @@ namespace GameEngine {
         public:
             virtual ~AComponenent() = default;
 
-            virtual void update() = 0;œ
+            virtual void update() = 0;
 
             virtual void setComponent() = 0;
             virtual void getComponent() = 0;
