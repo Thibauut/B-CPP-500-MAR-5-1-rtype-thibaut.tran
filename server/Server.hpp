@@ -14,24 +14,19 @@
 #include <unistd.h>
 #include <vector>
 #include "Socket/TCP/TCPServer.hpp"
-#include "Room/RoomLobby.hpp"
 
 class Server {
     public:
         Server(boost::asio::io_context& io_context, int port);
         ~Server();
         void initServer();
-        void run();
-
-        // Room
-        void createRoom(std::string name, int nbSlots, std::string uid_owner);
-        bool deleteRoom(std::string uid_room);
-        bool addPlayerToRoom(std::string uid_room, std::string uid_player);
-        bool removePlayerFromRoom(std::string uid_room, std::string uid_player);
-        bool startGame(std::string uid_room);
-
+        void run(boost::asio::io_context &context);
+        void refresh();
+        void createRoom();
+        void addClientToRoom(int pos, int client);
+        void deleteRoom(int pos);
     private:
-        TCPServer _tcp_server;
-        std::vector<RoomLobby> _rooms;
+        TCPServer _menu;
         int _port;
+        // std::vector <UDPSocket *> _lobbys;
 };

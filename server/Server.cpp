@@ -7,63 +7,47 @@
 
 #include "Server.hpp"
 
-Server::Server(boost::asio::io_context& io_context, int port) : _tcp_server(io_context), _port(port) { initServer();}
+Server::Server(boost::asio::io_context& io_context, int port) : _menu(io_context), _port(port) { initServer();}
 
 Server::~Server() {}
 
 void Server::initServer(){}
 
-void Server::run()
+void Server::run(boost::asio::io_context &context)
+{
+     try {
+        std::thread refresh_thread(&Server::refresh, this);
+        context.run();
+        refresh_thread.join();
+    } catch (std::exception &e) {}
+}
+
+void Server::refresh()
 {
     while (1) {
-        // cout <<"le while (1)"<< endl;
+        _menu.get_All_Tcp_Request();
     }
 }
 
-void Server::createRoom(std::string name, int nbSlots, std::string uid_owner)
+void Server::createRoom()
 {
-    _rooms.push_back(RoomLobby(_tcp_server.getPlayerByUid(uid_owner), nbSlots, name));
+    // _lobbys.push_back(UDPSocket(_service, _port));
 }
 
-bool Server::addPlayerToRoom(std::string uid_room, std::string uid_player)
+void Server::addClientToRoom(int pos, int client)
 {
-    int pos = 0;
-    for (int i = 0; i < _rooms.size(); i++)
-        if (_rooms.at(i).getUid() == uid_room)
-            pos = i;
-    if (_rooms.at(pos).getNbPlayers() >= _rooms.at(pos).getNbSlots())
-        return (false);
-    _rooms.at(pos).addPlayer(_tcp_server.getPlayerByUid(uid_player));
-    return (true);
+    // _lobbys[pos].addClient(client);
 }
 
-bool Server::deleteRoom(std::string uid_room)
+void Server::deleteRoom(int pos)
 {
-    for (int i = 0; i < _rooms.size(); i++) {
-        if (_rooms.at(i).getUid() == uid_room) {
-            _rooms.erase(_rooms.begin() + i);
-            return (true);
-        }
-    }
-    return (false);
+    // _lobbys.erase(_lobbys.begin() + pos);
 }
 
-bool Server::removePlayerFromRoom(std::string uid_room, std::string uid_player)
+int main ()
 {
-    int pos = 0;
-    for (int i = 0; i < _rooms.size(); i++)
-        if (_rooms.at(i).getUid() == uid_room)
-            pos = i;
-    _rooms.at(pos).removePlayer(uid_player);
-    return (true);
-}
-
-bool Server::startGame(std::string uid_room)
-{
-    int pos = 0;
-    for (int i = 0; i < _rooms.size(); i++)
-        if (_rooms.at(i).getUid() == uid_room)
-            pos = i;
-    _rooms.at(pos).startGame();
-    return (true);
+    boost::asio::io_context context;
+    Server server(context, 4000);
+    server.run(context);
+    return (0);
 }
