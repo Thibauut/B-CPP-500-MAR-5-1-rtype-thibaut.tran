@@ -33,6 +33,7 @@ void TCPConnection::do_read()
 
 void TCPConnection::do_write()
 {
+  //  std::cout << socket_. << "\n";
   socket_.async_write_some(boost::asio::buffer("bien reçu\n"),
       [shared_this = shared_from_this()](const boost::system::error_code& error,
                                           size_t bytes_transferred) {
@@ -45,8 +46,15 @@ void TCPConnection::handle_read(const boost::system::error_code& error, size_t b
   if (!error)
   {
     std::string data = std::string(data_.begin(), data_.begin() + bytes_transferred);
-    if (!data.empty())
-      std::cout << "Received from client: " << data << std::endl;
+    if (!data.empty()) {
+      Request new_request(data, socket());
+      requests_.push_back(new_request);
+      int i = 0;
+        for (const Request& request : requests_) {
+        std::cout << "Request " << i << " = " << request._data << std::endl;
+        i++;
+    }
+    }
     do_write();
   }
   else

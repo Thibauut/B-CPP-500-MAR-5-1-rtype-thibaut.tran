@@ -1,7 +1,9 @@
 #ifndef TCPConnection_HPP
 #define TCPConnection_HPP
-
+#include "TCPRequest.hpp"
 #include <boost/asio.hpp>
+#include <list>
+
 using boost::asio::ip::tcp;
 
 class TCPConnection : public std::enable_shared_from_this<TCPConnection>
@@ -26,6 +28,8 @@ private:
   boost::asio::ip::tcp::socket socket_;
   std::string message_;
   std::array<char, 1024> data_;
+  std::list<Request> requests_;
+
 };
 
 #endif // TCPConnection_HPP
