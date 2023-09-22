@@ -7,6 +7,8 @@
 
 #include "ConnectionTCP.hpp"
 
+std::atomic<bool> shouldExit(false);
+
 ClientConnectionTCP::ClientConnectionTCP(const std::string& userName, const std::string& serverIp, const std::string& serverPort)
     : ip_(serverIp),  port_(serverPort), username_(userName), socket_(ioService)
 {
@@ -19,15 +21,17 @@ ClientConnectionTCP::ClientConnectionTCP(const std::string& userName, const std:
 
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
-        // throw Error::Except("Connection\nConnection/Connection.cpp\nLine 18");
     }
 }
 
 bool ClientConnectionTCP::sendMessage(const std::string& msg)
 {
+    if (!socket_.is_open()) {
+        std::cerr << "La connexion au serveur n'est pas établie." << std::endl;
+        return false;
+    }
     std::vector<boost::asio::const_buffer> buffers;
     buffers.push_back(boost::asio::buffer(msg));
-
     boost::asio::async_write(socket_, buffers,
         [](const boost::system::error_code& error, std::size_t /*bytes_transferred*/) {
             if (!error) {
@@ -39,58 +43,77 @@ bool ClientConnectionTCP::sendMessage(const std::string& msg)
     return true;
 }
 
-std::string ClientConnectionTCP::readMessage()
+void ClientConnectionTCP::handleRead(const boost::system::error_code& error, std::size_t bytes_transferred)
 {
-    if (!socket_.is_open()) {
-        std::cerr << "La connexion au serveur n'est pas établie." << std::endl;
-        return NULL;
+    std::cout << "handleRead" << std::endl;
+    if (!error) {
+        const char* dataBegin = boost::asio::buffer_cast<const char*>(buffer_.data());
+        const char* dataEnd = dataBegin + bytes_transferred;
+        std::string responseData(dataBegin, dataEnd);
+        readMessage();
+    } else {
+        std::cerr << "Erreur lors de la lecture du message : " << error.message() << std::endl;
     }
-    boost::asio::streambuf response_buffer;
-    //________//
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string("192.168.0.30"), 12345);
-    boost::asio::ip::tcp::socket& socket = getSocket();
-    boost::array<char, 128> buf;
-    boost::system::error_code error;
-    int len = socket.read_some(boost::asio::buffer(buf), error);
-    if (error == boost::asio::error::eof) {
-            std::cout << "\nTerminé !" << std::endl;
-        }
-    std::string serveurResponse(buf.data(), len);
-    std::cout << "Serveur Response => " << serveurResponse << std::endl;
-    return serveurResponse;
+}
+
+void ClientConnectionTCP::readMessage()
+{
+    std::cout << "readMessage" << std::endl;
+
+    boost::asio::read_until(socket_, buffer_, '\n');
+
+    std::istream response_stream(&buffer_);
+    std::string server_response;
+    std::getline(response_stream, server_response);
+    response_ = server_response;
+
+    std::cout << "Réponse lue : " << server_response << std::endl;
 }
 
 void ClientConnectionTCP::run()
 {
-    // bool login = false;
-    // while (running_) {
-        // readMessage();
-        // readMessage();
-        // std::this_thread::sleep_for(std::chrono::seconds(1));
-        // Login();
-        // std::this_thread::sleep_for(std::chrono::seconds(1));
-        // if (!login) {
-            // login = true;
-        // }
-    // }
+    if (!socket_.is_open()) {
+        std::cerr << "La connexion au serveur a échoué." << std::endl;
+        return;
+    }
+    std::thread readThread([this]() {
+        std::cout << "dans le thread" << std::endl;
+        while (!shouldExit) {
+            readMessage();
+            std::cout << response_ << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(3));
+        }
+    });
+    readThread.join();
+}
+
+std::string ClientConnectionTCP::extractArguments(const std::string&input, const std::string& keyword) {
+    const std::string loginKeyword = keyword;
+    size_t loginPos = input.find(loginKeyword);
+
+    if (loginPos != std::string::npos) {
+        return input.substr(loginPos + loginKeyword.length());
+    } else {
+        return "";
+    }
 }
 
 void ClientConnectionTCP::Login()
 {
-        setMessage("LOGIN \"" + username_ + "\"");
-        sendMessage(message_);
-        readMessage();
-        std::string loginInfo = readMessage();
-        size_t delimiterPos = loginInfo.find(' ');
-        if (delimiterPos != std::string::npos) {
-            std::string cmd = loginInfo.substr(0, delimiterPos);
-            std::string arg = loginInfo.substr(delimiterPos + 1);
-            uuid_ = arg;
-            std::cout << "uuid stocked -> " << '\'' << uuid_  << '\'' << std::endl;
-        } else {
+    setMessage("LOGIN \"" + username_ + "\"\n");
+    sendMessage(message_);
+    message_ = "";
+    readMessage();
+    readMessage();
 
-        }
+    std::cout << "Réponse from login : " << response_ << std::endl;
+
+    uuid_ = extractArguments(response_, "LOGIN ");
+
+    std::cout << "UUID : " << uuid_ << std::endl;
 }
+
+
 
 void ClientConnectionTCP::setMessage(const std::string& message)
 {

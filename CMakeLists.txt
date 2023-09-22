@@ -24,7 +24,6 @@ set(HPP_CLIENT client/include/menu.hpp
                 client/network/ThreadHandler/ThreadHandler.hpp
 )
 
-
 # Server
 set(SRC_SERVER  server/LaunchServer.cpp
                 server/Server.cpp

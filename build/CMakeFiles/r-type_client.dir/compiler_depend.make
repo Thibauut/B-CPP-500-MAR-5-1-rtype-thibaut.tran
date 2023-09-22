@@ -1917,6 +1917,24 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: /Users/thibaut/Documents/Epitech
   /usr/local/include/boost/array.hpp \
   /usr/local/include/boost/core/swap.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp \
+  /usr/local/include/boost/bind.hpp \
+  /usr/local/include/boost/bind/bind.hpp \
+  /usr/local/include/boost/bind/detail/requires_cxx11.hpp \
+  /usr/local/include/boost/bind/mem_fn.hpp \
+  /usr/local/include/boost/get_pointer.hpp \
+  /usr/local/include/boost/config/no_tr1/memory.hpp \
+  /usr/local/include/boost/bind/mem_fn_template.hpp \
+  /usr/local/include/boost/bind/mem_fn_cc.hpp \
+  /usr/local/include/boost/bind/detail/result_traits.hpp \
+  /usr/local/include/boost/core/ref.hpp \
+  /usr/local/include/boost/bind/std_placeholders.hpp \
+  /usr/local/include/boost/visit_each.hpp \
+  /usr/local/include/boost/bind/detail/is_same.hpp \
+  /usr/local/include/boost/bind/storage.hpp \
+  /usr/local/include/boost/bind/bind_cc.hpp \
+  /usr/local/include/boost/bind/bind_mf_cc.hpp \
+  /usr/local/include/boost/bind/bind_mf2_cc.hpp \
+  /usr/local/include/boost/bind/placeholders.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp \
@@ -3724,7 +3742,25 @@ CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o: /
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/condition_variable \
   /usr/local/include/boost/array.hpp \
   /usr/local/include/boost/core/swap.hpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp \
+  /usr/local/include/boost/bind.hpp \
+  /usr/local/include/boost/bind/bind.hpp \
+  /usr/local/include/boost/bind/detail/requires_cxx11.hpp \
+  /usr/local/include/boost/bind/mem_fn.hpp \
+  /usr/local/include/boost/get_pointer.hpp \
+  /usr/local/include/boost/config/no_tr1/memory.hpp \
+  /usr/local/include/boost/bind/mem_fn_template.hpp \
+  /usr/local/include/boost/bind/mem_fn_cc.hpp \
+  /usr/local/include/boost/bind/detail/result_traits.hpp \
+  /usr/local/include/boost/core/ref.hpp \
+  /usr/local/include/boost/bind/std_placeholders.hpp \
+  /usr/local/include/boost/visit_each.hpp \
+  /usr/local/include/boost/bind/detail/is_same.hpp \
+  /usr/local/include/boost/bind/storage.hpp \
+  /usr/local/include/boost/bind/bind_cc.hpp \
+  /usr/local/include/boost/bind/bind_mf_cc.hpp \
+  /usr/local/include/boost/bind/bind_mf2_cc.hpp \
+  /usr/local/include/boost/bind/placeholders.hpp
 
 CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.cpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp \
@@ -4508,6 +4544,26 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp:
 
+/usr/local/include/boost/bind/bind_mf2_cc.hpp:
+
+/usr/local/include/boost/bind/storage.hpp:
+
+/usr/local/include/boost/bind/detail/is_same.hpp:
+
+/usr/local/include/boost/visit_each.hpp:
+
+/usr/local/include/boost/core/ref.hpp:
+
+/usr/local/include/boost/bind/detail/result_traits.hpp:
+
+/usr/local/include/boost/bind/mem_fn_cc.hpp:
+
+/usr/local/include/boost/config/no_tr1/memory.hpp:
+
+/usr/local/include/boost/bind/detail/requires_cxx11.hpp:
+
+/usr/local/include/boost/bind.hpp:
+
 /usr/local/include/boost/asio/impl/write_at.hpp:
 
 /usr/local/include/boost/asio/writable_pipe.hpp:
@@ -4676,6 +4732,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /usr/local/include/boost/predef/architecture/sys390.h:
 
+/usr/local/include/boost/bind/mem_fn_template.hpp:
+
 /usr/local/include/boost/predef/architecture/sparc.h:
 
 /usr/local/include/boost/predef/architecture/rs6k.h:
@@ -4695,6 +4753,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /usr/local/include/boost/predef/architecture/alpha.h:
 
 /usr/local/include/boost/predef/architecture.h:
+
+/usr/local/include/boost/bind/bind.hpp:
 
 /usr/local/include/boost/predef/language/cuda.h:
 
@@ -5109,6 +5169,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /usr/local/include/boost/date_time/period.hpp:
 
 /usr/local/include/boost/mpl/aux_/config/arrays.hpp:
+
+/usr/local/include/boost/bind/std_placeholders.hpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__memory/voidify.h:
 
@@ -6758,6 +6820,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/_types/_u_short.h:
 
+/usr/local/include/boost/bind/mem_fn.hpp:
+
 /usr/local/include/boost/mpl/and.hpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/fcntl.h:
@@ -7282,6 +7346,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/ttydefaults.h:
 
+/usr/local/include/boost/get_pointer.hpp:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__concepts/same_as.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/xlocale.h:
@@ -7463,6 +7529,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__chrono/system_clock.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__concepts/derived_from.h:
+
+/usr/local/include/boost/bind/placeholders.hpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__threading_support:
 
@@ -7754,6 +7822,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /usr/local/include/boost/asio/detail/impl/handler_tracking.ipp:
 
+/usr/local/include/boost/bind/bind_mf_cc.hpp:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__iterator/erase_if_container.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/_types/_uint16_t.h:
@@ -7965,6 +8035,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/in_out_out_result.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__fwd/hash.h:
+
+/usr/local/include/boost/bind/bind_cc.hpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/malloc/_malloc.h:
 

@@ -9,10 +9,13 @@
     #include <iostream>
     #include <boost/asio.hpp>
     // #include <queue>
-    // #include <mutex>
+    #include <mutex>
     #include <condition_variable>
     #include <boost/array.hpp>
+    #include <atomic>
     #include "../ThreadHandler/ThreadHandler.hpp"
+    #include <boost/asio.hpp>
+    #include <boost/bind.hpp>
 
 class ClientConnectionTCP : public ThreadHandler {
     public:
@@ -23,17 +26,25 @@ class ClientConnectionTCP : public ThreadHandler {
         std::string message_;
         boost::asio::io_service& getService();
         boost::asio::ip::tcp::socket& getSocket();
+
+        bool sendMessage(const std::string&);
+        void readMessage();
+        void handleRead(const boost::system::error_code&, std::size_t);
         void Login();
-        std::string uuid_;
+        std::string extractArguments(const std::string&input, const std::string& keyword);
+        // void Disconnect();
+
+
         std::string ip_;
         std::string port_;
         std::string username_;
-    protected:
-    private:
+        std::string uuid_;
+        boost::asio::streambuf buffer_;
+        std::mutex responseMutex;
+        std::string response_;
         boost::asio::io_service ioService;
         boost::asio::ip::tcp::socket socket_;
-        bool sendMessage(const std::string&);
-        std::string readMessage();
+
 //         std::queue<std::string> sendMessageQueue_;
 //         std::mutex messageMutex_;
 //         std::condition_variable messageCondition_;

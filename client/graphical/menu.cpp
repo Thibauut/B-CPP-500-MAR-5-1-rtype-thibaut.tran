@@ -186,11 +186,12 @@ void Menu::HandleEvents() {
                 _tcpConnection = new ClientConnectionTCP(_text_name_input.getString().toAnsiString(),
                                                         _text_ip_input.getString().toAnsiString(),
                                                         _text_port_input.getString().toAnsiString());
-                _tcpConnection->start();
+                // _tcpConnection->start();
                 std::cout << _tcpConnection->ip_ << std::endl;
                 std::cout << _tcpConnection->port_ << std::endl;
                 std::cout << _tcpConnection->username_ << std::endl;
                 _tcpConnection->Login();
+
                 if (!_tcpConnection->uuid_.empty()) {
                     _isConnected = true;
                     std::cout << "Connect" << std::endl;

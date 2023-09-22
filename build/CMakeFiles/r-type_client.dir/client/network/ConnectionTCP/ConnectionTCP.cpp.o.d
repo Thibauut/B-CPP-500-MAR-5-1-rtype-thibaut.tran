@@ -1801,4 +1801,22 @@ CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/condition_variable \
   /usr/local/include/boost/array.hpp \
   /usr/local/include/boost/core/swap.hpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/../ThreadHandler/ThreadHandler.hpp
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/../ThreadHandler/ThreadHandler.hpp \
+  /usr/local/include/boost/bind.hpp \
+  /usr/local/include/boost/bind/bind.hpp \
+  /usr/local/include/boost/bind/detail/requires_cxx11.hpp \
+  /usr/local/include/boost/bind/mem_fn.hpp \
+  /usr/local/include/boost/get_pointer.hpp \
+  /usr/local/include/boost/config/no_tr1/memory.hpp \
+  /usr/local/include/boost/bind/mem_fn_template.hpp \
+  /usr/local/include/boost/bind/mem_fn_cc.hpp \
+  /usr/local/include/boost/bind/detail/result_traits.hpp \
+  /usr/local/include/boost/core/ref.hpp \
+  /usr/local/include/boost/bind/std_placeholders.hpp \
+  /usr/local/include/boost/visit_each.hpp \
+  /usr/local/include/boost/bind/detail/is_same.hpp \
+  /usr/local/include/boost/bind/storage.hpp \
+  /usr/local/include/boost/bind/bind_cc.hpp \
+  /usr/local/include/boost/bind/bind_mf_cc.hpp \
+  /usr/local/include/boost/bind/bind_mf2_cc.hpp \
+  /usr/local/include/boost/bind/placeholders.hpp
