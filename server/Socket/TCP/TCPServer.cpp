@@ -2,10 +2,9 @@
 
 TCPServer::TCPServer(boost::asio::io_context& io_context)
     : io_context_(io_context),
-      acceptor_(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 4000))
+      acceptor_(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 12345))
 {
   start_accept();
-  get_All_Tcp_Request();
 }
 
 void TCPServer::start_accept()
@@ -21,6 +20,7 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
 {
   if (!error)
   {
+    std::cout << "new connection" << std::endl;
     new_connection->start();
     Clients().push_back(new_connection);
   }

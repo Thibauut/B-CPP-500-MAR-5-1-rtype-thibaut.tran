@@ -10,7 +10,7 @@
 
 class PlayerLobby {
     public:
-        PlayerLobby(const std::string& username);
+        PlayerLobby(const std::string username);
         ~PlayerLobby();
 
         std::string getUsername() const;

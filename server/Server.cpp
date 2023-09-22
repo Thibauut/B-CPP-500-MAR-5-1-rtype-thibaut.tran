@@ -11,7 +11,7 @@ Server::Server(boost::asio::io_context& io_context, int port) : _menu(io_context
 
 Server::~Server() {}
 
-void Server::initServer(){}
+void Server::initServer() {}
 
 void Server::run(boost::asio::io_context &context)
 {
@@ -24,30 +24,26 @@ void Server::run(boost::asio::io_context &context)
 
 void Server::refresh()
 {
+    // std::cout << "Puterie" << std::endl;
+    // PlayerLobby player = PlayerLobby("Tbz");
+    // RoomLobby lobby = RoomLobby(player, 4, "le galion");
+    // lobby.startGame();
     while (1) {
         _menu.get_All_Tcp_Request();
     }
 }
 
-void Server::createRoom()
+void Server::createRoom(PlayerLobby owner, std::string name, int _nbSlots)
 {
-    // _lobbys.push_back(UDPSocket(_service, _port));
+    _lobbys.push_back(RoomLobby(owner, _nbSlots, name));
 }
 
-void Server::addClientToRoom(int pos, int client)
+void Server::addClientToRoom(int pos, PlayerLobby client)
 {
-    // _lobbys[pos].addClient(client);
+    _lobbys.at(pos).addPlayer(client);
 }
 
 void Server::deleteRoom(int pos)
 {
-    // _lobbys.erase(_lobbys.begin() + pos);
-}
-
-int main ()
-{
-    boost::asio::io_context context;
-    Server server(context, 4000);
-    server.run(context);
-    return (0);
+    _lobbys.erase(_lobbys.begin() + pos);
 }

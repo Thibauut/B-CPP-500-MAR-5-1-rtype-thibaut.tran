@@ -8,8 +8,7 @@ TCPConnection::pointer TCPConnection::create(boost::asio::io_context& io_context
 
 TCPConnection::TCPConnection(boost::asio::io_context& io_context)
   : socket_(io_context)
-{
-}
+{}
 
 void TCPConnection::start()
 {

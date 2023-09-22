@@ -13,23 +13,28 @@ RoomLobby::RoomLobby(PlayerLobby &owner, unsigned int nbSlots, std::string name)
     _nbPlayers = 1;
     _nbSlots = nbSlots;
     _name = name;
-    _thread.setStatus(STARTED);
-    _thread.create((void *(*)(void *)) &gameThread, this);
 }
 
 RoomLobby::~RoomLobby() {
-    _thread.setStatus(STOPPED);
-    _thread.join();
 }
-
-void RoomLobby::join()
-{
-    _thread.join();
-}
-
 void RoomLobby::startGame()
 {
-    _thread.setStatus(RUNNING);
+    try {
+        std::thread room_game(&RoomLobby::gameEntryPoint, this);
+        room_game.join();
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
+}
+
+void RoomLobby::gameEntryPoint()
+{
+    std::cout << "Room " << _name << " started" << std::endl;
+    while (true) {
+        std::cout << "Room " << _name << " running" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+    std::cout << "Room " << _name << " stopped" << std::endl;
 }
 
 void RoomLobby::addPlayer(PlayerLobby player)

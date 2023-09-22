@@ -6,13 +6,15 @@
 */
 
 #include "Server.hpp"
+#include <boost/asio.hpp>
+#include <iostream>
 
 int main ()
 {
     try {
         boost::asio::io_context context;
         Server server(context, 4000);
-        context.run();
+        server.run(context);
     } catch (std::exception &e) {
         std::cerr << "Error in main: " << e.what() << std::endl;
         return (84);

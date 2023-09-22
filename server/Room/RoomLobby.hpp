@@ -9,8 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
-#include "Thread/Thread.hpp"
-#include "Thread/func.h"
+#include <thread>
 #include "../Elements/Player/PlayerLobby.hpp"
 
 class RoomLobby {
@@ -18,16 +17,16 @@ class RoomLobby {
         RoomLobby(PlayerLobby &owner, unsigned int nbSlots, std::string name);
         ~RoomLobby();
 
-        void join();
         void startGame();
         void addPlayer(PlayerLobby player);
         void removePlayer(std::string uid);
+        void gameEntryPoint();
 
         std::string getName() const { return _name; }
         unsigned int getNbSlots() const { return _nbSlots; }
         unsigned int getNbPlayers() const { return _nbPlayers; }
         PlayerLobby getOwner() const { return _owner; }
-        std::vector<PlayerLobby &> getPlayers() const { return _players; }
+        std::vector<PlayerLobby> getPlayers() const { return _players; }
         std::string getUid() const { return _uid; }
 
         std::string _uid;
@@ -35,6 +34,5 @@ class RoomLobby {
         unsigned int _nbSlots;
         unsigned int _nbPlayers;
         PlayerLobby _owner;
-        Thread _thread;
-        private: std::vector<PlayerLobby &> _players;
+        std::vector<PlayerLobby> _players;
 };

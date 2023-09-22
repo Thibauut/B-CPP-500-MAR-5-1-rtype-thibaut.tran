@@ -7,7 +7,7 @@
 
 #include "PlayerLobby.hpp"
 
-PlayerLobby::PlayerLobby(const std::string &username) : username(username)
+PlayerLobby::PlayerLobby(const std::string username) : username(username)
 {
 }
 
