@@ -7,8 +7,12 @@
 
 #pragma once
 #include <boost/asio.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include "TCPConnexion.hpp"
 #include "TCPRequest.hpp"
+#include "Parser.hpp"
 #include <iostream>
 
 class TCPServer
@@ -16,7 +20,7 @@ class TCPServer
 public:
   TCPServer(boost::asio::io_context& io_context);
   void print_all_client_request();
-  void get_All_Tcp_Request();
+  void getAllTcpRequest();
 
 private:
   void start_accept();

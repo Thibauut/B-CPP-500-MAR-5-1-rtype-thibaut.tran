@@ -20,7 +20,7 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
 {
   if (!error)
   {
-    std::cout << "new connection" << std::endl;
+    std::cout << "<- NEW CLIENT" << std::endl;
     new_connection->start();
     Clients().push_back(new_connection);
   }
@@ -40,16 +40,16 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
         }
   }
 
-void TCPServer::get_All_Tcp_Request() {
+void TCPServer::getAllTcpRequest() {
   for (TCPConnection::pointer &client : clients_) {
     requests_.splice(requests_.end(), client->requests());
   }
 
-  // pour verifier si toute les req sont bien stockée
-  // sleep(1);
-  // int i = 0;
-  // for (Request req : requests_) {
-  //   i++;
-  //   std::cout << "req " << i << " = "<<req._data << std::endl;
-  // }
+  int i = 0;
+  for (Request req : requests_) {
+    i++;
+    std::cout << "<= " << req._data << std::endl;
+    Parser pars = Parser(req);
+  }
+  requests_.clear();
 }

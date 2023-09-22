@@ -24,12 +24,11 @@ void Server::run(boost::asio::io_context &context)
 
 void Server::refresh()
 {
-    // std::cout << "Puterie" << std::endl;
     // PlayerLobby player = PlayerLobby("Tbz");
     // RoomLobby lobby = RoomLobby(player, 4, "le galion");
     // lobby.startGame();
     while (1) {
-        _menu.get_All_Tcp_Request();
+        _menu.getAllTcpRequest();
     }
 }
 
