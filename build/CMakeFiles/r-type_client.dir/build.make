@@ -96,7 +96,15 @@ r__type_client_EXTERNAL_OBJECTS =
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: libs/SFML/lib/libsfml-window.2.6.0.dylib
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: libs/SFML/lib/libsfml-audio.2.6.0.dylib
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: libs/SFML/lib/libsfml-network.2.6.0.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_system-mt.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_log_setup-mt.dylib
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: libs/SFML/lib/libsfml-system.2.6.0.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_log-mt.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_thread-mt.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_chrono-mt.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_filesystem-mt.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_atomic-mt.dylib
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_regex-mt.dylib
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: CMakeFiles/r-type_client.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/r-type_client.dir/link.txt --verbose=$(VERBOSE)

@@ -43,6 +43,6 @@ add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 
 add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 
-target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network Boost::system Boost::thread Boost::log Boost::log_setup)
 
 target_link_libraries(${SERVER} PRIVATE Boost::system Boost::thread Boost::log Boost::log_setup)
