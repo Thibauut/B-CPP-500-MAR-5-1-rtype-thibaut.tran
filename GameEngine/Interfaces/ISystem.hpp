@@ -6,12 +6,18 @@
 */
 
 #pragma once
+#include "../Entity/Entity.hpp"
+#include "../Entity/EntityManager.hpp"
 
-class ISystem {
-    public:
-        virtual ~ISystem() = default;
+#include "IComponent.hpp"
 
-        virtual void init() = 0;
-        virtual void run() = 0;
-        virtual void stop() = 0;
-};
+namespace GameEngine {
+
+    class ISystem {
+        public:
+            virtual ~ISystem() = default;
+
+            virtual void run() = 0;
+
+    };
+}

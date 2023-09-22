@@ -6,8 +6,20 @@
 */
 
 #pragma once
-#include "ISystem.hpp"
+#include "../Interfaces/ISystem.hpp"
 
-class ASystem : public ISystem {
 
-};
+namespace GameEngine {
+
+    class ASystem : public ISystem {
+        public:
+            virtual void run() override {
+            }
+
+
+        protected:
+            std::list<std::shared_ptr<Entity>> _entityRefList;
+
+        private:
+    };
+}

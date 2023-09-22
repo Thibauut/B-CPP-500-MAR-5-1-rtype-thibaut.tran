@@ -12,12 +12,12 @@ namespace GameEngine {
 
     class Render : public GameEngine::AComponenent {
         public:
-            Render() {};
+            Render() {}
             ~Render() = default;
             
             void setComponent() {
                 std::cout << "Component : {render.set}" << std::endl;
-            };
+            }
 
         private:
             std::string _pathTexture;

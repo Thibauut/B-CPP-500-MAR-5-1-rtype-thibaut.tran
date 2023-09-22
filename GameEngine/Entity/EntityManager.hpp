@@ -13,8 +13,8 @@ namespace GameEngine {
 
     class EntityManager {
         public:
-            EntityManager() {};
-            ~EntityManager() {};
+            EntityManager() {}
+            ~EntityManager() {}
 
             std::shared_ptr<GameEngine::Entity>& addEntity(Entity entity) {
                 std::shared_ptr<Entity> entityPtr = std::make_shared<Entity>(entity);

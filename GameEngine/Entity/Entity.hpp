@@ -21,7 +21,7 @@ namespace GameEngine {
                 for (const auto& component : _entityContent) {
                     component->~IComponent();
                 }
-            };
+            }
 
             unsigned int getId() const {
                 return _id;

@@ -12,12 +12,12 @@ namespace GameEngine {
 
     class AI : public GameEngine::AComponenent {
         public:
-            AI() : _activate(false) {};
+            AI() : _activate(false) {}
             ~AI() = default;
             
             void setComponent() {
                 std::cout << "Component : {ai.set}" << std::endl;
-            };
+            }
 
             void setAIActive(bool activate) {
                 _activate = activate;

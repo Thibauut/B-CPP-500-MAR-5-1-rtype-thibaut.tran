@@ -13,18 +13,18 @@ namespace GameEngine {
 
     class Position : public GameEngine::AComponenent {
         public:
-            Position() : _xPos(0), _yPos(0) {};
+            Position() : _xPos(0), _yPos(0) {}
             ~Position() = default;
             
             void setComponent() {
                 std::cout << "Component : {positon.set}" << std::endl;
-            };
+            }
 
             void setPostion(int xPos, int yPos) {
                 _xPos = xPos;
                 _yPos = yPos;
                 std::cout << "Position setter : value x, y =" << _xPos << " " << _yPos << std::endl;
-            };
+            }
 
             std::pair<int, int> getPosition() const {
                 std::cout << "Postion getter : return =" << _xPos << " " << _yPos << std::endl;

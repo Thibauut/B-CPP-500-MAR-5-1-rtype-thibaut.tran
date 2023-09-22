@@ -12,12 +12,12 @@ namespace GameEngine {
 
     class Strenght : public GameEngine::AComponenent {
         public:
-            Strenght() {};
+            Strenght() {}
             ~Strenght() = default;
             
             void setComponent() {
                 std::cout << "Component : {strenght.set}" << std::endl;
-            };
+            }
 
             void setDamage(int damage) {
                 _damage = damage;
