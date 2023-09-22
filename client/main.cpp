@@ -9,10 +9,13 @@
 #include "graphical/menu.cpp"
 
 
+#include "network/ConnectionTCP/ConnectionTCP.hpp"
+#include "network/OpenUDP/OpenUDP.hpp"
+#include "network/ThreadHandler/ThreadHandler.hpp"
+
 int main(int ac, char **av)
 {
     Menu *menu = new Menu();
     menu->Loop();
-
     return 0;
 }

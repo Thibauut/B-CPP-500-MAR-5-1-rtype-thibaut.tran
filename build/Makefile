@@ -296,6 +296,54 @@ client/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/main.cpp.s
 .PHONY : client/main.cpp.s
 
+client/network/ConnectionTCP/ConnectionTCP.o: client/network/ConnectionTCP/ConnectionTCP.cpp.o
+.PHONY : client/network/ConnectionTCP/ConnectionTCP.o
+
+# target to build an object file
+client/network/ConnectionTCP/ConnectionTCP.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o
+.PHONY : client/network/ConnectionTCP/ConnectionTCP.cpp.o
+
+client/network/ConnectionTCP/ConnectionTCP.i: client/network/ConnectionTCP/ConnectionTCP.cpp.i
+.PHONY : client/network/ConnectionTCP/ConnectionTCP.i
+
+# target to preprocess a source file
+client/network/ConnectionTCP/ConnectionTCP.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.i
+.PHONY : client/network/ConnectionTCP/ConnectionTCP.cpp.i
+
+client/network/ConnectionTCP/ConnectionTCP.s: client/network/ConnectionTCP/ConnectionTCP.cpp.s
+.PHONY : client/network/ConnectionTCP/ConnectionTCP.s
+
+# target to generate assembly for a file
+client/network/ConnectionTCP/ConnectionTCP.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.s
+.PHONY : client/network/ConnectionTCP/ConnectionTCP.cpp.s
+
+client/network/ThreadHandler/ThreadHandler.o: client/network/ThreadHandler/ThreadHandler.cpp.o
+.PHONY : client/network/ThreadHandler/ThreadHandler.o
+
+# target to build an object file
+client/network/ThreadHandler/ThreadHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o
+.PHONY : client/network/ThreadHandler/ThreadHandler.cpp.o
+
+client/network/ThreadHandler/ThreadHandler.i: client/network/ThreadHandler/ThreadHandler.cpp.i
+.PHONY : client/network/ThreadHandler/ThreadHandler.i
+
+# target to preprocess a source file
+client/network/ThreadHandler/ThreadHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.i
+.PHONY : client/network/ThreadHandler/ThreadHandler.cpp.i
+
+client/network/ThreadHandler/ThreadHandler.s: client/network/ThreadHandler/ThreadHandler.cpp.s
+.PHONY : client/network/ThreadHandler/ThreadHandler.s
+
+# target to generate assembly for a file
+client/network/ThreadHandler/ThreadHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.s
+.PHONY : client/network/ThreadHandler/ThreadHandler.cpp.s
+
 server/Elements/Player/PlayerLobby.o: server/Elements/Player/PlayerLobby.cpp.o
 .PHONY : server/Elements/Player/PlayerLobby.o
 
@@ -464,6 +512,12 @@ help:
 	@echo "... client/main.o"
 	@echo "... client/main.i"
 	@echo "... client/main.s"
+	@echo "... client/network/ConnectionTCP/ConnectionTCP.o"
+	@echo "... client/network/ConnectionTCP/ConnectionTCP.i"
+	@echo "... client/network/ConnectionTCP/ConnectionTCP.s"
+	@echo "... client/network/ThreadHandler/ThreadHandler.o"
+	@echo "... client/network/ThreadHandler/ThreadHandler.i"
+	@echo "... client/network/ThreadHandler/ThreadHandler.s"
 	@echo "... server/Elements/Player/PlayerLobby.o"
 	@echo "... server/Elements/Player/PlayerLobby.i"
 	@echo "... server/Elements/Player/PlayerLobby.s"

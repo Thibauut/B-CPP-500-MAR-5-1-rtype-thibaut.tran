@@ -10,7 +10,7 @@
 Menu::Menu()
 {
 
-    _window = new sf::RenderWindow (sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), sf::String(MENU_TITLE));
+    _window = new sf::RenderWindow (sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), sf::String(MENU_TITLE), sf::Style::Default);
     _inGame = false;
     _font.loadFromFile("assets/fonts/WANTONE.otf");
 
@@ -35,8 +35,8 @@ Menu::Menu()
 
     // INPUT TEXT
     sfmlFunc.createText(_text_name_input, _font, "letibz", 24, sf::Color::White, sf::Vector2f(605, 508));
-    sfmlFunc.createText(_text_ip_input, _font, "127.0.0.1", 24, sf::Color::White, sf::Vector2f(605, 608));
-    sfmlFunc.createText(_text_port_input, _font, "3000", 24, sf::Color::White, sf::Vector2f(605, 708));
+    sfmlFunc.createText(_text_ip_input, _font, "192.168.0.30", 24, sf::Color::White, sf::Vector2f(605, 608));
+    sfmlFunc.createText(_text_port_input, _font, "12345", 24, sf::Color::White, sf::Vector2f(605, 708));
 
     // BUTTONS
     sfmlFunc.CreateButton(_button, _buttonText, _font, "Connect", sf::Vector2f(200, 50), sf::Vector2f(800, 800), 45);
@@ -183,16 +183,27 @@ void Menu::HandleEvents() {
             sf::FloatRect buttonDeleteBounds = _buttonDelete.getGlobalBounds();
             sf::FloatRect buttonLeaveBounds = _buttonLeave.getGlobalBounds();
             if (buttonBounds.contains(mousePos)) {
-                //client connection sending
-                _isConnected = true;
-                std::cout << "Connect" << std::endl;
+                _tcpConnection = new ClientConnectionTCP(_text_name_input.getString().toAnsiString(),
+                                                        _text_ip_input.getString().toAnsiString(),
+                                                        _text_port_input.getString().toAnsiString());
+                _tcpConnection->start();
+                std::cout << _tcpConnection->ip_ << std::endl;
+                std::cout << _tcpConnection->port_ << std::endl;
+                std::cout << _tcpConnection->username_ << std::endl;
+                _tcpConnection->Login();
+                if (!_tcpConnection->uuid_.empty()) {
+                    _isConnected = true;
+                    std::cout << "Connect" << std::endl;
+                }
+
             }
-            if (buttonDisconnectBounds.contains(mousePos)) {
-                //client disconnection sending
+            if (buttonDisconnectBounds.contains(mousePos) && _isConnected) {
+                _tcpConnection->stop();
+
                 _isConnected = false;
                 std::cout << "Disconnect" << std::endl;
             }
-            if (buttonCreateBounds.contains(mousePos) && _roomList.size() < 6) {
+            if (buttonCreateBounds.contains(mousePos) && _roomList.size() < 6 && _isConnected) {
                 //client room creaction sending
                 std::cout << "Create" << std::endl;
 
@@ -208,7 +219,7 @@ void Menu::HandleEvents() {
                 _roomIndex++;
             }
 
-            if (!_roomList.empty()) {
+            if (!_roomList.empty() && _isConnected) {
                 for (auto &room : _roomList) {
                     if (room->room.getGlobalBounds().contains(mousePos)) {
                         std::cout << "Clicked: " << room->roomText.getString().toAnsiString() << std::endl;
@@ -217,7 +228,7 @@ void Menu::HandleEvents() {
                 }
             }
 
-            if (buttonDeleteBounds.contains(mousePos)) {
+            if (buttonDeleteBounds.contains(mousePos) && _isConnected && !_roomList.empty()) {
                 //client room deletion sending
                 std::cout << "Delete" << std::endl;
                 if (!_roomList.empty()) {
@@ -227,7 +238,7 @@ void Menu::HandleEvents() {
                 }
             }
 
-            if (buttonLeaveBounds.contains(mousePos)) {
+            if (buttonLeaveBounds.contains(mousePos) && _isConnected && _selectedRoom) {
                 std::cout << "Leave" << std::endl;
                 _selectedRoom = nullptr;
             }

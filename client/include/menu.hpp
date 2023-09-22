@@ -18,6 +18,7 @@
 #include <map>
 #include <functional>
 #include "../graphical/utils/sfml_func.cpp"
+#include "../network/ConnectionTCP/ConnectionTCP.hpp"
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
@@ -34,10 +35,14 @@ class Menu {
         };
 
         Menu();
+        ~Menu() = default;
         void Loop();
         void HandleEvents();
         void AnimateBackground();
         void Draw();
+        void SetTcpConnection(ClientConnectionTCP *tcpConnection) {
+            _tcpConnection = tcpConnection;
+        };
 
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
@@ -104,4 +109,6 @@ class Menu {
         bool _isFirstBackspacePress = true;
 
         bool _inGame;
+
+        ClientConnectionTCP* _tcpConnection;
 };

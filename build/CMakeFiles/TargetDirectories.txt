@@ -77,3 +77,11 @@
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/boost/CMakeFiles/install.dir
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/boost/CMakeFiles/install/local.dir
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/boost/CMakeFiles/install/strip.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/package.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/package_source.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/edit_cache.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/rebuild_cache.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/list_install_components.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/install.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/install/local.dir
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/libs/json/CMakeFiles/install/strip.dir
