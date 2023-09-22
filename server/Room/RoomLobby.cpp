@@ -46,7 +46,7 @@ void RoomLobby::addPlayer(PlayerLobby player)
 void RoomLobby::removePlayer(std::string uid)
 {
     for (int i = 0; i < _players.size(); i++) {
-        if (_players[i].getUid() == uid) {
+        if (_players[i].getUuid() == uid) {
             _players.erase(_players.begin() + i);
             _nbPlayers--;
         }

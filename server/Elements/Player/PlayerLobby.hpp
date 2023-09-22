@@ -10,25 +10,19 @@
 
 class PlayerLobby {
     public:
-        PlayerLobby(const std::string username);
+        PlayerLobby(const std::string username, std::string uuid, int level);
+        PlayerLobby() {};
         ~PlayerLobby();
 
         std::string getUsername() const;
-        std::string getUid() const;
+        std::string getUuid() const;
         std::string getIp() const;
+        int getLevel() const;
 
         std::string username;
+
     protected:
-        std::string _uid;
+        std::string _uuid;
         std::string ip;
+        int level;
 };
-
-// class Player {
-//     public:
-//         Player(PlayerLobby player);
-//         ~Player();
-
-
-//     protected:
-//         std::string username;
-// };

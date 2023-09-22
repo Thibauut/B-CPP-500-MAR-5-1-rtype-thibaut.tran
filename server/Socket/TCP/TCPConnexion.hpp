@@ -1,7 +1,7 @@
-#ifndef TCPConnection_HPP
-#define TCPConnection_HPP
+#pragma once
 #include "TCPRequest.hpp"
 #include <boost/asio.hpp>
+#include <iostream>
 #include <list>
 
 using boost::asio::ip::tcp;
@@ -29,5 +29,3 @@ private:
   std::list<Request> requests_;
 
 };
-
-#endif // TCPConnection_HPP

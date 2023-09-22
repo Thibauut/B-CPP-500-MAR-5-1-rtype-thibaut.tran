@@ -40,7 +40,7 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
         }
   }
 
-void TCPServer::getAllTcpRequest() {
+void TCPServer::getAllTcpRequest(HandleSave &save, std::vector <RoomLobby> &_lobbys) {
   for (TCPConnection::pointer &client : clients_) {
     requests_.splice(requests_.end(), client->requests());
   }
@@ -49,7 +49,7 @@ void TCPServer::getAllTcpRequest() {
   for (Request req : requests_) {
     i++;
     std::cout << "<= " << req._data << std::endl;
-    Parser pars = Parser(req);
+    Parser pars = Parser(req, save, _lobbys);
   }
   requests_.clear();
 }

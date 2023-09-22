@@ -12,7 +12,8 @@
 #include <boost/uuid/uuid_io.hpp>
 #include "TCPConnexion.hpp"
 #include "TCPRequest.hpp"
-#include "Parser.hpp"
+#include "HandleRequest/Parser.hpp"
+#include "../../Save/HandleSave.hpp"
 #include <iostream>
 
 class TCPServer
@@ -20,7 +21,7 @@ class TCPServer
 public:
   TCPServer(boost::asio::io_context& io_context);
   void print_all_client_request();
-  void getAllTcpRequest();
+  void getAllTcpRequest(HandleSave &save, std::vector <RoomLobby> &_lobbys);
 
 private:
   void start_accept();

@@ -1,5 +1,4 @@
 #include "TCPConnexion.hpp"
-#include <iostream>
 
 TCPConnection::pointer TCPConnection::create(boost::asio::io_context& io_context)
 {
@@ -53,7 +52,7 @@ void TCPConnection::handle_read(const boost::system::error_code& error, size_t b
           i++;
         }
     }
-    do_write();
+    do_read();
   } else {
     socket_.close();
   }
