@@ -48,7 +48,7 @@ void TCPServer::getAllTcpRequest(HandleSave &save, std::vector <RoomLobby> &_lob
   int i = 0;
   for (Request req : requests_) {
     i++;
-    std::cout << "<= " << req._data << std::endl;
+    std::cout << "<- " << req._data;
     Parser pars = Parser(req, save, _lobbys);
   }
   requests_.clear();

@@ -23,6 +23,10 @@ enum ACTION {
     CREATE_ROOM,
     JOIN_ROOM,
     READY,
+    LEAVE_ROOM,
+    DELETE_ROOM,
+    GET_ROOMS,
+    GET_ROOM_INFO,
 };
 
 class Parser {
@@ -30,12 +34,20 @@ private:
     int findQuote(std::string data, int nbOccur);
     void parseAction(std::string data);
     void callback(HandleSave &save, std::vector <RoomLobby> &_lobbys);
+
     void login(HandleSave &save);
     void disconnect(HandleSave &save);
     void getPlayerInfo() {};
-    void createRoom(std::string player_uuid, int nb_slots, std::string name, HandleSave &save, std::vector <RoomLobby> &_lobbys);
-    void joinRoom() {};
-    void ready() {};
+
+    void createRoom(std::string player_uuid,
+                    int nb_slots, std::string name,
+                    HandleSave &save,
+                    std::vector <RoomLobby> &_lobbys);
+    void joinRoom(std::string player_uuid, std::string room_uuid);
+    void leaveRoom(std::string player_uuid, std::string room_uuid);
+    void deleteRoom(std::string player_uuid, std::string room_uuid);
+    void ready(std::string player_uuid, std::string room_uuid);
+
     ACTION _action;
     std::vector<std::string> _args;
     boost::asio::ip::tcp::socket &_socket;

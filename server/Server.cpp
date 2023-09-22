@@ -40,7 +40,6 @@ void Server::refreshFromDb() {
             _players.erase(std::remove_if(_players.begin(), _players.end(), [player](PlayerLobby p) { return p.getUuid() == player["uuid"]; }), _players.end());
         }
         if (player["online"] == true && isExistPlayer(player["uuid"]) == false) {
-            std::cout << "Push-back player" << std::endl;
             _players.push_back(PlayerLobby(player["name"], player["uuid"], player["level"]));
         }
     }
@@ -59,7 +58,7 @@ void Server::refresh()
 
 void Server::createRoom(PlayerLobby owner, std::string name, int _nbSlots)
 {
-    _lobbys.push_back(RoomLobby(owner, _nbSlots, name));
+    // _lobbys.push_back(RoomLobby(owner, _nbSlots, name));
 }
 
 void Server::addClientToRoom(int pos, PlayerLobby client)

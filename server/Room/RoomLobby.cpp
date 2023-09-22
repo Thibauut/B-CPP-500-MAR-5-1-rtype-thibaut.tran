@@ -7,12 +7,13 @@
 
 #include "RoomLobby.hpp"
 
-RoomLobby::RoomLobby(PlayerLobby &owner, unsigned int nbSlots, std::string name) : _owner(owner)
+RoomLobby::RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, std::string uuid) : _owner(owner)
 {
     _players.push_back(owner);
     _nbPlayers = 1;
     _nbSlots = nbSlots;
     _name = name;
+    _uuid = uuid;
 }
 
 RoomLobby::~RoomLobby() {

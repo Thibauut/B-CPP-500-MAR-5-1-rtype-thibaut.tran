@@ -14,7 +14,7 @@
 
 class RoomLobby {
     public:
-        RoomLobby(PlayerLobby &owner, unsigned int nbSlots, std::string name);
+        RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, std::string uuid);
         ~RoomLobby();
 
         void startGame();
@@ -27,9 +27,9 @@ class RoomLobby {
         unsigned int getNbPlayers() const { return _nbPlayers; }
         PlayerLobby getOwner() const { return _owner; }
         std::vector<PlayerLobby> getPlayers() const { return _players; }
-        std::string getUid() const { return _uid; }
+        std::string getUuid() const { return _uuid; }
 
-        std::string _uid;
+        std::string _uuid;
         std::string _name;
         unsigned int _nbSlots;
         unsigned int _nbPlayers;

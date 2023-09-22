@@ -22,8 +22,8 @@
         {
             "level": 1,
             "name": "test",
-            "online": false,
-            "uuid": "22f57a30-73d6-4cb3-9b97-636df5fc7586"
+            "online": true,
+            "uuid": "f49b039c-9a82-4c6a-9fe0-726c64c449ab"
         }
     ]
 }
