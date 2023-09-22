@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25.2)
+cmake_minimum_required(VERSION 3.0.0)
 
 set(CLIENT r-type_client)
 set(SERVER r-type_server)
