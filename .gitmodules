@@ -1,9 +1,0 @@
-[submodule "libs/SFML"]
-	path = libs/SFML
-	url = git@github.com:SFML/SFML.git
-[submodule "asio"]
-	path = asio
-	url = https://github.com/boostorg/asio.git
-[submodule "libs/boost"]
-	path = libs/boost
-	url = https://github.com/boostorg/asio.git
