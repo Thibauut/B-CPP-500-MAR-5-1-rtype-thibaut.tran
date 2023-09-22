@@ -127,11 +127,6 @@ void Menu::HandleEvents() {
 
         if (_isFocused && _event.type == sf::Event::TextEntered && _current_input == 0) {
             if (_event.text.unicode == 8 && !_inputName.empty()) {
-                if (_isFirstBackspacePress) {
-                    _inputName.clear();
-                    _isFirstBackspacePress = false;
-                }
-
                 _inputName.pop_back();
                 _text_name_input.setString(_inputName);
             } else if (_event.text.unicode >= 32 && _event.text.unicode < 127 && _inputName.size() < 10) {
@@ -145,8 +140,6 @@ void Menu::HandleEvents() {
                 _inputIp.pop_back();
                 _text_ip_input.setString(_inputIp);
             } else if (_event.text.unicode >= 32 && _event.text.unicode < 127 && _inputIp.size() < 15) {
-                if (!_inputIp.empty())
-                    _inputIp.clear();
                 _inputIp += static_cast<char>(_event.text.unicode);
                 _text_ip_input.setString(_inputIp);
             }
@@ -157,8 +150,6 @@ void Menu::HandleEvents() {
                 _inputPort.pop_back();
                 _text_port_input.setString(_inputPort);
             } else if (_event.text.unicode >= 32 && _event.text.unicode < 127 && _inputPort.size() < 5) {
-                if (!_inputPort.empty())
-                    _inputPort.clear();
                 _inputPort += static_cast<char>(_event.text.unicode);
                 _text_port_input.setString(_inputPort);
             }
