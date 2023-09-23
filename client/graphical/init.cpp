@@ -41,7 +41,7 @@ void Menu::InitText() {
     sfmlFunc.CreateTextField(_textField2_room, _text_slot_room, _font, "Slot number", sf::Vector2f(600, 40), sf::Vector2f(590, 600));
 
     sfmlFunc.createText(_text_name_input, _font, "letibz", 24, sf::Color::White, sf::Vector2f(605, 508));
-    sfmlFunc.createText(_text_ip_input, _font, "192.168.0.30", 24, sf::Color::White, sf::Vector2f(605, 608));
+    sfmlFunc.createText(_text_ip_input, _font, "192.168.0.22", 24, sf::Color::White, sf::Vector2f(605, 608));
     sfmlFunc.createText(_text_port_input, _font, "12345", 24, sf::Color::White, sf::Vector2f(605, 708));
 
     sfmlFunc.createText(_text_name_input_room, _font, "Room 1", 24, sf::Color::White, sf::Vector2f(605, 508));
@@ -54,10 +54,11 @@ void Menu::InitButton() {
     sfmlFunc.CreateButton(_buttonCreate, _buttonCreateText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(1150, 800), 57);
     sfmlFunc.CreateButton(_buttonDisconnect, _buttonDisconnectText, _font, "Disconnect", sf::Vector2f(200, 50), sf::Vector2f(450, 800), 25);
 
-    sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(620, 800), 57);
-    sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(980, 800), 57);
+    sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(980, 800), 57);
+    sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(620, 800), 57);
 
-    sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(800, 800), 57);
+    sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(620, 800), 57);
+    sfmlFunc.CreateButton(_buttonCancel, _buttonCancelText, _font, "Cancel", sf::Vector2f(200, 50), sf::Vector2f(980, 800), 57);
 }
 
 void Menu::InitCreateRoom() {

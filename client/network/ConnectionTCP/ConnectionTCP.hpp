@@ -18,6 +18,11 @@
     #include <boost/bind.hpp>
 
 class ClientConnectionTCP : public ThreadHandler {
+    struct Room {
+        std::string name;
+        std::string slot;
+    };
+
     public:
         ClientConnectionTCP(const std::string&, const std::string&, const std::string&);
         void setMessage(const std::string&);
@@ -35,10 +40,12 @@ class ClientConnectionTCP : public ThreadHandler {
         void Disconnect();
         void GetPlayerInfo();
         void CreateRoom(std::string roomName, std::string roomSize);
-        void JoinRoom();
-        void Ready();
-        void LeaveRoom();
-        void DeleteRoom();
+        void JoinRoom(std::string roomuuid);
+        void Ready(std::string roomuuid, std::string playeruuid);
+        void LeaveRoom(std::string roomuuid);
+        void DeleteRoom(std::string roomuuid);
+        void GetRoomInfo(std::string roomuuid);
+        void GetRoomList();
 
 
         std::string ip_;
@@ -54,6 +61,9 @@ class ClientConnectionTCP : public ThreadHandler {
         std::string infoName_;
         std::string infoLevel_;
         std::string infoRoomUuid_;
+
+        std::vector<Room *> rooms;
+        std::string token;
 
 //         std::queue<std::string> sendMessageQueue_;
 //         std::mutex messageMutex_;

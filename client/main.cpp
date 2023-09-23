@@ -18,20 +18,24 @@
 int main(int ac, char **av)
 {
     // TEST GRAPHIC + CLIENT
-    // Menu *menu = new Menu();
-    // menu->Loop();
+    Menu *menu = new Menu();
+    menu->Loop();
 
     // TEST CLIENT WHITOUT GRAPHIC
-    ClientConnectionTCP *client = new ClientConnectionTCP("test", "192.168.0.30", "12345");
-    // client->start();
-    client->Login();
-    client->CreateRoom();
-    client->JoinRoom();
-    client->Ready();
-    client->LeaveRoom();
-    client->DeleteRoom();
+    // ClientConnectionTCP *client = new ClientConnectionTCP("test", "192.168.0.22", "12345");
+    // // // client->start();
+    // client->Login();
+    // client->CreateRoom("test", "2");
 
-    client->stop();
+    // client->GetRoomList();
+    // // client->GetRoomInfo(client->infoRoomUuid_);
+    // // // client->JoinRoom(client->infoRoomUuid_);
+    // // client->Ready();
+    // client->LeaveRoom(client->infoRoomUuid_);
+    // client->DeleteRoom(client->infoRoomUuid_);
+
+    // client->Disconnect();
+    // client->stop();
 
     return 0;
 }

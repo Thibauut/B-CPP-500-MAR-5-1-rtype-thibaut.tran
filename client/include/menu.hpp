@@ -32,6 +32,7 @@ class Menu {
             sf::Text roomText;
             sf::Text leaveText;
             sf::Text nbPlayers;
+            std::string roomuuid;
         };
 
         Menu();
@@ -55,6 +56,7 @@ class Menu {
         void AnimateBackground();
         void AnimButtonEvents();
         void Draw();
+        void UpdateRoom();
 
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
@@ -77,23 +79,23 @@ class Menu {
         sf::RectangleShape _textField;
         sf::Text _text_name;
         sf::Text _text_name_input;
+        std::string _inputName;
 
         sf::RectangleShape _textField2;
         sf::Text _text_ip;
         sf::Text _text_ip_input;
+        std::string _inputIp;
 
         sf::RectangleShape _textField3;
         sf::Text _text_port;
         sf::Text _text_port_input;
-
-        int _current_input = 0;
-        bool _isFocused = false;
-        bool _isFocused2 = false;
-        bool _isFocused3 = false;
-
-        std::string _inputName;
-        std::string _inputIp;
         std::string _inputPort;
+
+        int _current_input;
+        bool _isFocused;
+        bool _isFocused2;
+        bool _isFocused3;
+
 
         sf::RectangleShape _button;
         sf::Text _buttonText;
@@ -104,6 +106,10 @@ class Menu {
         // Room
         sf::RectangleShape _buttonCreate;
         sf::Text _buttonCreateText;
+
+        sf::RectangleShape _buttonCancel;
+        sf::Text _buttonCancelText;
+
         sf::RectangleShape _buttonDisconnect;
         sf::Text _buttonDisconnectText;
 

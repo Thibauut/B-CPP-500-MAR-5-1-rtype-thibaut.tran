@@ -114,12 +114,8 @@ void ClientConnectionTCP::Disconnect()
     message_ = "";
     readMessage();
     std::string tmp = extractArguments(response_, "DISCONNECT ");
-    if (response_ == "KO")
-        std::cerr << "Bad uuid" << std::endl;
-    else
-        delete this;
-
     std::cout << "Disconnect : " << tmp << std::endl;
+    stop();
 }
 
 void ClientConnectionTCP::GetPlayerInfo()
@@ -137,6 +133,44 @@ void ClientConnectionTCP::GetPlayerInfo()
     // std::cout << "Level : " << infoLevel_ << std::endl;
 }
 
+void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
+{
+    setMessage("GET_ROOM_INFO \"" + roomuuid + "\"\n");
+    sendMessage(message_);
+    message_ = "";
+    readMessage();
+    std::string tmp = extractArguments(response_, "GET_ROOM_INFO ");
+
+    std::cout << "GetRoomInfo : " << tmp << std::endl;
+}
+
+void ClientConnectionTCP::GetRoomList()
+{
+    rooms.clear();
+    setMessage("GET_ROOMS\n");
+    sendMessage(message_);
+    message_ = "";
+    readMessage();
+    std::string tmp = extractArguments(response_, "GET_ROOMS ");
+
+    std::istringstream stream(tmp);
+    while (stream >> token) {
+        if (token.front() == '"' && token.back() == '"')
+            token = token.substr(1, token.length() - 2);
+        Room *room = new Room();
+        room->name = token;
+        stream >> token;
+        if (token.front() == '"' && token.back() == '"')
+            token = token.substr(1, token.length() - 2);
+        room->slot = token;
+        rooms.push_back(room);
+    }
+    for (auto &room : rooms) {
+        std::cout << "Room name : " << room->name << std::endl;
+        std::cout << "Room slot : " << room->slot << std::endl;
+    }
+}
+
 void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
 {
     setMessage("CREATE_ROOM \"" + uuid_ + "\" \"" + roomSize + "\" \""+ roomName + "\"\n");
@@ -144,17 +178,17 @@ void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
     message_ = "";
     readMessage();
     infoRoomUuid_ = extractArguments(response_, "CREATE_ROOM ");
-    if (response_ == "KO")
+    if (infoRoomUuid_ == "KO")
         std::cerr << "Error until new room create" << std::endl;
     else
         std::cout << "ok" << std::endl;
 
-    std::cout << "CreateRoom : " << infoRoomUuid_ << std::endl;
+    std::cout << "CreateRoom: " << infoRoomUuid_ << std::endl;
 }
 
-void ClientConnectionTCP::JoinRoom()
+void ClientConnectionTCP::JoinRoom(std::string roomuuid)
 {
-    setMessage("JOIN_ROOM \"" + infoRoomUuid_ + "\"\n");
+    setMessage("JOIN_ROOM \"" + roomuuid + "\"\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
@@ -168,9 +202,9 @@ void ClientConnectionTCP::JoinRoom()
     std::cout << "JoinRoom : " << tmp << std::endl;
 }
 
-void ClientConnectionTCP::Ready()
+void ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid)
 {
-    setMessage("READY \"" + uuid_ + "\"" + " \"" + infoRoomUuid_ + "\"" + "\n");
+    setMessage("READY \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
@@ -183,9 +217,9 @@ void ClientConnectionTCP::Ready()
     std::cout << "from Ready: " << response_ << std::endl;
 }
 
-void ClientConnectionTCP::LeaveRoom()
+void ClientConnectionTCP::LeaveRoom(std::string roomuuid)
 {
-    setMessage("LEAVE_ROOM \"" + uuid_ + "\"" + " \"" + infoRoomUuid_ + "\"" + "\n");
+    setMessage("LEAVE_ROOM \"" + uuid_ + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
@@ -193,9 +227,9 @@ void ClientConnectionTCP::LeaveRoom()
     std::cout << "from LeaveRoom: " << response_ << std::endl;
 }
 
-void ClientConnectionTCP::DeleteRoom()
+void ClientConnectionTCP::DeleteRoom(std::string roomuuid)
 {
-    setMessage("DELETE_ROOM \"" + uuid_ + "\"" + " \"" + infoRoomUuid_ + "\"" + "\n");
+    setMessage("DELETE_ROOM \"" + uuid_ + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
@@ -204,7 +238,6 @@ void ClientConnectionTCP::DeleteRoom()
     } else {
         std::cout << "ok" << std::endl;
     }
-
     std::cout << "from DeleteRoom: " << response_ << std::endl;
 }
 

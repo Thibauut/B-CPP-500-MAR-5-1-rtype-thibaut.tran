@@ -35,6 +35,7 @@ void Menu::AnimButtonEvents() {
         sf::FloatRect buttonReadyBounds = _buttonReady.getGlobalBounds();
         sf::FloatRect buttonCreateRoomBounds = _buttonCreateRoom.getGlobalBounds();
         sf::FloatRect buttonDeleteRoomBounds = _roomDelete.getGlobalBounds();
+        sf::FloatRect buttonCancelRoomBounds = _buttonCancel.getGlobalBounds();
 
         sfmlFunc.HandleButtonHover(_button, _buttonText, isButtonHovered, mousePos, buttonBounds);
         sfmlFunc.HandleButtonHover(_buttonCreate, _buttonCreateText, isButtonHovered, mousePos, buttonCreateBounds);
@@ -43,5 +44,6 @@ void Menu::AnimButtonEvents() {
         sfmlFunc.HandleButtonHover(_buttonReady, _buttonReadyText, isButtonHovered, mousePos, buttonReadyBounds);
         sfmlFunc.HandleButtonHover(_buttonCreateRoom, _buttonCreateRoomText, isButtonHovered, mousePos, buttonCreateRoomBounds);
         sfmlFunc.HandleSpriteHover(_roomDelete, isButtonHovered, mousePos, buttonDeleteRoomBounds);
+        sfmlFunc.HandleButtonHover(_buttonCancel, _buttonCancelText, isButtonHovered, mousePos, buttonCancelRoomBounds);
     }
 }

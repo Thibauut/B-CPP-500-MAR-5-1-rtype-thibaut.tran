@@ -15,6 +15,12 @@ Menu::Menu()
     InitText();
     InitButton();
     InitCreateRoom();
+
+
+    _current_input = -1;
+    _isFocused = false;
+    _isFocused2 = false;
+    _isFocused3 = false;
 }
 
 void Menu::Loop()
@@ -29,8 +35,27 @@ void Menu::Loop()
         }
     }
     _tcpConnection->Disconnect();
-    _tcpConnection->stop();
     delete _tcpConnection;
+}
+
+void Menu::UpdateRoom() {
+    _tcpConnection->GetRoomList();
+    if (!_tcpConnection->rooms.empty()) {
+        for (auto &roomtcp : _tcpConnection->rooms) {
+            Room *room = new Room();
+            sfmlFunc.CreateButton(room->room, room->roomText, _font, roomtcp->name, sf::Vector2f(1000, 40), sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())), 150);
+            room->nbPlayers.setFont(_font);
+            room->nbPlayers.setString(roomtcp->slot);
+            room->nbPlayers.setCharacterSize(24);
+            room->nbPlayers.setFillColor(sf::Color::White);
+            room->nbPlayers.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())) + sf::Vector2f(40, 10));
+            room->roomuuid = _tcpConnection->infoRoomUuid_;
+            std::cout << room->roomuuid << std::endl;
+            _roomList.push_back(room);
+        }
+    } else {
+        _roomList.clear();
+    }
 }
 
 void Menu::HandleEvents() {
@@ -71,7 +96,7 @@ void Menu::HandleEvents() {
                 _isFocused3 = false;
                 _textField3.setOutlineColor(sf::Color::White);
             }
-            if (textBounds_room.contains(mousePos)) {
+            if (textBounds_room.contains(mousePos) && _isCreatingRoom) {
                 _isFocused_room = true;
                 _current_input = 3;
                 _textField_room.setOutlineColor(sf::Color(178, 102, 255));
@@ -79,21 +104,12 @@ void Menu::HandleEvents() {
                 _isFocused_room = false;
                 _textField_room.setOutlineColor(sf::Color::White);
             }
-            if (textBounds2_room.contains(mousePos)) {
-                _isFocused2_room = true;
-                _current_input = 4;
-                _textField2_room.setOutlineColor(sf::Color(178, 102, 255));
-            } else {
-                _isFocused2_room = false;
-                _textField2_room.setOutlineColor(sf::Color::White);
-            }
         }
-
         if (_isFocused && _event.type == sf::Event::TextEntered && _current_input == 0) {
             if (_event.text.unicode == 8 && !_inputName.empty()) {
                 _inputName.pop_back();
                 _text_name_input.setString(_inputName);
-            } else if (_event.text.unicode >= 32 && _event.text.unicode < 127 && _inputName.size() < 10) {
+            } else if (_event.text.unicode >= 32 && _event.text.unicode < 127 && _inputName.size() < 20) {
                 _inputName += static_cast<char>(_event.text.unicode);
                 _text_name_input.setString(_inputName);
             }
@@ -129,10 +145,6 @@ void Menu::HandleEvents() {
             }
         }
 
-
-
-
-
         // anim button
         AnimButtonEvents();
 
@@ -150,6 +162,7 @@ void Menu::HandleEvents() {
             sf::FloatRect removeSlotBounds = _removeSlot.getGlobalBounds();
 
             sf::FloatRect buttonCreateRoomBounds = _buttonCreateRoom.getGlobalBounds();
+            sf::FloatRect buttonCancelRoomBounds = _buttonCancel.getGlobalBounds();
 
             if (addSlotBounds.contains(mousePos) && _isCreatingRoom && _roomSlot < 11) {
                 _roomSlot++;
@@ -175,6 +188,7 @@ void Menu::HandleEvents() {
 
                 if (!_tcpConnection->uuid_.empty()) {
                     _isConnected = true;
+                    UpdateRoom();
                     std::cout << "Connect" << std::endl;
                 }
             }
@@ -192,43 +206,79 @@ void Menu::HandleEvents() {
             }
 
             if (_isCreatingRoom && buttonCreateRoomBounds.contains(mousePos) && _roomSlot > 0) {
-                Room *room = new Room();
-                sfmlFunc.CreateButton(room->room, room->roomText, _font, _text_name_input_room.getString().toAnsiString(), sf::Vector2f(1000, 40), sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())), 150);
-                room->nbPlayers.setFont(_font);
-                room->nbPlayers.setString("0/" +  _text_slot_input_room.getString().toAnsiString()); // server response
-                room->nbPlayers.setCharacterSize(24);
-                room->nbPlayers.setFillColor(sf::Color::White);
-                room->nbPlayers.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())) + sf::Vector2f(40, 10));
-                _roomList.push_back(room);
-                _roomIndex++;
-                _isCreatingRoom = false;
 
-                _text_name_input_room.setString("Room 1");
-                _text_slot_input_room.setString("0");
-                _roomSlot = 0;
-                _inputName_room = "";
+                _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString());
+                if (_tcpConnection->infoRoomUuid_ == "KO") {
+                    std::cerr << "Error until new room create" << std::endl;
+                } else {
+                    Room *room = new Room();
+                    sfmlFunc.CreateButton(room->room, room->roomText, _font, _text_name_input_room.getString().toAnsiString(), sf::Vector2f(1000, 40), sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())), 150);
+                    room->nbPlayers.setFont(_font);
+                    room->nbPlayers.setString("0/" +  _text_slot_input_room.getString().toAnsiString()); // server response
+                    room->nbPlayers.setCharacterSize(24);
+                    room->nbPlayers.setFillColor(sf::Color::White);
+                    room->nbPlayers.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())) + sf::Vector2f(40, 10));
+                    room->roomuuid = _tcpConnection->infoRoomUuid_;
+                    std::cout << room->roomuuid << std::endl;
+                    _roomList.push_back(room);
+                    _roomIndex++;
+
+
+                    std::cout << "Room created" << std::endl;
+                    _isCreatingRoom = false;
+                    _text_name_input_room.setString("Room 1");
+                    _text_slot_input_room.setString("0");
+                    _roomSlot = 0;
+                    _inputName_room = "";
+
+                    _selectedRoom = room;
+                    UpdateRoom();
+                }
             }
 
             if (!_roomList.empty() && _isConnected && !_isCreatingRoom) {
                 for (auto &room : _roomList) {
                     if (room->room.getGlobalBounds().contains(mousePos)) {
-                        std::cout << "Clicked: " << room->roomText.getString().toAnsiString() << std::endl;
-                        _selectedRoom = room;
+                        _tcpConnection->JoinRoom(room->roomuuid);
+                        if (_tcpConnection->infoRoomUuid_ == "KO") {
+                            std::cerr << "Error until join room" << std::endl;
+                        } else {
+                            std::cout << "Join room" << std::endl;
+                            _selectedRoom = room;
+                            UpdateRoom();
+                        }
                     }
                 }
+            }
+
+            if (_isCreatingRoom && buttonCancelRoomBounds.contains(mousePos)) {
+                _isCreatingRoom = false;
+                _text_name_input_room.setString("Room 1");
+                _text_slot_input_room.setString("0");
+                _roomSlot = 0;
+                _inputName_room = "";
+                UpdateRoom();
             }
 
             if (buttonDeleteBounds.contains(mousePos) && _isConnected && !_roomList.empty() && !_isCreatingRoom) {
                 std::cout << "Delete" << std::endl;
                 if (!_roomList.empty()) {
-                    delete _roomList.back();
-                    _roomList.pop_back();
-                    _roomIndex--;
+                    _tcpConnection->DeleteRoom(_roomList.back()->roomuuid);
+                    if (_tcpConnection->infoRoomUuid_ == "KO") {
+                        std::cerr << "Error until delete room" << std::endl;
+                    } else {
+                         delete _roomList.back();
+                        _roomList.pop_back();
+                        _roomIndex--;
+                        UpdateRoom();
+                    }
                 }
             }
 
-            if (buttonLeaveBounds.contains(mousePos) && _isConnected && _selectedRoom) {
+            if (buttonLeaveBounds.contains(mousePos) && _isConnected && _selectedRoom && !_isCreatingRoom) {
                 std::cout << "Leave" << std::endl;
+                _tcpConnection->LeaveRoom(_selectedRoom->roomuuid);
+                UpdateRoom();
                 _selectedRoom = nullptr;
             }
 
@@ -273,7 +323,7 @@ void Menu::Draw() {
             _window->draw(room->nbPlayers);
         }
     }
-    if (_isConnected && _isCreatingRoom) {
+    if (_isConnected && _isCreatingRoom && !_selectedRoom) {
         _window->draw(_buttonCreateRoom);
         _window->draw(_buttonCreateRoomText);
 
@@ -287,6 +337,16 @@ void Menu::Draw() {
 
         _window->draw(_addSlot);
         _window->draw(_removeSlot);
+
+        _window->draw(_buttonCancel);
+        _window->draw(_buttonCancelText);
+    }
+    if (_isConnected && _selectedRoom && !_isCreatingRoom) {
+        _window->draw(_roomMenu);
+        _window->draw(_buttonLeave);
+        _window->draw(_buttonLeaveText);
+        _window->draw(_buttonReady);
+        _window->draw(_buttonReadyText);
     }
 
     _window->display();
