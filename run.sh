@@ -1,4 +1,4 @@
 #!/bin/sh
 
 make -C ./build/
-# ./r-type_client
+./r-type_client

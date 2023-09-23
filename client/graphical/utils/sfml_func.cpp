@@ -66,3 +66,13 @@ void SfmlFunc::HandleButtonHover(sf::RectangleShape& button, sf::Text& buttonTex
         buttonText.setScale(1.0f, 1.0f);
     }
 }
+
+void SfmlFunc::HandleSpriteHover(sf::Sprite& sprite, bool& isSpriteHovered, const sf::Vector2f& mousePos, const sf::FloatRect& spriteBounds) {
+    if (spriteBounds.contains(mousePos)) {
+        isSpriteHovered = true;
+        sprite.setScale(0.51f, 0.51f);
+    } else {
+        isSpriteHovered = false;
+        sprite.setScale(0.5f, 0.5f);
+    }
+}

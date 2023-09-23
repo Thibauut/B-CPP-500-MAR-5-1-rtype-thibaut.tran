@@ -773,7 +773,7 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: /Users/thibaut/Documents/Epitech
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/_types/_nl_item.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/cstdarg \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/init.cpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/include/menu.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Audio.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/System.hpp \
@@ -1935,6 +1935,8 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: /Users/thibaut/Documents/Epitech
   /usr/local/include/boost/bind/bind_mf_cc.hpp \
   /usr/local/include/boost/bind/bind_mf2_cc.hpp \
   /usr/local/include/boost/bind/placeholders.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/anim.cpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp \
@@ -4544,6 +4546,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp:
 
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/anim.cpp:
+
 /usr/local/include/boost/bind/bind_mf2_cc.hpp:
 
 /usr/local/include/boost/bind/storage.hpp:
@@ -7082,14 +7086,6 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__format/enable_insertable.h:
 
-/usr/local/include/boost/type_traits/is_floating_point.hpp:
-
-/usr/local/include/boost/system/is_error_condition_enum.hpp:
-
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/machine/_mcontext.h:
-
-/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu.cpp:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__type_traits/is_abstract.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/_types/_uid_t.h:
@@ -7668,6 +7664,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Transform.hpp:
 
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/init.cpp:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__concepts/semiregular.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__type_traits/is_volatile.h:
@@ -7863,6 +7861,10 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/memory_resource:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/_types.h:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu.cpp:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/machine/_mcontext.h:
 
 /usr/local/include/boost/numeric/conversion/detail/converter.hpp:
 
@@ -8105,6 +8107,10 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/set_symmetric_difference.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__chrono/calendar.h:
+
+/usr/local/include/boost/type_traits/is_floating_point.hpp:
+
+/usr/local/include/boost/system/is_error_condition_enum.hpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/is_heap.h:
 

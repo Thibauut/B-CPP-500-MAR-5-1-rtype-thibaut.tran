@@ -32,7 +32,13 @@ class ClientConnectionTCP : public ThreadHandler {
         void handleRead(const boost::system::error_code&, std::size_t);
         void Login();
         std::string extractArguments(const std::string&input, const std::string& keyword);
-        // void Disconnect();
+        void Disconnect();
+        void GetPlayerInfo();
+        void CreateRoom(std::string roomName, std::string roomSize);
+        void JoinRoom();
+        void Ready();
+        void LeaveRoom();
+        void DeleteRoom();
 
 
         std::string ip_;
@@ -44,6 +50,10 @@ class ClientConnectionTCP : public ThreadHandler {
         std::string response_;
         boost::asio::io_service ioService;
         boost::asio::ip::tcp::socket socket_;
+
+        std::string infoName_;
+        std::string infoLevel_;
+        std::string infoRoomUuid_;
 
 //         std::queue<std::string> sendMessageQueue_;
 //         std::mutex messageMutex_;

@@ -6,7 +6,9 @@
 */
 
 #include <iostream>
+#include "graphical/init.cpp"
 #include "graphical/menu.cpp"
+#include "graphical/anim.cpp"
 
 
 #include "network/ConnectionTCP/ConnectionTCP.hpp"
@@ -16,14 +18,20 @@
 int main(int ac, char **av)
 {
     // TEST GRAPHIC + CLIENT
-    Menu *menu = new Menu();
-    menu->Loop();
+    // Menu *menu = new Menu();
+    // menu->Loop();
 
     // TEST CLIENT WHITOUT GRAPHIC
-    // ClientConnectionTCP *client = new ClientConnectionTCP("test", "192.168.0.30", "12345");
+    ClientConnectionTCP *client = new ClientConnectionTCP("test", "192.168.0.30", "12345");
     // client->start();
-    // std::this_thread::sleep_for(std::chrono::seconds(3));
-    // client->stop();
+    client->Login();
+    client->CreateRoom();
+    client->JoinRoom();
+    client->Ready();
+    client->LeaveRoom();
+    client->DeleteRoom();
+
+    client->stop();
 
     return 0;
 }

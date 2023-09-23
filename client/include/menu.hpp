@@ -36,13 +36,25 @@ class Menu {
 
         Menu();
         ~Menu() = default;
+
+        void Init();
+        void InitBackground();
+        void InitSprites();
+        void InitText();
+        void InitButton();
+
+        void InitCreateRoom();
+        void InitRoom();
+
         void Loop();
+
         void HandleEvents();
+        void HandleEventsRoom();
+        void HandleEventsCreateRoom();
+
         void AnimateBackground();
+        void AnimButtonEvents();
         void Draw();
-        void SetTcpConnection(ClientConnectionTCP *tcpConnection) {
-            _tcpConnection = tcpConnection;
-        };
 
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
@@ -61,6 +73,7 @@ class Menu {
         sf::Texture _backgroundTexture2;
         sf::IntRect _rectBackground2;
 
+        // Menu
         sf::RectangleShape _textField;
         sf::Text _text_name;
         sf::Text _text_name_input;
@@ -88,12 +101,15 @@ class Menu {
         bool _isConnected = false;
         bool isButtonHovered = false;
 
+        // Room
         sf::RectangleShape _buttonCreate;
         sf::Text _buttonCreateText;
         sf::RectangleShape _buttonDisconnect;
         sf::Text _buttonDisconnectText;
-        sf::RectangleShape _buttonDelete;
-        sf::Text _buttonDeleteText;
+
+
+        sf::Sprite _roomDelete;
+        sf::Texture _roomDeleteTexture;
 
         sf::RectangleShape _buttonLeave;
         sf::Text _buttonLeaveText;
@@ -110,5 +126,32 @@ class Menu {
 
         bool _inGame;
 
+        bool _isCreatingRoom = false;
+        sf::RectangleShape _buttonCreateRoom;
+        sf::Text _buttonCreateRoomText;
+
+        // field for creating room
+        sf::RectangleShape _textField_room;
+        sf::Text _text_name_room;
+        sf::Text _text_name_input_room;
+        std::string _inputName_room;
+
+        sf::RectangleShape _textField2_room;
+        sf::Text _text_slot_room;
+        sf::Text _text_slot_input_room;
+        std::string _inputSlot_room;
+
+        sf::Sprite _addSlot;
+        sf::Texture _addSlotTexture;
+        sf::Sprite _removeSlot;
+        sf::Texture _removeSlotTexture;
+
+        int _roomSlot = 0;
+
+        bool _isFocused_room = false;
+        bool _isFocused2_room = false;
+
         ClientConnectionTCP* _tcpConnection;
+
+        int _selectedRoomIndex = -1;
 };
