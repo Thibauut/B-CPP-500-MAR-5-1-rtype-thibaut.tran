@@ -33,7 +33,7 @@ class Parser {
 private:
     int findQuote(std::string data, int nbOccur);
     void parseAction(std::string data);
-    void callback(HandleSave &save, std::vector <RoomLobby> &_lobbys);
+    void callback(HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
 
     void login(HandleSave &save);
     void disconnect(HandleSave &save);
@@ -42,18 +42,20 @@ private:
     void createRoom(std::string player_uuid,
                     int nb_slots, std::string name,
                     HandleSave &save,
-                    std::vector <RoomLobby> &_lobbys);
-    void joinRoom(std::string player_uuid, std::string room_uuid);
-    void leaveRoom(std::string player_uuid, std::string room_uuid);
-    void deleteRoom(std::string player_uuid, std::string room_uuid);
-    void ready(std::string player_uuid, std::string room_uuid);
+                    std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void joinRoom(std::string player_uuid, std::string room_uuid, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void leaveRoom(std::string player_uuid, std::string room_uuid, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void deleteRoom(std::string player_uuid, std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void getRooms(std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void getRoomInfo(std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void ready(std::string player_uuid, std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
 
     ACTION _action;
     std::vector<std::string> _args;
     boost::asio::ip::tcp::socket &_socket;
 
 public:
-    Parser(Request request, HandleSave &save, std::vector <RoomLobby> &_lobbys) : _socket(request._socket) {
+    Parser(Request request, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys) : _socket(request._socket) {
         parseAction(request._data);
         callback(save, _lobbys);
     };

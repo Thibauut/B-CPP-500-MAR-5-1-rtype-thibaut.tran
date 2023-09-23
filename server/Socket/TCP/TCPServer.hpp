@@ -21,7 +21,7 @@ class TCPServer
 public:
   TCPServer(boost::asio::io_context& io_context);
   void print_all_client_request();
-  void getAllTcpRequest(HandleSave &save, std::vector <RoomLobby> &_lobbys);
+  void getAllTcpRequest(HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
 
 private:
   void start_accept();

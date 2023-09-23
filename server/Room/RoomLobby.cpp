@@ -14,28 +14,57 @@ RoomLobby::RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, 
     _nbSlots = nbSlots;
     _name = name;
     _uuid = uuid;
+    _nbReadyPlayers = 0;
+    _thread = std::thread(&RoomLobby::gameEntryPoint, this);
 }
 
 RoomLobby::~RoomLobby() {
+    if (_thread.joinable())
+        _thread.join();
 }
 void RoomLobby::startGame()
 {
-    try {
-        std::thread room_game(&RoomLobby::gameEntryPoint, this);
-        room_game.join();
-    } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
-    }
+    // try {
+    //     _thread = std::thread(&RoomLobby::gameEntryPoint, this);
+    // } catch (std::exception &e) {
+    //     std::cerr << e.what() << std::endl;
+    // }
 }
 
 void RoomLobby::gameEntryPoint()
 {
     std::cout << "Room " << _name << " started" << std::endl;
     while (true) {
-        std::cout << "Room " << _name << " running" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        if (_nbPlayers <= 0)
+            _thread.join();
+        std::cout << "Room " << _name << " is running" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     }
     std::cout << "Room " << _name << " stopped" << std::endl;
+}
+
+void RoomLobby::stopGame()
+{
+    _thread.join();
+}
+
+void RoomLobby::addReadyPlayer()
+{
+    _nbReadyPlayers++;
+}
+
+std::string RoomLobby::getInfo()
+{
+    std::string info = "\"" + _name + "\" \"" + std::to_string(_nbPlayers) + "/" + std::to_string(_nbSlots) + "\" \"" + _owner.getUsername() + "\"\n";
+    for (PlayerLobby player : _players) {
+        if (player.getUuid() != _owner.getUuid()) {
+            if (player.getUuid() != _players.back().getUuid())
+                info += "\"" + player.getUsername() + "\" \"" + std::to_string(player.getLevel()) + "\" ";
+            else
+                info += "\"" + player.getUsername() + "\" \"" + std::to_string(player.getLevel()) + "\"\n";
+        }
+    }
+    return info;
 }
 
 void RoomLobby::addPlayer(PlayerLobby player)

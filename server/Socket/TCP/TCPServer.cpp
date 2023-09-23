@@ -40,7 +40,7 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
         }
   }
 
-void TCPServer::getAllTcpRequest(HandleSave &save, std::vector <RoomLobby> &_lobbys) {
+void TCPServer::getAllTcpRequest(HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys) {
   for (TCPConnection::pointer &client : clients_) {
     requests_.splice(requests_.end(), client->requests());
   }

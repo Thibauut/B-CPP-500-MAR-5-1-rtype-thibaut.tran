@@ -4,7 +4,7 @@
             "high_score": 666,
             "level": 1000,
             "name": "Maori",
-            "online": false,
+            "online": true,
             "uuid": "El-Sheytano"
         },
         {
@@ -24,6 +24,12 @@
             "name": "test",
             "online": true,
             "uuid": "f49b039c-9a82-4c6a-9fe0-726c64c449ab"
+        },
+        {
+            "level": 1,
+            "name": "zzz",
+            "online": true,
+            "uuid": "e931b8f9-0c28-4326-8603-f67f92f78598"
         }
     ]
 }

@@ -31,7 +31,7 @@ class Server {
     private:
         TCPServer _menu;
         int _port;
-        std::vector <RoomLobby> _lobbys;
+        std::vector <std::shared_ptr<RoomLobby>> _lobbys;
         std::vector <PlayerLobby> _players;
         HandleSave _save;
 };

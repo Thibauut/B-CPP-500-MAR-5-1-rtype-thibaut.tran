@@ -63,10 +63,10 @@ void Server::createRoom(PlayerLobby owner, std::string name, int _nbSlots)
 
 void Server::addClientToRoom(int pos, PlayerLobby client)
 {
-    _lobbys.at(pos).addPlayer(client);
+    // _lobby.at(pos).addPlayer(client);
 }
 
 void Server::deleteRoom(int pos)
 {
-    _lobbys.erase(_lobbys.begin() + pos);
+    // _lobbys.erase(_lobbys.begin() + pos);
 }

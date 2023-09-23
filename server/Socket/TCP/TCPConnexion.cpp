@@ -11,7 +11,7 @@ TCPConnection::TCPConnection(boost::asio::io_context& io_context)
 
 void TCPConnection::start()
 {
-  message_ = "coucou du server\n";
+  message_ = "Welcome to Hess-Type server !\n";
 
   boost::asio::async_write(socket_, boost::asio::buffer(message_),
       [shared_this = shared_from_this()](const boost::system::error_code& error,
