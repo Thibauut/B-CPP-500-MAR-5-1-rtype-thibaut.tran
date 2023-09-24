@@ -1,35 +1,37 @@
 {
     "players": [
         {
-            "high_score": 666,
-            "level": 1000,
+            "high_score": 0,
+            "level": 667,
             "name": "Maori",
-            "online": true,
+            "online": false,
             "uuid": "El-Sheytano"
         },
         {
-            "level": 9.999999999999999e+22,
+            "high_score": 0,
+            "level": 10,
             "name": "Dieu Yanis",
             "online": false,
             "uuid": "I-AM-GOD"
         },
         {
+            "high_score": 0,
             "level": 1,
             "name": "letibz",
-            "online": false,
+            "online": true,
             "uuid": "00da5e85-ec28-4d8b-9ec3-775f39e62bfd"
+        },
+        {
+            "level": 1,
+            "name": "mao",
+            "online": true,
+            "uuid": "8e4d0507-9424-4084-b85f-c2a7aeb6f920"
         },
         {
             "level": 1,
             "name": "test",
             "online": true,
-            "uuid": "f49b039c-9a82-4c6a-9fe0-726c64c449ab"
-        },
-        {
-            "level": 1,
-            "name": "zzz",
-            "online": true,
-            "uuid": "e931b8f9-0c28-4326-8603-f67f92f78598"
+            "uuid": "45a35edf-1a52-488d-b449-a094341243e5"
         }
     ]
 }

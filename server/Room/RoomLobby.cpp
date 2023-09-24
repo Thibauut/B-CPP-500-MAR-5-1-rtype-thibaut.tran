@@ -6,6 +6,9 @@
 */
 
 #include "RoomLobby.hpp"
+#include <atomic>
+
+std::atomic<bool> shouldStop(false);
 
 RoomLobby::RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, std::string uuid) : _owner(owner)
 {
@@ -34,9 +37,7 @@ void RoomLobby::startGame()
 void RoomLobby::gameEntryPoint()
 {
     std::cout << "Room " << _name << " started" << std::endl;
-    while (true) {
-        if (_nbPlayers <= 0)
-            _thread.join();
+    while (!shouldStop.load(std::memory_order_relaxed)) {
         std::cout << "Room " << _name << " is running" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     }
@@ -45,7 +46,7 @@ void RoomLobby::gameEntryPoint()
 
 void RoomLobby::stopGame()
 {
-    _thread.join();
+    shouldStop.store(true, std::memory_order_relaxed);
 }
 
 void RoomLobby::addReadyPlayer()
@@ -55,15 +56,13 @@ void RoomLobby::addReadyPlayer()
 
 std::string RoomLobby::getInfo()
 {
-    std::string info = "\"" + _name + "\" \"" + std::to_string(_nbPlayers) + "/" + std::to_string(_nbSlots) + "\" \"" + _owner.getUsername() + "\"\n";
+    std::string info = "\"" + _name + "\" \"" + std::to_string(_nbPlayers) + "/" + std::to_string(_nbSlots) + "\" \"" + _owner.getUsername() + "\" \"" + std::to_string(_owner.getLevel()) + "\"";
     for (PlayerLobby player : _players) {
         if (player.getUuid() != _owner.getUuid()) {
-            if (player.getUuid() != _players.back().getUuid())
-                info += "\"" + player.getUsername() + "\" \"" + std::to_string(player.getLevel()) + "\" ";
-            else
-                info += "\"" + player.getUsername() + "\" \"" + std::to_string(player.getLevel()) + "\"\n";
+                info += " \"" + player.getUsername() + "\" \"" + std::to_string(player.getLevel()) + "\"";
         }
     }
+    info += "\n";
     return info;
 }
 

@@ -199,28 +199,39 @@ void Parser::joinRoom(std::string player_uuid, std::string room_uuid, HandleSave
             break;
         }
     }
+     std::string response = "JOIN_ROOM KO\n";
+        std::cout << "-> " << response;
+        _socket.async_write_some(boost::asio::buffer(response),
+            [sharedThis = this](const boost::system::error_code& error,
+                size_t bytes_transferred) {});
 }
 
 void Parser::leaveRoom(std::string player_uuid, std::string room_uuid, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys) {
+    int i  = 0;
     for (std::shared_ptr<RoomLobby> room : _lobbys) {
-        if (room->getUuid() == room_uuid) {
-            room->removePlayer(player_uuid);
+        if (room.get()->getUuid() == room_uuid) {
+            room.get()->removePlayer(player_uuid);
+            if (room.get()->getNbPlayers() <= 0) {
+                room.get()->stopGame();
+                _lobbys.erase(_lobbys.begin() + i);
+            }
             std::string response = "LEAVE_ROOM OK\n";
             _socket.async_write_some(boost::asio::buffer(response),
                 [responseMessage = response](const boost::system::error_code& error,
                     size_t bytes_transferred) {
-                            std::cout << responseMessage << std::endl;
+                            std::cout << "-> " << responseMessage;
                     });
             return;
         }
+        i++;
     }
 }
 
 void Parser::deleteRoom(std::string player_uuid, std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys) {
     for (int i = 0; i < _lobbys.size(); i++) {
-        if (_lobbys[i]->getUuid() == room_uuid) {
-            if (_lobbys[i]->getOwner().getUuid() == player_uuid) {
-                _lobbys[i]->stopGame();
+        if (_lobbys.at(i).get()->getUuid() == room_uuid) {
+            if (_lobbys.at(i).get()->getOwner().getUuid() == player_uuid) {
+                _lobbys.at(i).get()->stopGame();
                 _lobbys.erase(_lobbys.begin() + i);
                 std::string response = "DELETE_ROOM OK\n";
                 _socket.async_write_some(boost::asio::buffer(response),
@@ -266,9 +277,9 @@ void Parser::getRooms(std::vector<std::shared_ptr<RoomLobby>> &_lobbys) {
     std::string response = "GET_ROOMS ";
     for (std::shared_ptr<RoomLobby> room : _lobbys) {
         if (room != _lobbys.back())
-            response += "\"" + room.get()->getName() + "\" \"" + std::to_string(room.get()->getNbPlayers())  + "/" + std::to_string(room.get()->getNbSlots()) + "\" ";
+            response += "\"" + room.get()->getName() + "\" \"" + std::to_string(room.get()->getNbPlayers())  + "/" + std::to_string(room.get()->getNbSlots()) + "\" \"" + room.get()->getUuid() + "\" ";
         else
-            response += "\"" + room.get()->getName() + "\" \"" + std::to_string(room.get()->getNbPlayers())  + "/" + std::to_string(room.get()->getNbSlots()) + "\"";
+            response += "\"" + room.get()->getName() + "\" \"" + std::to_string(room.get()->getNbPlayers())  + "/" + std::to_string(room.get()->getNbSlots()) + "\" \"" + room.get()->getUuid() + "\"";
     }
     response += "\n";
     std::cout << "-> " << response;
