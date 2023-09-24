@@ -8,11 +8,10 @@
 #pragma once
 #include <memory>
 #include <list>
-
-#include "../Interfaces/IComponent.hpp"
+#include "../Interfaces/IComponent/IComponent.hpp"
 
 namespace GameEngine {
-
+    template <class T>
     class Entity {
         public:
 
@@ -28,7 +27,7 @@ namespace GameEngine {
             }
 
             template <class T>
-            std::shared_ptr<T> addComponent(std::shared_ptr<IComponent> component) {
+            std::shared_ptr<IComponent> addComponent(std::shared_ptr<T> component) {
                 auto desiredComponent = std::dynamic_pointer_cast<T>(component);
                 if (desiredComponent) {
                     _entityContent.push_back(desiredComponent);

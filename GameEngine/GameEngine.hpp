@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include "Interfaces/ISystem.hpp"
-#include "Interfaces/IComponent.hpp"
+#include "Interfaces//ISystem/ISystem.hpp"
+#include "Interfaces//IComponent/IComponent.hpp"
 #include "Entity/Entity.hpp"
-#include "Entity/EntityManager.hpp"
+#include "Entity//EntityManager/EntityManager.hpp"
 
 namespace GameEngine {
 
@@ -25,7 +25,7 @@ namespace GameEngine {
 
         void run() {
             while (isRunning) {
-              
+
             }
         }
 
