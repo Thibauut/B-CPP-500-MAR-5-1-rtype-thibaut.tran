@@ -30,9 +30,14 @@ class Menu {
         struct Room {
             sf::RectangleShape room;
             sf::Text roomText;
-            sf::Text leaveText;
             sf::Text nbPlayers;
             std::string roomuuid;
+        };
+
+        struct Player {
+            sf::RectangleShape room;
+            sf::Text playerName;
+            sf::Text playerLevel;
         };
 
         Menu();
@@ -57,6 +62,7 @@ class Menu {
         void AnimButtonEvents();
         void Draw();
         void UpdateRoom();
+        void UpdatePlayerList();
 
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
@@ -125,6 +131,7 @@ class Menu {
 
         sf::RectangleShape _roomMenu;
         std::vector<Room *> _roomList;
+        std::vector<Player *> _playerList;
         int _roomIndex = 1;
         int _roomSizeIndex = 45;
 

@@ -57,11 +57,31 @@ void Menu::UpdateRoom() {
     }
 }
 
+void Menu::UpdatePlayerList() {
+    _playerList.clear();
+    _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
+    if (!_tcpConnection->players.empty()) {
+        for (auto &playertcp : _tcpConnection->players) {
+            Player *player = new Player();
+            sfmlFunc.CreateButton(player->room, player->playerName, _font, playertcp->name, sf::Vector2f(1000, 40), sf::Vector2f(400, 460 + (_roomSizeIndex * _playerList.size())), 150);
+            player->playerLevel.setFont(_font);
+            player->playerLevel.setString(playertcp->level);
+            player->playerLevel.setCharacterSize(24);
+            player->playerLevel.setFillColor(sf::Color::White);
+            player->playerLevel.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _playerList.size())) + sf::Vector2f(40, 10));
+            _playerList.push_back(player);
+        }
+    }
+}
+
 void Menu::HandleEvents() {
     while (_window->pollEvent(_event)) {
-        if (_event.type == sf::Event::Closed)
+        if (_event.type == sf::Event::Closed) {
+            if(_selectedRoom)
+                _tcpConnection->LeaveRoom(_selectedRoom->roomuuid);
+            _tcpConnection->Disconnect();
             _window->close();
-
+        }
         if (_event.type == sf::Event::MouseButtonPressed) {
             sf::Vector2f mousePos = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
             sf::FloatRect textBounds = _textField.getGlobalBounds();
@@ -233,17 +253,17 @@ void Menu::HandleEvents() {
 
                     _selectedRoom = room;
                     UpdateRoom();
-                    _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
+                    UpdatePlayerList();
                 }
             }
 
-            if (!_roomList.empty() && _isConnected && !_isCreatingRoom) {
+            if (!_roomList.empty() && _isConnected && !_isCreatingRoom && !_selectedRoom) {
                 UpdateRoom();
                 for (auto &room : _roomList) {
                     if (room->room.getGlobalBounds().contains(mousePos)) {
                         _tcpConnection->JoinRoom(room->roomuuid, Player_uuid_);
                         _selectedRoom = room;
-                        _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
+                        UpdatePlayerList();
                     }
                 }
             }
@@ -307,6 +327,7 @@ void Menu::Draw() {
         _window->draw(_buttonText);
     }
     if (_isConnected && !_selectedRoom && !_isCreatingRoom) {
+        UpdateRoom();
         _window->draw(_roomMenu);
         _window->draw(_buttonCreate);
         _window->draw(_buttonCreateText);
@@ -339,11 +360,18 @@ void Menu::Draw() {
         _window->draw(_buttonCancelText);
     }
     if (_isConnected && _selectedRoom && !_isCreatingRoom) {
+        UpdatePlayerList();
         _window->draw(_roomMenu);
         _window->draw(_buttonLeave);
         _window->draw(_buttonLeaveText);
         _window->draw(_buttonReady);
         _window->draw(_buttonReadyText);
+
+        for (auto &player : _playerList) {
+            _window->draw(player->room);
+            _window->draw(player->playerName);
+            _window->draw(player->playerLevel);
+        }
     }
 
     _window->display();

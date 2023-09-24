@@ -135,6 +135,7 @@ void ClientConnectionTCP::GetPlayerInfo()
 
 void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
 {
+    players.clear();
     setMessage("GET_ROOM_INFO \"" + roomuuid + "\"\n");
     sendMessage(message_);
     message_ = "";
@@ -164,10 +165,6 @@ void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
         pos = levelEnd + 1;
     }
     players.erase(players.begin());
-    for (auto &player : players) {
-        std::cout << "Name : " << player->name << std::endl;
-        std::cout << "Level : " << player->level << std::endl;
-    }
 }
 
 void ClientConnectionTCP::GetRoomList()
