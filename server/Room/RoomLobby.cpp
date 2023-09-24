@@ -49,9 +49,12 @@ void RoomLobby::stopGame()
     shouldStop.store(true, std::memory_order_relaxed);
 }
 
-void RoomLobby::addReadyPlayer()
+bool RoomLobby::addReadyPlayer()
 {
     _nbReadyPlayers++;
+    if (_nbReadyPlayers == _nbSlots)
+        return (true);
+    return (false);
 }
 
 std::string RoomLobby::getInfo()
@@ -66,10 +69,13 @@ std::string RoomLobby::getInfo()
     return info;
 }
 
-void RoomLobby::addPlayer(PlayerLobby player)
+bool RoomLobby::addPlayer(PlayerLobby player)
 {
+    if (_nbPlayers == _nbSlots)
+        return (false);
     _players.push_back(player);
     _nbPlayers++;
+    return (true);
 }
 
 void RoomLobby::removePlayer(std::string uid)

@@ -19,10 +19,10 @@ class RoomLobby {
 
         void startGame();
         void stopGame();
-        void addPlayer(PlayerLobby player);
+        bool addPlayer(PlayerLobby player);
         void removePlayer(std::string uid);
         std::string getInfo();
-        void addReadyPlayer();
+        bool addReadyPlayer();
 
         std::string getName() const { return _name; }
         unsigned int getNbSlots() const { return _nbSlots; }
