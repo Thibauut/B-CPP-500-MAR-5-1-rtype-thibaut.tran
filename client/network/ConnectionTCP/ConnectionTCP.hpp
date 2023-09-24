@@ -46,7 +46,7 @@ class ClientConnectionTCP : public ThreadHandler {
         void Disconnect();
         void GetPlayerInfo();
         void CreateRoom(std::string roomName, std::string roomSize);
-        void JoinRoom(std::string roomuuid , std::string playeruuid);
+        std::string JoinRoom(std::string roomuuid , std::string playeruuid);
         void Ready(std::string roomuuid, std::string playeruuid);
         void LeaveRoom(std::string roomuuid);
         void DeleteRoom(std::string roomuuid);

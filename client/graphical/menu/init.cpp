@@ -5,7 +5,7 @@
 ** init.cpp
 */
 
-#include "../include/menu.hpp"
+#include "../../include/menu.hpp"
 
 void Menu::Init() {
     _window = new sf::RenderWindow (sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), sf::String(MENU_TITLE), sf::Style::Default);
@@ -54,11 +54,11 @@ void Menu::InitButton() {
     sfmlFunc.CreateButton(_buttonCreate, _buttonCreateText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(1150, 800), 57);
     sfmlFunc.CreateButton(_buttonDisconnect, _buttonDisconnectText, _font, "Disconnect", sf::Vector2f(200, 50), sf::Vector2f(450, 800), 25);
 
-    sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(980, 800), 57);
-    sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(620, 800), 57);
+    sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(1150, 800), 57);
+    sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(450, 800), 57);
 
-    sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(620, 800), 57);
-    sfmlFunc.CreateButton(_buttonCancel, _buttonCancelText, _font, "Cancel", sf::Vector2f(200, 50), sf::Vector2f(980, 800), 57);
+    sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(670, 800), 57);
+    sfmlFunc.CreateButton(_buttonCancel, _buttonCancelText, _font, "Cancel", sf::Vector2f(200, 50), sf::Vector2f(930, 800), 57);
 }
 
 void Menu::InitCreateRoom() {

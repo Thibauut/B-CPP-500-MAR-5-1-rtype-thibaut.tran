@@ -5,7 +5,7 @@
 ** anim.cpp
 */
 
-#include "../include/menu.hpp"
+#include "../../include/menu.hpp"
 
 void Menu::AnimateBackground()
 {

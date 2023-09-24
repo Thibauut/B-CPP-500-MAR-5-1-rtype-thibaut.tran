@@ -6,9 +6,13 @@
 */
 
 #include <iostream>
-#include "graphical/init.cpp"
+#include "graphical/menu/init.cpp"
 #include "graphical/menu.cpp"
-#include "graphical/anim.cpp"
+#include "graphical/menu/anim.cpp"
+#include "graphical/menu/handle_events.cpp"
+#include "graphical/menu/handle_tcp_events.cpp"
+#include "graphical/menu/tcp_func.cpp"
+
 
 
 #include "network/ConnectionTCP/ConnectionTCP.hpp"
@@ -23,7 +27,7 @@ int main(int ac, char **av)
 
     // TEST CLIENT WHITOUT GRAPHIC
     // ClientConnectionTCP *client = new ClientConnectionTCP("test", "192.168.0.22", "12345");
-    // // // client->start();
+    // // client->start();
     // client->Login();
     // client->CreateRoom("test 1", "2");
 

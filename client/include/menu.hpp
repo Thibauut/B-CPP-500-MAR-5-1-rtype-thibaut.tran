@@ -17,8 +17,8 @@
 #include <memory>
 #include <map>
 #include <functional>
-#include "../graphical/utils/sfml_func.cpp"
 #include "../network/ConnectionTCP/ConnectionTCP.hpp"
+#include "../graphical/game.cpp"
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
@@ -48,15 +48,15 @@ class Menu {
         void InitSprites();
         void InitText();
         void InitButton();
-
         void InitCreateRoom();
-        void InitRoom();
 
         void Loop();
 
         void HandleEvents();
-        void HandleEventsRoom();
-        void HandleEventsCreateRoom();
+        void HandleEventsFocus();
+        void HandleEventText();
+
+        void HandleTcpEvents();
 
         void AnimateBackground();
         void AnimButtonEvents();
@@ -168,4 +168,6 @@ class Menu {
         ClientConnectionTCP* _tcpConnection;
 
         int _selectedRoomIndex = -1;
+
+        Game *_game;
 };

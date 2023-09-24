@@ -771,8 +771,8 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/_types/_nl_item.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/cstdarg \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/init.cpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/../include/menu.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/init.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/menu.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Audio.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/System.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Config.hpp \
@@ -882,9 +882,7 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Sprite.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Text.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/VertexBuffer.hpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/../include/../graphical/utils/sfml_func.cpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/../include/../graphical/utils/sfml_func.hpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/../include/../network/ConnectionTCP/ConnectionTCP.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../network/ConnectionTCP/ConnectionTCP.hpp \
   /usr/local/include/boost/asio.hpp \
   /usr/local/include/boost/asio/any_completion_executor.hpp \
   /usr/local/include/boost/asio/detail/config.hpp \
@@ -1914,7 +1912,7 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/condition_variable \
   /usr/local/include/boost/array.hpp \
   /usr/local/include/boost/core/swap.hpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/../include/../network/ConnectionTCP/../ThreadHandler/ThreadHandler.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../network/ConnectionTCP/../ThreadHandler/ThreadHandler.hpp \
   /usr/local/include/boost/bind.hpp \
   /usr/local/include/boost/bind/bind.hpp \
   /usr/local/include/boost/bind/detail/requires_cxx11.hpp \
@@ -1933,8 +1931,16 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: \
   /usr/local/include/boost/bind/bind_mf_cc.hpp \
   /usr/local/include/boost/bind/bind_mf2_cc.hpp \
   /usr/local/include/boost/bind/placeholders.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../graphical/game.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../graphical/../include/game.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../graphical/utils/sfml_func.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../graphical/utils/sfml_func.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu.cpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/anim.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/../../include/../graphical/../include/menu.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/anim.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/handle_events.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/handle_tcp_events.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/tcp_func.cpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/../ThreadHandler/ThreadHandler.hpp \

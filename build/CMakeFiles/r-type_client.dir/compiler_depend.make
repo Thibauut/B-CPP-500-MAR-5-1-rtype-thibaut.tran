@@ -773,7 +773,7 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: /Users/thibaut/Documents/Epitech
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/_types/_nl_item.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/cstdarg \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/init.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/init.cpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/include/menu.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Audio.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/System.hpp \
@@ -884,8 +884,6 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: /Users/thibaut/Documents/Epitech
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Sprite.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Text.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/VertexBuffer.hpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.cpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.hpp \
   /usr/local/include/boost/asio.hpp \
   /usr/local/include/boost/asio/any_completion_executor.hpp \
@@ -1935,8 +1933,16 @@ CMakeFiles/r-type_client.dir/client/main.cpp.o: /Users/thibaut/Documents/Epitech
   /usr/local/include/boost/bind/bind_mf_cc.hpp \
   /usr/local/include/boost/bind/bind_mf2_cc.hpp \
   /usr/local/include/boost/bind/placeholders.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/game.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/include/game.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu.cpp \
-  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/anim.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/include/menu.hpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/anim.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/handle_events.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/handle_tcp_events.cpp \
+  /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/tcp_func.cpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp \
   /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.hpp \
@@ -4546,7 +4552,17 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/OpenUDP/OpenUDP.hpp:
 
-/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/anim.cpp:
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/tcp_func.cpp:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/handle_tcp_events.cpp:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/handle_events.cpp:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/anim.cpp:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.hpp:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/include/game.hpp:
 
 /usr/local/include/boost/bind/bind_mf2_cc.hpp:
 
@@ -4952,6 +4968,18 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /usr/local/include/boost/asio/impl/buffered_read_stream.hpp:
 
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Shape.hpp:
+
+/usr/local/include/boost/asio/detail/buffered_stream_storage.hpp:
+
+/usr/local/include/boost/predef/compiler/tendra.h:
+
+/usr/local/include/boost/predef/architecture/superh.h:
+
+/usr/local/include/boost/asio/detail/date_time_fwd.hpp:
+
+/usr/local/include/boost/asio/detail/buffer_resize_guard.hpp:
+
 /usr/local/include/boost/predef/compiler/gcc.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/_types/_mach_port_t.h:
@@ -5111,6 +5139,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/ranges_for_each.h:
 
 /usr/local/include/boost/mpl/aux_/config/compiler.hpp:
+
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/menu/init.cpp:
 
 /usr/local/include/boost/mpl/aux_/include_preprocessed.hpp:
 
@@ -5714,10 +5744,6 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /usr/local/include/boost/asio/detail/signal_blocker.hpp:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/ranges_copy_n.h:
-
-/usr/local/include/boost/limits.hpp:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__type_traits/is_trivially_destructible.h:
 
 /usr/local/include/boost/asio/detail/limits.hpp:
@@ -5992,9 +6018,9 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /usr/local/include/boost/asio/execution/any_executor.hpp:
 
-/usr/local/include/boost/asio/impl/use_awaitable.hpp:
-
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.cpp:
+
+/usr/local/include/boost/asio/impl/use_awaitable.hpp:
 
 /usr/local/include/boost/asio/traits/connect_free.hpp:
 
@@ -6194,8 +6220,6 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.hpp:
 
-/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/utils/sfml_func.hpp:
-
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/VertexBuffer.hpp:
 
 /usr/local/include/boost/asio/detail/posix_mutex.hpp:
@@ -6245,10 +6269,6 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /usr/local/include/boost/asio/traits/submit_free.hpp:
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/RenderStates.hpp:
-
-/usr/local/include/boost/asio/detail/buffered_stream_storage.hpp:
-
-/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Shape.hpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/ranges_remove_copy.h:
 
@@ -6781,6 +6801,10 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__type_traits/type_identity.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/remove_copy_if.h:
+
+/usr/local/include/boost/limits.hpp:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/ranges_copy_n.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__algorithm/ranges_copy_if.h:
 
@@ -7594,14 +7618,6 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__tuple_dir/apply_cv.h:
 
-/usr/local/include/boost/predef/compiler/tendra.h:
-
-/usr/local/include/boost/predef/architecture/superh.h:
-
-/usr/local/include/boost/asio/detail/buffer_resize_guard.hpp:
-
-/usr/local/include/boost/asio/detail/date_time_fwd.hpp:
-
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/_types/_ssize_t.h:
 
 /usr/local/include/boost/asio/socket_base.hpp:
@@ -7636,6 +7652,8 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 
 /usr/local/include/boost/asio/detail/impl/reactive_socket_service_base.ipp:
 
+/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/game.cpp:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__type_traits/is_trivially_default_constructible.h:
 
 /usr/local/include/boost/date_time/posix_time/ptime.hpp:
@@ -7663,8 +7681,6 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__ranges/concepts.h:
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/libs/SFML/include/SFML/Graphics/Transform.hpp:
-
-/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/graphical/init.cpp:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/c++/v1/__concepts/semiregular.h:
 
