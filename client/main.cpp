@@ -25,7 +25,7 @@ int main(int ac, char **av)
     // ClientConnectionTCP *client = new ClientConnectionTCP("test", "192.168.0.22", "12345");
     // // // client->start();
     // client->Login();
-    // client->CreateRoom("test", "2");
+    // client->CreateRoom("test 1", "2");
 
     // client->GetRoomList();
     // // client->GetRoomInfo(client->infoRoomUuid_);

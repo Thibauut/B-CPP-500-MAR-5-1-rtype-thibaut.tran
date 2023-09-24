@@ -140,8 +140,34 @@ void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
     message_ = "";
     readMessage();
     std::string tmp = extractArguments(response_, "GET_ROOM_INFO ");
+    std::string delimiter = "\"";
+        size_t start = 0;
 
-    std::cout << "GetRoomInfo : " << tmp << std::endl;
+    std::istringstream stream(tmp);
+    size_t pos = 0;
+    while (pos < tmp.size()) {
+        size_t nameStart = tmp.find_first_not_of(' ', pos);
+        if (nameStart == std::string::npos) break;
+        size_t nameEnd = tmp.find('"', nameStart + 1);
+        if (nameEnd == std::string::npos) break;
+        std::string name = tmp.substr(nameStart + 1, nameEnd - nameStart - 1);
+        size_t levelStart = tmp.find_first_not_of(' ', nameEnd + 1);
+        if (levelStart == std::string::npos) break;
+        size_t levelEnd = tmp.find('"', levelStart + 1);
+        if (levelEnd == std::string::npos) break;
+        std::string slots = tmp.substr(levelStart + 1, levelEnd - levelStart - 1);
+
+        Player *player = new Player;
+        player->name = name;
+        player->level = slots;
+        players.push_back(player);
+        pos = levelEnd + 1;
+    }
+    players.erase(players.begin());
+    for (auto &player : players) {
+        std::cout << "Name : " << player->name << std::endl;
+        std::cout << "Level : " << player->level << std::endl;
+    }
 }
 
 void ClientConnectionTCP::GetRoomList()
@@ -154,20 +180,29 @@ void ClientConnectionTCP::GetRoomList()
     std::string tmp = extractArguments(response_, "GET_ROOMS ");
 
     std::istringstream stream(tmp);
-    while (stream >> token) {
-        if (token.front() == '"' && token.back() == '"')
-            token = token.substr(1, token.length() - 2);
-        Room *room = new Room();
-        room->name = token;
-        stream >> token;
-        if (token.front() == '"' && token.back() == '"')
-            token = token.substr(1, token.length() - 2);
-        room->slot = token;
+    size_t pos = 0;
+    while (pos < tmp.size()) {
+        size_t nameStart = tmp.find_first_not_of(' ', pos);
+        if (nameStart == std::string::npos) break;
+        size_t nameEnd = tmp.find('"', nameStart + 1);
+        if (nameEnd == std::string::npos) break;
+        std::string name = tmp.substr(nameStart + 1, nameEnd - nameStart - 1);
+        size_t slotsStart = tmp.find_first_not_of(' ', nameEnd + 1);
+        if (slotsStart == std::string::npos) break;
+        size_t slotsEnd = tmp.find('"', slotsStart + 1);
+        if (slotsEnd == std::string::npos) break;
+        std::string slots = tmp.substr(slotsStart + 1, slotsEnd - slotsStart - 1);
+        size_t uuid_start = tmp.find_first_not_of(' ', slotsEnd + 1);
+        if (uuid_start == std::string::npos) break;
+        size_t uuid_end = tmp.find('"', uuid_start + 1);
+        if (uuid_end == std::string::npos) break;
+        std::string uuid = tmp.substr(uuid_start + 1, uuid_end - uuid_start - 1);
+        Room *room = new Room;
+        room->name = name;
+        room->slot = slots;
+        room->uuid = uuid;
         rooms.push_back(room);
-    }
-    for (auto &room : rooms) {
-        std::cout << "Room name : " << room->name << std::endl;
-        std::cout << "Room slot : " << room->slot << std::endl;
+        pos = slotsEnd + 1;
     }
 }
 
@@ -186,18 +221,13 @@ void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
     std::cout << "CreateRoom: " << infoRoomUuid_ << std::endl;
 }
 
-void ClientConnectionTCP::JoinRoom(std::string roomuuid)
+void ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string playeruuid)
 {
-    setMessage("JOIN_ROOM \"" + roomuuid + "\"\n");
+    setMessage("JOIN_ROOM \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
     std::string tmp = extractArguments(response_, "JOIN_ROOM ");
-    if (response_ == "KO") {
-        std::cerr << "Error until room join" << std::endl;
-    } else {
-        std::cout << "ok" << std::endl;
-    }
 
     std::cout << "JoinRoom : " << tmp << std::endl;
 }

@@ -34,11 +34,12 @@ void Menu::Loop()
             //run game
         }
     }
-    _tcpConnection->Disconnect();
+    _tcpConnection->stop();
     delete _tcpConnection;
 }
 
 void Menu::UpdateRoom() {
+    _roomList.clear();
     _tcpConnection->GetRoomList();
     if (!_tcpConnection->rooms.empty()) {
         for (auto &roomtcp : _tcpConnection->rooms) {
@@ -49,12 +50,10 @@ void Menu::UpdateRoom() {
             room->nbPlayers.setCharacterSize(24);
             room->nbPlayers.setFillColor(sf::Color::White);
             room->nbPlayers.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())) + sf::Vector2f(40, 10));
-            room->roomuuid = _tcpConnection->infoRoomUuid_;
+            room->roomuuid = roomtcp->uuid;
             std::cout << room->roomuuid << std::endl;
             _roomList.push_back(room);
         }
-    } else {
-        _roomList.clear();
     }
 }
 
@@ -188,6 +187,7 @@ void Menu::HandleEvents() {
 
                 if (!_tcpConnection->uuid_.empty()) {
                     _isConnected = true;
+                    Player_uuid_ = _tcpConnection->uuid_;
                     UpdateRoom();
                     std::cout << "Connect" << std::endl;
                 }
@@ -214,7 +214,7 @@ void Menu::HandleEvents() {
                     Room *room = new Room();
                     sfmlFunc.CreateButton(room->room, room->roomText, _font, _text_name_input_room.getString().toAnsiString(), sf::Vector2f(1000, 40), sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())), 150);
                     room->nbPlayers.setFont(_font);
-                    room->nbPlayers.setString("0/" +  _text_slot_input_room.getString().toAnsiString()); // server response
+                    room->nbPlayers.setString("0/" +  _text_slot_input_room.getString().toAnsiString());
                     room->nbPlayers.setCharacterSize(24);
                     room->nbPlayers.setFillColor(sf::Color::White);
                     room->nbPlayers.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())) + sf::Vector2f(40, 10));
@@ -233,20 +233,17 @@ void Menu::HandleEvents() {
 
                     _selectedRoom = room;
                     UpdateRoom();
+                    _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
                 }
             }
 
             if (!_roomList.empty() && _isConnected && !_isCreatingRoom) {
+                UpdateRoom();
                 for (auto &room : _roomList) {
                     if (room->room.getGlobalBounds().contains(mousePos)) {
-                        _tcpConnection->JoinRoom(room->roomuuid);
-                        if (_tcpConnection->infoRoomUuid_ == "KO") {
-                            std::cerr << "Error until join room" << std::endl;
-                        } else {
-                            std::cout << "Join room" << std::endl;
-                            _selectedRoom = room;
-                            UpdateRoom();
-                        }
+                        _tcpConnection->JoinRoom(room->roomuuid, Player_uuid_);
+                        _selectedRoom = room;
+                        _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
                     }
                 }
             }

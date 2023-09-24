@@ -21,6 +21,12 @@ class ClientConnectionTCP : public ThreadHandler {
     struct Room {
         std::string name;
         std::string slot;
+        std::string uuid;
+    };
+
+    struct Player {
+        std::string name;
+        std::string level;
     };
 
     public:
@@ -40,7 +46,7 @@ class ClientConnectionTCP : public ThreadHandler {
         void Disconnect();
         void GetPlayerInfo();
         void CreateRoom(std::string roomName, std::string roomSize);
-        void JoinRoom(std::string roomuuid);
+        void JoinRoom(std::string roomuuid , std::string playeruuid);
         void Ready(std::string roomuuid, std::string playeruuid);
         void LeaveRoom(std::string roomuuid);
         void DeleteRoom(std::string roomuuid);
@@ -63,6 +69,7 @@ class ClientConnectionTCP : public ThreadHandler {
         std::string infoRoomUuid_;
 
         std::vector<Room *> rooms;
+        std::vector<Player *> players;
         std::string token;
 
 //         std::queue<std::string> sendMessageQueue_;

@@ -66,6 +66,7 @@ class Menu {
         sf::Clock _clock;
 
 
+        std::string Player_uuid_;
         sf::Sprite _title;
         sf::Texture _titleTexture;
         sf::Sprite _background;
