@@ -13,7 +13,7 @@ namespace GameEngine {
 
     class Health : public IComponent {
         public:
-            Health(int type, int id, int value) : _idComponent(id), _type(type), _hp(value)
+            Health(GameEngine::ListComp type, int id, int value) : _idComponent(id), _type(type), _hp(value)
             {}
             ~Health() = default;
 
@@ -32,14 +32,14 @@ namespace GameEngine {
                 return _hp;
             }
 
-            virtual int getType() {return _type;};
-            virtual void setType(const int type) {_type = type;};
+            virtual GameEngine::ListComp getType() {return _type;};
+            virtual void setType(const GameEngine::ListComp type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) {_idComponent = id;};
 
         protected:
             int _idComponent;
-            int _type;
+            GameEngine::ListComp _type;
 
         private:
             int _hp;

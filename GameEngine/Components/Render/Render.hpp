@@ -11,7 +11,7 @@
 namespace GameEngine {
 
     template <class T>
-    class Render : public AComponent {
+    class Render : public IComponent {
         public:
             Render() {}
             ~Render() = default;
@@ -20,14 +20,14 @@ namespace GameEngine {
                 std::cout << "Component : {render.set}" << std::endl;
             }
 
-            virtual int getType() {return _type;};
-            virtual void setType(const int type) {_type = type;};
+            virtual GameEngine::ListComp getType() {return _type;};
+            virtual void setType(const GameEngine::ListComp type) {_type = type;};
             virtual int getId() {return _id;};
             virtual void setId(const int id) {return id};
-        
+
         protected:
             int _idComponent;
-            int _type;
+            GameEngine::ListComp _type;
 
         private:
             std::string _pathTexture;

@@ -12,7 +12,7 @@ namespace GameEngine {
 
     class AI : public IComponent {
         public:
-            AI(int type, int id) : _idComponent(id), _type(type), _activate(false) {}
+            AI(GameEngine::ListComp type, int id) : _idComponent(id), _type(type), _activate(false) {}
             ~AI() = default;
 
             void setAIActive(bool activate) {
@@ -25,17 +25,17 @@ namespace GameEngine {
                 return _activate;
             }
 
-            virtual int getType() {return _type;};
-            virtual void setType(const int type) {_type = type;};
+            virtual GameEngine::ListComp getType() {return _type;};
+            virtual void setType(const GameEngine::ListComp type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) {_idComponent = id;};
 
         protected:
             int _idComponent;
-            int _type;
+            GameEngine::ListComp _type;
 
         private:
             bool _activate;
-            bool isAI_;
+            // bool isAI_;
     };
 }

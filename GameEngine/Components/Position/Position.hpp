@@ -11,9 +11,9 @@
 
 namespace GameEngine {
 
-    class Position : public AComponent {
+    class Position : public IComponent {
         public:
-            Position(int type, int id, int x, int y) : AComponent(id), _idComponent(id), _type(type), _xPos(x), _yPos(y) {}
+            Position(GameEngine::ListComp type, int id, int x, int y) : _idComponent(id), _type(type), _xPos(x), _yPos(y) {}
             ~Position() = default;
 
             void setPostion(int xPos, int yPos) {
@@ -25,14 +25,14 @@ namespace GameEngine {
                 return std::make_pair(_xPos, _yPos);
             }
 
-            virtual int getType() {return _type;};
-            virtual void setType(const int type) {_type = type;};
+            virtual GameEngine::ListComp getType() {return _type;};
+            virtual void setType(const GameEngine::ListComp type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) {_idComponent = id;};
 
         protected:
             int _idComponent;
-            int _type;
+            GameEngine::ListComp _type;
 
         private:
             int _xPos;

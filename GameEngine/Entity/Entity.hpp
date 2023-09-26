@@ -12,6 +12,10 @@
 
 using namespace GameEngine;
 
+enum ENTITY {
+    
+};
+
 namespace GameEngine {
     class Entity {
         public:

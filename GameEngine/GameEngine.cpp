@@ -10,11 +10,11 @@ int main() {
 
 
     // Create components
-    std::shared_ptr<Health> healthComponent = std::make_shared<Health>(1, 3, 100);
-    std::shared_ptr<Position> positionComponent = std::make_shared<Position>(2, 4, 1920, 1080);
-    std::shared_ptr<Health> healthComponentMob = std::make_shared<Health>(1, 3, 100);
-    std::shared_ptr<Position> positionComponentMob = std::make_shared<Position>(2, 4, 1920, 1080);
-    std::shared_ptr<AI> aiComponentMob = std::make_shared<AI>(1, 5);
+    std::shared_ptr<Health> healthComponent = std::make_shared<Health>(ListComp::HEALTH, 3, 100);
+    std::shared_ptr<Position> positionComponent = std::make_shared<Position>(ListComp::POSITION, 4, 1920, 1080);
+    std::shared_ptr<Health> healthComponentMob = std::make_shared<Health>(ListComp::HEALTH, 3, 100);
+    std::shared_ptr<Position> positionComponentMob = std::make_shared<Position>(ListComp::POSITION, 4, 1920, 1080);
+    std::shared_ptr<AI> aiComponentMob = std::make_shared<AI>(ListComp::AIC, 1);
 
 
     // Add components to player
