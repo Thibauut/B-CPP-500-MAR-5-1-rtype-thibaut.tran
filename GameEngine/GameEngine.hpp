@@ -18,7 +18,7 @@ namespace GameEngine {
 
     class Engine {
         public:
-            Engine() {_isRunning = false;}
+            Engine(EntityManager manager) : _manager(manager) {_isRunning = false;}
             ~Engine() {}
 
             void init() {
@@ -46,9 +46,9 @@ namespace GameEngine {
                 _systems.remove(system);
             }
 
+            EntityManager _manager;
         private:
             bool _isRunning;
-            EntityManager _entityManager;
             std::list<std::shared_ptr<ASystem>> _systems;
     };
 

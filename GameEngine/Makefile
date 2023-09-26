@@ -24,3 +24,6 @@ $(TARGET): $(OBJECTS)
 # Nettoyage des fichiers objets et de l'exécutable
 clean:
 	rm -f $(OBJECTS) $(TARGET)
+
+# Règle pour clean et recompile
+re: clean $(TARGET)

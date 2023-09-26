@@ -11,7 +11,7 @@
 namespace GameEngine {
 
     template <class T>
-    class Strenght : public AComponenent {
+    class Strenght : public AComponent {
         public:
             Strenght() {}
             ~Strenght() = default;
@@ -29,7 +29,9 @@ namespace GameEngine {
                 std::cout << "Strenght getter : return =" << _damage << std::endl;
                 return _damage;
             }
-
+        protected:
+            int _idComponent;
+            int _type;
 
         private:
             int _damage;

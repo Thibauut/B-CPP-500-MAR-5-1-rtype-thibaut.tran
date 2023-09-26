@@ -16,11 +16,15 @@ namespace GameEngine {
             EntityManager() {}
             ~EntityManager() {}
 
-            void addEntity(Entity entity) {
-                std::shared_ptr<Entity> entityPtr = std::make_shared<Entity>(entity);
+            std::shared_ptr<Entity>& createEntity() {
+                _entityPtr = std::make_shared<Entity>(1);
+                return _entityPtr;
+            }
 
-                _listEntity.push_back(entityPtr);
-
+            std::shared_ptr<Entity>& addEntity(Entity entity) {
+                _entityPtr = std::make_shared<Entity>(entity);
+                _listEntity.push_back(_entityPtr);
+                return _entityPtr;
             }
 
             std::shared_ptr<Entity>& getEntity(unsigned int id) {
@@ -30,6 +34,10 @@ namespace GameEngine {
                     }
                 }
                 throw std::runtime_error("Entity not found");
+            }
+
+            std::list<std::shared_ptr<Entity>>& getEntities() {
+                return _listEntity;
             }
 
             void deleteEntity(unsigned int id) {
@@ -43,6 +51,7 @@ namespace GameEngine {
 
         private:
             std::list<std::shared_ptr<Entity>> _listEntity;
+            std::shared_ptr<Entity> _entityPtr;
     };
 
 }

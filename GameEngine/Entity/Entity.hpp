@@ -25,25 +25,26 @@ namespace GameEngine {
             }
 
             template <typename T>
-            void addComponent(std::shared_ptr<AComponent> component) {
+            void addComponent(T &component) {
                 _entityContent.push_back(component);
             }
 
-            void deleteComponent(std::shared_ptr<AComponent> component) {
+            template <typename T>
+            void deleteComponent(std::shared_ptr<T> component) {
                 _entityContent.remove(component);
             }
 
             template <typename T>
-            std::shared_ptr<AComponent> getComponentByType(int type) {
+            std::shared_ptr<T> getComponentByType(int type) {
                 for (auto &component : _entityContent) {
-                    if (component->getType() == type)
-                        return component;
+                    if (component.get()->getType() == type)
+                        return std::dynamic_pointer_cast<T>(component);
                 }
                 return nullptr;
             }
 
             template <typename T>
-            std::shared_ptr<AComponent> getComponentById(int id) {
+            std::shared_ptr<T> getComponentById(int id) {
                 for (auto &component : _entityContent) {
                     if (component->getId() == id)
                         return component;
@@ -52,12 +53,12 @@ namespace GameEngine {
             }
 
             template <typename T>
-            std::list<std::shared_ptr<AComponent>> &getComponents() {
+            std::list<std::shared_ptr<T>> &getComponents() {
                 return _entityContent;
             }
 
         private:
-            std::list<std::shared_ptr<AComponent>> _entityContent;
+            std::list<std::shared_ptr<IComponent>> _entityContent;
             unsigned int _id;
 
     };
