@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "../ASystem.hpp"
+#include "../ASystem/ASystem.hpp"
 
 
 namespace GameEngine {
@@ -18,7 +18,7 @@ namespace GameEngine {
             bool isAI() {};
 
             template <class T>
-            virtual void run() override {
+            virtual void update() override {
                 // Logique AI (à implémenter)
                 if (!isRunning) {
                     return;
@@ -39,7 +39,7 @@ namespace GameEngine {
 
         private:
             bool isRunning;
-            std::list<std::shared_ptr<Entity>> &EntityManager_;
+            std::list<std::shared_ptr<Entity>> &_entities;
     };
 
 }

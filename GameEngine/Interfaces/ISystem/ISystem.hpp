@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "../../Entity/EntityManager/EntityManager.hpp"
-
 namespace GameEngine {
 
     class ISystem {

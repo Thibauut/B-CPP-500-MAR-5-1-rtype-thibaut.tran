@@ -10,15 +10,10 @@
 
 namespace GameEngine {
 
-    template <class T>
-    class AI : public AComponenent {
+    class AI : public IComponent {
         public:
-            AI() : _activate(false) {}
+            AI(int type, int id) : _idComponent(id), _type(type), _activate(false) {}
             ~AI() = default;
-
-            void setComponent() {
-                std::cout << "Component : {ai.set}" << std::endl;
-            }
 
             void setAIActive(bool activate) {
                 _activate = activate;
@@ -30,6 +25,14 @@ namespace GameEngine {
                 return _activate;
             }
 
+            virtual int getType() {return _type;};
+            virtual void setType(const int type) {_type = type;};
+            virtual int getId() {return _idComponent;};
+            virtual void setId(const int id) {_idComponent = id;};
+
+        protected:
+            int _idComponent;
+            int _type;
 
         private:
             bool _activate;
