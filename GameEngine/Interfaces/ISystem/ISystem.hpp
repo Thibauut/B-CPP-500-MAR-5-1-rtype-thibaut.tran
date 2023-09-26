@@ -6,10 +6,8 @@
 */
 
 #pragma once
-#include "../../Entity/Entity.hpp"
-#include "../Entity/EntityManager/EntityManager.hpp"
 
-#include "IComponent.hpp"
+#include "../../Entity/EntityManager/EntityManager.hpp"
 
 namespace GameEngine {
 
@@ -17,7 +15,7 @@ namespace GameEngine {
         public:
             virtual ~ISystem() = default;
 
-            virtual void run() = 0;
+            virtual void update() = 0;
 
     };
 }

@@ -29,21 +29,17 @@ namespace GameEngine {
                         return entityPtr;
                     }
                 }
-                static std::shared_ptr<Entity> nullEntity;
-                return nullEntity;
+                throw std::runtime_error("Entity not found");
             }
 
-            void killEntity(unsigned int id) {
-                auto it = _listEntity.begin();
-                while (it != _listEntity.end()) {
-                    if ((*it)->getId() == id) {
-                        it = _listEntity.erase(it);
-                    } else {
-                        ++it;
+            void deleteEntity(unsigned int id) {
+                for (auto& entityPtr : _listEntity) {
+                    if (entityPtr->getId() == id) {
+                        _listEntity.remove(entityPtr);
+                        return;
                     }
                 }
             }
-
 
         private:
             std::list<std::shared_ptr<Entity>> _listEntity;

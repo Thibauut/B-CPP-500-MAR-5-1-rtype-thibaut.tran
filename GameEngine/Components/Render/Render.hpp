@@ -20,6 +20,11 @@ namespace GameEngine {
                 std::cout << "Component : {render.set}" << std::endl;
             }
 
+            virtual int getType() {return _type;};
+            virtual void setType(const int type) {_type = type;};
+            virtual int getId() {return _id;};
+            virtual void setId(const int id) {return id};
+
         private:
             std::string _pathTexture;
             int _width;

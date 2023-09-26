@@ -8,14 +8,22 @@
 #pragma once
 
 namespace GameEngine {
+
+    // enum ListComp {
+    //     RENDER,
+    //     POSITION,
+    //     LIFE,
+    //     AI,
+    // };
+
     class IComponent {
         public:
             virtual ~IComponent() = default;
 
-            virtual void update() = 0;
+            virtual int getType() = 0;
+            virtual void setType(const int type) = 0;
+            virtual int getId() = 0;
+            virtual void setId(const int id) = 0;
 
-            virtual void setComponent() = 0;
-            virtual void getComponent() = 0;
-            virtual const unsigned int getId() = 0;
     };
 }

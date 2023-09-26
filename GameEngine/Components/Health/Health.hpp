@@ -14,11 +14,15 @@ namespace GameEngine {
     template <class T>
     class Health : public AComponenent {
         public:
-            Health() : _hp(100) {}
+            Health(int type, int id, int value) : _hp(value), _type(type), _idComponent(id) {}
             ~Health() = default;
 
-            void setComponent() {
-                std::cout << "Component : {health.set}" << std::endl;
+            bool decrementHealth(int damage) {
+                if (_hp <= 0)
+                    return false;
+                std::cout << "Health--" << _hp << std::endl;
+                _hp -= damage;
+                return true;
             }
 
             void setHealth(int hp) {
@@ -31,6 +35,14 @@ namespace GameEngine {
                 return _hp;
             }
 
+            virtual int getType() {return _type;};
+            virtual void setType(const int type) {_type = type;};
+            virtual int getId() {return _id;};
+            virtual void setId(const int id) {_id = id;};
+
+        protected:
+            int _idComponent;
+            int _type;
 
         private:
             int _hp;

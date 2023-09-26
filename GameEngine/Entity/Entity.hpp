@@ -8,52 +8,57 @@
 #pragma once
 #include <memory>
 #include <list>
-#include "../Interfaces/IComponent/IComponent.hpp"
+#include "../Components/AComponent/AComponent.hpp"
+
+using namespace GameEngine;
 
 namespace GameEngine {
-    template <class T>
     class Entity {
         public:
 
-            Entity(unsigned int id) : _id(id) {};
-            ~Entity() {
-                for (const auto& component : _entityContent) {
-                    component->~IComponent();
-                }
-            }
+            Entity(unsigned int id) : _id(id) {}
+
+            ~Entity() {}
 
             unsigned int getId() const {
                 return _id;
             }
 
-            template <class T>
-            std::shared_ptr<IComponent> addComponent(std::shared_ptr<T> component) {
-                auto desiredComponent = std::dynamic_pointer_cast<T>(component);
-                if (desiredComponent) {
-                    _entityContent.push_back(desiredComponent);
-                    return desiredComponent;
+            template <typename T>
+            void addComponent(std::shared_ptr<AComponent> component) {
+                _entityContent.push_back(component);
+            }
+
+            void deleteComponent(std::shared_ptr<AComponent> component) {
+                _entityContent.remove(component);
+            }
+
+            template <typename T>
+            std::shared_ptr<AComponent> getComponentByType(int type) {
+                for (auto &component : _entityContent) {
+                    if (component->getType() == type)
+                        return component;
                 }
                 return nullptr;
             }
 
-            template <class T>
-            std::shared_ptr<T> getComponent() {
-                for (const auto& component : _entityContent) {
-                    if (std::dynamic_pointer_cast<T>(component)) {
-                        return std::dynamic_pointer_cast<T>(component);
-                    }
+            template <typename T>
+            std::shared_ptr<AComponent> getComponentById(int id) {
+                for (auto &component : _entityContent) {
+                    if (component->getId() == id)
+                        return component;
                 }
                 return nullptr;
             }
 
-            void update() {
-                for (const auto& component : _entityContent) {
-                    component->update();
-                }
+            template <typename T>
+            std::list<std::shared_ptr<AComponent>> &getComponents() {
+                return _entityContent;
             }
 
         private:
-            std::list<std::shared_ptr<GameEngine::IComponent>> _entityContent;
+            std::list<std::shared_ptr<AComponent>> _entityContent;
             unsigned int _id;
+
     };
 }

@@ -6,22 +6,22 @@
 */
 
 #pragma once
-#include "../Interfaces/ISystem.hpp"
+#include "../../Interfaces/ISystem/ISystem.hpp"
+#include "../../Entity/Entity.hpp"
 
 
 namespace GameEngine {
 
-    template <class T>
     class ASystem : public ISystem {
         public:
+            ASystem() = default;
+            ASystem(std::list<std::shared_ptr<Entity>> &entityRef) : _entityRefList(entityRef){}
+            virtual ~ASystem() = default;
 
-            virtual void run() override {
-            }
-
-
+            virtual void update() = 0;
 
         protected:
-            std::list<std::shared_ptr<Entity>> _entityRefList;
+            std::list<std::shared_ptr<Entity>> &_entityRefList;
 
         private:
     };

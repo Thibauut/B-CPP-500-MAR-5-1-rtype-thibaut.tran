@@ -12,18 +12,23 @@
 #include "../../Interfaces/IComponent/IComponent.hpp"
 
 namespace GameEngine {
-    template <class T>
-    class AComponenent : public IComponent{
+
+    class AComponent : public IComponent{
         public:
-            virtual ~AComponenent() = default;
+            AComponent(int type) : _type(type) {};
+            AComponent(AComponent &component) {
+                _type = component.getType();
+                _id = component.getId();
+            };
+            ~AComponent() = default;
 
-            virtual void update() = 0;
-
-            virtual void setComponent() = 0;
-            virtual void getComponent<T>() = 0;
-            // virtual const int getId() = 0;
+            virtual int getType() {return _type;};
+            virtual void setType(const int type) {_type = type;};
+            virtual int getId() {return _id;};
+            virtual void setId(const int id) {_id = id;};
 
         protected:
             int _id;
+            int _type;
     };
 }

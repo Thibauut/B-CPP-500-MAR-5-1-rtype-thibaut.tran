@@ -7,37 +7,49 @@
 
 #pragma once
 
-#include "Interfaces//ISystem/ISystem.hpp"
-#include "Interfaces//IComponent/IComponent.hpp"
-#include "Entity/Entity.hpp"
-#include "Entity//EntityManager/EntityManager.hpp"
+#include "Entity/EntityManager/EntityManager.hpp"
+#include "Systems/ASystem/ASystem.hpp"
+#include <iostream>
+#include <memory>
+#include <list>
+
 
 namespace GameEngine {
 
     class Engine {
-    public:
-        Engine() {};
-        ~Engine() {};
+        public:
+            Engine() {_isRunning = false;}
+            ~Engine() {}
 
-        void init() {
-            isRunning = true;
-        }
-
-        void run() {
-            while (isRunning) {
-
+            void init() {
+                _isRunning = false;
             }
-        }
 
-        void stop() {
-            // Nettoyage et arrêt du jeu
-        }
+            void run() {
+                _isRunning = true;
+                while (_isRunning) {
+                    for (auto& _system : _systems) {
+                        _system->update();
+                    }
+                }
+            }
 
-    private:
-        bool isRunning;
+            void stop() {
+                _isRunning = false;
+            }
 
-        EntityManager entityManager;
-        std::list<std::shared_ptr<ISystem>> systems;
+            void addSystem(std::shared_ptr<ASystem> system) {
+                _systems.push_back(system);
+            }
+
+            void removeSystem(std::shared_ptr<ASystem> system) {
+                _systems.remove(system);
+            }
+
+        private:
+            bool _isRunning;
+            EntityManager _entityManager;
+            std::list<std::shared_ptr<ASystem>> _systems;
     };
 
 }
