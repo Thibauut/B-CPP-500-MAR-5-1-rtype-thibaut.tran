@@ -20,14 +20,14 @@ namespace GameEngine {
                 std::cout << "Component : {render.set}" << std::endl;
             }
 
-            virtual GameEngine::ListComp getType() {return _type;};
-            virtual void setType(const GameEngine::ListComp type) {_type = type;};
+            virtual CONFIG::CompType getType() {return _type;};
+            virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _id;};
             virtual void setId(const int id) {return id};
 
         protected:
             int _idComponent;
-            GameEngine::ListComp _type;
+            CONFIG::CompType _type;
 
         private:
             std::string _pathTexture;

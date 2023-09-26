@@ -6,23 +6,16 @@
 */
 
 #pragma once
+#include "../../Utils/Utils.hpp"
 
 namespace GameEngine {
-
-    enum ListComp {
-        RENDER,
-        POSITION,
-        HEALTH,
-        WEAPON,
-        AIC,
-    };
 
     class IComponent {
         public:
             virtual ~IComponent() = default;
 
-            virtual GameEngine::ListComp getType() = 0;
-            virtual void setType(const GameEngine::ListComp type) = 0;
+            virtual CONFIG::CompType getType() = 0;
+            virtual void setType(const CONFIG::CompType type) = 0;
             virtual int getId() = 0;
             virtual void setId(const int id) = 0;
     };

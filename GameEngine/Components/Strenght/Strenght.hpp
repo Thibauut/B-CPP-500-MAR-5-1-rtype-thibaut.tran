@@ -16,22 +16,18 @@ namespace GameEngine {
             Strenght() {}
             ~Strenght() = default;
 
-            void setComponent() {
-                std::cout << "Component : {strenght.set}" << std::endl;
+           void setComponent() {
+                std::cout << "Component : {render.set}" << std::endl;
             }
 
-            void setDamage(int damage) {
-                _damage = damage;
-                std::cout << "Strength setter: damage = " << _damage << std::endl;
-            }
+            virtual CONFIG::CompType getType() {return _type;};
+            virtual void setType(const CONFIG::CompType type) {_type = type;};
+            virtual int getId() {return _id;};
+            virtual void setId(const int id) {return id};
 
-            int getDamage() const {
-                std::cout << "Strenght getter : return =" << _damage << std::endl;
-                return _damage;
-            }
         protected:
             int _idComponent;
-            int _type;
+            CONFIG::CompType _type;
 
         private:
             int _damage;

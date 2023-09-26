@@ -7,10 +7,14 @@
 
 #pragma once
 
-    enum ListComp {
+namespace CONFIG {
+
+    enum CompType {
         RENDER,
         POSITION,
         HEALTH,
         WEAPON,
         AI,
     };
+}
+
