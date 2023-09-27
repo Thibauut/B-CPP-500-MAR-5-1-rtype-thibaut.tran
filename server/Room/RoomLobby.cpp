@@ -10,7 +10,7 @@
 
 std::atomic<bool> shouldStop(false);
 
-RoomLobby::RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, std::string uuid) : _owner(owner)
+RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid) : _owner(owner)
 {
     _players.push_back(owner);
     _nbPlayers = 1;
@@ -18,20 +18,18 @@ RoomLobby::RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, 
     _name = name;
     _uuid = uuid;
     _nbReadyPlayers = 0;
-    _thread = std::thread(&RoomLobby::gameEntryPoint, this);
+    _isStarted = false;
 }
 
 RoomLobby::~RoomLobby() {
-    if (_thread.joinable())
-        _thread.join();
 }
 void RoomLobby::startGame()
 {
-    // try {
-    //     _thread = std::thread(&RoomLobby::gameEntryPoint, this);
-    // } catch (std::exception &e) {
-    //     std::cerr << e.what() << std::endl;
-    // }
+    try {
+        _thread = std::thread(&RoomLobby::gameEntryPoint, this);
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 void RoomLobby::gameEntryPoint()
@@ -47,29 +45,33 @@ void RoomLobby::gameEntryPoint()
 void RoomLobby::stopGame()
 {
     shouldStop.store(true, std::memory_order_relaxed);
+    if (_thread.joinable())
+        _thread.join();
 }
 
 bool RoomLobby::addReadyPlayer()
 {
     _nbReadyPlayers++;
-    if (_nbReadyPlayers == _nbSlots)
+    if (_nbReadyPlayers == _nbSlots) {
+        _isStarted = true;
         return (true);
+    }
     return (false);
 }
 
 std::string RoomLobby::getInfo()
 {
-    std::string info = "\"" + _name + "\" \"" + std::to_string(_nbPlayers) + "/" + std::to_string(_nbSlots) + "\" \"" + _owner.getUsername() + "\" \"" + std::to_string(_owner.getLevel()) + "\"";
-    for (PlayerLobby player : _players) {
-        if (player.getUuid() != _owner.getUuid()) {
-                info += " \"" + player.getUsername() + "\" \"" + std::to_string(player.getLevel()) + "\"";
+    std::string info = "\"" + _name + "\" \"" + std::to_string(_nbPlayers) + "/" + std::to_string(_nbSlots) + "\" \"" + _owner.get()->getUsername() + "\" \"" + std::to_string(_owner.get()->getLevel()) + "\"";
+    for (std::shared_ptr<PlayerLobby> &player : _players) {
+        if (player.get()->getUuid() != _owner.get()->getUuid()) {
+            info += " \"" + player.get()->getUsername() + "\" \"" + std::to_string(player.get()->getLevel()) + "\"";
         }
     }
     info += "\n";
     return info;
 }
 
-bool RoomLobby::addPlayer(PlayerLobby player)
+bool RoomLobby::addPlayer(std::shared_ptr<PlayerLobby> player)
 {
     if (_nbPlayers == _nbSlots)
         return (false);
@@ -81,9 +83,10 @@ bool RoomLobby::addPlayer(PlayerLobby player)
 void RoomLobby::removePlayer(std::string uid)
 {
     for (int i = 0; i < _players.size(); i++) {
-        if (_players[i].getUuid() == uid) {
+        if (_players[i].get()->getUuid() == uid) {
             _players.erase(_players.begin() + i);
             _nbPlayers--;
+            break;
         }
     }
 }

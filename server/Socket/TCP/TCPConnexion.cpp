@@ -7,7 +7,9 @@ TCPConnection::pointer TCPConnection::create(boost::asio::io_context& io_context
 
 TCPConnection::TCPConnection(boost::asio::io_context& io_context)
   : socket_(io_context)
-{}
+{
+  _uuid = boost::uuids::random_generator()();
+}
 
 void TCPConnection::start()
 {
@@ -45,7 +47,7 @@ void TCPConnection::handle_read(const boost::system::error_code& error, size_t b
   {
     std::string data = std::string(data_.begin(), data_.begin() + bytes_transferred);
     if (!data.empty()) {
-      Request new_request(data, socket());
+      Request new_request(data, socket(), _uuid);
       requests_.push_back(new_request);
       int i = 0;
         for (const Request& request : requests_) {

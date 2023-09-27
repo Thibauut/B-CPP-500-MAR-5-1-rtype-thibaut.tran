@@ -9,82 +9,92 @@
 
 using json = nlohmann::json;
 
-    HandleSave::HandleSave() {
-        std::ifstream input_file("Save/players.json");
-        input_file >> players_data;
-        input_file.close();
-    }
-    HandleSave::~HandleSave() {
+HandleSave::HandleSave() {
+std::ifstream input_file("Save/players.json");
+input_file >> players_data;
+input_file.close();
+}
 
+HandleSave::~HandleSave() {
+
+};
+
+void HandleSave::save() {
+    std::ofstream input_file("Save/players.json");
+    input_file << std::setw(4) << players_data << std::endl;
+    input_file.close();
+}
+
+PlayerLobby HandleSave::createPlayer(std::string name, TCPConnection::pointer client)
+{
+    std::string uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+    json new_player = {
+        {"uuid", uuid},
+        {"name", name},
+        {"level", 1},
+        {"online", true}
     };
+    players_data["players"].push_back(new_player);
+    std::ofstream output_file("Save/players.json");
+    output_file << players_data;
+    output_file.close();
+    PlayerLobby pl = PlayerLobby(name, uuid, 1, client);
+    return pl;
+}
+void HandleSave::removePlayer(boost::uuids::uuid uuid) {}
 
-    void HandleSave::save() {
-        std::ofstream input_file("Save/players.json");
-        input_file << std::setw(4) << players_data << std::endl;
-        input_file.close();
-    }
-
-    PlayerLobby HandleSave::createPlayer(std::string name)
-    {
-        std::string uuid = boost::uuids::to_string(boost::uuids::random_generator()());
-        json new_player = {
-            {"uuid", uuid},
-            {"name", name},
-            {"level", 1},
-            {"online", true}
-        };
-        players_data["players"].push_back(new_player);
-        std::ofstream output_file("Save/players.json");
-        output_file << players_data;
-        output_file.close();
-        return PlayerLobby(new_player["uuid"], new_player["name"], new_player["level"]);
-    }
-    void HandleSave::removePlayer(boost::uuids::uuid uuid) {}
-
-    void HandleSave::updatePlayer(PlayerLobby pl) {
-        for (auto &player : players_data["players"]) {
-            if (player["uuid"] == pl.getUuid()) {
-                player["level"] = pl.getLevel();
-                break;
-            }
+void HandleSave::updatePlayer(PlayerLobby pl) {
+    for (auto &player : players_data["players"]) {
+        if (player["uuid"] == pl.getUuid()) {
+            player["level"] = pl.getLevel();
+            break;
         }
-        save();
     }
+    save();
+}
 
-    void HandleSave::setPlayerStatus(bool status, std::string uuid) {
-        for (auto &player : players_data["players"]) {
-            if (player["uuid"] == uuid) {
-                player["online"] = status;
-                break;
-            }
+void HandleSave::setPlayerStatus(bool status, std::string uuid) {
+    for (auto &player : players_data["players"]) {
+        if (player["uuid"] == uuid) {
+            player["online"] = status;
+            break;
         }
-        save();
     }
+    save();
+}
 
-
-
-    PlayerLobby HandleSave::findPlayerByName(std::string name) {
-        for (auto &player : players_data["players"]) {
-            // std::cout << player["name"]<< " " << player["uuid"] << " " << player["level"]<< std::endl;
-            if (player["name"] == name)
-                return PlayerLobby(player["name"], player["uuid"], player["level"]);
+std::shared_ptr<PlayerLobby> HandleSave::findPlayerByName(std::string name) {
+    for (auto &player : players_data["players"]) {
+        if (player["name"] == name) {
+            std::string name = player["name"];
+            std::string uuid = player["uuid"];
+            int level = player["level"];
+            PlayerLobby pl_tmp = PlayerLobby(name, uuid, level);
+            std::shared_ptr<PlayerLobby> pl = std::make_shared<PlayerLobby>(pl_tmp);
+            return pl;
         }
-        return PlayerLobby();
     }
+    return nullptr;
+}
 
-    PlayerLobby HandleSave::findPlayerByUuid(std::string uuid) {
-        for (auto &player : players_data["players"]) {
-            // std::cout << player["name"]<< " " << player["uuid"] << " " << player["level"]<< std::endl;
-            if (player["uuid"] == uuid)
-                return PlayerLobby(player["name"], player["uuid"], player["level"]);
+std::shared_ptr<PlayerLobby> HandleSave::findPlayerByUuid(std::string uuid) {
+    for (auto &player : players_data["players"]) {
+        if (player["uuid"] == uuid) {
+            std::string name = player["name"];
+            std::string uuid = player["uuid"];
+            int level = player["level"];
+            PlayerLobby pl_tmp = PlayerLobby(name, uuid, level);
+            std::shared_ptr<PlayerLobby> pl = std::make_shared<PlayerLobby>(pl_tmp);
+            return pl;
         }
-        return PlayerLobby();
     }
+    return nullptr;
+}
 
-    bool HandleSave::PlayerExist(std::string name) {
-        for (auto &player : players_data["players"]) {
-            if (player["name"] == name)
-                return true;
-        }
-        return false;
-    };
+bool HandleSave::PlayerExist(std::string name) {
+    for (auto &player : players_data["players"]) {
+        if (player["name"] == name)
+            return true;
+    }
+    return false;
+};

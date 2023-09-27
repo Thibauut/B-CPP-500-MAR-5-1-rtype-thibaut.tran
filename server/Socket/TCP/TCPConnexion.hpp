@@ -1,6 +1,8 @@
 #pragma once
 #include "TCPRequest.hpp"
 #include <boost/asio.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <iostream>
 #include <list>
 
@@ -14,6 +16,7 @@ public:
   static pointer create(boost::asio::io_context& io_context);
   tcp::socket& socket(){return socket_;}
   std::list<Request>& requests(){return requests_;}
+  boost::uuids::uuid uuid(){return _uuid;}
   void start();
 
 private:
@@ -24,8 +27,8 @@ private:
   void handle_write(const boost::system::error_code& error, size_t bytes_transferred);
 
   boost::asio::ip::tcp::socket socket_;
+  boost::uuids::uuid _uuid;
   std::string message_;
   std::array<char, 1024> data_;
   std::list<Request> requests_;
-
 };

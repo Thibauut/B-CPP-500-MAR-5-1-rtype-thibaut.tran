@@ -14,12 +14,12 @@
 
 class RoomLobby {
     public:
-        RoomLobby(PlayerLobby owner, unsigned int nbSlots, std::string name, std::string uuid);
+        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid);
         ~RoomLobby();
 
         void startGame();
         void stopGame();
-        bool addPlayer(PlayerLobby player);
+        bool addPlayer(std::shared_ptr<PlayerLobby> player);
         void removePlayer(std::string uid);
         std::string getInfo();
         bool addReadyPlayer();
@@ -27,10 +27,11 @@ class RoomLobby {
         std::string getName() const { return _name; }
         unsigned int getNbSlots() const { return _nbSlots; }
         unsigned int getNbPlayers() const { return _nbPlayers; }
-        PlayerLobby getOwner() const { return _owner; }
-        std::vector<PlayerLobby> getPlayers() const { return _players; }
+        std::shared_ptr<PlayerLobby> getOwner() const { return _owner; }
+        std::vector<std::shared_ptr<PlayerLobby>>&  getPlayers() { return _players; }
         std::string getUuid() const { return _uuid; }
         unsigned int getNbReadyPlayers() const { return _nbReadyPlayers; }
+        bool isStarted() const { return _isStarted; }
 
     private:
         void gameEntryPoint();
@@ -40,8 +41,9 @@ class RoomLobby {
         unsigned int _nbSlots;
         unsigned int _nbPlayers;
         unsigned int _nbReadyPlayers;
-        PlayerLobby _owner;
+        std::shared_ptr<PlayerLobby> _owner;
 
-        std::vector<PlayerLobby> _players;
+        std::vector<std::shared_ptr<PlayerLobby>> _players;
         std::thread _thread;
+        bool _isStarted;
 };

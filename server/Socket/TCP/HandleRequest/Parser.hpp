@@ -9,12 +9,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "../TCPRequest.hpp"
-#include <boost/asio.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
-#include "../../../Save/HandleSave.hpp"
+#include "../TCPServer.hpp"
 
 enum ACTION {
     LOGIN,
@@ -33,31 +28,33 @@ class Parser {
 private:
     int findQuote(std::string data, int nbOccur);
     void parseAction(std::string data);
-    void callback(HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+    void callback();
 
-    void login(HandleSave &save);
-    void disconnect(HandleSave &save);
+    void login();
+    void disconnect();
     void getPlayerInfo() {};
 
     void createRoom(std::string player_uuid,
-                    int nb_slots, std::string name,
-                    HandleSave &save,
-                    std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
-    void joinRoom(std::string player_uuid, std::string room_uuid, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
-    void leaveRoom(std::string player_uuid, std::string room_uuid, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
-    void deleteRoom(std::string player_uuid, std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
-    void getRooms(std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
-    void getRoomInfo(std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
-    void ready(std::string player_uuid, std::string room_uuid, std::vector<std::shared_ptr<RoomLobby>> &_lobbys);
+                    int nb_slots, std::string name);
+    void joinRoom(std::string player_uuid, std::string room_uuid);
+    void leaveRoom(std::string player_uuid, std::string room_uuid);
+    void deleteRoom(std::string player_uuid, std::string room_uuid);
+    void getRooms();
+    void getRoomInfo(std::string room_uuid);
+    void ready(std::string player_uuid, std::string room_uuid);
+    void start(std::shared_ptr<RoomLobby> room);
 
+    TCPServer *_server;
     ACTION _action;
     std::vector<std::string> _args;
     boost::asio::ip::tcp::socket &_socket;
+    Request &_request;
 
 public:
-    Parser(Request request, HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys) : _socket(request._socket) {
+    Parser(Request request, TCPServer *server) : _request(request), _socket(request._socket), _server(server) {
         parseAction(request._data);
-        callback(save, _lobbys);
+        callback();
     };
     ~Parser() {};
+
 };

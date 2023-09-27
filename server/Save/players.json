@@ -4,8 +4,8 @@
             "high_score": 0,
             "level": 667,
             "name": "Maori",
-            "online": false,
-            "uuid": "El-Sheytano"
+            "online": true,
+            "uuid": "EL-SHEYTANO"
         },
         {
             "high_score": 0,
@@ -19,19 +19,33 @@
             "level": 1,
             "name": "letibz",
             "online": true,
-            "uuid": "00da5e85-ec28-4d8b-9ec3-775f39e62bfd"
+            "uuid": "TBO"
+        },
+        {
+            "high_score": 0,
+            "level": 1,
+            "name": "CapriSun",
+            "online": false,
+            "uuid": "KPITN"
+        },
+        {
+            "high_score": 0,
+            "level": 1,
+            "name": "Raph",
+            "online": false,
+            "uuid": "PLAK2FRAPP"
+        },
+        {
+            "level": 1,
+            "name": "EL-SHEYTANO",
+            "online": true,
+            "uuid": "2eb61e73-40df-4c98-9523-ac3cce6f9cec"
         },
         {
             "level": 1,
             "name": "mao",
-            "online": true,
-            "uuid": "8e4d0507-9424-4084-b85f-c2a7aeb6f920"
-        },
-        {
-            "level": 1,
-            "name": "test",
-            "online": true,
-            "uuid": "45a35edf-1a52-488d-b449-a094341243e5"
+            "online": false,
+            "uuid": "90d18e06-6fdf-475b-9a5b-2f6fb639149f"
         }
     ]
 }

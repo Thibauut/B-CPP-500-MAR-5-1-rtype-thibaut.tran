@@ -1,4 +1,5 @@
 #include "TCPServer.hpp"
+#include "HandleRequest/Parser.hpp"
 
 TCPServer::TCPServer(boost::asio::io_context& io_context)
     : io_context_(io_context),
@@ -18,11 +19,11 @@ void TCPServer::start_accept()
 
 void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost::system::error_code& error)
 {
-  if (!error)
-  {
+  if (!error) {
     std::cout << "<- NEW CLIENT" << std::endl;
     new_connection->start();
-    Clients().push_back(new_connection);
+    players_.push_back(std::make_shared<PlayerLobby>(new_connection));
+    // Clients().push_back(new_connection);
   }
   start_accept();
 }
@@ -30,26 +31,37 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
   void TCPServer::print_all_client_request() {
         std::cout<< "all request:"<<std::endl;
        int i = 1, j = 1;
-        for (TCPConnection::pointer client : clients_) {
-              std::cout<< "client  " << i << " :"<<std::endl;
-            for (Request &request : client->requests()) {
-              std::cout<< "        res " << j << " = "<< request._data <<std::endl;
-              j++;
-            }
-            i++, j = 1;
-        }
+        // for (TCPConnection::pointer client : clients_) {
+        //       std::cout<< "client  " << i << " :"<<std::endl;
+        //     for (Request &request : client->requests()) {
+        //       std::cout<< "        res " << j << " = "<< request._data <<std::endl;
+        //       j++;
+        //     }
+        //     i++, j = 1;
+        // }
   }
 
-void TCPServer::getAllTcpRequest(HandleSave &save, std::vector<std::shared_ptr<RoomLobby>> &_lobbys) {
-  for (TCPConnection::pointer &client : clients_) {
-    requests_.splice(requests_.end(), client->requests());
+void TCPServer::getAllTcpRequest() {
+  for (std::shared_ptr<PlayerLobby> player : players_) {
+    requests_.splice(requests_.end(), player.get()->connection.get()->requests());
   }
 
+  for (std::shared_ptr<RoomLobby> room : _lobbys) {
+    if (room.get()->getNbReadyPlayers() == room.get()->getNbSlots() && !room.get()->isStarted()) {
+      room.get()->startGame();
+      for (int i = 0; i < room.get()->getPlayers().size(); i++) {
+              std::string response = "START\n";
+              room.get()->getPlayers().at(i).get()->getSocket().async_write_some(boost::asio::buffer(response),
+              [message = response](const boost::system::error_code& error,
+              size_t bytes_transferred) { std::cout << "-> " << message; });
+          }
+      }
+  }
   int i = 0;
   for (Request req : requests_) {
     i++;
     std::cout << "<- " << req._data;
-    Parser pars = Parser(req, save, _lobbys);
+    Parser pars = Parser(req, this);
   }
   requests_.clear();
 }
