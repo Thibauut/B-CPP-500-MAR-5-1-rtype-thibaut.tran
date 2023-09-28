@@ -5,12 +5,15 @@
 #include <list>
 using boost::asio::ip::udp;
 
+
+
 class UDPRequest {
     public:
         UDPRequest(std::string data, udp::endpoint &client): data_(data), client_(client) {}
         ~UDPRequest() {}
         std::string data_;
         udp::endpoint &client_;
+        // std::unique_ptr<EntityManager> entityManagerPtr_;
 };
 
 class UDPServer {
