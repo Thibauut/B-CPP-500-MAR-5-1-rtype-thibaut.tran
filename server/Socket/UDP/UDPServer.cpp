@@ -1,39 +1,45 @@
-#include <string>
-#include <vector>
-#include <boost/asio.hpp>
-#include <boost/array.hpp>
-#include <iostream>
+/*
+** EPITECH PROJECT, 2023
+** B-CPP-500-MAR-5-1-rtype-maori.dino
+** File description:
+** udpTest.cpp
+*/
 
-using boost::asio::ip::udp;
+#include "UDPServer.hpp"
 
+UDPServer::UDPServer(boost::asio::io_service& io_service, unsigned short port)
+    : socket_(io_service, udp::endpoint(udp::v4(), port)) {
+        recv_buf_.resize(1024);
+        StartReceive();
+}
+
+void UDPServer::StartReceive() {
+    socket_.async_receive_from(
+    boost::asio::buffer(recv_buf_), remote_endpoint_,
+    [this](const boost::system::error_code& error, std::size_t bytes_received) {
+        if (!error || error == boost::asio::error::message_size) {
+            std::string message(recv_buf_.begin(), recv_buf_.begin() + bytes_received);
+            StartSend(message);
+            StartReceive();
+        } else {
+            std::cerr << "Receive error: " << error.message() << std::endl;
+        }
+    });
+}
+
+void UDPServer::StartSend(const std::string& message){
+    socket_.async_send_to(
+        boost::asio::buffer(message), remote_endpoint_,
+        [this](const boost::system::error_code& error, std::size_t bytes_sent) {
+            if (error) {
+                std::cerr << "Send error: " << error.message() << std::endl;
+            }
+        });
+}
 int main()
 {
-	try
-	{
-		boost::asio::io_service io_service;
-
-		udp::socket socket(io_service, udp::endpoint(udp::v4(), 7171)); // (1)
-
-		while (1)
-		{
-			boost::array<char, 1> recv_buf; // (2)
-			udp::endpoint remote_endpoint;
-			boost::system::error_code error;
-			socket.receive_from(boost::asio::buffer(recv_buf), remote_endpoint, 0, error); // (3)
-
-			if (error && error != boost::asio::error::message_size) // (4)
-				throw boost::system::system_error(error);
-
-			std::string message = "Bienvenue sur le serveur ! Mode non connecté.";
-
-			boost::system::error_code ignored_error;
-			socket.send_to(boost::asio::buffer(message), remote_endpoint, 0, ignored_error); // (5)
-		}
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-
+	boost::asio::io_service io_service;
+	UDPServer server(io_service, 1234);
+	io_service.run();
 	return 0;
 }
