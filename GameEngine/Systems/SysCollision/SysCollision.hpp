@@ -10,7 +10,7 @@
 
 namespace GameEngine {
 
-    class SysCollision : public ASystem {
+    class SysCollision : public ISystem {
         public:
             SysCollision() {};
             ~SysCollision() {};

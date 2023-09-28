@@ -13,9 +13,9 @@ namespace GameEngine {
     class SysRender : public ASystem {
         public:
             SysRender() {};
-            ~SysRender() {};
+            ~SysRender() = default;
 
-            virtual void run() override {
+            void run() {
                 // Logique de rendu (à implémenter)
             }
         

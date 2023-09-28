@@ -40,6 +40,16 @@ namespace GameEngine {
                 return _listEntity;
             }
 
+            std::list<std::shared_ptr<Entity>> getEntitiesByType(int entityType) {
+                std::list<std::shared_ptr<Entity>> listEntity;
+                for (std::shared_ptr<Entity> &entityPtr : _listEntity) {
+                    if (entityPtr.get()->getType() == entityType) {
+                        listEntity.push_back(entityPtr);
+                    }
+                }
+                return listEntity;
+            }
+
             void deleteEntity(unsigned int id) {
                 for (auto& entityPtr : _listEntity) {
                     if (entityPtr->getId() == id) {
