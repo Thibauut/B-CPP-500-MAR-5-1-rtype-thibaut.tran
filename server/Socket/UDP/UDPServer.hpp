@@ -3,6 +3,11 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <list>
+#include "../../../GameEngine/Entity/EntityManager/EntityManager.hpp"
+#include "../../../GameEngine/Utils/Utils.hpp"
+#include "../../../GameEngine/Components/Position/Position.hpp"
+
+
 using boost::asio::ip::udp;
 
 
@@ -13,7 +18,6 @@ class UDPRequest {
         ~UDPRequest() {}
         std::string data_;
         udp::endpoint &client_;
-        // std::unique_ptr<EntityManager> entityManagerPtr_;
 };
 
 class UDPServer {
@@ -22,20 +26,27 @@ public:
     void StartReceive();
     void StartSend(const std::string& message);
     udp::socket &Socket(){return socket_;}
+    std::unique_ptr<EntityManager> &Entitys(){return entityManagerPtr_;}
+    void setLife(int life);
+    void setScore(int score);
+    void setPosition(int x, int y);
+    void StartExec(const std::string& message);
     // ------------CMD--------------
     void SendAllPlayersPosition();
     void SendAllProjectilsPosition();
     void SendAllPnjPosition();
-    void SendAllCollectiblePosition();
+    void SendAllCollectiblesPosition();
     void moveLeft();
     void moveRight();
     void moveUp();
     void moveDown();
     void Shoot();
     void sendScores();
+    std::vector<std::string> cmd_;
 
 private:
     udp::endpoint remote_endpoint_;
     std::vector<char> recv_buf_;
     udp::socket socket_;
+    std::unique_ptr<EntityManager> entityManagerPtr_;
 };
