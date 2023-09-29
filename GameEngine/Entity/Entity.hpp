@@ -16,7 +16,7 @@ using namespace GameEngine;
 namespace GameEngine {
     class Entity {
         public:
-
+            Entity(unsigned int id, int type) : _id(id), _entityType(type) {}
             Entity(unsigned int id) : _id(id), _entityType(0) {}
 
             ~Entity() {}
@@ -47,7 +47,7 @@ namespace GameEngine {
             template <typename T>
             std::shared_ptr<T> getComponentById(int id) {
                 for (auto &component : _entityContent) {
-                    if (component->getId() == id)
+                    if (component.get()->getId() == id)
                         return component;
                 }
                 return nullptr;

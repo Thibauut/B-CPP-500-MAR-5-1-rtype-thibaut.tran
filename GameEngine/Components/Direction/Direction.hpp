@@ -13,11 +13,15 @@ namespace GameEngine {
 
     class Direction : public IComponent {
         public:
-            Direction(CONFIG::CompType type, CONFIG::Dir dir) : _type(type), _dir(dir) {}
+            Direction(CONFIG::CompType type, int id, CONFIG::Dir dir) : _idComponent(id), _type(type), _dir(dir) {}
             ~Direction() = default;
 
             void setDirection(CONFIG::Dir direction) {
                 _dir = direction;
+            }
+
+            CONFIG::Dir getDirection() {
+                return _dir;
             }
 
             virtual CONFIG::CompType getType() {return _type;};

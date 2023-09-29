@@ -10,7 +10,6 @@
 #include "../AComponent/AComponent.hpp"
 
 namespace GameEngine {
-
     class Health : public IComponent {
         public:
             Health(CONFIG::CompType type, int id, int value) : _idComponent(id), _type(type), _hp(value)

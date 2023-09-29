@@ -13,6 +13,10 @@ int main() {
     // Create components
     std::shared_ptr<Health> healthComponent = std::make_shared<Health>(CONFIG::CompType::HEALTH, 3, 100);
     std::shared_ptr<Position> positionComponent = std::make_shared<Position>(CONFIG::CompType::POSITION, 4, 1920, 1080);
+    std::shared_ptr<Direction> directionComponent = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, 36, CONFIG::Dir::DOWN);
+    std::shared_ptr<Velocity> velocityComponent = std::make_shared<Velocity>(CONFIG::CompType::VELOCITY, 5, 1);
+
+
     std::shared_ptr<Health> healthComponentMob = std::make_shared<Health>(CONFIG::CompType::HEALTH, 3, 100);
     std::shared_ptr<Position> positionComponentMob = std::make_shared<Position>(CONFIG::CompType::POSITION, 4, 1920, 1080);
     std::shared_ptr<AI> aiComponentMob = std::make_shared<AI>(CONFIG::CompType::AI, 1);
@@ -21,10 +25,12 @@ int main() {
     // Add components to player
     player.addComponent(healthComponent);
     player.addComponent(positionComponent);
+    player.addComponent(directionComponent);
+    player.addComponent(velocityComponent);
+
     mob.addComponent(healthComponentMob);
     mob.addComponent(positionComponentMob);
     mob.addComponent(aiComponentMob);
-
 
     // Initialize EntityManager
     EntityManager manager;
@@ -32,13 +38,12 @@ int main() {
     manager.addEntity(mob); // Add mob entity to EntityManager
 
     Engine r_type(manager);
-    r_type.run(); // Run game
 
     // Initialize System
     std::shared_ptr<SysMovement> mouv_system = std::make_shared<SysMovement>(r_type.getManager());
     r_type.addSystem(mouv_system);
-    // mouv_system.get()->update(CONFIG::Dir::UP, manager.getEntity(player.getId()));
 
+    r_type.run(); // Run game
 
     return 0;
 }
