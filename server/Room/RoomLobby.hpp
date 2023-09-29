@@ -11,6 +11,8 @@
 #include <vector>
 #include <thread>
 #include "../Elements/Player/PlayerLobby.hpp"
+#include "../Socket/UDP/UDPServer.hpp"
+#include "../../GameEngine/GameEngine.hpp"
 
 class RoomLobby {
     public:

@@ -46,6 +46,12 @@
             "name": "mao",
             "online": false,
             "uuid": "90d18e06-6fdf-475b-9a5b-2f6fb639149f"
+        },
+        {
+            "level": 1,
+            "name": "test",
+            "online": true,
+            "uuid": "04656dd8-9701-4cfa-b6e7-5202ab964bd9"
         }
     ]
 }

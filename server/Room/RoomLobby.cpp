@@ -22,7 +22,9 @@ RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, s
 }
 
 RoomLobby::~RoomLobby() {
+    stopGame();
 }
+
 void RoomLobby::startGame()
 {
     try {
@@ -35,6 +37,27 @@ void RoomLobby::startGame()
 void RoomLobby::gameEntryPoint()
 {
     std::cout << "Room " << _name << " started" << std::endl;
+    EntityManager entityManager;
+    int id = 0;
+    int id_comp = 0;
+    for (std::shared_ptr<PlayerLobby> &player : _players) {
+        Entity player_entity(id);
+        Position position(CONFIG::CompType::POSITION, id_comp, 0, 0);
+        Health health(CONFIG::CompType::HEALTH, id_comp, 100);
+        player_entity.addComponent(position);
+        player_entity.addComponent(health);
+        entityManager.addEntity(player_entity);
+        id++, id_comp++;
+    }
+
+    Engine game(entityManager);
+    // apl du serv-------------
+    boost::asio::io_service io_service;
+    std::thread t1([&io_service, &game](){ UDPServer server(io_service, 4242, std::make_shared<EntityManager>(game._manager)); });
+    std::thread t([&io_service](){ io_service.run(); });
+    // --------------------------
+    game.run();
+
     while (!shouldStop.load(std::memory_order_relaxed)) {
         std::cout << "Room " << _name << " is running" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(5000));

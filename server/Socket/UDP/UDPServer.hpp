@@ -22,14 +22,11 @@ class UDPRequest {
 
 class UDPServer {
 public:
-    UDPServer(boost::asio::io_service& io_service, unsigned short port);
+    UDPServer(boost::asio::io_service& io_service, unsigned short port, std::shared_ptr<EntityManager> entity_manager);
     void StartReceive();
     void StartSend(const std::string& message);
     udp::socket &Socket(){return socket_;}
-    std::unique_ptr<EntityManager> &Entitys(){return entityManagerPtr_;}
-    void setLife(int life);
-    void setScore(int score);
-    void setPosition(int x, int y);
+    std::shared_ptr<EntityManager> &Entitys(){return entityManagerPtr_;}
     void StartExec(const std::string& message);
     // ------------CMD--------------
     void SendAllPlayersPosition();
@@ -48,5 +45,5 @@ private:
     udp::endpoint remote_endpoint_;
     std::vector<char> recv_buf_;
     udp::socket socket_;
-    std::unique_ptr<EntityManager> entityManagerPtr_;
+    std::shared_ptr<EntityManager> entityManagerPtr_;
 };

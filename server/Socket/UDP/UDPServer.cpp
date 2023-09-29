@@ -34,8 +34,8 @@ void ParsCmd(std::vector<std::string> &tmp, std::string cmd)
     }
 }
 
-UDPServer::UDPServer(boost::asio::io_service& io_service, unsigned short port)
-    : socket_(io_service, udp::endpoint(udp::v4(), port)) {
+UDPServer::UDPServer(boost::asio::io_service& io_service, unsigned short port, std::shared_ptr<EntityManager> entity_manager)
+    : socket_(io_service, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager) {
         recv_buf_.resize(1024);
         StartReceive();
 }
@@ -65,14 +65,20 @@ void UDPServer::StartSend(const std::string& message){
         });
 }
 
+void UDPServer::moveLeft() {
+    
+    StartSend("Left");
+    
+}
+
+void UDPServer::moveRight(){StartSend("Right");}
+void UDPServer::moveUp(){StartSend("Up");}
+void UDPServer::moveDown(){StartSend("Down");}
+
 void UDPServer::SendAllPlayersPosition(){StartSend("Player");}
 void UDPServer::SendAllProjectilsPosition(){StartSend("Projectil");}
 void UDPServer::SendAllPnjPosition(){StartSend("Pnj");}
 void UDPServer::SendAllCollectiblesPosition(){StartSend("Collectible");}
-void UDPServer::moveLeft() {StartSend("Left");}
-void UDPServer::moveRight(){StartSend("Right");}
-void UDPServer::moveUp(){StartSend("Up");}
-void UDPServer::moveDown(){StartSend("Down");}
 void UDPServer::Shoot(){StartSend("Shoot");}
 void UDPServer::sendScores(){StartSend("Scores");}
 void UDPServer::StartExec(const std::string& message) {
@@ -112,10 +118,10 @@ void UDPServer::StartExec(const std::string& message) {
 
 }
 
-int main()
-{
-	boost::asio::io_service io_service;
-	UDPServer server(io_service, 1234);
-	io_service.run();
-	return 0;
-}
+// int main()
+// {
+// 	boost::asio::io_service io_service;
+// 	UDPServer server(io_service, 1234);
+// 	io_service.run();
+// 	return 0;
+// }
