@@ -21,6 +21,14 @@ namespace GameEngine {
                 _yPos = yPos;
             }
 
+            void setPositionX(int xPos) {
+                _xPos = xPos;
+            }
+
+            void setPositionY(int yPos) {
+                _yPos = yPos;
+            }
+
             std::pair<int, int> getPosition() const {
                 return std::make_pair(_xPos, _yPos);
             }

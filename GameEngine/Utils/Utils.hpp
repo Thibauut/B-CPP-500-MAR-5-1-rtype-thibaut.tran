@@ -12,9 +12,18 @@ namespace CONFIG {
     enum CompType {
         RENDER,
         POSITION,
+        VELOCITY,
+        DIRECTION,
         HEALTH,
         WEAPON,
         AI,
+    };
+
+    enum Dir {
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT,
     };
 }
 

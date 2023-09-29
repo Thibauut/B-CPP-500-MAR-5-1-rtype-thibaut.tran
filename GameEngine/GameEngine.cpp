@@ -1,4 +1,5 @@
 #include "GameEngine.hpp"
+#include "Utils/Utils.hpp"
 
 using namespace GameEngine;
 
@@ -32,6 +33,12 @@ int main() {
 
     Engine r_type(manager);
     r_type.run(); // Run game
+
+    // Initialize System
+    std::shared_ptr<SysMovement> mouv_system = std::make_shared<SysMovement>(r_type.getManager());
+    r_type.addSystem(mouv_system);
+    // mouv_system.get()->update(CONFIG::Dir::UP, manager.getEntity(player.getId()));
+
 
     return 0;
 }
