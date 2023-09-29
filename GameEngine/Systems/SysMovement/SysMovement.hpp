@@ -18,10 +18,12 @@ namespace GameEngine {
             virtual ~SysMovement() = default;
 
             virtual void update() {
+                std::cout << "First"  << std::endl;
                 for (auto& entity : _entityManager->getEntities()) {
                     std::shared_ptr<Position> pos;
                     std::shared_ptr<Direction> dir;
                     std::shared_ptr<Velocity> vel;
+                    std::cout << "Second" << std::endl;
                     if (entity.get()->getComponentByType<Position>(CONFIG::CompType::POSITION) != nullptr) {
                         pos = entity.get()->getComponentByType<Position>(CONFIG::CompType::POSITION);
                     }
@@ -31,29 +33,32 @@ namespace GameEngine {
                     if (entity.get()->getComponentByType<Velocity>(CONFIG::CompType::VELOCITY) != nullptr) {
                         vel = entity.get()->getComponentByType<Velocity>(CONFIG::CompType::VELOCITY);
                     }
+                    std::cout << "Tree" << std::endl;
                     
-                    CONFIG::Dir actualDir = dir.get()->getDirection();
 
-                switch (actualDir) {
-                    case CONFIG::Dir::RIGHT:
-                        std::cout << "Sys Mov : right detected" << std::endl;
-                        pos.get()->setPositionX(pos.get()->getPositionX() + (1 * vel.get()->getVelocity()));
-                        break;
-                    case CONFIG::Dir::LEFT:
-                        std::cout << "Sys Mov : left detected" << std::endl;
-                        pos.get()->setPositionX(pos.get()->getPositionX() - (1 * vel.get()->getVelocity()));
-                        break;
-                    case CONFIG::Dir::UP:
-                        std::cout << "Sys mov : up detected" << std::endl;
-                        pos.get()->setPositionY(pos.get()->getPositionY() - (1 * vel.get()->getVelocity()));
-                        break;
-                    case CONFIG::Dir::DOWN:
-                        std::cout << "Sys mov : down detected" << std::endl;
-                        pos.get()->setPositionY(pos.get()->getPositionY() + (1 * vel.get()->getVelocity()));
-                        break;
-                    default:
-                        break;
-                };
+                    if (pos != nullptr && dir != nullptr && vel != nullptr) {
+                        CONFIG::Dir actualDir = dir.get()->getDirection();
+                        switch (actualDir) {
+                            case CONFIG::Dir::RIGHT:
+                                std::cout << "Sys Mov : right detected" << std::endl;
+                                pos.get()->setPositionX(pos.get()->getPositionX() + (1 * vel.get()->getVelocity()));
+                                break;
+                            case CONFIG::Dir::LEFT:
+                                std::cout << "Sys Mov : left detected" << std::endl;
+                                pos.get()->setPositionX(pos.get()->getPositionX() - (1 * vel.get()->getVelocity()));
+                                break;
+                            case CONFIG::Dir::UP:
+                                std::cout << "Sys mov : up detected" << std::endl;
+                                pos.get()->setPositionY(pos.get()->getPositionY() - (1 * vel.get()->getVelocity()));
+                                break;
+                            case CONFIG::Dir::DOWN:
+                                std::cout << "Sys mov : down detected" << std::endl;
+                                pos.get()->setPositionY(pos.get()->getPositionY() + (1 * vel.get()->getVelocity()));
+                                break;
+                            default:
+                                break;
+                        };
+                    }
                 }
             }
         private:
