@@ -18,41 +18,44 @@ namespace GameEngine {
             virtual ~SysMovement() = default;
 
             virtual void update() {
-                
-                
-                // for (auto& entity : _entityManager->getEntities()) {
+                for (auto& entity : _entityManager->getEntities()) {
+                    std::shared_ptr<Position> pos;
+                    std::shared_ptr<Direction> dir;
+                    std::shared_ptr<Velocity> vel;
+                    if (entity.get()->getComponentByType<Position>(CONFIG::CompType::POSITION) != nullptr) {
+                        pos = entity.get()->getComponentByType<Position>(CONFIG::CompType::POSITION);
+                    }
+                    if (entity.get()->getComponentByType<Direction>(CONFIG::CompType::DIRECTION) != nullptr) {
+                        dir = entity.get()->getComponentByType<Direction>(CONFIG::CompType::DIRECTION);
+                    }
+                    if (entity.get()->getComponentByType<Velocity>(CONFIG::CompType::VELOCITY) != nullptr) {
+                        vel = entity.get()->getComponentByType<Velocity>(CONFIG::CompType::VELOCITY);
+                    }
+                    
+                    CONFIG::Dir actualDir = dir.get()->getDirection();
 
-                    // if (entity.get()->getComponentByType<CONFIG::CompType>(CONFIG::CompType::POSITION) != nullptr) {
-                    //     // std::shared_ptr< = entity.get()->getComponentByType<CONFIG::CompType>(CONFIG::CompType::POSITION);
-                    // }
-
-                    // if (entity.get()->getComponentByType<CONFIG::CompType>(CONFIG::CompType::DIRECTION) != nullptr) {
-                        
-                    // }
-
-                    // if (entity.get()->getComponentByType<CONFIG::CompType>(CONFIG::CompType::VELOCITY) != nullptr) {
-                        
-                    // }
-
-                // switch (entity->getComponentByType()) {
-                    // case CONFIG::Dir::RIGHT:
-                    //     std::cout << "Sys Mov : right detected" << std::endl;
-                    //     break;
-                    // case CONFIG::Dir::LEFT:
-                    //     std::cout << "Sys Mov : left detected" << std::endl;
-                    //     break;
-                    // case CONFIG::Dir::UP:
-                    //     std::cout << "Sys mov : up detected" << std::endl;
-                    //     break;
-                    // case CONFIG::Dir::DOWN:
-                    //     std::cout << "Sys mov : down detected" << std::endl;
-                    //     break;
-                    // default:
-                    //     break;
-                // };
-            // }
+                switch (actualDir) {
+                    case CONFIG::Dir::RIGHT:
+                        std::cout << "Sys Mov : right detected" << std::endl;
+                        pos.get()->setPositionX(pos.get()->getPositionX() + (1 * vel.get()->getVelocity()));
+                        break;
+                    case CONFIG::Dir::LEFT:
+                        std::cout << "Sys Mov : left detected" << std::endl;
+                        pos.get()->setPositionX(pos.get()->getPositionX() - (1 * vel.get()->getVelocity()));
+                        break;
+                    case CONFIG::Dir::UP:
+                        std::cout << "Sys mov : up detected" << std::endl;
+                        pos.get()->setPositionY(pos.get()->getPositionY() - (1 * vel.get()->getVelocity()));
+                        break;
+                    case CONFIG::Dir::DOWN:
+                        std::cout << "Sys mov : down detected" << std::endl;
+                        pos.get()->setPositionY(pos.get()->getPositionY() + (1 * vel.get()->getVelocity()));
+                        break;
+                    default:
+                        break;
+                };
                 }
-        protected:
+            }
         private:
           std::shared_ptr<EntityManager>  _entityManager;
     };
