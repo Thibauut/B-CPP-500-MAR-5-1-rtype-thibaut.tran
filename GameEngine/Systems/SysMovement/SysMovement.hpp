@@ -52,6 +52,9 @@ namespace GameEngine {
                                 std::cout << "Sys mov : down detected" << std::endl;
                                 pos.get()->setPositionY(pos.get()->getPositionY() + (1 * vel.get()->getVelocity()));
                                 break;
+                            case CONFIG::Dir::NONE:
+                                std::cout << "Sys mov : none detected" << std::endl;
+                                pos.get()->setPosition(pos.get()->getPositionX(), pos.get()->getPositionY());
                             default:
                                 break;
                         };

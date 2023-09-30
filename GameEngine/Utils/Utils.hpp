@@ -24,6 +24,7 @@ namespace CONFIG {
         DOWN,
         RIGHT,
         LEFT,
+        NONE,
     };
 }
 
