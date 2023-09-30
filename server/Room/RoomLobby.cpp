@@ -44,7 +44,7 @@ void RoomLobby::gameEntryPoint()
         Entity player_entity(id, 1);
         std::shared_ptr<Position> position = std::make_shared<Position>(CONFIG::CompType::POSITION, id_comp, 200, 300);
         std::shared_ptr<Health> health = std::make_shared<Health>(CONFIG::CompType::HEALTH, id_comp, 100);
-        std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::NONE);
+        std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::RIGHT);
         player_entity.addComponent(position);
         player_entity.addComponent(health);
         player_entity.addComponent(direction);

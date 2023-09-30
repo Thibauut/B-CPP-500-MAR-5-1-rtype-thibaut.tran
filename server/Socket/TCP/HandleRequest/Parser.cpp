@@ -93,6 +93,13 @@ void Parser::callback() {
         case GET_PLAYER_INFO:
             getPlayerInfo();
             break;
+
+
+
+
+
+
+            
         case CREATE_ROOM:
             createRoom(_args.at(0), std::stoi(_args.at(1)), _args.at(2));
             break;
@@ -137,8 +144,8 @@ void Parser::login() {
             if (player.get()->connection.get()->uuid() == _request._uuid) {
                 std::shared_ptr<PlayerLobby> pl = _server->_save.findPlayerByName(_args.at(0));
                 player->setPlayerLobbyShared(pl);
-                std::cout << "-> LOGIN " << _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() << std::endl;
                 std::string response = "LOGIN " + _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() + '\n';
+                std::cout << "-> LOGIN " << _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() << std::endl;
                 _server->_save.setPlayerStatus(true, _server->_save.findPlayerByName(_args.at(0)).get()->getUuid());
                 _socket.async_write_some(boost::asio::buffer(response),
                 [sharedThis = this](const boost::system::error_code& error,
@@ -177,24 +184,32 @@ void Parser::createRoom(std::string player_uuid, int nb_slots, std::string name)
     }
 
     std::string room_uuid = boost::uuids::to_string(boost::uuids::random_generator()());
-    _server->_lobbys.push_back(std::make_shared<RoomLobby>(_server->_save.findPlayerByUuid(player_uuid), nb_slots, name, room_uuid));
-    std::string response = "CREATE_ROOM " + room_uuid + "\n";
-    std::cout << "-> " << response;
-    _socket.async_write_some(boost::asio::buffer(response),
-        [sharedThis = this](const boost::system::error_code& error,
-            size_t bytes_transferred) {});
+    for (std::shared_ptr<PlayerLobby> player : _server->players_) {
+        if (player->getUuid() == player_uuid) {
+            _server->_lobbys.push_back(std::make_shared<RoomLobby>(player, nb_slots, name, room_uuid));
+            std::string response = "CREATE_ROOM " + room_uuid + "\n";
+            std::cout << "-> " << response;
+            _socket.async_write_some(boost::asio::buffer(response),
+                [sharedThis = this](const boost::system::error_code& error,
+                    size_t bytes_transferred) {});
+        }
+    }
 }
 
 void Parser::joinRoom(std::string player_uuid, std::string room_uuid) {
     for (std::shared_ptr<RoomLobby> room : _server->_lobbys) {
         if (room->getUuid() == room_uuid) {
             if (room->getNbPlayers() < room->getNbSlots()) {
-                room->addPlayer(_server->_save.findPlayerByUuid(player_uuid));
-                std::string response = "JOIN_ROOM OK\n";
-                std::cout << "-> " << response;
-                _socket.async_write_some(boost::asio::buffer(response),
-                    [sharedThis = this](const boost::system::error_code& error,
-                        size_t bytes_transferred) {});
+                for (std::shared_ptr<PlayerLobby> player : _server->players_) {
+                    if (player->getUuid() == player_uuid) {
+                        room->addPlayer(player);
+                        std::string response = "JOIN_ROOM OK\n";
+                        std::cout << "-> " << response;
+                        _socket.async_write_some(boost::asio::buffer(response),
+                            [sharedThis = this](const boost::system::error_code& error,
+                                size_t bytes_transferred) {});
+                    }
+                }
                 return;
             } else {
                 std::string response = "JOIN_ROOM KO\n";
@@ -270,12 +285,30 @@ void Parser::deleteRoom(std::string player_uuid, std::string room_uuid) {
 void Parser::ready(std::string player_uuid, std::string room_uuid) {
     for (std::shared_ptr<RoomLobby> room : _server->_lobbys) {
         if (room->getUuid() == room_uuid) {
-            room->addReadyPlayer();
             std::string response = "READY OK\n";
             std::cout << "-> " << response;
-            _socket.async_write_some(boost::asio::buffer(response),
-                [sharedThis = this](const boost::system::error_code& error,
-                    size_t bytes_transferred) {});
+            _socket.write_some(boost::asio::buffer(response));
+            if (room->addReadyPlayer()) {
+                room->startGame();
+                std::cout << "-> START 1\n";
+                _socket.write_some(boost::asio::buffer("START 1\n"));
+                int id = 2;
+                if (id <= room->getNbPlayers()) {
+                    for (std::shared_ptr<PlayerLobby> &player : room->getPlayers()) {
+                        if (player.get()->connection.get()->uuid() != _request._uuid) {
+                            // if (player.get()->connection.get()->socket().is_open() == true)
+                            //     std::cout << "le socket est actif" << std::endl;
+                            // else
+                            //     std::cout << "le socket est inactif" << std::endl;
+                            // std::cout << player.get()->getUsername() << std::endl;
+                            std::string response = "START " + std::to_string(id) + "\n";
+                            std::cout << "-> " << response;
+                            player.get()->connection.get()->socket().write_some(boost::asio::buffer(response));
+                            id++;
+                        }
+                    }
+                }
+            }
             return;
         }
     }

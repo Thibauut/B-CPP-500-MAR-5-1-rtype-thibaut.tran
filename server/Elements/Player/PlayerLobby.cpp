@@ -9,7 +9,6 @@
 
 PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level, TCPConnection::pointer &client) : username(username), _uuid(uuid), level(level), connection(client)
 {
-    client.get()->start();
 }
 
 PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level) : username(username), _uuid(uuid), level(level)
@@ -18,7 +17,6 @@ PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level
 
 PlayerLobby::PlayerLobby(TCPConnection::pointer &client) : connection(client)
 {
-    client.get()->start();
 }
 
 PlayerLobby::~PlayerLobby() {}

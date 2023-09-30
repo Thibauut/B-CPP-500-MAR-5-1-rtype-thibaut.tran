@@ -41,26 +41,30 @@ void UDPServer::StartSend(const std::string& message)
     socket_.send_to(boost::asio::buffer(new_message), remote_endpoint_);
 }
 
-void UDPServer::moveLeft() {
+void UDPServer::moveLeft(int id) {
+    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionX(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() - 2);
     std::string resp;
     resp = cmd_[0] + " " + player_x + " " + player_y;
     StartSend(resp);
 }
 
-void UDPServer::moveRight()
+void UDPServer::moveRight(int id)
 {
+    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionX(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() + 2);
     std::string resp;
     resp = cmd_[0] + " " + player_x + " " + player_y;
     StartSend(resp);
 }
-void UDPServer::moveUp()
+void UDPServer::moveUp(int id)
 {
+    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionY(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() - 2);
     std::string resp;
     resp = cmd_[0] + " " + player_x + " " + player_y;
     StartSend(resp);
 }
-void UDPServer::moveDown()
+void UDPServer::moveDown(int id)
 {
+    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionY(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() + 2);
     std::string resp;
     resp = cmd_[0] + " " + player_x + " " + player_y;
     StartSend(resp);
@@ -83,12 +87,8 @@ void UDPServer::Shoot()
 void UDPServer::sendPlayersPosition()
 {
     std::string resp = "";
-    std::cout << "HERE !" << std::endl;
     if (!entityManagerPtr_.get()->getEntitiesByType(player_type).empty()) {
-            std::cout << "EntityManager isn't empty" << std::endl;
         for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-                std::cout << "In list progress..." << std::endl;
-            std::cout << player_x1 << player_y1 << std::endl;
             resp = resp + player_id1 + " " + player_x1 + " " + player_y1;
             if (player != entityManagerPtr_.get()->getEntitiesByType(player_type).back())
                 resp = resp + " ";
@@ -108,13 +108,13 @@ void UDPServer::StartExec(const std::string& message) {
     if (!cmd_.empty()) {
         if (cmd_.size() > 1) {
             if (cmd_[1].compare("UP") == 0)
-                moveUp();
+                moveUp(std::stoi(cmd_[0]));
             else if (cmd_[1].compare("DOWN") == 0)
-                moveDown();
+                moveDown(std::stoi(cmd_[0]));
             else if (cmd_[1].compare("LEFT") == 0)
-                moveLeft();
+                moveLeft(std::stoi(cmd_[0]));
             else if (cmd_[1].compare("RIGHT") == 0)
-                moveRight();
+                moveRight(std::stoi(cmd_[0]));
             else if (cmd_[1].compare("SHOOT") == 0)
                 Shoot();
         }

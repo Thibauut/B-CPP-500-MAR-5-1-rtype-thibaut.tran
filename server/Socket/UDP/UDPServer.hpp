@@ -33,10 +33,10 @@ public:
     void sendProjectilsPosition();
     void sendBotsPosition();
     void sendPowerUpPosition();
-    void moveLeft();
-    void moveRight();
-    void moveUp();
-    void moveDown();
+    void moveLeft(int id);
+    void moveRight(int id);
+    void moveUp(int id);
+    void moveDown(int id);
     void Shoot();
     void sendScores();
     std::vector<std::string> cmd_;

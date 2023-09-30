@@ -11,7 +11,7 @@
             "high_score": 0,
             "level": 10,
             "name": "Dieu Yanis",
-            "online": false,
+            "online": true,
             "uuid": "I-AM-GOD"
         },
         {
@@ -25,7 +25,7 @@
             "high_score": 0,
             "level": 1,
             "name": "CapriSun",
-            "online": false,
+            "online": true,
             "uuid": "KPITN"
         },
         {
@@ -37,27 +37,15 @@
         },
         {
             "level": 1,
-            "name": "EL-SHEYTANO",
-            "online": true,
-            "uuid": "2eb61e73-40df-4c98-9523-ac3cce6f9cec"
-        },
-        {
-            "level": 1,
             "name": "mao",
             "online": true,
-            "uuid": "90d18e06-6fdf-475b-9a5b-2f6fb639149f"
+            "uuid": "66637cd8-8447-45df-901b-109753948e13"
         },
         {
             "level": 1,
-            "name": "test",
+            "name": "Yanis Dieu",
             "online": true,
-            "uuid": "04656dd8-9701-4cfa-b6e7-5202ab964bd9"
-        },
-        {
-            "level": 1,
-            "name": "kiyhyjk",
-            "online": true,
-            "uuid": "4e4a3c3d-9849-4eb3-8989-f3be8ccda288"
+            "uuid": "ddd6f787-f549-49bd-adb4-4d11db9c0f39"
         }
     ]
 }
