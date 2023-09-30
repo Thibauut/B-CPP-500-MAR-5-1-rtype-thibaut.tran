@@ -37,16 +37,16 @@ namespace GameEngine {
                 int pos_x = _manager.getEntity(1).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first;
                 int pos_y = _manager.getEntity(1).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second;
 
-                std::cout << "    💜 Player's health: " << std::to_string(_manager.getEntity(CONFIG::CompType::HEALTH).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->getHealth()) << std::endl;
+                std::cout << "    💜 Player's health: " << std::to_string(_manager.getEntity(1).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->getHealth()) << std::endl;
                 std::cout << "    👀 Player's position: " << std::to_string(pos_x) << " " << std::to_string(pos_y)  << std::endl;
                 std::cout << "🗡  Player take 33 damages 🗡 " << std::endl;
 
                 // Maybe a future system ?
-                _manager.getEntity(2).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->setHealth(_manager.getEntity(CONFIG::CompType::HEALTH).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->getHealth() - 33);
+                _manager.getEntity(2).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->setHealth(_manager.getEntity(1).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->getHealth() - 33);
 
-                std::cout << "    💜 Player's health: " << std::to_string(_manager.getEntity(CONFIG::CompType::HEALTH).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->getHealth()) << std::endl;
+                std::cout << "    💜 Player's health: " << std::to_string(_manager.getEntity(1).get()->getComponentByType<Health>(CONFIG::CompType::HEALTH).get()->getHealth()) << std::endl;
                 std::cout << "    👀 Player's position: " << std::to_string(pos_x) << " " << std::to_string(pos_y)  << std::endl;
-                
+
                 _isRunning = true;
                 while (_isRunning) {
                     for (auto& _system : _systems) {
