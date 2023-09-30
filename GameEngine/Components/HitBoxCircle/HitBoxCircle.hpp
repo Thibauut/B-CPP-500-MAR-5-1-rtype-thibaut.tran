@@ -9,20 +9,18 @@
 
 namespace GameEngine {
 
-    class HitboxCircle : public IComponent {
+    class HitBoxCircle : public IComponent {
         public:
-            HitboxCircle(CONFIG::CompType type, int id, int radius) : _idComponent(id), _type(type), _radius(radius) {}
-            ~HitboxCircle() = default;
+            HitBoxCircle(CONFIG::CompType type, int id, int radius) : _idComponent(id), _type(type), _radius(radius) {}
+            ~HitBoxCircle() = default;
 
-            void setHitboxCircleRadius(int radius){ _radius = radius;}
+            void setHitBoxCircleRadius(int radius){ _radius = radius;}
 
 
             int getHitBoxCircleRadius()
             {
                 return _radius;
             }
-
-
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
