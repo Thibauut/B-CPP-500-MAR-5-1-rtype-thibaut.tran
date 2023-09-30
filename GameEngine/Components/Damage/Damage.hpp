@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** B-CPP-500-MAR-5-1-rtype-maori.dino
+** Strenght
 ** File description:
-** Render.hpp
+** Strenght
 */
 
 #pragma once
@@ -11,27 +11,22 @@
 namespace GameEngine {
 
     template <class T>
-    class Render : public IComponent {
+    class Damage : public AComponent {
         public:
-            Render() {}
-            ~Render() = default;
-
-            void setComponent() {
-                std::cout << "Component : {render.set}" << std::endl;
-            }
+            Damage(CONFIG::CompType type, int id, int damage) { _type(type), _id(id), _damage = 1;}
+            ~Damage() = default;
+            void setDamage(int new_damage){ _damage = new_damage;}
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _id;};
-            virtual void setId(const int id) {return id};
+            virtual void setId(const int id) {return id;};
 
         protected:
             int _idComponent;
             CONFIG::CompType _type;
 
         private:
-            std::string _pathTexture;
-            int _width;
-            int _height;
+            int _damage;
     };
 }

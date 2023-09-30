@@ -10,7 +10,7 @@
 namespace CONFIG {
 
     enum CompType {
-        RENDER,
+        SPRITE,
         POSITION,
         VELOCITY,
         DIRECTION,
