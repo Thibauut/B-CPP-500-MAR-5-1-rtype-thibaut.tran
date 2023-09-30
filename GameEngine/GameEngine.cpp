@@ -42,9 +42,11 @@ int main() {
     // Initialize System
     std::shared_ptr<SysMovement> mouv_system = std::make_shared<SysMovement>(r_type.getManager());
     std::shared_ptr<SysRender> render_system = std::make_shared<SysRender>(r_type.getManager());
+    std::shared_ptr<SysCollision> collision_system = std::make_shared<SysCollision>(r_type.getManager());
 
     r_type.addSystem(mouv_system);
     r_type.addSystem(render_system);
+    r_type.addSystem(collision_system);
 
     r_type.run(); // Run game
 
