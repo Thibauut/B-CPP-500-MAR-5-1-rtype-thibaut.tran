@@ -11,11 +11,16 @@
     namespace GameEngine {
         class Weapon : public IComponent {
             public:
-                Weapon(CONFIG::CompType type, CONFIG::Dir dir) : _type(type), _dir(dir) {};
+                Weapon(CONFIG::CompType type, int id, double coulDown, double xSpeed, double ySpeed, double posX, double posY) 
+                : _idComponent(id), _type(type), _coulDown(coulDown), _xSpeed(xSpeed), _ySpeed(ySpeed), _posX(posX), _posY(posY)  {}
                 ~Weapon() = default;
 
-                void setWeapon(CONFIG::Dir direction) {
-                    _dir = direction;
+                void setWeapon(double couldDown, double xSpeed, double ySpeed, double posX, double posY) {
+                    _coulDown = couldDown;
+                    _xSpeed = xSpeed;
+                    _ySpeed = ySpeed;
+                    _posX = posX;
+                    _posY = posY;
                 }
 
                 virtual CONFIG::CompType getType() {return _type;};
@@ -28,6 +33,10 @@
                 CONFIG::CompType _type;
 
             private:
-                CONFIG::Dir _dir;
+                double _coulDown;
+                double _xSpeed;
+                double _ySpeed;
+                double _posX;
+                double _posY;
         };
     }
