@@ -136,7 +136,7 @@ void Parser::login() {
         for (std::shared_ptr<PlayerLobby>& player : _server->players_) {
             if (player.get()->connection.get()->uuid() == _request._uuid) {
                 std::shared_ptr<PlayerLobby> pl = _server->_save.findPlayerByName(_args.at(0));
-                player.get()->setPlayerLobbyShared(pl);
+                player->setPlayerLobbyShared(pl);
                 std::cout << "-> LOGIN " << _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() << std::endl;
                 std::string response = "LOGIN " + _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() + '\n';
                 _server->_save.setPlayerStatus(true, _server->_save.findPlayerByName(_args.at(0)).get()->getUuid());

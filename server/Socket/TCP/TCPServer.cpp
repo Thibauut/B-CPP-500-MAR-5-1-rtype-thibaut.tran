@@ -21,7 +21,6 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
 {
   if (!error) {
     std::cout << "<- NEW CLIENT" << std::endl;
-    new_connection->start();
     players_.push_back(std::make_shared<PlayerLobby>(new_connection));
     // Clients().push_back(new_connection);
   }
@@ -48,14 +47,22 @@ void TCPServer::getAllTcpRequest() {
 
   for (std::shared_ptr<RoomLobby> room : _lobbys) {
     if (room.get()->getNbReadyPlayers() == room.get()->getNbSlots() && !room.get()->isStarted()) {
+      room.get()->setStarted(true);
       room.get()->startGame();
-      for (int i = 0; i < room.get()->getPlayers().size(); i++) {
-              std::string response = "START\n";
-              room.get()->getPlayers().at(i).get()->getSocket().async_write_some(boost::asio::buffer(response),
-              [message = response](const boost::system::error_code& error,
-              size_t bytes_transferred) { std::cout << "-> " << message; });
-          }
+      for (std::shared_ptr<PlayerLobby> player : room.get()->getPlayers()) {
+            std::string response = "START\n";
+            try {
+                // player.get()->connection.get()->socket().async_write_some(boost::asio::buffer(response),
+                //     [](const boost::system::error_code& error,
+                //         size_t bytes_transferred) {
+                //                 // std::cout << "-> " << responseMessage;
+                //         });
+                // std::cout << "START GAME" << std::endl;
+            } catch (std::exception& e) {
+                std::cerr << e.what() << std::endl;
+            }
       }
+    }
   }
   int i = 0;
   for (Request req : requests_) {

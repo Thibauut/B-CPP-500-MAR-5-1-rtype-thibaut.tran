@@ -38,25 +38,29 @@ void RoomLobby::gameEntryPoint()
 {
     std::cout << "Room " << _name << " started" << std::endl;
     EntityManager entityManager;
-    int id = 0;
+    int id = 1;
     int id_comp = 0;
     for (std::shared_ptr<PlayerLobby> &player : _players) {
-        Entity player_entity(id);
-        Position position(CONFIG::CompType::POSITION, id_comp, 0, 0);
-        Health health(CONFIG::CompType::HEALTH, id_comp, 100);
+        Entity player_entity(id, 1);
+        std::shared_ptr<Position> position = std::make_shared<Position>(CONFIG::CompType::POSITION, id_comp, 200, 300);
+        std::shared_ptr<Health> health = std::make_shared<Health>(CONFIG::CompType::HEALTH, id_comp, 100);
+        std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::NONE);
         player_entity.addComponent(position);
         player_entity.addComponent(health);
+        player_entity.addComponent(direction);
         entityManager.addEntity(player_entity);
         id++, id_comp++;
     }
 
     Engine game(entityManager);
-    // apl du serv-------------
+    // apl du serv---------------
     boost::asio::io_service io_service;
-    std::thread t1([&io_service, &game](){ UDPServer server(io_service, 4242, std::make_shared<EntityManager>(game._manager)); });
+    std::thread t1([&io_service, &gamee = game](){ UDPServer server(io_service, 1134, std::make_shared<EntityManager>(gamee._manager)); });
     std::thread t([&io_service](){ io_service.run(); });
     // --------------------------
     game.run();
+    t1.join();
+    t.join();
 
     while (!shouldStop.load(std::memory_order_relaxed)) {
         std::cout << "Room " << _name << " is running" << std::endl;
@@ -76,7 +80,6 @@ bool RoomLobby::addReadyPlayer()
 {
     _nbReadyPlayers++;
     if (_nbReadyPlayers == _nbSlots) {
-        _isStarted = true;
         return (true);
     }
     return (false);

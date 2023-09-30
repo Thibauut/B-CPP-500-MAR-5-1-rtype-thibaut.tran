@@ -29,10 +29,10 @@ public:
     std::shared_ptr<EntityManager> &Entitys(){return entityManagerPtr_;}
     void StartExec(const std::string& message);
     // ------------CMD--------------
-    void SendAllPlayersPosition();
-    void SendAllProjectilsPosition();
-    void SendAllPnjPosition();
-    void SendAllCollectiblesPosition();
+    void sendPlayersPosition();
+    void sendProjectilsPosition();
+    void sendBotsPosition();
+    void sendPowerUpPosition();
     void moveLeft();
     void moveRight();
     void moveUp();

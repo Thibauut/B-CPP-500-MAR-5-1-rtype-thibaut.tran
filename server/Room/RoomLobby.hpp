@@ -34,6 +34,7 @@ class RoomLobby {
         std::string getUuid() const { return _uuid; }
         unsigned int getNbReadyPlayers() const { return _nbReadyPlayers; }
         bool isStarted() const { return _isStarted; }
+        void setStarted(bool started) { _isStarted = started; }
 
     private:
         void gameEntryPoint();

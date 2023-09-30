@@ -16,13 +16,14 @@ public:
   static pointer create(boost::asio::io_context& io_context);
   tcp::socket& socket(){return socket_;}
   std::list<Request>& requests(){return requests_;}
+  void send(std::string &message);
   boost::uuids::uuid uuid(){return _uuid;}
   void start();
 
 private:
   TCPConnection(boost::asio::io_context& io_context);
-  void do_read();
   void do_write();
+  void do_read();
   void handle_read(const boost::system::error_code& error, size_t bytes_transferred);
   void handle_write(const boost::system::error_code& error, size_t bytes_transferred);
 

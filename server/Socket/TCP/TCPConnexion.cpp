@@ -31,6 +31,15 @@ void TCPConnection::do_read()
       });
 }
 
+void TCPConnection::send(std::string &message)
+{
+    socket_.async_write_some(boost::asio::buffer(message),
+        [myMessage = message](const boost::system::error_code& error,
+                                            size_t bytes_transferred) {
+          std::cout << "-> " << myMessage << std::endl;
+        });
+}
+
 void TCPConnection::do_write()
 {
   //  std::cout << socket_. << "\n";
