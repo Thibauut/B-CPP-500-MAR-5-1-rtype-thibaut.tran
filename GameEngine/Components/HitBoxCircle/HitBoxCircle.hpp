@@ -11,26 +11,18 @@ namespace GameEngine {
 
     class HitboxCircle : public IComponent {
         public:
-            HitboxCircle(CONFIG::CompType type, int id, int x, int y) : _idComponent(id), _type(type), _x(x), _y(y) {}
+            HitboxCircle(CONFIG::CompType type, int id, int radius) : _idComponent(id), _type(type), _radius(radius) {}
             ~HitboxCircle() = default;
 
-            void setHitbox(int x, int y){ _x = x, _y = y;}
+            void setHitboxCircleRadius(int radius){ _radius = radius;}
 
 
-            int getHitBoxCircleX()
+            int getHitBoxCircleRadius()
             {
-                return _x;
+                return _radius;
             }
 
-            int getHitBoxCircleY()
-            {
-                return _y;
-            }
 
-            std::pair<int, int> getHitBoxCircle()
-            {
-                return std::make_pair(_x, _y);
-            }
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -42,7 +34,6 @@ namespace GameEngine {
             CONFIG::CompType _type;
 
         private:
-            int _x;
-            int _y;
+            int _radius;
     };
 }
