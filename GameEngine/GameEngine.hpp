@@ -13,8 +13,11 @@
 #include "Components/Velocity/Velocity.hpp"
 #include "Components/Health/Health.hpp"
 #include "Components/AI/AI.hpp"
+#include "Components/Sprite/Sprite.hpp"
+#include "Components/Direction/Direction.hpp"
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysMovement/SysMovement.hpp"
+#include "Systems/SysRender/SysRender.hpp"
 #include <iostream>
 #include <memory>
 #include <list>

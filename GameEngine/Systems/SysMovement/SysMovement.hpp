@@ -18,12 +18,11 @@ namespace GameEngine {
             virtual ~SysMovement() = default;
 
             virtual void update() {
-                std::cout << "First"  << std::endl;
                 for (auto& entity : _entityManager->getEntities()) {
                     std::shared_ptr<Position> pos;
                     std::shared_ptr<Direction> dir;
                     std::shared_ptr<Velocity> vel;
-                    std::cout << "Second" << std::endl;
+
                     if (entity.get()->getComponentByType<Position>(CONFIG::CompType::POSITION) != nullptr) {
                         pos = entity.get()->getComponentByType<Position>(CONFIG::CompType::POSITION);
                     }
@@ -33,9 +32,7 @@ namespace GameEngine {
                     if (entity.get()->getComponentByType<Velocity>(CONFIG::CompType::VELOCITY) != nullptr) {
                         vel = entity.get()->getComponentByType<Velocity>(CONFIG::CompType::VELOCITY);
                     }
-                    std::cout << "Tree" << std::endl;
                     
-
                     if (pos != nullptr && dir != nullptr && vel != nullptr) {
                         CONFIG::Dir actualDir = dir.get()->getDirection();
                         switch (actualDir) {
@@ -62,6 +59,6 @@ namespace GameEngine {
                 }
             }
         private:
-          std::shared_ptr<EntityManager>  _entityManager;
+            std::shared_ptr<EntityManager>  _entityManager;
     };
 }
