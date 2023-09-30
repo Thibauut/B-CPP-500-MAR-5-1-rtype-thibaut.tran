@@ -17,6 +17,8 @@ namespace CONFIG {
         HEALTH,
         WEAPON,
         AI,
+        HITBOXSQUARE,
+        HITBOXCIRCLE,
     };
 
     enum Dir {
