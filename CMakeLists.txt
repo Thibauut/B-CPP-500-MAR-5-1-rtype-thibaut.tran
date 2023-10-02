@@ -14,7 +14,8 @@ add_subdirectory(libs/json)
 
 # Client
 set(SRC_CLIENT  client/main.cpp
-                client/network/ConnectionTCP/ConnectionTCP.cpp
+                # client/network/ConnectionTCP/ConnectionTCP.cpp
+                # client/network/OpenUDP/OpenUDP.cpp
                 client/network/ThreadHandler/ThreadHandler.cpp
                 # client/graphical/menu.cpp
                 # client/graphical/room.cpp

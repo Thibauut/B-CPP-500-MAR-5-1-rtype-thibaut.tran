@@ -41,7 +41,7 @@ void Menu::InitText() {
     sfmlFunc.CreateTextField(_textField2_room, _text_slot_room, _font, "Slot number", sf::Vector2f(600, 40), sf::Vector2f(590, 600));
 
     sfmlFunc.createText(_text_name_input, _font, "letibz", 24, sf::Color::White, sf::Vector2f(605, 508));
-    sfmlFunc.createText(_text_ip_input, _font, "192.168.0.22", 24, sf::Color::White, sf::Vector2f(605, 608));
+    sfmlFunc.createText(_text_ip_input, _font, "10.79.216.57", 24, sf::Color::White, sf::Vector2f(605, 608));
     sfmlFunc.createText(_text_port_input, _font, "12345", 24, sf::Color::White, sf::Vector2f(605, 708));
 
     sfmlFunc.createText(_text_name_input_room, _font, "Room 1", 24, sf::Color::White, sf::Vector2f(605, 508));

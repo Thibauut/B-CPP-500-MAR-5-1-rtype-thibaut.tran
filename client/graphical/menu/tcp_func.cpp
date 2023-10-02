@@ -8,8 +8,8 @@
 #include "../../include/menu.hpp"
 
 void Menu::UpdateRoom() {
-    _roomList.clear();
     _tcpConnection->GetRoomList();
+    _roomList.clear();
     if (!_tcpConnection->rooms.empty()) {
         for (auto &roomtcp : _tcpConnection->rooms) {
             Room *room = new Room();
@@ -20,15 +20,16 @@ void Menu::UpdateRoom() {
             room->nbPlayers.setFillColor(sf::Color::White);
             room->nbPlayers.setPosition(sf::Vector2f(400, 460 + (_roomSizeIndex * _roomList.size())) + sf::Vector2f(40, 10));
             room->roomuuid = roomtcp->uuid;
-            std::cout << room->roomuuid << std::endl;
+            // std::cout << room->roomuuid << std::endl;
             _roomList.push_back(room);
         }
     }
+    // std::cout << "Update room" << std::endl;
 }
 
 void Menu::UpdatePlayerList() {
-    _playerList.clear();
     _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
+    _playerList.clear();
     if (!_tcpConnection->players.empty()) {
         for (auto &playertcp : _tcpConnection->players) {
             Player *player = new Player();

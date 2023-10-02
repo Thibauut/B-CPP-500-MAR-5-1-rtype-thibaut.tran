@@ -7,9 +7,18 @@
 
 #pragma once
 
+#include "include/menu.hpp"
+
 class Client {
     public:
         Client();
         ~Client();
-        void run();
+
+    private:
+        Menu menuGraphical;
+
+        // UDP network /!\ in a thread
+
+        // UDP graphical
+
 };

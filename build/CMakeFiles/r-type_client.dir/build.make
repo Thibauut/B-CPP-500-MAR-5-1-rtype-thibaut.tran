@@ -83,24 +83,10 @@ CMakeFiles/r-type_client.dir/client/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/r-type_client.dir/client/main.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/main.cpp -o CMakeFiles/r-type_client.dir/client/main.cpp.s
 
-CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o: CMakeFiles/r-type_client.dir/flags.make
-CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o: /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.cpp
-CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o: CMakeFiles/r-type_client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o -MF CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o.d -o CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o -c /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.cpp
-
-CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.cpp > CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.i
-
-CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ConnectionTCP/ConnectionTCP.cpp -o CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.s
-
 CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: CMakeFiles/r-type_client.dir/flags.make
 CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.cpp
 CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: CMakeFiles/r-type_client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o -MF CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o.d -o CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o -c /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.cpp
 
 CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.i: cmake_force
@@ -114,14 +100,12 @@ CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.s: c
 # Object files for target r-type_client
 r__type_client_OBJECTS = \
 "CMakeFiles/r-type_client.dir/client/main.cpp.o" \
-"CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o" \
 "CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o"
 
 # External object files for target r-type_client
 r__type_client_EXTERNAL_OBJECTS =
 
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: CMakeFiles/r-type_client.dir/client/main.cpp.o
-/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: CMakeFiles/r-type_client.dir/client/network/ConnectionTCP/ConnectionTCP.cpp.o
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: CMakeFiles/r-type_client.dir/build.make
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: libs/SFML/lib/libsfml-graphics.2.6.0.dylib
@@ -138,7 +122,7 @@ r__type_client_EXTERNAL_OBJECTS =
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_atomic-mt.dylib
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: /usr/local/lib/libboost_regex-mt.dylib
 /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client: CMakeFiles/r-type_client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable /Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/r-type_client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

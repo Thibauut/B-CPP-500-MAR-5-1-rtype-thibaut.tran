@@ -7,11 +7,10 @@
 
 #include "ConnectionTCP.hpp"
 
-std::atomic<bool> shouldExit(false);
-
 ClientConnectionTCP::ClientConnectionTCP(const std::string& userName, const std::string& serverIp, const std::string& serverPort)
     : ip_(serverIp),  port_(serverPort), username_(userName), socket_(ioService)
 {
+    readyGame_ = false;
     try {
         boost::asio::ip::tcp::resolver resolver(ioService);
         boost::asio::ip::tcp::resolver::query query(serverIp, serverPort);
@@ -35,19 +34,12 @@ bool ClientConnectionTCP::sendMessage(const std::string& msg)
     std::vector<boost::asio::const_buffer> buffers;
     buffers.push_back(boost::asio::buffer(msg));
     boost::asio::async_write(socket_, buffers,
-    [](const boost::system::error_code& error, std::size_t) {
-        if (!error) {
-            std::cout << "Message envoyé avec succès" << std::endl;
-        } else {
-            std::cerr << "Erreur lors de l'envoi du message : " << error.message() << std::endl;
-        }
-    });
+    [](const boost::system::error_code& error, std::size_t) {});
     return true;
 }
 
 void ClientConnectionTCP::handleRead(const boost::system::error_code& error, std::size_t bytes_transferred)
 {
-    std::cout << "handleRead" << std::endl;
     if (!error) {
         const char* dataBegin = boost::asio::buffer_cast<const char*>(buffer_.data());
         const char* dataEnd = dataBegin + bytes_transferred;
@@ -60,6 +52,7 @@ void ClientConnectionTCP::handleRead(const boost::system::error_code& error, std
 
 void ClientConnectionTCP::readMessage()
 {
+    std::unique_lock<std::mutex> lock(mutex_);
     boost::asio::read_until(socket_, buffer_, '\n');
 
     std::istream response_stream(&buffer_);
@@ -75,12 +68,11 @@ void ClientConnectionTCP::run()
         return;
     }
     std::thread readThread([this]() {
-        std::cout << "dans le thread" << std::endl;
-        while (!shouldExit) {
-            readMessage();
-            std::cout << response_ << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(3));
-        }
+        while (1) {}
+        // while (1) {
+        //     readMessage();
+        //     // std::this_thread::sleep_for(std::chrono::seconds(3));
+        // }
     });
     readThread.join();
 }
@@ -135,7 +127,6 @@ void ClientConnectionTCP::GetPlayerInfo()
 
 void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
 {
-    std::this_thread::sleep_for(std::chrono::seconds(1));
     players.clear();
     setMessage("GET_ROOM_INFO \"" + roomuuid + "\"\n");
     sendMessage(message_);
@@ -174,7 +165,8 @@ void ClientConnectionTCP::GetRoomList()
     setMessage("GET_ROOMS\n");
     sendMessage(message_);
     message_ = "";
-    readMessage();
+    if (shouldStop == false)
+        readMessage();
     std::string tmp = extractArguments(response_, "GET_ROOMS ");
 
     std::istringstream stream(tmp);
@@ -211,11 +203,7 @@ void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
     message_ = "";
     readMessage();
     infoRoomUuid_ = extractArguments(response_, "CREATE_ROOM ");
-    if (infoRoomUuid_ == "KO")
-        std::cerr << "Error until new room create" << std::endl;
-    else
-        std::cout << "ok" << std::endl;
-
+    // std::cout << "CreateRoom: " << infoRoomUuid_ << std::endl;
 }
 
 std::string ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string playeruuid)
@@ -228,17 +216,47 @@ std::string ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string pla
     return res;
 }
 
-void ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid)
+bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, std::string& startId, std::string& portUdp)
 {
+    shouldStop.store(true, std::memory_order_relaxed);
     setMessage("READY \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
-    if (response_ == "KO") {
-        std::cerr << "Error until room join" << std::endl;
-    } else {
-        std::cout << "ok" << std::endl;
+    std::cout << "RESPONSE ======> " + response_ << std::endl;
+    for (auto &rooms : rooms) {
+        if (rooms->uuid == roomuuid) {
+            if (rooms->slot == "1/1") {
+                // readyGame_ = true;
+                readMessage();
+                std::cout << response_ << std::endl;
+                std::string res = extractArguments(response_, "START ");
+                std::istringstream iss(res);
+                std::string port, id;
+                if(iss >> id >> port) {
+                    startId = id;
+                    portUdp = port;
+                }
+                startGame = true;
+                return true;
+            } else {
+                // readyGame_ = true;
+                readMessage();
+                std::cout << "RESPONSE ======> " + response_ << std::endl;
+                std::string res = extractArguments(response_, "START ");
+                std::istringstream iss(res);
+                std::string port, id;
+                if(iss >> id >> port) {
+                    startId = id;
+                    portUdp_= port;
+                }
+
+                startGame = true;
+                return true;
+            }
+        }
     }
+    return false;
 }
 
 void ClientConnectionTCP::LeaveRoom(std::string roomuuid)
@@ -257,11 +275,7 @@ void ClientConnectionTCP::DeleteRoom(std::string roomuuid)
     sendMessage(message_);
     message_ = "";
     readMessage();
-    if (response_ == "KO") {
-        std::cerr << "Error not allowed to delete" << std::endl;
-    } else {
-        std::cout << "ok" << std::endl;
-    }
+
     // std::cout << "from DeleteRoom: " << response_ << std::endl;
 }
 

@@ -17,8 +17,11 @@
 #include <memory>
 #include <map>
 #include <functional>
+#include <atomic>
 #include "../network/ConnectionTCP/ConnectionTCP.hpp"
+#include "../network/OpenUDP/OpenUDP.hpp"
 #include "../graphical/game.cpp"
+#include "player.hpp"
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
@@ -26,7 +29,6 @@
 
 class Menu {
     public:
-
         struct Room {
             sf::RectangleShape room;
             sf::Text roomText;
@@ -63,6 +65,10 @@ class Menu {
         void Draw();
         void UpdateRoom();
         void UpdatePlayerList();
+
+        std::mutex _1Mutex;
+        std::mutex _2Mutex;
+        std::mutex _3Mutex;
 
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
@@ -170,4 +176,8 @@ class Menu {
         int _selectedRoomIndex = -1;
 
         Game *_game;
+
+        std::string start_id_;
+        std::string start_port_;
+        bool ReadyGame = false;
 };

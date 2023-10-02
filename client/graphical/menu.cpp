@@ -16,7 +16,6 @@ Menu::Menu()
     InitButton();
     InitCreateRoom();
 
-
     _current_input = -1;
     _isFocused = false;
     _isFocused2 = false;
@@ -32,9 +31,24 @@ void Menu::Loop()
             Draw();
         } else {
             _game = new Game(_window);
+
+            _game->_players = std::vector<std::shared_ptr<PlayerUDP>>();
+            _game->my_id_ = start_id_;
+            _game->portUDP_ = start_port_;
+            std::cout << "my id: " << _game->my_id_ << std::endl;
+            std::cout << "my port: " << _game->portUDP_ << std::endl;
+            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>("10.79.216.57", _game->portUDP_, _game->_players, _game->my_id_);
+            _game->_clientOpenUDP = clientudp;
+
+            std::thread th([clientudp]() {
+                clientudp->run();
+            });
+
             _game->Loop();
-            delete _game;
-            _inGame = false;
+
+            // delete _game;
+            // _inGame = false;
+            th.join();
         }
     }
     _tcpConnection->stop();
@@ -62,6 +76,9 @@ void Menu::Draw() {
     _window->draw(_background2);
     _window->draw(_title);
 
+    // _window->draw(_buttonReady);
+    // _window->draw(_buttonReadyText);
+
     if (!_isConnected) {
         _window->draw(_textField);
         _window->draw(_text_name);
@@ -79,7 +96,6 @@ void Menu::Draw() {
         _window->draw(_buttonText);
     }
     if (_isConnected && !_selectedRoom && !_isCreatingRoom) {
-        UpdateRoom();
         _window->draw(_roomMenu);
         _window->draw(_buttonCreate);
         _window->draw(_buttonCreateText);
@@ -112,8 +128,6 @@ void Menu::Draw() {
         _window->draw(_buttonCancelText);
     }
     if (_isConnected && _selectedRoom && !_isCreatingRoom) {
-        UpdateRoom();
-        UpdatePlayerList();
         _window->draw(_roomMenu);
         _window->draw(_buttonLeave);
         _window->draw(_buttonLeaveText);

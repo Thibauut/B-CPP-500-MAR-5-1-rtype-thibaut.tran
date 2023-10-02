@@ -8,7 +8,6 @@
 #pragma once
     #include <iostream>
     #include <boost/asio.hpp>
-    // #include <queue>
     #include <mutex>
     #include <condition_variable>
     #include <boost/array.hpp>
@@ -16,6 +15,8 @@
     #include "../ThreadHandler/ThreadHandler.hpp"
     #include <boost/asio.hpp>
     #include <boost/bind.hpp>
+
+std::atomic<bool> shouldStop(false);
 
 class ClientConnectionTCP : public ThreadHandler {
     struct Room {
@@ -47,7 +48,7 @@ class ClientConnectionTCP : public ThreadHandler {
         void GetPlayerInfo();
         void CreateRoom(std::string roomName, std::string roomSize);
         std::string JoinRoom(std::string roomuuid , std::string playeruuid);
-        void Ready(std::string roomuuid, std::string playeruuid);
+        bool Ready(std::string roomuuid, std::string playeruuid, std::string& startId, std::string& portUdp);
         void LeaveRoom(std::string roomuuid);
         void DeleteRoom(std::string roomuuid);
         void GetRoomInfo(std::string roomuuid);
@@ -58,6 +59,10 @@ class ClientConnectionTCP : public ThreadHandler {
         std::string port_;
         std::string username_;
         std::string uuid_;
+
+        std::mutex mutex_;
+
+        std::string portUdp_;
         boost::asio::streambuf buffer_;
         std::mutex responseMutex;
         std::string response_;
@@ -70,7 +75,10 @@ class ClientConnectionTCP : public ThreadHandler {
 
         std::vector<Room *> rooms;
         std::vector<Player *> players;
+
         std::string token;
+        bool startGame = false;
+        bool readyGame_;
 
 //         std::queue<std::string> sendMessageQueue_;
 //         std::mutex messageMutex_;

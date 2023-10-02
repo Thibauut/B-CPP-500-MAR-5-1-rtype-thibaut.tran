@@ -16,6 +16,9 @@
 #include <map>
 #include <functional>
 #include "../graphical/utils/sfml_func.cpp"
+#include "player.hpp"
+#include "global.hpp"
+
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
@@ -27,9 +30,18 @@ class Game {
     public:
         Game(sf::RenderWindow *window);
         ~Game() = default;
+
+        void Init();
+        void InitBackground();
+
+        void AnimateBackground();
+
         void Loop();
         void HandleEvents();
         void Draw();
+
+
+    std::vector<std::shared_ptr<PlayerUDP>> _players;
 
     SfmlFunc sfmlFunc;
     sf::RenderWindow *_window;
@@ -37,4 +49,20 @@ class Game {
     sf::Event _event;
     sf::Font _font;
     sf::Clock _clock;
+    std::shared_ptr<ClientOpenUDP> _clientOpenUDP;
+
+    sf::Sprite _background;
+    sf::Texture _backgroundTexture;
+    sf::IntRect _rectBackground;
+    sf::Sprite _background2;
+    sf::Texture _backgroundTexture2;
+    sf::IntRect _rectBackground2;
+
+    bool _moveUp = false;
+    bool _moveDown = false;
+    bool _moveLeft = false;
+    bool _moveRight = false;
+
+    std::string my_id_;
+    std::string portUDP_;
 };
