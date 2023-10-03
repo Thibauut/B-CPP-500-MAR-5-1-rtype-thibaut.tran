@@ -7,8 +7,17 @@
 
 #include "RoomLobby.hpp"
 #include <atomic>
+#include <random>
 
 std::atomic<bool> shouldStop(false);
+
+unsigned short findOpenPort() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(1024, 50000);
+    unsigned short nombreAleatoire = dis(gen);
+    return nombreAleatoire;
+}
 
 RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid) : _owner(owner)
 {
@@ -28,6 +37,8 @@ RoomLobby::~RoomLobby() {
 void RoomLobby::startGame()
 {
     try {
+        _port = findOpenPort();
+        std::cout << "Le port "<< _port<< " est libre." << std::endl;
         _thread = std::thread(&RoomLobby::gameEntryPoint, this);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
@@ -52,11 +63,13 @@ void RoomLobby::gameEntryPoint()
         id++, id_comp++;
     }
 
+    // ---------------------------------
     Engine game(entityManager);
     // apl du serv---------------
-    boost::asio::io_service io_service;
-    std::thread t1([&io_service, &gamee = game](){ UDPServer server(io_service, 1134, std::make_shared<EntityManager>(gamee._manager)); });
-    std::thread t([&io_service](){ io_service.run(); });
+    boost::asio::io_context io_context;
+    std::cout << "Le port du room "<< _port<< " est libre." << std::endl;
+    std::thread t([&io_context](){ io_context.run(); });
+    std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, std::make_shared<EntityManager>(gamee._manager)); });
     // --------------------------
     game.run();
     t1.join();

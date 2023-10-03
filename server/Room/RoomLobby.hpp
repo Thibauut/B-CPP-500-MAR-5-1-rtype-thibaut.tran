@@ -27,6 +27,7 @@ class RoomLobby {
         bool addReadyPlayer();
 
         std::string getName() const { return _name; }
+        unsigned short getPort() const { return _port; }
         unsigned int getNbSlots() const { return _nbSlots; }
         unsigned int getNbPlayers() const { return _nbPlayers; }
         std::shared_ptr<PlayerLobby> getOwner() const { return _owner; }
@@ -39,6 +40,7 @@ class RoomLobby {
     private:
         void gameEntryPoint();
 
+        unsigned short _port;
         std::string _uuid;
         std::string _name;
         unsigned int _nbSlots;

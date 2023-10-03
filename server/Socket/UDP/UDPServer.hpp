@@ -1,16 +1,16 @@
 #pragma once
 
+#include <array>
 #include <boost/asio.hpp>
+#include <thread>
 #include <iostream>
 #include <list>
+#include <vector>
 #include "../../../GameEngine/Entity/EntityManager/EntityManager.hpp"
 #include "../../../GameEngine/Utils/Utils.hpp"
 #include "../../../GameEngine/Components/Position/Position.hpp"
 
-
 using boost::asio::ip::udp;
-
-
 
 class UDPRequest {
     public:
@@ -22,28 +22,43 @@ class UDPRequest {
 
 class UDPServer {
 public:
-    UDPServer(boost::asio::io_service& io_service, unsigned short port, std::shared_ptr<EntityManager> entity_manager);
+    UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager);
+    bool EndpointExist(udp::endpoint client) {
+        if (remote_endpoints_.empty())
+            return false;
+        for (udp::endpoint tmp : remote_endpoints_) {
+            if (tmp.address() == client.address())
+                return true;
+        }
+        return false;
+    }
     void StartReceive();
-    void StartSend(const std::string& message);
+    void handleReceive(const std::string& message);
+    void sendAll(const std::string& message);
+    void sendToClient(const std::string& message, udp::endpoint &client_t);
+
     udp::socket &Socket(){return socket_;}
     std::shared_ptr<EntityManager> &Entitys(){return entityManagerPtr_;}
-    void StartExec(const std::string& message);
+    void StartExec(const std::string& message, udp::endpoint &client);
     // ------------CMD--------------
-    void sendPlayersPosition();
-    void sendProjectilsPosition();
-    void sendBotsPosition();
-    void sendPowerUpPosition();
-    void moveLeft(int id);
-    void moveRight(int id);
-    void moveUp(int id);
-    void moveDown(int id);
+    // void sendPlayersPosition();
+    // void sendProjectilsPosition();
+    // void sendBotsPosition();
+    // void sendPowerUpPosition();
+    void moveLeft(int id, udp::endpoint &client);
+    void moveRight(int id, udp::endpoint &client);
+    void moveUp(int id, udp::endpoint &client);
+    void moveDown(int id, udp::endpoint &client);
     void Shoot();
-    void sendScores();
+    // void sendScores();
     std::vector<std::string> cmd_;
-
+    std::array<char, 1024> recv_buf_;
 private:
-    udp::endpoint remote_endpoint_;
-    std::vector<char> recv_buf_;
+    unsigned short port_;
+    udp::endpoint client = udp::endpoint();
+    std::vector<udp::endpoint> remote_endpoints_;
     udp::socket socket_;
     std::shared_ptr<EntityManager> entityManagerPtr_;
+    std::thread recv_thread;
+    std::thread send_thread;
 };

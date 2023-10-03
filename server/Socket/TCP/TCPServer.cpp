@@ -45,30 +45,7 @@ void TCPServer::getAllTcpRequest() {
   for (std::shared_ptr<PlayerLobby> player : players_) {
     requests_.splice(requests_.end(), player.get()->connection.get()->requests());
   }
-
-//   for (std::shared_ptr<RoomLobby> room : _lobbys) {
-    // if (room.get()->getNbReadyPlayers() == room.get()->getNbSlots() && !room.get()->isStarted()) {
-    //   room.get()->setStarted(true);
-    //   room.get()->startGame();
-    //   for (std::shared_ptr<PlayerLobby> &player : room.get()->getPlayers()) {
-    //         std::string response = "START\n";
-    //         try {
-    //             player.get()->connection.get()->socket().async_write_some(boost::asio::buffer(response),
-    //                 [responseMessage = response](const boost::system::error_code& error,
-    //                     size_t bytes_transferred) {
-    //                             std::cout << "-> " << responseMessage;
-    //                     });
-    //             std::cout << "START GAME" << std::endl;
-    //         } catch (std::exception& e) {
-    //             std::cerr << e.what() << std::endl;
-    //         }
-    //   }
-    // }
-//   }
-    int i = 0;
     for (Request req : requests_) {
-        std::cout << requests_.size() << std::endl;
-        i++;
         std::cout << "<- " << req._data;
         Parser pars = Parser(req, this);
     }

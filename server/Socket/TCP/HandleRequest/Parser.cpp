@@ -93,13 +93,6 @@ void Parser::callback() {
         case GET_PLAYER_INFO:
             getPlayerInfo();
             break;
-
-
-
-
-
-
-            
         case CREATE_ROOM:
             createRoom(_args.at(0), std::stoi(_args.at(1)), _args.at(2));
             break;
@@ -192,6 +185,7 @@ void Parser::createRoom(std::string player_uuid, int nb_slots, std::string name)
             _socket.async_write_some(boost::asio::buffer(response),
                 [sharedThis = this](const boost::system::error_code& error,
                     size_t bytes_transferred) {});
+            return;
         }
     }
 }
@@ -290,22 +284,17 @@ void Parser::ready(std::string player_uuid, std::string room_uuid) {
             _socket.write_some(boost::asio::buffer(response));
             if (room->addReadyPlayer()) {
                 room->startGame();
-                std::cout << "-> START 1\n";
-                _socket.write_some(boost::asio::buffer("START 1\n"));
-                int id = 2;
+                int id = 1;
                 if (id <= room->getNbPlayers()) {
                     for (std::shared_ptr<PlayerLobby> &player : room->getPlayers()) {
-                        if (player.get()->connection.get()->uuid() != _request._uuid) {
-                            // if (player.get()->connection.get()->socket().is_open() == true)
-                            //     std::cout << "le socket est actif" << std::endl;
-                            // else
-                            //     std::cout << "le socket est inactif" << std::endl;
-                            // std::cout << player.get()->getUsername() << std::endl;
-                            std::string response = "START " + std::to_string(id) + "\n";
-                            std::cout << "-> " << response;
-                            player.get()->connection.get()->socket().write_some(boost::asio::buffer(response));
-                            id++;
-                        }
+                        std::cout << "Player in room: " << player.get()->getUsername() << std::endl;
+                        std::string response = "START " + std::to_string(id) + " " + std::to_string(room->getPort()) + "\n";
+                        player.get()->connection.get()->socket().async_write_some(boost::asio::buffer(response),
+                            [responseMessage = response](const boost::system::error_code& error,
+                                size_t bytes_transferred) {
+                                    std::cout << "-> " << responseMessage;
+                            });
+                        id++;
                     }
                 }
             }
