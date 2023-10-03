@@ -17,8 +17,11 @@
 #include <memory>
 #include <map>
 #include <functional>
-#include "../graphical/utils/sfml_func.cpp"
+#include <atomic>
 #include "../network/ConnectionTCP/ConnectionTCP.hpp"
+#include "../network/OpenUDP/OpenUDP.hpp"
+#include "../graphical/game.cpp"
+#include "player.hpp"
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
@@ -26,23 +29,46 @@
 
 class Menu {
     public:
-
         struct Room {
             sf::RectangleShape room;
             sf::Text roomText;
-            sf::Text leaveText;
             sf::Text nbPlayers;
+            std::string roomuuid;
+        };
+
+        struct Player {
+            sf::RectangleShape room;
+            sf::Text playerName;
+            sf::Text playerLevel;
         };
 
         Menu();
         ~Menu() = default;
+
+        void Init();
+        void InitBackground();
+        void InitSprites();
+        void InitText();
+        void InitButton();
+        void InitCreateRoom();
+
         void Loop();
+
         void HandleEvents();
+        void HandleEventsFocus();
+        void HandleEventText();
+
+        void HandleTcpEvents();
+
         void AnimateBackground();
+        void AnimButtonEvents();
         void Draw();
-        void SetTcpConnection(ClientConnectionTCP *tcpConnection) {
-            _tcpConnection = tcpConnection;
-        };
+        void UpdateRoom();
+        void UpdatePlayerList();
+
+        std::mutex _1Mutex;
+        std::mutex _2Mutex;
+        std::mutex _3Mutex;
 
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
@@ -52,6 +78,7 @@ class Menu {
         sf::Clock _clock;
 
 
+        std::string Player_uuid_;
         sf::Sprite _title;
         sf::Texture _titleTexture;
         sf::Sprite _background;
@@ -61,26 +88,27 @@ class Menu {
         sf::Texture _backgroundTexture2;
         sf::IntRect _rectBackground2;
 
+        // Menu
         sf::RectangleShape _textField;
         sf::Text _text_name;
         sf::Text _text_name_input;
+        std::string _inputName;
 
         sf::RectangleShape _textField2;
         sf::Text _text_ip;
         sf::Text _text_ip_input;
+        std::string _inputIp;
 
         sf::RectangleShape _textField3;
         sf::Text _text_port;
         sf::Text _text_port_input;
-
-        int _current_input = 0;
-        bool _isFocused = false;
-        bool _isFocused2 = false;
-        bool _isFocused3 = false;
-
-        std::string _inputName;
-        std::string _inputIp;
         std::string _inputPort;
+
+        int _current_input;
+        bool _isFocused;
+        bool _isFocused2;
+        bool _isFocused3;
+
 
         sf::RectangleShape _button;
         sf::Text _buttonText;
@@ -88,12 +116,19 @@ class Menu {
         bool _isConnected = false;
         bool isButtonHovered = false;
 
+        // Room
         sf::RectangleShape _buttonCreate;
         sf::Text _buttonCreateText;
+
+        sf::RectangleShape _buttonCancel;
+        sf::Text _buttonCancelText;
+
         sf::RectangleShape _buttonDisconnect;
         sf::Text _buttonDisconnectText;
-        sf::RectangleShape _buttonDelete;
-        sf::Text _buttonDeleteText;
+
+
+        sf::Sprite _roomDelete;
+        sf::Texture _roomDeleteTexture;
 
         sf::RectangleShape _buttonLeave;
         sf::Text _buttonLeaveText;
@@ -102,6 +137,7 @@ class Menu {
 
         sf::RectangleShape _roomMenu;
         std::vector<Room *> _roomList;
+        std::vector<Player *> _playerList;
         int _roomIndex = 1;
         int _roomSizeIndex = 45;
 
@@ -110,5 +146,38 @@ class Menu {
 
         bool _inGame;
 
+        bool _isCreatingRoom = false;
+        sf::RectangleShape _buttonCreateRoom;
+        sf::Text _buttonCreateRoomText;
+
+        // field for creating room
+        sf::RectangleShape _textField_room;
+        sf::Text _text_name_room;
+        sf::Text _text_name_input_room;
+        std::string _inputName_room;
+
+        sf::RectangleShape _textField2_room;
+        sf::Text _text_slot_room;
+        sf::Text _text_slot_input_room;
+        std::string _inputSlot_room;
+
+        sf::Sprite _addSlot;
+        sf::Texture _addSlotTexture;
+        sf::Sprite _removeSlot;
+        sf::Texture _removeSlotTexture;
+
+        int _roomSlot = 0;
+
+        bool _isFocused_room = false;
+        bool _isFocused2_room = false;
+
         ClientConnectionTCP* _tcpConnection;
+
+        int _selectedRoomIndex = -1;
+
+        Game *_game;
+
+        std::string start_id_;
+        std::string start_port_;
+        bool ReadyGame = false;
 };

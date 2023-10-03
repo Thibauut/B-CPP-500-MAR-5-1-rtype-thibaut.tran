@@ -7,23 +7,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_subdirectory(libs/SFML)
-find_package(Boost REQUIRED COMPONENTS system thread log log_setup)
-add_subdirectory(libs/boost)
-add_subdirectory(libs/json)
+find_package(SFML 2.6.0 COMPONENTS graphics window system audio network REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system thread log log_setup PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build)
+find_package(nlohmann_json REQUIRED)
 
 # Client
 set(SRC_CLIENT  client/main.cpp
-                client/network/ConnectionTCP/ConnectionTCP.cpp
                 client/network/ThreadHandler/ThreadHandler.cpp
-
 )
 
 set(HPP_CLIENT client/include/menu.hpp
                 client/network/ConnectionTCP/ConnectionTCP.hpp
                 client/network/ThreadHandler/ThreadHandler.hpp
 )
-
 
 # Server
 set(SRC_SERVER  server/LaunchServer.cpp
@@ -51,9 +47,11 @@ set(HPP_SERVER  server/Server.hpp
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 
+target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+target_link_libraries(${CLIENT} Boost::system Boost::thread Boost::log Boost::log_setup)
 
 add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 
-target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network Boost::system Boost::thread Boost::log Boost::log_setup Threads::Threads)
-
-target_link_libraries(${SERVER} PRIVATE Boost::system Boost::thread Boost::log Boost::log_setup nlohmann_json::nlohmann_json Threads::Threads)
+target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)
+target_link_libraries(${SERVER} nlohmann_json::nlohmann_json)

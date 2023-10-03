@@ -83,21 +83,49 @@ CMakeFiles/r-type_client.dir/client/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/r-type_client.dir/client/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/main.cpp -o CMakeFiles/r-type_client.dir/client/main.cpp.s
 
+CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: CMakeFiles/r-type_client.dir/flags.make
+CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: ../client/network/ThreadHandler/ThreadHandler.cpp
+CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o: CMakeFiles/r-type_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o -MF CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o.d -o CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o -c /home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.cpp
+
+CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.cpp > CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.i
+
+CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/client/network/ThreadHandler/ThreadHandler.cpp -o CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.s
+
 # Object files for target r-type_client
 r__type_client_OBJECTS = \
-"CMakeFiles/r-type_client.dir/client/main.cpp.o"
+"CMakeFiles/r-type_client.dir/client/main.cpp.o" \
+"CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o"
 
 # External object files for target r-type_client
 r__type_client_EXTERNAL_OBJECTS =
 
 ../r-type_client: CMakeFiles/r-type_client.dir/client/main.cpp.o
+../r-type_client: CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o
 ../r-type_client: CMakeFiles/r-type_client.dir/build.make
-../r-type_client: libs/SFML/lib/libsfml-graphics.so.2.6.0
-../r-type_client: libs/SFML/lib/libsfml-window.so.2.6.0
-../r-type_client: libs/SFML/lib/libsfml-audio.so.2.6.0
-../r-type_client: libs/SFML/lib/libsfml-system.so.2.6.0
+../r-type_client: /home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib/libsfml-graphics.so
+../r-type_client: /home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib/libsfml-window.so
+../r-type_client: /home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib/libsfml-audio.so
+../r-type_client: /home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib/libsfml-network.so
+../r-type_client: /home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib/libsfml-system.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_log_setup.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_log.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_thread.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_chrono.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_container.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_date_time.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_exception.a
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_filesystem.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_atomic.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_random.so
+../r-type_client: /home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib/libboost_regex.so
 ../r-type_client: CMakeFiles/r-type_client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../r-type_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable ../r-type_client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/r-type_client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

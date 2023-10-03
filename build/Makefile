@@ -65,30 +65,10 @@ CMAKE_BINARY_DIR = /home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-mao
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	/usr/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-.PHONY : package/fast
-
-# Special rule for the target package_source
-package_source:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/CPackSourceConfig.cmake
-.PHONY : package_source
-
-# Special rule for the target package_source
-package_source/fast: package_source
-.PHONY : package_source/fast
-
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/snap/cmake/1332/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -104,51 +84,6 @@ rebuild_cache:
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\" \"bin\" \"devel\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -195,69 +130,17 @@ r-type_client/fast:
 .PHONY : r-type_client/fast
 
 #=============================================================================
-# Target rules for targets named sfml-system
+# Target rules for targets named r-type_server
 
 # Build rule for target.
-sfml-system: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-system
-.PHONY : sfml-system
+r-type_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 r-type_server
+.PHONY : r-type_server
 
 # fast build rule for target.
-sfml-system/fast:
-	$(MAKE) $(MAKESILENT) -f libs/SFML/src/SFML/System/CMakeFiles/sfml-system.dir/build.make libs/SFML/src/SFML/System/CMakeFiles/sfml-system.dir/build
-.PHONY : sfml-system/fast
-
-#=============================================================================
-# Target rules for targets named sfml-window
-
-# Build rule for target.
-sfml-window: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-window
-.PHONY : sfml-window
-
-# fast build rule for target.
-sfml-window/fast:
-	$(MAKE) $(MAKESILENT) -f libs/SFML/src/SFML/Window/CMakeFiles/sfml-window.dir/build.make libs/SFML/src/SFML/Window/CMakeFiles/sfml-window.dir/build
-.PHONY : sfml-window/fast
-
-#=============================================================================
-# Target rules for targets named sfml-network
-
-# Build rule for target.
-sfml-network: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-network
-.PHONY : sfml-network
-
-# fast build rule for target.
-sfml-network/fast:
-	$(MAKE) $(MAKESILENT) -f libs/SFML/src/SFML/Network/CMakeFiles/sfml-network.dir/build.make libs/SFML/src/SFML/Network/CMakeFiles/sfml-network.dir/build
-.PHONY : sfml-network/fast
-
-#=============================================================================
-# Target rules for targets named sfml-graphics
-
-# Build rule for target.
-sfml-graphics: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-graphics
-.PHONY : sfml-graphics
-
-# fast build rule for target.
-sfml-graphics/fast:
-	$(MAKE) $(MAKESILENT) -f libs/SFML/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir/build.make libs/SFML/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir/build
-.PHONY : sfml-graphics/fast
-
-#=============================================================================
-# Target rules for targets named sfml-audio
-
-# Build rule for target.
-sfml-audio: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-audio
-.PHONY : sfml-audio
-
-# fast build rule for target.
-sfml-audio/fast:
-	$(MAKE) $(MAKESILENT) -f libs/SFML/src/SFML/Audio/CMakeFiles/sfml-audio.dir/build.make libs/SFML/src/SFML/Audio/CMakeFiles/sfml-audio.dir/build
-.PHONY : sfml-audio/fast
+r-type_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/build
+.PHONY : r-type_server/fast
 
 client/main.o: client/main.cpp.o
 .PHONY : client/main.o
@@ -283,6 +166,246 @@ client/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/main.cpp.s
 .PHONY : client/main.cpp.s
 
+client/network/ThreadHandler/ThreadHandler.o: client/network/ThreadHandler/ThreadHandler.cpp.o
+.PHONY : client/network/ThreadHandler/ThreadHandler.o
+
+# target to build an object file
+client/network/ThreadHandler/ThreadHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.o
+.PHONY : client/network/ThreadHandler/ThreadHandler.cpp.o
+
+client/network/ThreadHandler/ThreadHandler.i: client/network/ThreadHandler/ThreadHandler.cpp.i
+.PHONY : client/network/ThreadHandler/ThreadHandler.i
+
+# target to preprocess a source file
+client/network/ThreadHandler/ThreadHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.i
+.PHONY : client/network/ThreadHandler/ThreadHandler.cpp.i
+
+client/network/ThreadHandler/ThreadHandler.s: client/network/ThreadHandler/ThreadHandler.cpp.s
+.PHONY : client/network/ThreadHandler/ThreadHandler.s
+
+# target to generate assembly for a file
+client/network/ThreadHandler/ThreadHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_client.dir/build.make CMakeFiles/r-type_client.dir/client/network/ThreadHandler/ThreadHandler.cpp.s
+.PHONY : client/network/ThreadHandler/ThreadHandler.cpp.s
+
+server/Elements/Player/PlayerLobby.o: server/Elements/Player/PlayerLobby.cpp.o
+.PHONY : server/Elements/Player/PlayerLobby.o
+
+# target to build an object file
+server/Elements/Player/PlayerLobby.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Elements/Player/PlayerLobby.cpp.o
+.PHONY : server/Elements/Player/PlayerLobby.cpp.o
+
+server/Elements/Player/PlayerLobby.i: server/Elements/Player/PlayerLobby.cpp.i
+.PHONY : server/Elements/Player/PlayerLobby.i
+
+# target to preprocess a source file
+server/Elements/Player/PlayerLobby.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Elements/Player/PlayerLobby.cpp.i
+.PHONY : server/Elements/Player/PlayerLobby.cpp.i
+
+server/Elements/Player/PlayerLobby.s: server/Elements/Player/PlayerLobby.cpp.s
+.PHONY : server/Elements/Player/PlayerLobby.s
+
+# target to generate assembly for a file
+server/Elements/Player/PlayerLobby.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Elements/Player/PlayerLobby.cpp.s
+.PHONY : server/Elements/Player/PlayerLobby.cpp.s
+
+server/LaunchServer.o: server/LaunchServer.cpp.o
+.PHONY : server/LaunchServer.o
+
+# target to build an object file
+server/LaunchServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/LaunchServer.cpp.o
+.PHONY : server/LaunchServer.cpp.o
+
+server/LaunchServer.i: server/LaunchServer.cpp.i
+.PHONY : server/LaunchServer.i
+
+# target to preprocess a source file
+server/LaunchServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/LaunchServer.cpp.i
+.PHONY : server/LaunchServer.cpp.i
+
+server/LaunchServer.s: server/LaunchServer.cpp.s
+.PHONY : server/LaunchServer.s
+
+# target to generate assembly for a file
+server/LaunchServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/LaunchServer.cpp.s
+.PHONY : server/LaunchServer.cpp.s
+
+server/Room/RoomLobby.o: server/Room/RoomLobby.cpp.o
+.PHONY : server/Room/RoomLobby.o
+
+# target to build an object file
+server/Room/RoomLobby.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Room/RoomLobby.cpp.o
+.PHONY : server/Room/RoomLobby.cpp.o
+
+server/Room/RoomLobby.i: server/Room/RoomLobby.cpp.i
+.PHONY : server/Room/RoomLobby.i
+
+# target to preprocess a source file
+server/Room/RoomLobby.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Room/RoomLobby.cpp.i
+.PHONY : server/Room/RoomLobby.cpp.i
+
+server/Room/RoomLobby.s: server/Room/RoomLobby.cpp.s
+.PHONY : server/Room/RoomLobby.s
+
+# target to generate assembly for a file
+server/Room/RoomLobby.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Room/RoomLobby.cpp.s
+.PHONY : server/Room/RoomLobby.cpp.s
+
+server/Save/HandleSave.o: server/Save/HandleSave.cpp.o
+.PHONY : server/Save/HandleSave.o
+
+# target to build an object file
+server/Save/HandleSave.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Save/HandleSave.cpp.o
+.PHONY : server/Save/HandleSave.cpp.o
+
+server/Save/HandleSave.i: server/Save/HandleSave.cpp.i
+.PHONY : server/Save/HandleSave.i
+
+# target to preprocess a source file
+server/Save/HandleSave.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Save/HandleSave.cpp.i
+.PHONY : server/Save/HandleSave.cpp.i
+
+server/Save/HandleSave.s: server/Save/HandleSave.cpp.s
+.PHONY : server/Save/HandleSave.s
+
+# target to generate assembly for a file
+server/Save/HandleSave.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Save/HandleSave.cpp.s
+.PHONY : server/Save/HandleSave.cpp.s
+
+server/Server.o: server/Server.cpp.o
+.PHONY : server/Server.o
+
+# target to build an object file
+server/Server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Server.cpp.o
+.PHONY : server/Server.cpp.o
+
+server/Server.i: server/Server.cpp.i
+.PHONY : server/Server.i
+
+# target to preprocess a source file
+server/Server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Server.cpp.i
+.PHONY : server/Server.cpp.i
+
+server/Server.s: server/Server.cpp.s
+.PHONY : server/Server.s
+
+# target to generate assembly for a file
+server/Server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Server.cpp.s
+.PHONY : server/Server.cpp.s
+
+server/Socket/TCP/HandleRequest/Parser.o: server/Socket/TCP/HandleRequest/Parser.cpp.o
+.PHONY : server/Socket/TCP/HandleRequest/Parser.o
+
+# target to build an object file
+server/Socket/TCP/HandleRequest/Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/HandleRequest/Parser.cpp.o
+.PHONY : server/Socket/TCP/HandleRequest/Parser.cpp.o
+
+server/Socket/TCP/HandleRequest/Parser.i: server/Socket/TCP/HandleRequest/Parser.cpp.i
+.PHONY : server/Socket/TCP/HandleRequest/Parser.i
+
+# target to preprocess a source file
+server/Socket/TCP/HandleRequest/Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/HandleRequest/Parser.cpp.i
+.PHONY : server/Socket/TCP/HandleRequest/Parser.cpp.i
+
+server/Socket/TCP/HandleRequest/Parser.s: server/Socket/TCP/HandleRequest/Parser.cpp.s
+.PHONY : server/Socket/TCP/HandleRequest/Parser.s
+
+# target to generate assembly for a file
+server/Socket/TCP/HandleRequest/Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/HandleRequest/Parser.cpp.s
+.PHONY : server/Socket/TCP/HandleRequest/Parser.cpp.s
+
+server/Socket/TCP/TCPConnexion.o: server/Socket/TCP/TCPConnexion.cpp.o
+.PHONY : server/Socket/TCP/TCPConnexion.o
+
+# target to build an object file
+server/Socket/TCP/TCPConnexion.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/TCPConnexion.cpp.o
+.PHONY : server/Socket/TCP/TCPConnexion.cpp.o
+
+server/Socket/TCP/TCPConnexion.i: server/Socket/TCP/TCPConnexion.cpp.i
+.PHONY : server/Socket/TCP/TCPConnexion.i
+
+# target to preprocess a source file
+server/Socket/TCP/TCPConnexion.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/TCPConnexion.cpp.i
+.PHONY : server/Socket/TCP/TCPConnexion.cpp.i
+
+server/Socket/TCP/TCPConnexion.s: server/Socket/TCP/TCPConnexion.cpp.s
+.PHONY : server/Socket/TCP/TCPConnexion.s
+
+# target to generate assembly for a file
+server/Socket/TCP/TCPConnexion.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/TCPConnexion.cpp.s
+.PHONY : server/Socket/TCP/TCPConnexion.cpp.s
+
+server/Socket/TCP/TCPServer.o: server/Socket/TCP/TCPServer.cpp.o
+.PHONY : server/Socket/TCP/TCPServer.o
+
+# target to build an object file
+server/Socket/TCP/TCPServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/TCPServer.cpp.o
+.PHONY : server/Socket/TCP/TCPServer.cpp.o
+
+server/Socket/TCP/TCPServer.i: server/Socket/TCP/TCPServer.cpp.i
+.PHONY : server/Socket/TCP/TCPServer.i
+
+# target to preprocess a source file
+server/Socket/TCP/TCPServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/TCPServer.cpp.i
+.PHONY : server/Socket/TCP/TCPServer.cpp.i
+
+server/Socket/TCP/TCPServer.s: server/Socket/TCP/TCPServer.cpp.s
+.PHONY : server/Socket/TCP/TCPServer.s
+
+# target to generate assembly for a file
+server/Socket/TCP/TCPServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/TCP/TCPServer.cpp.s
+.PHONY : server/Socket/TCP/TCPServer.cpp.s
+
+server/Socket/UDP/UDPServer.o: server/Socket/UDP/UDPServer.cpp.o
+.PHONY : server/Socket/UDP/UDPServer.o
+
+# target to build an object file
+server/Socket/UDP/UDPServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/UDP/UDPServer.cpp.o
+.PHONY : server/Socket/UDP/UDPServer.cpp.o
+
+server/Socket/UDP/UDPServer.i: server/Socket/UDP/UDPServer.cpp.i
+.PHONY : server/Socket/UDP/UDPServer.i
+
+# target to preprocess a source file
+server/Socket/UDP/UDPServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/UDP/UDPServer.cpp.i
+.PHONY : server/Socket/UDP/UDPServer.cpp.i
+
+server/Socket/UDP/UDPServer.s: server/Socket/UDP/UDPServer.cpp.s
+.PHONY : server/Socket/UDP/UDPServer.s
+
+# target to generate assembly for a file
+server/Socket/UDP/UDPServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/r-type_server.dir/build.make CMakeFiles/r-type_server.dir/server/Socket/UDP/UDPServer.cpp.s
+.PHONY : server/Socket/UDP/UDPServer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -290,22 +413,42 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... r-type_client"
-	@echo "... sfml-audio"
-	@echo "... sfml-graphics"
-	@echo "... sfml-network"
-	@echo "... sfml-system"
-	@echo "... sfml-window"
+	@echo "... r-type_server"
 	@echo "... client/main.o"
 	@echo "... client/main.i"
 	@echo "... client/main.s"
+	@echo "... client/network/ThreadHandler/ThreadHandler.o"
+	@echo "... client/network/ThreadHandler/ThreadHandler.i"
+	@echo "... client/network/ThreadHandler/ThreadHandler.s"
+	@echo "... server/Elements/Player/PlayerLobby.o"
+	@echo "... server/Elements/Player/PlayerLobby.i"
+	@echo "... server/Elements/Player/PlayerLobby.s"
+	@echo "... server/LaunchServer.o"
+	@echo "... server/LaunchServer.i"
+	@echo "... server/LaunchServer.s"
+	@echo "... server/Room/RoomLobby.o"
+	@echo "... server/Room/RoomLobby.i"
+	@echo "... server/Room/RoomLobby.s"
+	@echo "... server/Save/HandleSave.o"
+	@echo "... server/Save/HandleSave.i"
+	@echo "... server/Save/HandleSave.s"
+	@echo "... server/Server.o"
+	@echo "... server/Server.i"
+	@echo "... server/Server.s"
+	@echo "... server/Socket/TCP/HandleRequest/Parser.o"
+	@echo "... server/Socket/TCP/HandleRequest/Parser.i"
+	@echo "... server/Socket/TCP/HandleRequest/Parser.s"
+	@echo "... server/Socket/TCP/TCPConnexion.o"
+	@echo "... server/Socket/TCP/TCPConnexion.i"
+	@echo "... server/Socket/TCP/TCPConnexion.s"
+	@echo "... server/Socket/TCP/TCPServer.o"
+	@echo "... server/Socket/TCP/TCPServer.i"
+	@echo "... server/Socket/TCP/TCPServer.s"
+	@echo "... server/Socket/UDP/UDPServer.o"
+	@echo "... server/Socket/UDP/UDPServer.i"
+	@echo "... server/Socket/UDP/UDPServer.s"
 .PHONY : help
 
 
