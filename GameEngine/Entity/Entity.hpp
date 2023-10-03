@@ -12,11 +12,12 @@
 
 using namespace GameEngine;
 
+
 namespace GameEngine {
     class Entity {
         public:
-
-            Entity(unsigned int id) : _id(id) {}
+            Entity(unsigned int id, int type) : _id(id), _entityType(type) {}
+            Entity(unsigned int id) : _id(id), _entityType(0) {}
 
             ~Entity() {}
 
@@ -35,7 +36,7 @@ namespace GameEngine {
             }
 
             template <typename T>
-            std::shared_ptr<T> getComponentByType(int type) {
+            std::shared_ptr<T> getComponentByType(CONFIG::CompType type) {
                 for (auto &component : _entityContent) {
                     if (component.get()->getType() == type)
                         return std::dynamic_pointer_cast<T>(component);
@@ -46,7 +47,7 @@ namespace GameEngine {
             template <typename T>
             std::shared_ptr<T> getComponentById(int id) {
                 for (auto &component : _entityContent) {
-                    if (component->getId() == id)
+                    if (component.get()->getId() == id)
                         return component;
                 }
                 return nullptr;
@@ -57,9 +58,14 @@ namespace GameEngine {
                 return _entityContent;
             }
 
+            int getType() const {
+                return _entityType;
+            }
+
         private:
             std::list<std::shared_ptr<IComponent>> _entityContent;
             unsigned int _id;
+            int _entityType;
 
     };
 }

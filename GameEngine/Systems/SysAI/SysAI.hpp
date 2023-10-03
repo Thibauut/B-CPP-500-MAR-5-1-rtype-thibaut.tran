@@ -8,7 +8,6 @@
 #pragma once
 #include "../ASystem/ASystem.hpp"
 
-
 namespace GameEngine {
     template <class T>
     class SysAI : public ASystem {
@@ -29,12 +28,14 @@ namespace GameEngine {
 
                     if (!aiComponent) {
                         std::cout << "No AI component found on this entity." << '\n';
+                    } else if (aiComponent == 1) {
+
                     }
                 //  if fonction mob
+                // if fonction player
                 }
 
 
-                // if fonction player
             }
 
         private:

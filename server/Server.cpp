@@ -13,7 +13,7 @@ Server::~Server() {}
 
 void Server::initServer() {}
 
-void Server::run(boost::asio::io_context &context)
+void Server:: run(boost::asio::io_context &context)
 {
      try {
         std::thread refresh_thread(&Server::refresh, this);
@@ -22,28 +22,51 @@ void Server::run(boost::asio::io_context &context)
     } catch (std::exception &e) {}
 }
 
+bool Server::isExistPlayer(std::string uuid) {
+    for (std::shared_ptr<PlayerLobby> player : _menu.players_) {
+        if (player.get()->getUuid() == uuid)
+            return true;
+    }
+    return false;
+}
+
+void Server::refreshFromDb() {
+    // nlohmann::json players_data;
+    // std::ifstream input_file("Save/players.json");
+    // input_file >> players_data;
+    // input_file.close();
+    // for (json &player : players_data["players"]) {
+    //     if (player["online"] == false && isExistPlayer(player["uuid"]) == true) {
+    //         _menu.players_.erase(std::remove_if(_menu.players_.begin(), _menu.players_.end(), [player](PlayerLobby p) { return p.getUuid() == player["uuid"]; }), _menu.players_.end());
+    //     }
+    //     if (player["online"] == true && isExistPlayer(player["uuid"]) == false) {
+    //         // _menu.players_.push_back(PlayerLobby(player["name"], player["uuid"], player["level"], ));
+    //     }
+    // }
+}
+
 void Server::refresh()
 {
-    // std::cout << "Puterie" << std::endl;
     // PlayerLobby player = PlayerLobby("Tbz");
     // RoomLobby lobby = RoomLobby(player, 4, "le galion");
     // lobby.startGame();
     while (1) {
-        _menu.get_All_Tcp_Request();
+        // refreshFromDb();
+        _menu.getAllTcpRequest();
     }
 }
 
 void Server::createRoom(PlayerLobby owner, std::string name, int _nbSlots)
 {
-    _lobbys.push_back(RoomLobby(owner, _nbSlots, name));
+    // _lobbys.push_back(RoomLobby(owner, _nbSlots, name));
 }
 
 void Server::addClientToRoom(int pos, PlayerLobby client)
 {
-    _lobbys.at(pos).addPlayer(client);
+    // _lobby.at(pos).addPlayer(client);
 }
 
 void Server::deleteRoom(int pos)
 {
-    _lobbys.erase(_lobbys.begin() + pos);
+    // _lobbys.erase(_lobbys.begin() + pos);
 }

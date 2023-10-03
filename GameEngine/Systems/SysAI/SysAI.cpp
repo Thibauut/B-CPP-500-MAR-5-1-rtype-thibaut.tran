@@ -11,4 +11,5 @@ template <class T>
 GameEngine::SysAI<T>::SysAI(std::list<std::shared_ptr<Entity>> &entityList)
     : EntityManager_(entityList)
 {
+    
 }

@@ -1,0 +1,51 @@
+{
+    "players": [
+        {
+            "high_score": 0,
+            "level": 667,
+            "name": "Maori",
+            "online": true,
+            "uuid": "EL-SHEYTANO"
+        },
+        {
+            "high_score": 0,
+            "level": 10,
+            "name": "Dieu Yanis",
+            "online": true,
+            "uuid": "I-AM-GOD"
+        },
+        {
+            "high_score": 0,
+            "level": 1,
+            "name": "letibz",
+            "online": true,
+            "uuid": "TBO"
+        },
+        {
+            "high_score": 0,
+            "level": 1,
+            "name": "CapriSun",
+            "online": true,
+            "uuid": "KPITN"
+        },
+        {
+            "high_score": 0,
+            "level": 1,
+            "name": "Raph",
+            "online": false,
+            "uuid": "PLAK2FRAPP"
+        },
+        {
+            "level": 1,
+            "name": "mao",
+            "online": true,
+            "uuid": "66637cd8-8447-45df-901b-109753948e13"
+        },
+        {
+            "level": 1,
+            "name": "Yanis Dieu",
+            "online": true,
+            "uuid": "ddd6f787-f549-49bd-adb4-4d11db9c0f39"
+        }
+    ]
+}

@@ -7,25 +7,41 @@
 
 #include "PlayerLobby.hpp"
 
-PlayerLobby::PlayerLobby(const std::string username) : username(username)
+PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level, TCPConnection::pointer &client) : username(username), _uuid(uuid), level(level), connection(client)
 {
 }
 
-PlayerLobby::~PlayerLobby()
+PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level) : username(username), _uuid(uuid), level(level)
 {
 }
+
+PlayerLobby::PlayerLobby(TCPConnection::pointer &client) : connection(client)
+{
+}
+
+PlayerLobby::~PlayerLobby() {}
 
 std::string PlayerLobby::getUsername() const
 {
     return username;
 }
 
-std::string PlayerLobby::getUid() const
+std::string PlayerLobby::getUuid() const
 {
-    return _uid;
+    return _uuid;
 }
 
 std::string PlayerLobby::getIp() const
 {
     return ip;
+}
+
+int PlayerLobby::getLevel() const
+{
+    return level;
+}
+
+boost::asio::ip::tcp::socket &PlayerLobby::getSocket()
+{
+    return connection->socket();
 }

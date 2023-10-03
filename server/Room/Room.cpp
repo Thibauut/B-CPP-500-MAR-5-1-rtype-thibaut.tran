@@ -13,7 +13,7 @@ void gameThread(void *arg)
 {
     std::cout << "Room started" << std::endl;
     RoomLobby *roomLobby = (RoomLobby *)arg;
-    Room room = Room(roomLobby->getName(), roomLobby->getOwner().getUid(), roomLobby->getNbSlots());
+    // Room room = Room(roomLobby->getName(), roomLobby->getOwner().getUuid(), roomLobby->getNbSlots());
     // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
 

@@ -11,28 +11,44 @@
 #include <vector>
 #include <thread>
 #include "../Elements/Player/PlayerLobby.hpp"
+#include "../Socket/UDP/UDPServer.hpp"
+#include "../../GameEngine/GameEngine.hpp"
 
 class RoomLobby {
     public:
-        RoomLobby(PlayerLobby &owner, unsigned int nbSlots, std::string name);
+        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid);
         ~RoomLobby();
 
         void startGame();
-        void addPlayer(PlayerLobby player);
+        void stopGame();
+        bool addPlayer(std::shared_ptr<PlayerLobby> player);
         void removePlayer(std::string uid);
-        void gameEntryPoint();
+        std::string getInfo();
+        bool addReadyPlayer();
 
         std::string getName() const { return _name; }
+        unsigned short getPort() const { return _port; }
         unsigned int getNbSlots() const { return _nbSlots; }
         unsigned int getNbPlayers() const { return _nbPlayers; }
-        PlayerLobby getOwner() const { return _owner; }
-        std::vector<PlayerLobby> getPlayers() const { return _players; }
-        std::string getUid() const { return _uid; }
+        std::shared_ptr<PlayerLobby> getOwner() const { return _owner; }
+        std::vector<std::shared_ptr<PlayerLobby>>&  getPlayers() { return _players; }
+        std::string getUuid() const { return _uuid; }
+        unsigned int getNbReadyPlayers() const { return _nbReadyPlayers; }
+        bool isStarted() const { return _isStarted; }
+        void setStarted(bool started) { _isStarted = started; }
 
-        std::string _uid;
+    private:
+        void gameEntryPoint();
+
+        unsigned short _port;
+        std::string _uuid;
         std::string _name;
         unsigned int _nbSlots;
         unsigned int _nbPlayers;
-        PlayerLobby _owner;
-        std::vector<PlayerLobby> _players;
+        unsigned int _nbReadyPlayers;
+        std::shared_ptr<PlayerLobby> _owner;
+
+        std::vector<std::shared_ptr<PlayerLobby>> _players;
+        std::thread _thread;
+        bool _isStarted;
 };

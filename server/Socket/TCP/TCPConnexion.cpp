@@ -1,5 +1,4 @@
 #include "TCPConnexion.hpp"
-#include <iostream>
 
 TCPConnection::pointer TCPConnection::create(boost::asio::io_context& io_context)
 {
@@ -8,11 +7,13 @@ TCPConnection::pointer TCPConnection::create(boost::asio::io_context& io_context
 
 TCPConnection::TCPConnection(boost::asio::io_context& io_context)
   : socket_(io_context)
-{}
+{
+  _uuid = boost::uuids::random_generator()();
+}
 
 void TCPConnection::start()
 {
-  message_ = "coucou du server\n";
+  message_ = "Welcome to Hess-Type server !\n";
 
   boost::asio::async_write(socket_, boost::asio::buffer(message_),
       [shared_this = shared_from_this()](const boost::system::error_code& error,
@@ -28,6 +29,15 @@ void TCPConnection::do_read()
                                           size_t bytes_transferred) {
         shared_this->handle_read(error, bytes_transferred);
       });
+}
+
+void TCPConnection::send(std::string &message)
+{
+    socket_.async_write_some(boost::asio::buffer(message),
+        [myMessage = message](const boost::system::error_code& error,
+                                            size_t bytes_transferred) {
+          std::cout << "-> " << myMessage << std::endl;
+        });
 }
 
 void TCPConnection::do_write()
@@ -46,17 +56,15 @@ void TCPConnection::handle_read(const boost::system::error_code& error, size_t b
   {
     std::string data = std::string(data_.begin(), data_.begin() + bytes_transferred);
     if (!data.empty()) {
-      Request new_request(data, socket());
-      requests_.push_back(new_request);
-      int i = 0;
+        Request new_request(data, socket(), _uuid);
+        requests_.push_back(new_request);
+        int i = 0;
         for (const Request& request : requests_) {
-        i++;
+          i++;
+        }
     }
-    }
-    do_write();
-  }
-  else
-  {
+    do_read();
+  } else {
     socket_.close();
   }
 }

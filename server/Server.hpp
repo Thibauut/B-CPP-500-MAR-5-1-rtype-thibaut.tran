@@ -15,7 +15,6 @@
 #include <vector>
 #include <thread>
 #include "Socket/TCP/TCPServer.hpp"
-#include "Room/RoomLobby.hpp"
 #include <nlohmann/json.hpp>
 
 class Server {
@@ -25,11 +24,14 @@ class Server {
         void initServer();
         void run(boost::asio::io_context &context);
         void refresh();
+        void refreshFromDb();
         void createRoom(PlayerLobby owner, std::string name, int _nbSlots);
         void addClientToRoom(int pos, PlayerLobby client);
         void deleteRoom(int pos);
+        bool isExistPlayer(std::string uuid);
+
     private:
         TCPServer _menu;
         int _port;
-        std::vector <RoomLobby> _lobbys;
+
 };
