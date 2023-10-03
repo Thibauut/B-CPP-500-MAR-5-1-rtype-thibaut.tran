@@ -30,15 +30,21 @@ set(SRC_SERVER  server/LaunchServer.cpp
                 server/Server.cpp
                 server/Socket/TCP/TCPServer.cpp
                 server/Socket/TCP/TCPConnexion.cpp
+                server/Socket/TCP/HandleRequest/Parser.cpp
+                server/Socket/UDP/UDPServer.cpp
                 server/Room/RoomLobby.cpp
                 server/Elements/Player/PlayerLobby.cpp
+                server/Save/HandleSave.cpp
 )
 
 set(HPP_SERVER  server/Server.hpp
                 server/Socket/TCP/TCPServer.hpp
                 server/Socket/TCP/TCPConnexion.hpp
+                server/Socket/TCP/HandleRequest/Parser.hpp
+                server/Socket/UDP/UDPServer.hpp
                 server/Room/RoomLobby.hpp
                 server/Elements/Player/PlayerLobby.hpp
+                server/Save/HandleSave.hpp
 )
 
 
