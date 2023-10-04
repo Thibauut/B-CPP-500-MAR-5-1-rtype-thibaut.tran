@@ -14,7 +14,7 @@
     #include <atomic>
     #include "../ThreadHandler/ThreadHandler.hpp"
     #include <boost/asio.hpp>
-    #include <boost/bind.hpp>
+    #include <boost/bind/bind.hpp>
 
 std::atomic<bool> shouldStop(false);
 
