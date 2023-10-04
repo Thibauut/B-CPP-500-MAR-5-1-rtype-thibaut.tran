@@ -1,4 +1,0 @@
-/home/maokoro/Téléchargements/a(1)/a/CMakeFiles/r-type_client.dir
-/home/maokoro/Téléchargements/a(1)/a/CMakeFiles/r-type_server.dir
-/home/maokoro/Téléchargements/a(1)/a/CMakeFiles/edit_cache.dir
-/home/maokoro/Téléchargements/a(1)/a/CMakeFiles/rebuild_cache.dir
