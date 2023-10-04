@@ -6,7 +6,7 @@ set(nlohmann_json_FIND_DEPENDENCY_NAMES "")
 
 ########### VARIABLES #######################################################################
 #############################################################################################
-set(nlohmann_json_PACKAGE_FOLDER_RELEASE "/home/maokoro/.conan2/p/nlohm552351c8663ae/p")
+set(nlohmann_json_PACKAGE_FOLDER_RELEASE "/Users/thibaut/.conan2/p/nlohm552351c8663ae/p")
 set(nlohmann_json_BUILD_MODULES_PATHS_RELEASE )
 
 

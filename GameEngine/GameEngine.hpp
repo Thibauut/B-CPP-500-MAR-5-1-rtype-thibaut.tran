@@ -16,14 +16,14 @@
 #include "Components/AI/AI.hpp"
 #include "Components/Sprite/Sprite.hpp"
 #include "Components/Direction/Direction.hpp"
-#include "Components/HitBoxSquare/HitBoxSquare.hpp"
+// #include "Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "Components/HitBoxCircle/HitBoxCircle.hpp"
 #include "Components/Weapon/Weapon.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
-#include "Systems/SysMovement/SysMovement.hpp"
-#include "Systems/SysRender/SysRender.hpp"
-#include "Systems/SysCollision/SysCollision.hpp"
+// #include "Systems/SysMovement/SysMovement.hpp"
+// #include "Systems/SysRender/SysRender.hpp"
+// #include "Systems/SysCollision/SysCollision.hpp"
 #include <iostream>
 #include <memory>
 #include <list>

@@ -6,7 +6,7 @@ set(opengl_FIND_DEPENDENCY_NAMES "")
 
 ########### VARIABLES #######################################################################
 #############################################################################################
-set(opengl_PACKAGE_FOLDER_RELEASE "/home/maokoro/.conan2/p/b/openg4eab4a5e85ece/p")
+set(opengl_PACKAGE_FOLDER_RELEASE "/Users/thibaut/.conan2/p/openg64faf4cf4ac21/p")
 set(opengl_BUILD_MODULES_PATHS_RELEASE )
 
 
@@ -24,9 +24,9 @@ set(opengl_BIN_DIRS_RELEASE )
 set(opengl_LIBRARY_TYPE_RELEASE SHARED)
 set(opengl_IS_HOST_WINDOWS_RELEASE 0)
 set(opengl_LIBS_RELEASE )
-set(opengl_SYSTEM_LIBS_RELEASE GL)
+set(opengl_SYSTEM_LIBS_RELEASE )
 set(opengl_FRAMEWORK_DIRS_RELEASE )
-set(opengl_FRAMEWORKS_RELEASE )
+set(opengl_FRAMEWORKS_RELEASE OpenGL)
 set(opengl_BUILD_DIRS_RELEASE )
 set(opengl_NO_SONAME_MODE_RELEASE FALSE)
 

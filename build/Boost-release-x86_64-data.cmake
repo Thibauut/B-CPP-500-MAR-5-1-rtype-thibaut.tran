@@ -9,7 +9,7 @@ set(libbacktrace_FIND_MODE "NO_MODULE")
 
 ########### VARIABLES #######################################################################
 #############################################################################################
-set(boost_PACKAGE_FOLDER_RELEASE "/home/maokoro/.conan2/p/b/boost311955bc4ab84/p")
+set(boost_PACKAGE_FOLDER_RELEASE "/Users/thibaut/.conan2/p/b/booste645d7d84ab77/p")
 set(boost_BUILD_MODULES_PATHS_RELEASE )
 
 
@@ -19,6 +19,7 @@ set(boost_DEFINITIONS_RELEASE "-DBOOST_STACKTRACE_USE_NOOP"
 			"-DBOOST_STACKTRACE_USE_BACKTRACE"
 			"-DBOOST_STACKTRACE_ADDR2LINE_LOCATION=\"/usr/bin/addr2line\""
 			"-DBOOST_STACKTRACE_USE_ADDR2LINE"
+			"-DBOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED"
 			"-DBOOST_ALL_DYN_LINK")
 set(boost_SHARED_LINK_FLAGS_RELEASE )
 set(boost_EXE_LINK_FLAGS_RELEASE )
@@ -27,6 +28,7 @@ set(boost_COMPILE_DEFINITIONS_RELEASE "BOOST_STACKTRACE_USE_NOOP"
 			"BOOST_STACKTRACE_USE_BACKTRACE"
 			"BOOST_STACKTRACE_ADDR2LINE_LOCATION=\"/usr/bin/addr2line\""
 			"BOOST_STACKTRACE_USE_ADDR2LINE"
+			"BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED"
 			"BOOST_ALL_DYN_LINK")
 set(boost_COMPILE_OPTIONS_C_RELEASE )
 set(boost_COMPILE_OPTIONS_CXX_RELEASE )
@@ -35,7 +37,7 @@ set(boost_BIN_DIRS_RELEASE "${boost_PACKAGE_FOLDER_RELEASE}/bin")
 set(boost_LIBRARY_TYPE_RELEASE SHARED)
 set(boost_IS_HOST_WINDOWS_RELEASE 0)
 set(boost_LIBS_RELEASE boost_log_setup boost_log boost_locale boost_iostreams boost_graph boost_fiber_numa boost_fiber boost_contract boost_wave boost_unit_test_framework boost_type_erasure boost_timer boost_thread boost_random boost_prg_exec_monitor boost_nowide boost_json boost_filesystem boost_coroutine boost_chrono boost_wserialization boost_url boost_test_exec_monitor boost_stacktrace_noop boost_stacktrace_basic boost_stacktrace_backtrace boost_stacktrace_addr2line boost_serialization boost_regex boost_program_options boost_math_tr1l boost_math_tr1f boost_math_tr1 boost_math_c99l boost_math_c99f boost_math_c99 boost_exception boost_date_time boost_context boost_container boost_atomic)
-set(boost_SYSTEM_LIBS_RELEASE dl rt pthread)
+set(boost_SYSTEM_LIBS_RELEASE )
 set(boost_FRAMEWORK_DIRS_RELEASE )
 set(boost_FRAMEWORKS_RELEASE )
 set(boost_BUILD_DIRS_RELEASE )
@@ -873,7 +875,7 @@ set(boost_Boost_stacktrace_basic_COMPILE_DEFINITIONS_RELEASE )
 set(boost_Boost_stacktrace_basic_COMPILE_OPTIONS_C_RELEASE "")
 set(boost_Boost_stacktrace_basic_COMPILE_OPTIONS_CXX_RELEASE "")
 set(boost_Boost_stacktrace_basic_LIBS_RELEASE boost_stacktrace_basic)
-set(boost_Boost_stacktrace_basic_SYSTEM_LIBS_RELEASE dl)
+set(boost_Boost_stacktrace_basic_SYSTEM_LIBS_RELEASE )
 set(boost_Boost_stacktrace_basic_FRAMEWORK_DIRS_RELEASE )
 set(boost_Boost_stacktrace_basic_FRAMEWORKS_RELEASE )
 set(boost_Boost_stacktrace_basic_DEPENDENCIES_RELEASE Boost::stacktrace boost::_libboost)
@@ -904,7 +906,7 @@ set(boost_Boost_stacktrace_backtrace_COMPILE_DEFINITIONS_RELEASE "BOOST_STACKTRA
 set(boost_Boost_stacktrace_backtrace_COMPILE_OPTIONS_C_RELEASE "")
 set(boost_Boost_stacktrace_backtrace_COMPILE_OPTIONS_CXX_RELEASE "")
 set(boost_Boost_stacktrace_backtrace_LIBS_RELEASE boost_stacktrace_backtrace)
-set(boost_Boost_stacktrace_backtrace_SYSTEM_LIBS_RELEASE dl)
+set(boost_Boost_stacktrace_backtrace_SYSTEM_LIBS_RELEASE )
 set(boost_Boost_stacktrace_backtrace_FRAMEWORK_DIRS_RELEASE )
 set(boost_Boost_stacktrace_backtrace_FRAMEWORKS_RELEASE )
 set(boost_Boost_stacktrace_backtrace_DEPENDENCIES_RELEASE Boost::stacktrace boost::_libboost libbacktrace::libbacktrace)
@@ -937,7 +939,7 @@ set(boost_Boost_stacktrace_addr2line_COMPILE_DEFINITIONS_RELEASE "BOOST_STACKTRA
 set(boost_Boost_stacktrace_addr2line_COMPILE_OPTIONS_C_RELEASE "")
 set(boost_Boost_stacktrace_addr2line_COMPILE_OPTIONS_CXX_RELEASE "")
 set(boost_Boost_stacktrace_addr2line_LIBS_RELEASE boost_stacktrace_addr2line)
-set(boost_Boost_stacktrace_addr2line_SYSTEM_LIBS_RELEASE dl)
+set(boost_Boost_stacktrace_addr2line_SYSTEM_LIBS_RELEASE )
 set(boost_Boost_stacktrace_addr2line_FRAMEWORK_DIRS_RELEASE )
 set(boost_Boost_stacktrace_addr2line_FRAMEWORKS_RELEASE )
 set(boost_Boost_stacktrace_addr2line_DEPENDENCIES_RELEASE Boost::stacktrace boost::_libboost)
@@ -962,9 +964,9 @@ set(boost_Boost_stacktrace_BIN_DIRS_RELEASE "${boost_PACKAGE_FOLDER_RELEASE}/bin
 set(boost_Boost_stacktrace_LIBRARY_TYPE_RELEASE SHARED)
 set(boost_Boost_stacktrace_IS_HOST_WINDOWS_RELEASE 0)
 set(boost_Boost_stacktrace_RES_DIRS_RELEASE )
-set(boost_Boost_stacktrace_DEFINITIONS_RELEASE )
+set(boost_Boost_stacktrace_DEFINITIONS_RELEASE "-DBOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED")
 set(boost_Boost_stacktrace_OBJECTS_RELEASE )
-set(boost_Boost_stacktrace_COMPILE_DEFINITIONS_RELEASE )
+set(boost_Boost_stacktrace_COMPILE_DEFINITIONS_RELEASE "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED")
 set(boost_Boost_stacktrace_COMPILE_OPTIONS_C_RELEASE "")
 set(boost_Boost_stacktrace_COMPILE_OPTIONS_CXX_RELEASE "")
 set(boost_Boost_stacktrace_LIBS_RELEASE )
@@ -1464,7 +1466,7 @@ set(boost_boost__libboost_COMPILE_DEFINITIONS_RELEASE )
 set(boost_boost__libboost_COMPILE_OPTIONS_C_RELEASE "")
 set(boost_boost__libboost_COMPILE_OPTIONS_CXX_RELEASE "")
 set(boost_boost__libboost_LIBS_RELEASE )
-set(boost_boost__libboost_SYSTEM_LIBS_RELEASE rt pthread)
+set(boost_boost__libboost_SYSTEM_LIBS_RELEASE )
 set(boost_boost__libboost_FRAMEWORK_DIRS_RELEASE )
 set(boost_boost__libboost_FRAMEWORKS_RELEASE )
 set(boost_boost__libboost_DEPENDENCIES_RELEASE Boost::headers)

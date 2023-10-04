@@ -6,7 +6,7 @@ set(libbacktrace_FIND_DEPENDENCY_NAMES "")
 
 ########### VARIABLES #######################################################################
 #############################################################################################
-set(libbacktrace_PACKAGE_FOLDER_RELEASE "/home/maokoro/.conan2/p/libbab546f21710147/p")
+set(libbacktrace_PACKAGE_FOLDER_RELEASE "/Users/thibaut/.conan2/p/b/libbaf337fa01f0c12/p")
 set(libbacktrace_BUILD_MODULES_PATHS_RELEASE )
 
 

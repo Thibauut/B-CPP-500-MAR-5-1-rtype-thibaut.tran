@@ -219,6 +219,7 @@ std::string ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string pla
 bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, std::string& startId, std::string& portUdp)
 {
     shouldStop.store(true, std::memory_order_relaxed);
+    readyGame_ = false;
     setMessage("READY \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     message_ = "";
@@ -226,34 +227,17 @@ bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, st
     std::cout << "RESPONSE ======> " + response_ << std::endl;
     for (auto &rooms : rooms) {
         if (rooms->uuid == roomuuid) {
-            if (rooms->slot == "1/1") {
-                // readyGame_ = true;
-                readMessage();
-                std::cout << response_ << std::endl;
-                std::string res = extractArguments(response_, "START ");
-                std::istringstream iss(res);
-                std::string port, id;
-                if(iss >> id >> port) {
-                    startId = id;
-                    portUdp = port;
-                }
-                startGame = true;
-                return true;
-            } else {
-                // readyGame_ = true;
-                readMessage();
-                std::cout << "RESPONSE ======> " + response_ << std::endl;
-                std::string res = extractArguments(response_, "START ");
-                std::istringstream iss(res);
-                std::string port, id;
-                if(iss >> id >> port) {
-                    startId = id;
-                    portUdp_= port;
-                }
-
-                startGame = true;
-                return true;
+            readMessage();
+            std::cout << "RESPONSE ======> " + response_ << std::endl;
+            std::string res = extractArguments(response_, "START ");
+            std::istringstream iss(res);
+            std::string port, id;
+            if(iss >> id >> port) {
+                startId = id;
+                portUdp = port;
             }
+            startGame = true;
+            return true;
         }
     }
     return false;

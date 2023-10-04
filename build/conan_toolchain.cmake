@@ -22,11 +22,28 @@ endif()
 
 
 
+# Set the architectures for which to build.
+set(CMAKE_OSX_ARCHITECTURES x86_64 CACHE STRING "" FORCE)
+# Setting CMAKE_OSX_SYSROOT SDK, when using Xcode generator the name is enough
+# but full path is necessary for others
+set(CMAKE_OSX_SYSROOT macosx CACHE STRING "" FORCE)
+set(BITCODE "")
+set(FOBJC_ARC "")
+set(VISIBILITY "")
+#Check if Xcode generator is used, since that will handle these flags automagically
+if(CMAKE_GENERATOR MATCHES "Xcode")
+  message(DEBUG "Not setting any manual command-line buildflags, since Xcode is selected as generator.")
+else()
+    string(APPEND CONAN_C_FLAGS " ${BITCODE} ${FOBJC_ARC}")
+    string(APPEND CONAN_CXX_FLAGS " ${BITCODE} ${VISIBILITY} ${FOBJC_ARC}")
+endif()
+
 string(APPEND CONAN_CXX_FLAGS " -m64")
 string(APPEND CONAN_C_FLAGS " -m64")
 string(APPEND CONAN_SHARED_LINKER_FLAGS " -m64")
 string(APPEND CONAN_EXE_LINKER_FLAGS " -m64")
 
+string(APPEND CONAN_CXX_FLAGS " -stdlib=libc++")
 
 
 message(STATUS "Conan toolchain: C++ Standard 17 with extensions ON")
@@ -65,8 +82,8 @@ list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 # Definition of CMAKE_PREFIX_PATH, CMAKE_XXXXX_PATH
 # The Conan local "generators" folder, where this toolchain is saved.
 list(PREPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_LIST_DIR} )
-list(PREPEND CMAKE_LIBRARY_PATH "/home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "/home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib" "lib" "lib" "/home/maokoro/.conan2/p/libbab546f21710147/p/lib")
-list(PREPEND CMAKE_INCLUDE_PATH "/home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/include" "/usr/include/uuid" "include" "include" "include" "include" "include" "include" "include" "include" "include" "include" "/home/maokoro/.conan2/p/b/boost311955bc4ab84/p/include" "include" "include" "/home/maokoro/.conan2/p/libbab546f21710147/p/include" "/home/maokoro/.conan2/p/nlohm552351c8663ae/p/include")
+list(PREPEND CMAKE_LIBRARY_PATH "/Users/thibaut/.conan2/p/b/sfmlf569fb7ddc4eb/p/lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "lib" "/Users/thibaut/.conan2/p/b/booste645d7d84ab77/p/lib" "lib" "lib" "/Users/thibaut/.conan2/p/b/libbaf337fa01f0c12/p/lib" "lib")
+list(PREPEND CMAKE_INCLUDE_PATH "/Users/thibaut/.conan2/p/b/sfmlf569fb7ddc4eb/p/include" "include" "include" "include" "include" "include" "include" "include" "include" "include" "/Users/thibaut/.conan2/p/b/booste645d7d84ab77/p/include" "include" "include" "/Users/thibaut/.conan2/p/b/libbaf337fa01f0c12/p/include" "include" "/Users/thibaut/.conan2/p/nlohm552351c8663ae/p/include")
 
 
 

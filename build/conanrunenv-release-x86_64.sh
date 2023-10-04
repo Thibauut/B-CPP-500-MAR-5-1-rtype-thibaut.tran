@@ -1,4 +1,4 @@
-script_folder="/home/maokoro/Bureau/Epitech/Tek3/B-CPP-500-MAR-5-1-rtype-maori.dino/build"
+script_folder="/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build"
 echo "echo Restoring environment" > "$script_folder/deactivate_conanrunenv-release-x86_64.sh"
 for v in LD_LIBRARY_PATH DYLD_LIBRARY_PATH
 do
@@ -13,5 +13,5 @@ do
 done
 
 
-export LD_LIBRARY_PATH="/home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib:/home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib:$LD_LIBRARY_PATH"
-export DYLD_LIBRARY_PATH="/home/maokoro/.conan2/p/b/sfmlc96a6243273ff/p/lib:/home/maokoro/.conan2/p/b/boost311955bc4ab84/p/lib:$DYLD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/Users/thibaut/.conan2/p/b/sfmlf569fb7ddc4eb/p/lib:/Users/thibaut/.conan2/p/b/booste645d7d84ab77/p/lib:$LD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH="/Users/thibaut/.conan2/p/b/sfmlf569fb7ddc4eb/p/lib:/Users/thibaut/.conan2/p/b/booste645d7d84ab77/p/lib:$DYLD_LIBRARY_PATH"

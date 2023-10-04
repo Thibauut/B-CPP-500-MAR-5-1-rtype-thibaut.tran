@@ -16,7 +16,7 @@ set_property(TARGET sfml_DEPS_TARGET
              PROPERTY INTERFACE_LINK_LIBRARIES
              $<$<CONFIG:Release>:${sfml_FRAMEWORKS_FOUND_RELEASE}>
              $<$<CONFIG:Release>:${sfml_SYSTEM_LIBS_RELEASE}>
-             $<$<CONFIG:Release>:sfml-system;opengl::opengl;xorg::xorg;libudev::libudev;sfml-window>
+             $<$<CONFIG:Release>:sfml-system;opengl::opengl;sfml-window>
              APPEND)
 
 ####### Find the libraries declared in cpp_info.libs, create an IMPORTED target for each one and link the

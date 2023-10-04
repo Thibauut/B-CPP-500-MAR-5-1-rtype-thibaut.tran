@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "../r-type_server"
-  "../r-type_server.pdb"
+  "/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_server"
+  "/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/r-type_server.pdb"
   "CMakeFiles/r-type_server.dir/server/Elements/Player/PlayerLobby.cpp.o"
   "CMakeFiles/r-type_server.dir/server/Elements/Player/PlayerLobby.cpp.o.d"
   "CMakeFiles/r-type_server.dir/server/LaunchServer.cpp.o"

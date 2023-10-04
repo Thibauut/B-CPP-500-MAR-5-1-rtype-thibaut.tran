@@ -53,7 +53,14 @@ Game::Game(sf::RenderWindow *window): _window(window)
 
 void Game::Loop()
 {
-    _players.push_back(std::make_shared<PlayerUDP>(1, 300, 300));
+    if (my_id_ == "1")
+        _players.push_back(std::make_shared<PlayerUDP>(stoi(my_id_), 300, 300));
+    else if (my_id_ == "2")
+        _players.push_back(std::make_shared<PlayerUDP>(stoi(my_id_), 300, 400));
+    else if (my_id_ == "3")
+        _players.push_back(std::make_shared<PlayerUDP>(stoi(my_id_), 300, 500));
+    else if (my_id_ == "4")
+        _players.push_back(std::make_shared<PlayerUDP>(stoi(my_id_), 300, 600));
     if (_clientOpenUDP->sendMessageSyncFirst(my_id_ + " 300 300 false") == true) {
         if (_players.empty()) {
             std::cout << "empty" << std::endl;

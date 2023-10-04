@@ -48,7 +48,7 @@ private:
     ACTION _action;
     std::vector<std::string> _args;
     boost::asio::ip::tcp::socket &_socket;
-    Request &_request;
+    Request _request;
 
 public:
     Parser(Request request, TCPServer *server) : _request(request), _socket(request._socket), _server(server) {

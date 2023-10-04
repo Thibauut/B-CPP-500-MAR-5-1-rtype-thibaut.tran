@@ -37,7 +37,7 @@ void Menu::Loop()
             _game->portUDP_ = start_port_;
             std::cout << "my id: " << _game->my_id_ << std::endl;
             std::cout << "my port: " << _game->portUDP_ << std::endl;
-            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>("10.79.216.57", _game->portUDP_, _game->_players, _game->my_id_);
+            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>("172.20.10.4", _game->portUDP_, _game->_players, _game->my_id_);
             _game->_clientOpenUDP = clientudp;
 
             std::thread th([clientudp]() {

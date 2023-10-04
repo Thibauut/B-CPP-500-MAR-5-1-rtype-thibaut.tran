@@ -95,7 +95,7 @@ namespace GameEngine {
                     }
             }
 
-            bool checkSquareCollision(std::shared_ptr<HitBoxSquare> square1, std::shared_ptr<Position> pos1, std::shared_ptr<HitBoxSquare> square2, std::shared_ptr<Position> pos2) {
+            bool checkSquareCollision(std::shared_ptr<HitBoxSzquare> square1, std::shared_ptr<Position> pos1, std::shared_ptr<HitBoxSquare> square2, std::shared_ptr<Position> pos2) {
                 float x1 = pos1->getPositionX();
                 float y1 = pos1->getPositionY();
                 float width1 = square1->getHitBoxSquareX();
