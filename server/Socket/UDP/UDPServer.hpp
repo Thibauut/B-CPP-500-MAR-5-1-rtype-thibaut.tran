@@ -34,7 +34,8 @@ public:
     }
     void StartReceive();
     void handleReceive(const std::string& message);
-    void sendAll(const std::string& message);
+    void sendThread();
+    void sendAll(const std::string& message, std::vector<udp::endpoint> &endpoints);
     void sendToClient(const std::string& message, udp::endpoint &client_t);
 
     udp::socket &Socket(){return socket_;}
@@ -59,6 +60,6 @@ private:
     std::vector<udp::endpoint> remote_endpoints_;
     udp::socket socket_;
     std::shared_ptr<EntityManager> entityManagerPtr_;
-    std::thread recv_thread;
-    std::thread send_thread;
+    std::thread recv_thread_;
+    std::thread send_thread_;
 };

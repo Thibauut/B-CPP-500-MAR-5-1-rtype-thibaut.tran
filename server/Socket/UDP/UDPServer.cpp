@@ -23,65 +23,64 @@ void ParsCmd(std::vector<std::string> &tmp, std::string cmd)
 UDPServer::UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager)
     : socket_(io_context, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager) {
         port_ = port;
-        StartReceive();
         remote_endpoints_.clear();
+        send_thread_ = std::thread(&UDPServer::sendThread, this);
+        // send_thread_.join();
+        StartReceive();
 }
 
 void UDPServer::StartReceive() {
-    // while (1) {
-        // socket_.receive_from(boost::asio::buffer(recv_buf_), client);
-        // handleReceive(recv_buf_.data());
+    while (1) {
+        recv_buf_ = {0};
+        socket_.receive_from(boost::asio::buffer(recv_buf_), client);
         // std::cout << recv_buf_.data() << std::endl;
+        handleReceive(recv_buf_.data());
+
+        //     break;
         // if (remote_endpoints_.empty() == false)
         //     sendAll("test");
-    // }
-    socket_.async_receive_from(
-    boost::asio::buffer(recv_buf_), client,
-    [this](const boost::system::error_code& error, std::size_t bytes_received) {
-        std::cout << "message recu du client"<< std::endl;
-        if (!error || error == boost::asio::error::message_size) {
-            std::string message(recv_buf_.begin(), recv_buf_.begin() + bytes_received);
-            std::cout << recv_buf_.data() << std::endl;
-            handleReceive(message);
-        } else {
-            std::cerr << "Receive error: " << error.message() << std::endl;
-        }
-    });
+    }
 }
 
 
 void UDPServer::handleReceive(const std::string& message) {
     std::cout << "    <- " << message << std::endl;
+    sendToClient("bien recu", client);
     if (EndpointExist(client) == false) {
         std::cout << "Endpoint not exist" << std::endl;
         remote_endpoints_.push_back(client);
     }
-    // sendAll("Putin");
-    // StartExec(message, client);
-    StartReceive();
 }
 
 void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t)
 {
-    // std::string new_message = message + "\n";
-    // std::cout << "    -> " << new_message;;
-    // socket_.send_to(boost::asio::buffer(new_message), client_t);
-        socket_.async_send_to(
-        boost::asio::buffer(message), client_t,
-        [this](const boost::system::error_code& error, std::size_t bytes_sent) {
-            if (error) {
-                std::cerr << "Send error: " << error.message() << std::endl;
-                // Entitys().get()->getEntity(1).get()->getComponentByType<Position>(1).get()->getPosition().first;
-            }
-        });
+    std::string new_message = message + "\n";
+    std::cout << "    -> " << new_message;;
+    socket_.send_to(boost::asio::buffer(new_message), client_t);
+//         socket_.async_send_to(
+//         boost::asio::buffer(message), client_t,
+//         [this](const boost::system::error_code& error, std::size_t bytes_sent) {
+//             if (error) {
+//                 std::cerr << "Send error: " << error.message() << std::endl;
+//                 // Entitys().get()->getEntity(1).get()->getComponentByType<Position>(1).get()->getPosition().first;
+//             }
+//         });
 }
 
-void UDPServer::sendAll(const std::string& message)
+void UDPServer::sendAll(const std::string& message, std::vector<udp::endpoint> &endpoints)
 {
     std::string new_message = message + "\n";
-    for (udp::endpoint &remote_client : remote_endpoints_) {
+    for (udp::endpoint &remote_client : endpoints) {
         socket_.send_to(boost::asio::buffer(new_message), remote_client);
         std::cout << "    -> " << new_message;
+    }
+}
+
+void UDPServer::sendThread() {
+    while(1) {
+        sleep(1);
+        // toute les données a envoyer :
+        sendAll("infos globales", remote_endpoints_);
     }
 }
 

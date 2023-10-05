@@ -70,6 +70,12 @@
             "name": "Mao",
             "online": true,
             "uuid": "1fb1a543-7ada-41e1-81d3-2bf18c008b00"
+        },
+        {
+            "level": 1,
+            "name": "d",
+            "online": false,
+            "uuid": "2e88bee8-9873-4736-a083-cee79dc13fc6"
         }
     ]
 }
