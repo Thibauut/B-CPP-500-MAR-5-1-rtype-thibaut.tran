@@ -7,17 +7,14 @@
 
 #include "PlayerLobby.hpp"
 
-PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level, TCPConnection::pointer &client) : username(username), _uuid(uuid), level(level), connection(client)
-{
-}
+PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level, TCPConnection::pointer client) : username(username), _uuid(uuid), level(level), connection(client)
+{}
 
 PlayerLobby::PlayerLobby(const std::string username, std::string uuid, int level) : username(username), _uuid(uuid), level(level)
-{
-}
+{}
 
-PlayerLobby::PlayerLobby(TCPConnection::pointer &client) : connection(client)
-{
-}
+PlayerLobby::PlayerLobby(TCPConnection::pointer client) : connection(client)
+{}
 
 PlayerLobby::~PlayerLobby() {}
 

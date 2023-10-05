@@ -36,6 +36,7 @@ class ClientConnectionTCP : public ThreadHandler {
         void run() override;
         bool getRunning() override;
         std::string message_;
+        std::array <char, 1024> buff;
         boost::asio::io_service& getService();
         boost::asio::ip::tcp::socket& getSocket();
 

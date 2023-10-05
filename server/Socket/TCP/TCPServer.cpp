@@ -22,6 +22,7 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
   if (!error) {
     std::cout << "<- NEW CLIENT" << std::endl;
     new_connection->start();
+    std::cout <<"Check uuid connection: " << boost::uuids::to_string(new_connection->uuid()) << std::endl;
     players_.push_back(std::make_shared<PlayerLobby>(new_connection));
     // Clients().push_back(new_connection);
   }
@@ -42,14 +43,14 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
   }
 
 void TCPServer::getAllTcpRequest() {
-  for (std::shared_ptr<PlayerLobby> player : players_) {
-    requests_.splice(requests_.end(), player.get()->connection.get()->requests());
-  }
+    for (std::shared_ptr<PlayerLobby> player : players_) {
+      requests_.splice(requests_.end(), player.get()->connection.get()->requests());
+    }
     for (Request req : requests_) {
         std::cout << "<- " << req._data;
         Parser pars = Parser(req, this);
     }
     if (!requests_.empty()) {
         requests_.clear();
-    }
+  }
 }

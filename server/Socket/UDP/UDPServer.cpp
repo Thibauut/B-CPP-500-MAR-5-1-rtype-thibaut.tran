@@ -23,8 +23,8 @@ void ParsCmd(std::vector<std::string> &tmp, std::string cmd)
 UDPServer::UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager)
     : socket_(io_context, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager) {
         port_ = port;
-        remote_endpoints_.clear();
         StartReceive();
+        remote_endpoints_.clear();
 }
 
 void UDPServer::StartReceive() {
@@ -38,6 +38,7 @@ void UDPServer::StartReceive() {
     socket_.async_receive_from(
     boost::asio::buffer(recv_buf_), client,
     [this](const boost::system::error_code& error, std::size_t bytes_received) {
+        std::cout << "message recu du client"<< std::endl;
         if (!error || error == boost::asio::error::message_size) {
             std::string message(recv_buf_.begin(), recv_buf_.begin() + bytes_received);
             std::cout << recv_buf_.data() << std::endl;
@@ -55,7 +56,7 @@ void UDPServer::handleReceive(const std::string& message) {
         std::cout << "Endpoint not exist" << std::endl;
         remote_endpoints_.push_back(client);
     }
-    sendAll("Putin");
+    // sendAll("Putin");
     // StartExec(message, client);
     StartReceive();
 }

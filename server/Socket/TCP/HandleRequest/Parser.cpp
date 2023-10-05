@@ -73,6 +73,13 @@ void Parser::parseAction(std::string data) {
         _args.push_back(data.substr(posId + 1, findQuote(data, 2) - findQuote(data, 1) - 1));
         _args.push_back(data.substr(posRoomId + 1, findQuote(data, 4) - findQuote(data, 3) - 1));
     }
+    if (data.find("START") != std::string::npos) {
+        _action = START;
+        int posId = findQuote(data, 1);
+        int posRoomId = findQuote(data, 3);
+        _args.push_back(data.substr(posId + 1, findQuote(data, 2) - findQuote(data, 1) - 1));
+        _args.push_back(data.substr(posRoomId + 1, findQuote(data, 4) - findQuote(data, 3) - 1));
+    }
     if (data.find("GET_ROOMS") != std::string::npos)
         _action = GET_ROOMS;
     if (data.find("GET_ROOM_INFO") != std::string::npos) {
@@ -113,6 +120,9 @@ void Parser::callback() {
             break;
         case GET_ROOM_INFO:
             getRoomInfo(_args.at(0));
+            break;
+        case START:
+            start(_args.at(0), _args.at(1));
             break;
         default:
             break;
@@ -245,35 +255,22 @@ void Parser::leaveRoom(std::string player_uuid, std::string room_uuid) {
 }
 
 void Parser::deleteRoom(std::string player_uuid, std::string room_uuid) {
-    for (int i = 0; i < _server->_lobbys.size(); i++) {
-        if (_server->_lobbys.at(i).get()->getUuid() == room_uuid) {
-            if (_server->_lobbys.at(i).get()->getOwner().get()->getUuid() == player_uuid) {
-                _server->_lobbys.at(i).get()->stopGame();
-                _server->_lobbys.erase(_server->_lobbys.begin() + i);
-                std::string response = "DELETE_ROOM OK\n";
-                _socket.async_write_some(boost::asio::buffer(response),
-                    [response = response](const boost::system::error_code& error,
-                        size_t bytes_transferred) {
-                            std::cout << "-> " << response;
-                        });
-                return;
-            } else {
-                std::string response = "DELETE_ROOM KO\n";
-                _socket.async_write_some(boost::asio::buffer(response),
-                    [response = response] (const boost::system::error_code& error, size_t bytes_transferred) {
-                        std::cout << "-> " << response;
-                    });
-                return;
+    if (_server->deleteLobby(room_uuid)) {
+    // _server->_lobbys.at(i).get()->stopGame();
+        std::string response = "DELETE_ROOM OK\n";
+        _socket.async_write_some(boost::asio::buffer(response),
+        [response = response](const boost::system::error_code& error,
+            size_t bytes_transferred) {
+                std::cout << "-> " << response;
+        });
+    } else {
+        std::string response = "DELETE_ROOM KO\n";
+        _socket.async_write_some(boost::asio::buffer(response),
+            [response = response] (const boost::system::error_code& error, size_t bytes_transferred) {
+                std::cout << "-> " << response;
             }
-            break;
-        }
+        );
     }
-    std::string response = "DELETE_ROOM KO\n";
-    _socket.async_write_some(boost::asio::buffer(response),
-        [response = response] (const boost::system::error_code& error, size_t bytes_transferred) {
-            std::cout << "-> " << response;
-        }
-    );
 }
 
 void Parser::ready(std::string player_uuid, std::string room_uuid) {
@@ -282,33 +279,29 @@ void Parser::ready(std::string player_uuid, std::string room_uuid) {
             std::string response = "READY OK\n";
             std::cout << "-> " << response;
             _socket.write_some(boost::asio::buffer(response));
-            if (room->addReadyPlayer()) {
-                room->startGame();
-                int id = 1;
-                if (id <= room->getNbPlayers()) {
-                    for (std::shared_ptr<PlayerLobby> &player : room->getPlayers()) {
-                        std::cout << "Player in room: " << player.get()->getUsername() << std::endl;
-                        std::string response = "START " + std::to_string(id) + " " + std::to_string(room->getPort()) + "\n";
-                        player.get()->connection.get()->socket().async_write_some(boost::asio::buffer(response),
-                            [responseMessage = response](const boost::system::error_code& error,
-                                size_t bytes_transferred) {
-                                    std::cout << "-> " << responseMessage;
-                            });
-                        id++;
-                    }
-                }
-            }
+            room->addReadyPlayer();
             return;
         }
     }
 }
 
-void Parser::start(std::shared_ptr<RoomLobby> room) {
-    std::string response = "START\n";
-    std::cout << "-> " << response;
-    _socket.async_write_some(boost::asio::buffer(response),
-        [sharedThis = this](const boost::system::error_code& error,
-            size_t bytes_transferred) {});
+void Parser::start(std::string player_uuid, std::string room_uuid) {
+    for (std::shared_ptr<RoomLobby> room : _server->_lobbys) {
+        if (room->getUuid() == room_uuid) {
+            if (room->getNbReadyPlayers() == room->getNbPlayers()) {
+                int id = 1;
+                room->startGame();
+                for (std::shared_ptr<PlayerLobby> player : room->getPlayers()) {
+                    std::cout << "Player in room: " << player.get()->getUsername() << std::endl;
+                    std::string response = "START " + std::to_string(id) + " " + std::to_string(room->getPort()) + "\n";
+                    std::cout << "READ THIS NOOB ! :" << response << " on " << player->connection->uuid() << std::endl;
+                    player->connection->socket().write_some(boost::asio::buffer(response));
+                    std::cout << "-> " << response;
+                    id++;
+                }
+            }
+        }
+    }
 }
 
 void Parser::getRooms() {

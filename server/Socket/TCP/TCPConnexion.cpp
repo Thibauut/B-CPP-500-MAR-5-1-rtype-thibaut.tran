@@ -22,8 +22,7 @@ void TCPConnection::start()
       });
 }
 
-void TCPConnection::do_read()
-{
+void TCPConnection::do_read() {
   socket_.async_read_some(boost::asio::buffer(data_),
       [shared_this = shared_from_this()](const boost::system::error_code& error,
                                           size_t bytes_transferred) {

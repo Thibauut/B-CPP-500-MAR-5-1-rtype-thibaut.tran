@@ -22,6 +22,7 @@ enum ACTION {
     DELETE_ROOM,
     GET_ROOMS,
     GET_ROOM_INFO,
+    START,
 };
 
 class Parser {
@@ -42,7 +43,7 @@ private:
     void getRooms();
     void getRoomInfo(std::string room_uuid);
     void ready(std::string player_uuid, std::string room_uuid);
-    void start(std::shared_ptr<RoomLobby> room);
+    void start(std::string player_uuid, std::string room_uuid);
 
     TCPServer *_server;
     ACTION _action;

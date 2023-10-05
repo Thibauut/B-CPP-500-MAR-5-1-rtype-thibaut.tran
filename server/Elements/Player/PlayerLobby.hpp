@@ -12,9 +12,9 @@
 
 class PlayerLobby {
     public:
-        PlayerLobby(const std::string username, std::string uuid, int level, TCPConnection::pointer &client);
+        PlayerLobby(const std::string username, std::string uuid, int level, TCPConnection::pointer client);
         PlayerLobby(const std::string username, std::string uuid, int level);
-        PlayerLobby(TCPConnection::pointer &client);
+        PlayerLobby(TCPConnection::pointer client);
         PlayerLobby(PlayerLobby &copy) {
             this->username = copy.username;
             this->_uuid = copy._uuid;

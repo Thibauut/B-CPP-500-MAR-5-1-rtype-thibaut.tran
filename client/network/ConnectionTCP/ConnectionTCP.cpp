@@ -31,10 +31,9 @@ bool ClientConnectionTCP::sendMessage(const std::string& msg)
         std::cerr << "La connexion au serveur n'est pas établie." << std::endl;
         return false;
     }
-    std::vector<boost::asio::const_buffer> buffers;
-    buffers.push_back(boost::asio::buffer(msg));
-    boost::asio::async_write(socket_, buffers,
-    [](const boost::system::error_code& error, std::size_t) {});
+    // std::vector<boost::asio::const_buffer> buffers;
+    // buffers.push_back(boost::asio::buffer(msg));
+    socket_.write_some(boost::asio::buffer(msg));
     return true;
 }
 
@@ -52,13 +51,16 @@ void ClientConnectionTCP::handleRead(const boost::system::error_code& error, std
 
 void ClientConnectionTCP::readMessage()
 {
-    std::unique_lock<std::mutex> lock(mutex_);
-    boost::asio::read_until(socket_, buffer_, '\n');
+    // std::unique_lock<std::mutex> lock(mutex_);
+    int bytes = socket_.read_some(boost::asio::buffer(buff));
+    std::cout << "Bytes received: " << bytes << std::endl;
+    response_ = std::string(buff.begin(), buff.begin() + bytes - 1);
+    // boost::asio::read_until(socket_, buffer_, '\n');
 
-    std::istream response_stream(&buffer_);
-    std::string server_response;
-    std::getline(response_stream, server_response);
-    response_ = server_response;
+    // std::istream response_stream(&buffer_);
+    // std::string server_response;
+    // std::getline(response_stream, server_response);
+    // response_ = server_response;
 }
 
 void ClientConnectionTCP::run()
@@ -225,19 +227,32 @@ bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, st
     message_ = "";
     readMessage();
     std::cout << "RESPONSE ======> " + response_ << std::endl;
-    for (auto &rooms : rooms) {
-        if (rooms->uuid == roomuuid) {
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    for (ClientConnectionTCP::Room *room : rooms) {
+        if (room->uuid == roomuuid) {
+            setMessage("START \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
+            sendMessage(message_);
+            std::cout << "IS GOING HERE ?!" << std::endl;
             readMessage();
-            std::cout << "RESPONSE ======> " + response_ << std::endl;
-            std::string res = extractArguments(response_, "START ");
-            std::istringstream iss(res);
-            std::string port, id;
-            if(iss >> id >> port) {
-                startId = id;
-                portUdp = port;
+            std::cout << "<- " << response_ << std::endl;
+            if (response_.find("START") != std::string::npos) {
+                std::cout << "RESPONSE ======> " + response_ << std::endl;
+                std::string res = extractArguments(response_, "START ");
+                std::istringstream iss(res);
+                std::string port, id;
+                if(iss >> id >> port) {
+                    startId = id;
+                    portUdp = port;
+                }
+                startGame = true;
+                return true;
+            } else {
+                std::cout << "NOW HERE ?!" << std::endl;
+                setMessage("START \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
+                sendMessage(message_);
+                readMessage();
+                std::cout << "<- " << response_ << std::endl;
             }
-            startGame = true;
-            return true;
         }
     }
     return false;

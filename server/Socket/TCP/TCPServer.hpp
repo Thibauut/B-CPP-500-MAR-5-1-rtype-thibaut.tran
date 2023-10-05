@@ -20,6 +20,16 @@ public:
   TCPServer(boost::asio::io_context& io_context);
   void print_all_client_request();
   void getAllTcpRequest();
+  // delete a lobbys
+  bool deleteLobby(std::string uuid) {
+    for (std::shared_ptr<RoomLobby> _lobby : _lobbys) {
+      if (_lobby->getUuid() == uuid) {
+        // _lobbys.erase(_lobby);
+        return true;
+      }
+    }
+    return false;
+  };
 
   std::list <std::shared_ptr<PlayerLobby>> players_;
   HandleSave _save;

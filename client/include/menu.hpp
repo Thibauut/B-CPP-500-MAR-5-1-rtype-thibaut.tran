@@ -66,6 +66,8 @@ class Menu {
         void UpdateRoom();
         void UpdatePlayerList();
 
+        bool canLogin;
+
         std::mutex _1Mutex;
         std::mutex _2Mutex;
         std::mutex _3Mutex;

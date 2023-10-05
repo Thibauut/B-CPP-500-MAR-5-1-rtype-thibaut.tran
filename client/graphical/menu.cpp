@@ -17,6 +17,7 @@ Menu::Menu()
     InitCreateRoom();
 
     _current_input = -1;
+     canLogin = true;
     _isFocused = false;
     _isFocused2 = false;
     _isFocused3 = false;

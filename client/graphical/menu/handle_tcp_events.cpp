@@ -9,7 +9,7 @@
 
 void Menu::HandleTcpEvents()
 {
-    if (_event.type == sf::Event::MouseButtonPressed) {
+    if (_event.type == sf::Event::MouseButtonReleased) {
         sf::Vector2f mousePos = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
         sf::FloatRect buttonBounds = _button.getGlobalBounds();
         sf::FloatRect buttonCreateBounds = _buttonCreate.getGlobalBounds();
@@ -39,7 +39,7 @@ void Menu::HandleTcpEvents()
         //////////////////////////////////////////////////////
         //                      LOGIN                       //
         //////////////////////////////////////////////////////
-        if (buttonBounds.contains(mousePos)) {
+        if (buttonBounds.contains(mousePos) && _isConnected == false) {
             _tcpConnection = new ClientConnectionTCP(_text_name_input.getString().toAnsiString(),
                                                     _text_ip_input.getString().toAnsiString(),
                                                     _text_port_input.getString().toAnsiString());
@@ -49,6 +49,7 @@ void Menu::HandleTcpEvents()
             _tcpConnection->Login();
 
             if (!_tcpConnection->uuid_.empty()) {
+                canLogin = false;
                 _isConnected = true;
                 Player_uuid_ = _tcpConnection->uuid_;
                 UpdateRoom();
