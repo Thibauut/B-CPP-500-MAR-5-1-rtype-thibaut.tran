@@ -57,7 +57,7 @@ namespace GameEngine {
                 // std::cout << "    👀 Player's position: " << std::to_string(pos_x) << " " << std::to_string(pos_y)  << std::endl;
 
                 _isRunning = true;
-                while (_isRunning) {
+                while (true) {
                     for (auto& _system : _systems) {
                         _system->update();
                     }
