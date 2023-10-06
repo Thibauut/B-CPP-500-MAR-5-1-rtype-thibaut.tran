@@ -51,22 +51,38 @@ void RoomLobby::gameEntryPoint()
     EntityManager entityManager;
     int id = 1;
     int id_comp = 0;
-    for (std::shared_ptr<PlayerLobby> &player : _players) {
-        Entity player_entity(id, 1);
-        std::shared_ptr<Position> position = std::make_shared<Position>(CONFIG::CompType::POSITION, id_comp, 200, 300);
-        std::shared_ptr<Health> health = std::make_shared<Health>(CONFIG::CompType::HEALTH, id_comp, 100);
-        std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::RIGHT);
-        player_entity.addComponent(position);
-        player_entity.addComponent(health);
-        player_entity.addComponent(direction);
-        entityManager.addEntity(player_entity);
-        id++, id_comp++;
+    for (std::shared_ptr<PlayerLobby> player : _players) {
+        try {
+    // <--------- IOT INSTRUCTION (core dump) ICI !!! ------->
+            std::cout << "1"<< std::endl;
+            Entity player_entity(id, 1);
+            std::cout << "2"<< std::endl;
+            std::shared_ptr<Position> position = std::make_shared<Position>(CONFIG::CompType::POSITION, id_comp, 200, 300);
+            std::cout << "3"<< std::endl;
+            std::shared_ptr<Health> health = std::make_shared<Health>(CONFIG::CompType::HEALTH, id_comp, 100);
+            std::cout << "4"<< std::endl;
+            // std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::RIGHT);
+            std::cout << "5"<< std::endl;
+            player_entity.addComponent(position);
+            std::cout << "6"<< std::endl;
+            player_entity.addComponent(health);
+            std::cout << "7"<< std::endl;
+            // player_entity.addComponent(direction);
+            std::cout << "8"<< std::endl;
+            entityManager.addEntity(player_entity);
+            id++, id_comp++;
+        }catch (const std::exception &e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
     }
-
+    std::cout << "Is here ?" << std::endl;
     // ---------------------------------
     Engine game(entityManager);
     // apl du serv---------------
-    boost::asio::io_context io_context;
+    std::cout << "Is here ??" << std::endl;
+
+    boost::asio::io_context io_context = boost::asio::io_context();
     std::cout << "Le port du room "<< _port<< " est libre." << std::endl;
     std::thread t([&io_context](){ io_context.run(); });
     std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, std::make_shared<EntityManager>(gamee._manager)); });

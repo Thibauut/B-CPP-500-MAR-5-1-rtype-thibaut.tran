@@ -37,20 +37,15 @@ public:
     void sendThread();
     void sendAll(const std::string& message, std::vector<udp::endpoint> &endpoints);
     void sendToClient(const std::string& message, udp::endpoint &client_t);
-
     udp::socket &Socket(){return socket_;}
-    std::shared_ptr<EntityManager> &Entitys(){return entityManagerPtr_;}
-    void StartExec(const std::string& message, udp::endpoint &client);
+    std::shared_ptr<EntityManager> &Entities(){return entityManagerPtr_;}
     // ------------CMD--------------
-    // void sendPlayersPosition();
+    void StartExec(const std::string& message, udp::endpoint &client);
+    void sendPlayersPosition();
+    void setPlayerStatus(int id, int x, int y, std::string shoot);
     // void sendProjectilsPosition();
     // void sendBotsPosition();
     // void sendPowerUpPosition();
-    void moveLeft(int id, udp::endpoint &client);
-    void moveRight(int id, udp::endpoint &client);
-    void moveUp(int id, udp::endpoint &client);
-    void moveDown(int id, udp::endpoint &client);
-    void Shoot();
     // void sendScores();
     std::vector<std::string> cmd_;
     std::array<char, 1024> recv_buf_;
