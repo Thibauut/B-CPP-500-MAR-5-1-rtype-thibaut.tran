@@ -37,6 +37,7 @@ RoomLobby::~RoomLobby() {
 void RoomLobby::startGame()
 {
     try {
+        _isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
         _thread = std::thread(&RoomLobby::gameEntryPoint, this);
@@ -51,30 +52,24 @@ void RoomLobby::gameEntryPoint()
     EntityManager entityManager;
     int id = 1;
     int id_comp = 0;
+    Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
+    Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     for (std::shared_ptr<PlayerLobby> player : _players) {
-        try {
-    // <--------- IOT INSTRUCTION (core dump) ICI !!! ------->
-            std::cout << "1"<< std::endl;
-            Entity player_entity(id, 1);
-            std::cout << "2"<< std::endl;
-            std::shared_ptr<Position> position = std::make_shared<Position>(CONFIG::CompType::POSITION, id_comp, 200, 300);
-            std::cout << "3"<< std::endl;
-            std::shared_ptr<Health> health = std::make_shared<Health>(CONFIG::CompType::HEALTH, id_comp, 100);
-            std::cout << "4"<< std::endl;
-            // std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::RIGHT);
-            std::cout << "5"<< std::endl;
-            player_entity.addComponent(position);
-            std::cout << "6"<< std::endl;
-            player_entity.addComponent(health);
-            std::cout << "7"<< std::endl;
-            // player_entity.addComponent(direction);
-            std::cout << "8"<< std::endl;
-            entityManager.addEntity(player_entity);
-            id++, id_comp++;
-        }catch (const std::exception &e)
-        {
-            std::cerr << e.what() << std::endl;
-        }
+        Entity player_entity(id, 1);
+        std::cout << "1"<< std::endl;
+        player_entity.setId(id);
+        std::cout << "2"<< std::endl;
+        health.setId(id_comp);
+        id_comp++;
+        std::cout << "3"<< std::endl;
+        position.setId(id_comp);
+        std::cout << "4"<< std::endl;
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        player_entity.addComponent(positionShared);
+        player_entity.addComponent(healthShared);
+        entityManager.addEntity(player_entity);
+        id++, id_comp++;
     }
     std::cout << "Is here ?" << std::endl;
     // ---------------------------------

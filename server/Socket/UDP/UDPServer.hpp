@@ -24,12 +24,17 @@ class UDPServer {
 public:
     UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager);
     bool EndpointExist(udp::endpoint client) {
-        if (remote_endpoints_.empty())
+        if (remote_endpoints_.empty()) {
+            std::cout << "false" << std::endl;
             return false;
-        for (udp::endpoint tmp : remote_endpoints_) {
-            if (tmp.address() == client.address())
-                return true;
         }
+        for (udp::endpoint tmp : remote_endpoints_) {
+            if (tmp.address() == client.address()) {
+                std::cout << "true" << std::endl;
+                return true;
+            }
+        }
+        std::cout << "false" << std::endl;
         return false;
     }
     void StartReceive();

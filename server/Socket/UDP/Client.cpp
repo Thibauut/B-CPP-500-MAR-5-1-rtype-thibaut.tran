@@ -8,7 +8,7 @@ int main()
 	try {
 		boost::asio::io_service io_service;
 
-		udp::endpoint receiver_endpoint (boost::asio::ip::address::from_string("192.168.0.36"), 9549);
+		udp::endpoint receiver_endpoint (boost::asio::ip::address::from_string("192.168.0.23"), 9549);
 		udp::socket socket(io_service);
 		socket.open(udp::v4());
         for (;;) {

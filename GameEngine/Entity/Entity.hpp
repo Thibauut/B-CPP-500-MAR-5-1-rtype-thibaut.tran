@@ -62,6 +62,10 @@ namespace GameEngine {
                 return _entityType;
             }
 
+            void setId(unsigned int id) {
+                _id = id;
+            }
+
         private:
             std::list<std::shared_ptr<IComponent>> _entityContent;
             unsigned int _id;
