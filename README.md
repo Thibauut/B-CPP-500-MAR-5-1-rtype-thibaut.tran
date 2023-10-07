@@ -22,21 +22,22 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 * ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
-――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ #
+ 
  <h3 align="center">Compability</h3>
 
 * ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 * ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 * ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
-――――――――――――――――――――――――――――――――――――――――――――――――――
+#
 
  <h3 align="center">Requirements</h3>
 
 
 
-――――――――――――――――――――――――――――――――――――――――――――――――――
-
+#
 
  <h3 align="center">Getting Started</h3>
 
@@ -57,7 +58,7 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 ./install.sh
 ```
 
-――――――――――――――――――――――――――――――――――――――――――――――――――
+#
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
