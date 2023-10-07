@@ -35,6 +35,10 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 
  <h3 align="center">Requirements</h3>
 
+* Conan ${\color{red}version \space 2.0.13}$
+* CMake ${\color{red}min \space version \space 3.0.0}$
+* Xorg/System ${\color{red}version \space x.x.x}$
+
 
 
 #
