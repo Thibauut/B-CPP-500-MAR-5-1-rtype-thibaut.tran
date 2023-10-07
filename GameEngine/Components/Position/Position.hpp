@@ -8,15 +8,15 @@
 
 #pragma once
 
-#include "../../Interfaces/IComponent/IComponent.hpp"
+#include "../../Components/AComponent/AComponent.hpp"
 
 namespace GameEngine {
-    class Position : public IComponent {
+    class Position : public AComponent {
         public:
             friend class boost::serialization::access;
-            friend class IComponent;
-            Position() {}
-            Position(CONFIG::CompType type, int id, int x, int y) : _idComponent(id), _type(type), _xPos(x), _yPos(y) {}
+            friend class AComponent;
+            Position() : AComponent(CONFIG::CompType::POSITION) {}
+            Position(CONFIG::CompType type, int id, int x, int y) : AComponent(CONFIG::CompType::POSITION), _idComponent(id), _type(type), _xPos(x), _yPos(y) {}
             virtual ~Position() = default;
 
             void setPosition(int xPos, int yPos) {
@@ -46,7 +46,7 @@ namespace GameEngine {
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<Position>();
-                ar & boost::serialization::base_object<IComponent>(*this);
+                ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 ar & _type;
                 ar & _xPos;

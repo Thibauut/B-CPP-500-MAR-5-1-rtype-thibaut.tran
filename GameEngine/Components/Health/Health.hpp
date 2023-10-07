@@ -7,15 +7,15 @@
 
 #pragma once
 
-#include "../../Interfaces/IComponent/IComponent.hpp"
+#include "../../Components/AComponent/AComponent.hpp"
 
 namespace GameEngine {
-    class Health : public IComponent {
+    class Health : public AComponent {
         public:
             friend class boost::serialization::access;
-            friend class IComponent;
-            Health() {}
-            Health(CONFIG::CompType type, int id, int value) : _idComponent(id), _type(type), _hp(value)
+            friend class AComponent;
+            Health() : AComponent(CONFIG::CompType::HEALTH) {}
+            Health(CONFIG::CompType type, int id, int value) : AComponent(CONFIG::CompType::HEALTH), _idComponent(id), _type(type), _hp(value)
             {}
             ~Health() = default;
 
@@ -36,7 +36,7 @@ namespace GameEngine {
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<Health>();
-                ar & boost::serialization::base_object<IComponent>(*this);
+                ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 ar & _type;
                 ar & _hp;

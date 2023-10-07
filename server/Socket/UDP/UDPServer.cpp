@@ -68,9 +68,8 @@ void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t
 
 void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints)
 {
-    std::string new_message = message + "\n";
     for (std::shared_ptr<udp::endpoint> remote_client : endpoints) {
-        socket_.send_to(boost::asio::buffer(new_message), *remote_client.get());
+        socket_.send_to(boost::asio::buffer(message), *remote_client.get());
         // std::cout << "    -> " << new_message;
     }
 }
@@ -91,11 +90,8 @@ void UDPServer::sendPlayersPosition()
     if (!Entities().get()->getEntitiesByType(player_type).empty()) {
         for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
             serialize(player);
-            resp = resp + player_id1 + " " + player_x1 + " " + player_y1;
-            if (player != entityManagerPtr_.get()->getEntitiesByType(player_type).back())
-                resp = resp + " ";
+                sendAll(serialize(player), remote_endpoints_);
         }
-        sendAll(resp, remote_endpoints_);
     }
     else
         std::cout << "Players list is empty :(" << std::endl;

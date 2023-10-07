@@ -45,21 +45,20 @@ public:
         std::ostringstream oss;
         boost::archive::binary_oarchive archive(oss);
         archive << *entity.get();
-        std::string serializedData = oss.str();
-        // Imprimer les données binaires directement
-        std::cout << "Données binaires sérialisées de Player: ";
-        std::cout << serializedData << std::endl;
-        // Désérialisation
-        std::istringstream received_data(serializedData);
-        boost::archive::binary_iarchive ia(received_data);
-        Entity received_obj(978);
-
-        ia >> received_obj;
-        std::cout << "Entity type: " << received_obj.getType() << std::endl;
-        std::cout << "Entity id: " << received_obj.getId() << std::endl;
-        // std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
         return oss.str();
     }
+
+    Entity deserialize(std::string serializedData) {
+        std::istringstream received_data(serializedData);
+        boost::archive::binary_iarchive ia(received_data);
+        Entity received_obj(971);
+        ia >> received_obj;
+        // std::cout << "Entity type: " << received_obj.getType() << std::endl;
+        // std::cout << "Entity id: " << received_obj.getId() << std::endl;
+        // std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+        return received_obj;
+    }
+
     void StartReceive();
     void handleReceive(const std::string& message);
     void sendThread();

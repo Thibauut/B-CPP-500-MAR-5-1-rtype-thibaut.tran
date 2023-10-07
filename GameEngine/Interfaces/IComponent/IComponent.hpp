@@ -15,8 +15,6 @@ namespace GameEngine {
     class IComponent {
         public:
 
-            using Ptr = std::unique_ptr<IComponent>;
-
             virtual ~IComponent() = default;
             virtual CONFIG::CompType getType() = 0;
             virtual void setType(const CONFIG::CompType type) = 0;

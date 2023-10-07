@@ -28,7 +28,7 @@ namespace GameEngine {
             void serialize(Archive & ar, const unsigned int version) {
                 ar & _id;
                 ar & _entityType;
-                // ar & _entityContent;
+                ar & _entityContent;
             }
 
             unsigned int getId() const {
@@ -77,9 +77,8 @@ namespace GameEngine {
             }
 
         private:
-            std::list<std::shared_ptr<IComponent>> _entityContent;
+            std::list<std::shared_ptr<AComponent>> _entityContent;
             unsigned int _id;
             int _entityType;
-
     };
 }

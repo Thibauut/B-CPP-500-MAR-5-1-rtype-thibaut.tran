@@ -5,6 +5,6 @@
 #include "Position/Position.hpp"
 #include "Health/Health.hpp"
 
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(GameEngine::IComponent)
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(GameEngine::AComponent)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Health)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Position)
