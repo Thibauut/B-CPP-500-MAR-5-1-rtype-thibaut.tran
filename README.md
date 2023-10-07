@@ -59,7 +59,7 @@ To launch the game, just follow these instructions :smile:
 
 ――――――――――――――――――――――――――――――――――――――――――――――――――
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
 
 
@@ -87,7 +87,7 @@ To launch the game, just follow these instructions :smile:
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
 
 
