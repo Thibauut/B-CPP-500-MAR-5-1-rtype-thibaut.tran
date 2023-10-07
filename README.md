@@ -42,17 +42,17 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 
 To start the game, just follow these instructions :smile:
 
-> ÉTAPE 1
+> step 1
 ```sh
-git clone 
+git clone git@github.com:EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino.git
 ```
 
-> ÉTAPE 2
+> step 2
 ```sh
-cd REPOS
+cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 ```
 
-> ÉTAPE 3
+> step 3
 ```sh
 ./install.sh
 ```
