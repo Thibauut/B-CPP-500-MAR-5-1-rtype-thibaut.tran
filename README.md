@@ -17,7 +17,7 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 ――――――――――――――――――――――――――――――――――――――――――――――――――
 <h3 align="center">Built With</h3>
 
-
+* ![CONAN](https://img.shields.io/badge/Conan-6699CB.svg?style=for-the-badge&logo=Conan&logoColor=white)
 * ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 * ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 
@@ -40,21 +40,21 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 
  <h3 align="center">Getting Started</h3>
 
-To launch the game, just follow these instructions :smile:
+To start the game, just follow these instructions :smile:
 
 > ÉTAPE 1
 ```sh
-
+git clone 
 ```
 
 > ÉTAPE 2
 ```sh
-
+cd REPOS
 ```
 
 > ÉTAPE 3
 ```sh
-
+./install.sh
 ```
 
 ――――――――――――――――――――――――――――――――――――――――――――――――――
