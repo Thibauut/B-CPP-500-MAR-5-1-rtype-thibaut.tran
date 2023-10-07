@@ -21,7 +21,7 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 * ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 * ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 ――――――――――――――――――――――――――――――――――――――――――――――――――
  <h3 align="center">Compability</h3>
 
@@ -78,7 +78,7 @@ To launch the game, just follow these instructions :smile:
 | Game Engineer | Raphael de Monchy |
 
 ![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
 
 
