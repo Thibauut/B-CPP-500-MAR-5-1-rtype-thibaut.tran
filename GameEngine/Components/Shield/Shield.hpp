@@ -30,8 +30,13 @@ namespace GameEngine {
                 if (_shield_point > _max_shield_point)
                     _shield_point = _max_shield_point;
             }
-
-
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & _idComponent;
+                ar & _type;
+                ar & _max_shield_point;
+                ar & _shield_point;
+            }
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _id;};

@@ -31,18 +31,8 @@ set(SRC_SERVER  server/LaunchServer.cpp
                 server/Room/RoomLobby.cpp
                 server/Elements/Player/PlayerLobby.cpp
                 server/Save/HandleSave.cpp
+                GameEngine/Components/test.cpp
 )
-
-set(HPP_SERVER  server/Server.hpp
-                server/Socket/TCP/TCPServer.hpp
-                server/Socket/TCP/TCPConnexion.hpp
-                server/Socket/TCP/HandleRequest/Parser.hpp
-                server/Socket/UDP/UDPServer.hpp
-                server/Room/RoomLobby.hpp
-                server/Elements/Player/PlayerLobby.hpp
-                server/Save/HandleSave.hpp
-)
-
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
@@ -50,8 +40,9 @@ add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${CLIENT} Boost::system Boost::thread Boost::log Boost::log_setup)
 
-add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
+add_executable(${SERVER} ${SRC_SERVER})
 
 target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${SERVER} nlohmann_json::nlohmann_json)
+target_link_libraries(${SERVER} Boost::serialization)

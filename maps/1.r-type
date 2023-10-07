@@ -1,0 +1,18 @@
+# Niveau 1
+
+# Paramètres généraux du niveau
+Nom: Niveau 1
+Largeur: 10000
+Hauteur: 1080
+
+# Événements du niveau
+Événement 1:
+    Type: enemy
+    Entité: 2
+    x: 500
+    More: 1
+
+Événement 2:
+    Type: @
+    Entité: 3
+    x: 100

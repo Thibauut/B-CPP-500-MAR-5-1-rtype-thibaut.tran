@@ -46,9 +46,8 @@ void UDPServer::StartReceive() {
 void UDPServer::handleReceive(const std::string& message) {
     // std::cout << "    <- " << message << std::endl;
     StartExec(message, client);
-    std::cout << "il y a " << remote_endpoints_.size() << " endpoints connectée" << std::endl;
     if (EndpointExist(client) == false) {
-        remote_endpoints_.push_back(client);
+        remote_endpoints_.push_back(std::make_shared<udp::endpoint>(client));
     }
 }
 
@@ -67,12 +66,11 @@ void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t
 //         });
 }
 
-void UDPServer::sendAll(const std::string& message, std::vector<udp::endpoint> &endpoints)
+void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints)
 {
     std::string new_message = message + "\n";
-    for (udp::endpoint &remote_client : endpoints) {
-        std::cout << remote_client.address().to_string() << std::endl;
-        socket_.send_to(boost::asio::buffer(new_message), remote_client);
+    for (std::shared_ptr<udp::endpoint> remote_client : endpoints) {
+        socket_.send_to(boost::asio::buffer(new_message), *remote_client.get());
         // std::cout << "    -> " << new_message;
     }
 }
@@ -92,6 +90,7 @@ void UDPServer::sendPlayersPosition()
     std::string resp = "";
     if (!Entities().get()->getEntitiesByType(player_type).empty()) {
         for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
+            serialize(player);
             resp = resp + player_id1 + " " + player_x1 + " " + player_y1;
             if (player != entityManagerPtr_.get()->getEntitiesByType(player_type).back())
                 resp = resp + " ";
@@ -101,14 +100,18 @@ void UDPServer::sendPlayersPosition()
     else
         std::cout << "Players list is empty :(" << std::endl;
 }
+#define bullet_id std::to_string(bullet.get()->getId())
+#define bullet_x std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
+#define bullet_y std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second)
 
 void UDPServer::sendBulletPosition()
 {
     std::string resp = "";
-    if (!Entities().get()->getEntitiesByType(player_type).empty()) {
-        for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-            resp = resp + player_id1 + " " + player_x1 + " " + player_y1;
-            if (player != entityManagerPtr_.get()->getEntitiesByType(player_type).back())
+    if (!Entities().get()->getEntitiesByType(bullet_type).empty()) {
+        for (std::shared_ptr<GameEngine::Entity> bullet : entityManagerPtr_.get()->getEntitiesByType(bullet_type)) {
+            std::cout << "serialized data:" << serialize(bullet);
+            resp = resp + bullet_id + " " + bullet_x + " " + bullet_y;
+            if (bullet != entityManagerPtr_.get()->getEntitiesByType(bullet_type).back())
                 resp = resp + " ";
         }
         sendAll(resp, remote_endpoints_);

@@ -34,10 +34,14 @@ namespace GameEngine {
             int getSpriteY() {
                 return _y;
             }
-
-
-            
-
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & _idComponent;
+                ar & _type;
+                ar & _spriteIndex;
+                ar & _x;
+                ar & _y;
+            }
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};

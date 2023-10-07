@@ -2,7 +2,13 @@
 
 #include <array>
 #include <boost/asio.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/list.hpp>
 #include <thread>
+#include <fstream>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -25,22 +31,39 @@ public:
     UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager);
     bool EndpointExist(udp::endpoint client) {
         if (remote_endpoints_.empty()) {
-            std::cout << "false" << std::endl;
             return false;
         }
-        for (udp::endpoint tmp : remote_endpoints_) {
-            if (tmp.address() == client.address()) {
-                std::cout << "true" << std::endl;
+        for (std::shared_ptr<udp::endpoint> tmp : remote_endpoints_) {
+            if (tmp->address() == client.address()) {
                 return true;
             }
         }
-        std::cout << "false" << std::endl;
         return false;
+    }
+
+    std::string serialize(std::shared_ptr<Entity> entity) {
+        std::ostringstream oss;
+        boost::archive::binary_oarchive archive(oss);
+        archive << *entity.get();
+        std::string serializedData = oss.str();
+        // Imprimer les données binaires directement
+        std::cout << "Données binaires sérialisées de Player: ";
+        std::cout << serializedData << std::endl;
+        // Désérialisation
+        std::istringstream received_data(serializedData);
+        boost::archive::binary_iarchive ia(received_data);
+        Entity received_obj(978);
+
+        ia >> received_obj;
+        std::cout << "Entity type: " << received_obj.getType() << std::endl;
+        std::cout << "Entity id: " << received_obj.getId() << std::endl;
+        // std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+        return oss.str();
     }
     void StartReceive();
     void handleReceive(const std::string& message);
     void sendThread();
-    void sendAll(const std::string& message, std::vector<udp::endpoint> &endpoints);
+    void sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints);
     void sendToClient(const std::string& message, udp::endpoint &client_t);
     udp::socket &Socket(){return socket_;}
     std::shared_ptr<EntityManager> &Entities(){return entityManagerPtr_;}
@@ -48,6 +71,7 @@ public:
     void StartExec(const std::string& message, udp::endpoint &client);
     void sendPlayersPosition();
     void setPlayerStatus(int id, int x, int y, std::string shoot);
+    void sendBulletPosition();
     // void sendProjectilsPosition();
     // void sendBotsPosition();
     // void sendPowerUpPosition();
@@ -57,7 +81,7 @@ public:
 private:
     unsigned short port_;
     udp::endpoint client = udp::endpoint();
-    std::vector<udp::endpoint> remote_endpoints_;
+    std::vector<std::shared_ptr<udp::endpoint>> remote_endpoints_;
     udp::socket socket_;
     std::shared_ptr<EntityManager> entityManagerPtr_;
     std::thread recv_thread_;

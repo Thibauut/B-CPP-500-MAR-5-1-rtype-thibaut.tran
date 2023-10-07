@@ -145,37 +145,37 @@ void Game::HandleEvents()
             if (_event.key.code == sf::Keyboard::Space)
                 _shooting = false;
         }
-    }
-    if (_moveUp) {
+        if (_moveUp) {
         action = new Action(UP);
         for(std::shared_ptr<PlayerUDP> &player : _players) {
             if (player.get()->_id == std::stoi(my_id_))
                 player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x, player.get()->_y -= 1));
         }
-    }
-    if (_moveDown) {
-        action = new Action(DOWN);
-        for(std::shared_ptr<PlayerUDP> &player : _players) {
-            if (player.get()->_id == std::stoi(my_id_))
-                player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x, player.get()->_y += 1));
         }
-    }
-    if (_moveLeft) {
-        action = new Action(LEFT);
-        for(std::shared_ptr<PlayerUDP> &player : _players) {
-            if (player.get()->_id == std::stoi(my_id_))
-                player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x -= 1, player.get()->_y));
+        if (_moveDown) {
+            action = new Action(DOWN);
+            for(std::shared_ptr<PlayerUDP> &player : _players) {
+                if (player.get()->_id == std::stoi(my_id_))
+                    player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x, player.get()->_y += 1));
+            }
         }
-    }
-    if (_moveRight) {
-        action = new Action(RIGHT);
-        for(std::shared_ptr<PlayerUDP> &player : _players) {
-            if (player.get()->_id == std::stoi(my_id_))
-                player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x += 1, player.get()->_y));
+        if (_moveLeft) {
+            action = new Action(LEFT);
+            for(std::shared_ptr<PlayerUDP> &player : _players) {
+                if (player.get()->_id == std::stoi(my_id_))
+                    player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x -= 1, player.get()->_y));
+            }
         }
-    }
-    if (_shooting) {
-        action = new Action(SHOOT);
+        if (_moveRight) {
+            action = new Action(RIGHT);
+            for(std::shared_ptr<PlayerUDP> &player : _players) {
+                if (player.get()->_id == std::stoi(my_id_))
+                    player.get()->_sprite.setPosition(sf::Vector2f(player.get()->_x += 1, player.get()->_y));
+            }
+        }
+        if (_shooting) {
+            action = new Action(SHOOT);
+        }
     }
 }
 

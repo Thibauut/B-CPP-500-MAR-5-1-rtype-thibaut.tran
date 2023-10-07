@@ -21,6 +21,11 @@ namespace GameEngine {
                 _id = component.getId();
             };
             ~AComponent() = default;
+            template <class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & _id;
+                ar & _type;
+            }
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
