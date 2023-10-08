@@ -53,9 +53,9 @@ public:
         boost::archive::binary_iarchive ia(received_data);
         Entity received_obj(971);
         ia >> received_obj;
-        // std::cout << "Entity type: " << received_obj.getType() << std::endl;
-        // std::cout << "Entity id: " << received_obj.getId() << std::endl;
-        // std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+        std::cout << "Entity type: " << received_obj.getType() << std::endl;
+        std::cout << "Entity id: " << received_obj.getId() << std::endl;
+        std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
         return received_obj;
     }
 
@@ -69,7 +69,8 @@ public:
     // ------------CMD--------------
     void StartExec(const std::string& message, udp::endpoint &client);
     void sendPlayersPosition();
-    void setPlayerStatus(int id, int x, int y, std::string shoot);
+    void setPlayerPosition(Entity player);
+    void setMobPosition(Entity player);
     void sendBulletPosition();
     // void sendProjectilsPosition();
     // void sendBotsPosition();

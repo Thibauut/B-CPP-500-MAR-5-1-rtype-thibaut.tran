@@ -55,7 +55,6 @@ class ClientConnectionTCP : public ThreadHandler {
         void GetRoomInfo(std::string roomuuid);
         void GetRoomList();
 
-
         std::string ip_;
         std::string port_;
         std::string username_;

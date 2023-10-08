@@ -9,23 +9,42 @@
     #include <iostream>
     #include <boost/asio.hpp>
     #include <boost/array.hpp>
+    #include <boost/serialization/vector.hpp>
+    #include <boost/serialization/shared_ptr.hpp>
+    #include <boost/archive/binary_oarchive.hpp>
+    #include <boost/archive/binary_iarchive.hpp>
+    #include <boost/serialization/export.hpp>
     #include "../ThreadHandler/ThreadHandler.hpp"
-    #include "../../include/player.hpp"
+    #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
+    #include "../../../GameEngine/GameEngine.hpp"
 
 class ClientOpenUDP : public ThreadHandler {
     public:
-        ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::vector<std::shared_ptr<PlayerUDP>> &players, const std::string my_id);
+
+        struct PlayersPos {
+            int id;
+            int posX;
+            int posY;
+        };
+
+        struct PlayerPosition {
+            int posX;
+            int posY;
+        };
+
+        ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::vector<std::shared_ptr<Entity>> &playersEntity, const std::string my_id);
         void setMessage(const std::string&);
         void run() override;
 
         bool sendMessageSync(const std::string&);
-        bool sendMessageSyncFirst(const std::string&);
 
-        bool readMessage();
-        bool readPositionFirst();
+        bool readMessageGlobal();
+
+        std::string serialize(std::shared_ptr<Entity> entity);
+
+        Entity deserialize(std::string serializedData);
+
         bool getRunning() override;
-        bool getPLayersPos(const std::string& msg);
-        bool readPos();
 
         std::string ipAddress_;
         std::string udpPort_;
@@ -37,5 +56,18 @@ class ClientOpenUDP : public ThreadHandler {
         boost::asio::io_context ioService;
         boost::asio::ip::udp::socket socket_;
         boost::asio::ip::udp::endpoint endpoint_;
-        std::vector<std::shared_ptr<PlayerUDP>> &players_;
+
+        bool is1 = false;
+        bool is2 = false;
+        bool is3 = false;
+        bool is4 = false;
+
+        // std::vector<std::shared_ptr<PlayerUDP>> &players_;
+
+        std::vector<std::shared_ptr<Entity>> &playersEntity_;
+
+
+        std::vector<std::shared_ptr<PlayersPos>> playersPos_;
+
+        std::map<int, PlayerPosition> playerPositions;
 };

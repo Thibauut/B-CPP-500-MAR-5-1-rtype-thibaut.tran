@@ -8,57 +8,59 @@
 #include "../../include/menu.hpp"
 
 void Menu::Init() {
-    _window = new sf::RenderWindow (sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), sf::String(MENU_TITLE), sf::Style::Default);
+    videoMode.width = 1920;
+    videoMode.height = 1080;
+    _window = new sf::RenderWindow(videoMode, "R-TYPE",sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
     _inGame = false;
     _font.loadFromFile("assets/fonts/WANTONE.otf");
-    sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title.png", -70, 0, 1, 1);
+    sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title.png", 0, 0, 1, 1);
 }
 
 void Menu::InitBackground() {
-    sfmlFunc.LoadSprite(_background, _backgroundTexture, "assets/images/background_1.png", 0, 0, 7, 7);
+    sfmlFunc.LoadSprite(_background, _backgroundTexture, "assets/images/background_1.png", 0, 0, 8, 8);
     sf::IntRect rectBackground(0, 0, 256, 224);
     _rectBackground = rectBackground;
     _background.setTextureRect(_rectBackground);
 
-    sfmlFunc.LoadSprite(_background2, _backgroundTexture2, "assets/images/background_2.png", 0, 0, 7, 7);
+    sfmlFunc.LoadSprite(_background2, _backgroundTexture2, "assets/images/background_2.png", 0, 0, 8, 8);
     sf::IntRect rectBackground2(0, 0, 256, 224);
     _rectBackground2 = rectBackground2;
     _background2.setTextureRect(_rectBackground2);
 }
 
 void Menu::InitSprites() {
-    sfmlFunc.LoadSprite(_addSlot, _addSlotTexture, "assets/images/plus.png", 1260, 607, 0.1, 0.1);
-    sfmlFunc.LoadSprite(_removeSlot, _removeSlotTexture, "assets/images/moins.png", 500, 607, 0.1, 0.1);
-    sfmlFunc.LoadSprite(_roomDelete, _roomDeleteTexture, "assets/images/delete.png", 1560, 810, 0.2, 0.2);
+    sfmlFunc.LoadSprite(_addSlot, _addSlotTexture, "assets/images/plus.png", 1370, 607, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_removeSlot, _removeSlotTexture, "assets/images/moins.png", 530, 607, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_roomDelete, _roomDeleteTexture, "assets/images/delete.png", 1660, 810, 0.2, 0.2);
 }
 
 void Menu::InitText() {
-    sfmlFunc.CreateTextField(_textField, _text_name, _font, "Enter your name", sf::Vector2f(600, 40), sf::Vector2f(590, 500));
-    sfmlFunc.CreateTextField(_textField2, _text_ip, _font, "Server IP", sf::Vector2f(600, 40), sf::Vector2f(590, 600));
-    sfmlFunc.CreateTextField(_textField3, _text_port, _font, "Server Port", sf::Vector2f(600, 40), sf::Vector2f(590, 700));
+    sfmlFunc.CreateTextField(_textField, _text_name, _font, "Your name", sf::Vector2f(650, 40), sf::Vector2f(640, 500));
+    sfmlFunc.CreateTextField(_textField2, _text_ip, _font, "Server IP", sf::Vector2f(650, 40), sf::Vector2f(640, 600));
+    sfmlFunc.CreateTextField(_textField3, _text_port, _font, "Server Port", sf::Vector2f(650, 40), sf::Vector2f(640, 700));
 
-    sfmlFunc.CreateTextField(_textField_room, _text_name_room, _font, "Room name", sf::Vector2f(600, 40), sf::Vector2f(590, 500));
-    sfmlFunc.CreateTextField(_textField2_room, _text_slot_room, _font, "Slot number", sf::Vector2f(600, 40), sf::Vector2f(590, 600));
+    sfmlFunc.CreateTextField(_textField_room, _text_name_room, _font, "Room name", sf::Vector2f(650, 40), sf::Vector2f(640, 500));
+    sfmlFunc.CreateTextField(_textField2_room, _text_slot_room, _font, "Slot number", sf::Vector2f(650, 40), sf::Vector2f(640, 600));
 
-    sfmlFunc.createText(_text_name_input, _font, "letibz", 24, sf::Color::White, sf::Vector2f(605, 508));
-    sfmlFunc.createText(_text_ip_input, _font, "172.20.10.4", 24, sf::Color::White, sf::Vector2f(605, 608));
-    sfmlFunc.createText(_text_port_input, _font, "12345", 24, sf::Color::White, sf::Vector2f(605, 708));
+    sfmlFunc.createText(_text_name_input, _font, "Username", 24, sf::Color::White, sf::Vector2f(655, 508));
+    sfmlFunc.createText(_text_ip_input, _font, _inputIp, 24, sf::Color::White, sf::Vector2f(655, 608));
+    sfmlFunc.createText(_text_port_input, _font, _inputPort, 24, sf::Color::White, sf::Vector2f(655, 708));
 
-    sfmlFunc.createText(_text_name_input_room, _font, "Room 1", 24, sf::Color::White, sf::Vector2f(605, 508));
-    sfmlFunc.createText(_text_slot_input_room, _font, "0", 24, sf::Color::White, sf::Vector2f(605, 608));
+    sfmlFunc.createText(_text_name_input_room, _font, "Room 1", 24, sf::Color::White, sf::Vector2f(655, 508));
+    sfmlFunc.createText(_text_slot_input_room, _font, "0", 24, sf::Color::White, sf::Vector2f(655, 608));
 }
 
 void Menu::InitButton() {
-    sfmlFunc.CreateButton(_button, _buttonText, _font, "Connect", sf::Vector2f(200, 50), sf::Vector2f(800, 800), 45);
+    sfmlFunc.CreateButton(_button, _buttonText, _font, "Connect", sf::Vector2f(200, 50), sf::Vector2f(860, 800), 45);
 
-    sfmlFunc.CreateButton(_buttonCreate, _buttonCreateText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(1150, 800), 57);
-    sfmlFunc.CreateButton(_buttonDisconnect, _buttonDisconnectText, _font, "Disconnect", sf::Vector2f(200, 50), sf::Vector2f(450, 800), 25);
+    sfmlFunc.CreateButton(_buttonCreate, _buttonCreateText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(1210, 800), 57);
+    sfmlFunc.CreateButton(_buttonDisconnect, _buttonDisconnectText, _font, "Disconnect", sf::Vector2f(200, 50), sf::Vector2f(510, 800), 25);
 
-    sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(1150, 800), 57);
-    sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(450, 800), 57);
+    sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(1210, 800), 57);
+    sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(510, 800), 57);
 
-    sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(670, 800), 57);
-    sfmlFunc.CreateButton(_buttonCancel, _buttonCancelText, _font, "Cancel", sf::Vector2f(200, 50), sf::Vector2f(930, 800), 57);
+    sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(730, 800), 57);
+    sfmlFunc.CreateButton(_buttonCancel, _buttonCancelText, _font, "Cancel", sf::Vector2f(200, 50), sf::Vector2f(990, 800), 57);
 }
 
 void Menu::InitCreateRoom() {
@@ -66,5 +68,5 @@ void Menu::InitCreateRoom() {
     _roomMenu.setFillColor(sf::Color::Black);
     _roomMenu.setOutlineColor(sf::Color::White);
     _roomMenu.setOutlineThickness(5.0f);
-    _roomMenu.setPosition(sf::Vector2f(400, 460));
+    _roomMenu.setPosition(sf::Vector2f(460, 460));
 }

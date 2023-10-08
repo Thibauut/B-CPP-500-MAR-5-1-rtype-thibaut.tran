@@ -9,9 +9,11 @@
 #include "../AComponent/AComponent.hpp"
 
 namespace GameEngine {
-
-    class Velocity : public IComponent {
+    class Velocity : public AComponent {
         public:
+            friend class boost::serialization::access;
+            friend class AComponent;
+            Velocity() : AComponent() {};
             Velocity(CONFIG::CompType type, int id, int speedMult) : _idComponent(id), _type(type), _speedMult(speedMult) {}
             ~Velocity() = default;
 
@@ -22,12 +24,16 @@ namespace GameEngine {
             int getVelocity() {
                 return _speedMult;
             }
+
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
+                ar.template register_type<Velocity>();
+                ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 ar & _type;
                 ar & _speedMult;
             }
+
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
@@ -41,3 +47,5 @@ namespace GameEngine {
             int _speedMult;
     };
 }
+
+BOOST_CLASS_EXPORT_KEY(GameEngine::Velocity);

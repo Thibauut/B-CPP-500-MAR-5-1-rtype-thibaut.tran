@@ -14,7 +14,7 @@ namespace GameEngine {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            Health() : AComponent(CONFIG::CompType::HEALTH) {}
+            Health() : AComponent() {}
             Health(CONFIG::CompType type, int id, int value) : AComponent(CONFIG::CompType::HEALTH), _idComponent(id), _type(type), _hp(value)
             {}
             ~Health() = default;

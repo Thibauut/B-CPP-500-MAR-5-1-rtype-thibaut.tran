@@ -7,24 +7,40 @@
 
 #pragma once
 #include "../AComponent/AComponent.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace GameEngine {
 
-    class Sprite : public IComponent {
+    class Sprite : public AComponent {
         public:
-            Sprite(CONFIG::CompType type, int id, int spriteIndex, int x, int y) 
-            : _idComponent(id), _type(type), _spriteIndex(spriteIndex),  _x(x), _y(y) {}
+            friend class boost::serialization::access;
+            friend class AComponent;
+            Sprite() : AComponent() {};
+            Sprite(CONFIG::CompType type, int id)
+            : AComponent(), _idComponent(id), _type(type) {}
 
             ~Sprite() = default;
 
-            void setSprite(int spriteIndex, int width, int height) {
-                _spriteIndex = spriteIndex;
-                _x = width;
-                _y = height;
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar.template register_type<Sprite>();
+                ar & boost::serialization::base_object<AComponent>(*this);
+                ar & _idComponent;
+                ar & _type;
+                ar & _x;
+                ar & _y;
             }
 
-            int getSpriteIndex() {
-                return _spriteIndex;
+            void setSprite(int width, int height, const std::string &path, sf::IntRect &rect, const sf::Vector2f &scale) {
+                _x = width;
+                _y = height;
+                _scaleX = scale.x;
+                _scaleY = scale.y;
+                _spriteTexture.loadFromFile(path);
+                _sprite.setTexture(_spriteTexture);
+                _sprite.setTextureRect(rect);
+                _sprite.setScale(sf::Vector2f(_scaleX, _scaleY));
+                _sprite.setPosition(sf::Vector2f(_x, _y));
             }
 
             int getSpriteX() {
@@ -34,14 +50,15 @@ namespace GameEngine {
             int getSpriteY() {
                 return _y;
             }
-            template<class Archive>
-            void serialize(Archive & ar, const unsigned int version) {
-                ar & _idComponent;
-                ar & _type;
-                ar & _spriteIndex;
-                ar & _x;
-                ar & _y;
+
+            sf::Sprite getSprite() {
+                return _sprite;
             }
+
+            void setPositionSprite(const sf::Vector2f &pos) {
+                _sprite.setPosition(pos);
+            }
+
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
@@ -52,8 +69,15 @@ namespace GameEngine {
             CONFIG::CompType _type;
 
         private:
-            int _spriteIndex;
             int _x;
             int _y;
+            int _scaleX;
+            int _scaleY;
+            sf::Sprite _sprite;
+            sf::Texture _spriteTexture;
+            sf::IntRect _rect;
+            sf::Clock _clock;
     };
 }
+
+BOOST_CLASS_EXPORT_KEY(GameEngine::Sprite);

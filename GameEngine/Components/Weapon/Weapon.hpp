@@ -9,21 +9,19 @@
     #include "../AComponent/AComponent.hpp"
 
     namespace GameEngine {
-        class Weapon : public IComponent {
+        class Weapon : public AComponent {
             public:
+                friend class boost::serialization::access;
+                friend class AComponent;
+                Weapon() : AComponent() {};
                 Weapon(CONFIG::CompType type, int id, double coolDown, double xSpeed, double ySpeed, double posX, double posY) 
-                : _idComponent(id), _type(type), _coolDown(coolDown), _xSpeed(xSpeed), _ySpeed(ySpeed), _posX(posX), _posY(posY)  {}
+                : AComponent(), _idComponent(id), _type(type), _coolDown(coolDown), _xSpeed(xSpeed), _ySpeed(ySpeed), _posX(posX), _posY(posY)  {}
                 ~Weapon() = default;
 
-                void setWeapon(double cooldDown, double xSpeed, double ySpeed, double posX, double posY) {
-                    _coolDown = cooldDown;
-                    _xSpeed = xSpeed;
-                    _ySpeed = ySpeed;
-                    _posX = posX;
-                    _posY = posY;
-                }
                 template<class Archive>
                 void serialize(Archive & ar, const unsigned int version) {
+                    ar.template register_type<Weapon>();
+                    ar & boost::serialization::base_object<AComponent>(*this);
                     ar & _idComponent;
                     ar & _type;
                     ar & _coolDown;
@@ -32,6 +30,15 @@
                     ar & _posX;
                     ar & _posY;
                 }
+
+                void setWeapon(double cooldDown, double xSpeed, double ySpeed, double posX, double posY) {
+                    _coolDown = cooldDown;
+                    _xSpeed = xSpeed;
+                    _ySpeed = ySpeed;
+                    _posX = posX;
+                    _posY = posY;
+                }
+
                 virtual CONFIG::CompType getType() {return _type;};
                 virtual void setType(const CONFIG::CompType type) {_type = type;};
                 virtual int getId() {return _idComponent;};
@@ -49,3 +56,5 @@
                 double _posY;
         };
     }
+
+    BOOST_CLASS_EXPORT_KEY(GameEngine::Weapon);

@@ -16,8 +16,8 @@
 #include <map>
 #include <functional>
 #include "../graphical/utils/sfml_func.cpp"
-#include "player.hpp"
 #include "global.hpp"
+#include "../../GameEngine/GameEngine.hpp"
 
 
 #define DEFAULT_WINDOW_WIDTH 1920
@@ -41,7 +41,8 @@ class Game {
         void Draw();
 
 
-    std::vector<std::shared_ptr<PlayerUDP>> _players;
+    // std::vector<std::shared_ptr<PlayerUDP>> _players;
+    std::vector<std::shared_ptr<Entity>> playersEntity_;
 
     SfmlFunc sfmlFunc;
     sf::RenderWindow *_window;
