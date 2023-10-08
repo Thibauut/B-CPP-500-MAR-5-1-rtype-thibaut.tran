@@ -63,9 +63,12 @@ namespace GameEngine {
                 return nullptr;
             }
 
-            template <typename T>
-            std::list<std::shared_ptr<T>> &getComponents() {
+            std::list<std::shared_ptr<AComponent>> &getComponents() {
                 return _entityContent;
+            }
+
+            void setEntityContent(std::list<std::shared_ptr<AComponent>> &entity) {
+                _entityContent = entity;
             }
 
             int getType() const {

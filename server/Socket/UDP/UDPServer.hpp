@@ -15,6 +15,8 @@
 #include "../../../GameEngine/Entity/EntityManager/EntityManager.hpp"
 #include "../../../GameEngine/Utils/Utils.hpp"
 #include "../../../GameEngine/Components/Position/Position.hpp"
+#include "../../../GameEngine/Components/Health/Health.hpp"
+#include "../../../GameEngine/Components/Sprite/Sprite.hpp"
 
 using boost::asio::ip::udp;
 
@@ -56,6 +58,7 @@ public:
         std::cout << "Entity type: " << received_obj.getType() << std::endl;
         std::cout << "Entity id: " << received_obj.getId() << std::endl;
         std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+        std::cout << "Sprite: " << received_obj.getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSpriteX() << std::endl;
         return received_obj;
     }
 
@@ -70,6 +73,7 @@ public:
     void StartExec(Entity &entity, udp::endpoint &client);
     void sendPlayersPosition();
     void setPlayerPosition(Entity &player);
+    void setEntity(Entity &entity);
     void setMobPosition(Entity player);
     void sendBulletPosition();
     // void sendProjectilsPosition();

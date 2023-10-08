@@ -54,6 +54,7 @@ void RoomLobby::gameEntryPoint()
     int id_comp = 0;
     Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
+    Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
     for (std::shared_ptr<PlayerLobby> player : _players) {
         Entity player_entity(id, 1);
         player_entity.setId(id);
@@ -62,8 +63,10 @@ void RoomLobby::gameEntryPoint()
         position.setId(id_comp);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
+        player_entity.addComponent(spriteShared);
         entityManager.addEntity(player_entity);
         id++, id_comp++;
     }
