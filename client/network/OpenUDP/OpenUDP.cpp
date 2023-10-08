@@ -125,9 +125,9 @@ Entity ClientOpenUDP::deserialize(std::string serializedData) {
     boost::archive::binary_iarchive ia(received_data);
     Entity received_obj(971);
     ia >> received_obj;
-    std::cout << "Entity type: " << received_obj.getType() << std::endl;
-    std::cout << "Entity id: " << received_obj.getId() << std::endl;
-    std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+    // std::cout << "Entity type: " << received_obj.getType() << std::endl;
+    // std::cout << "Entity id: " << received_obj.getId() << std::endl;
+    // std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
     return received_obj;
 }
 
@@ -138,8 +138,54 @@ bool ClientOpenUDP::readMessageGlobal()
     size_t size = socket_.receive_from(boost::asio::buffer(buffer), senderEndpoint);
 
     std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(std::string(buffer.data(), size)));
+    if (ent == nullptr)
+        return false;
 
-
+    for (std::shared_ptr<Entity> &pl: playersEntity_) {
+        if (std::stoi(my_id_) == ent->getId()) {
+            if (ent->getId() == 1)
+                is1 = true;
+            else if (ent->getId() == 2)
+                is2 = true;
+            else if (ent->getId() == 3)
+                is3 = true;
+            else if (ent->getId() == 4)
+                is4 = true;
+        }
+        if (ent->getId() == 1 && !is1) {
+            sf::IntRect spriteRect(0, 0, std::round(33.2), std::round(17.2));
+            ent->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setSprite(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY(), "assets/sprites/r-typesheet42.gif", spriteRect, sf::Vector2f(3, 3));
+            playersEntity_.push_back(ent);
+            is1 = true;
+        }
+        else if (ent->getId() == 2 && !is2) {
+            sf::IntRect spriteRect(0, std::round(17.2), std::round(33.2), std::round(17.2));
+            ent->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setSprite(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY(), "assets/sprites/r-typesheet42.gif", spriteRect, sf::Vector2f(3, 3));
+            playersEntity_.push_back(ent);
+            is2 = true;
+        }
+        else if (ent->getId() == 3 && !is3) {
+            sf::IntRect spriteRect(0, std::round(34.4), std::round(33.2), std::round(17.2));
+            ent->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setSprite(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY(), "assets/sprites/r-typesheet42.gif", spriteRect, sf::Vector2f(3, 3));
+            playersEntity_.push_back(ent);
+            is3 = true;
+        }
+        else if (ent->getId() == 4 && !is4) {
+            sf::IntRect spriteRect(0, std::round(51.6), std::round(33.2), std::round(17.2));
+            ent->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setSprite(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY(), "assets/sprites/r-typesheet42.gif", spriteRect, sf::Vector2f(3, 3));
+            playersEntity_.push_back(ent);
+            is4 = true;
+        }
+    }
+    for (std::shared_ptr<Entity> &pl: playersEntity_) {
+        if (pl->getId() !=  std::stoi(my_id_) && pl->getId() == ent->getId()) {
+            int posX = ent.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX();
+            int posY = ent.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY();
+            pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(posX);
+            pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(posY);
+            pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(posX, posY));
+        }
+    }
 
     // std::istringstream iss(buffer.data());
     // std::string line;
