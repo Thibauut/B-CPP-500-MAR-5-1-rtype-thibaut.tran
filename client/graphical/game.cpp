@@ -158,6 +158,8 @@ void Game::Draw()
         _window->draw(_background2);
 
         for (std::shared_ptr<Entity>& pl : playersEntity_) {
+            std::cout << "Entity id: " << pl->getId() << std::endl;
+            std::cout << "Pos: x: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
             _window->draw(pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
         }
         _window->display();
