@@ -28,7 +28,7 @@ ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& ser
 
 
     if (my_id == "1") {
-        std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id));
+        std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id), 1);
 
         std::shared_ptr<Health> healthComponent = std::make_shared<Health>(CONFIG::CompType::HEALTH, stoi(my_id), 100);
         std::shared_ptr<Velocity> velocityComponent = std::make_shared<Velocity>(CONFIG::CompType::VELOCITY, stoi(my_id), 1);
@@ -48,7 +48,7 @@ ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& ser
         playersEntity_.push_back(newP);
 
     } else if (my_id == "2") {
-        std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id));
+        std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id), 1);
 
         std::shared_ptr<Health> healthComponent = std::make_shared<Health>(CONFIG::CompType::HEALTH, stoi(my_id), 100);
         std::shared_ptr<Velocity> velocityComponent = std::make_shared<Velocity>(CONFIG::CompType::VELOCITY, stoi(my_id), 1);
@@ -67,7 +67,7 @@ ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& ser
 
         playersEntity_.push_back(newP);
     } else if (my_id == "3") {
-       std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id));
+       std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id), 1);
 
         std::shared_ptr<Health> healthComponent = std::make_shared<Health>(CONFIG::CompType::HEALTH, stoi(my_id), 100);
         std::shared_ptr<Velocity> velocityComponent = std::make_shared<Velocity>(CONFIG::CompType::VELOCITY, stoi(my_id), 1);
@@ -86,7 +86,7 @@ ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& ser
 
         playersEntity_.push_back(newP);
     } else if (my_id == "4") {
-       std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id));
+       std::shared_ptr<Entity> newP = std::make_shared<Entity>(stoi(my_id), 1);
 
         std::shared_ptr<Health> healthComponent = std::make_shared<Health>(CONFIG::CompType::HEALTH, stoi(my_id), 100);
         std::shared_ptr<Velocity> velocityComponent = std::make_shared<Velocity>(CONFIG::CompType::VELOCITY, stoi(my_id), 1);
@@ -109,7 +109,6 @@ ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& ser
 
 bool ClientOpenUDP::sendMessageSync(const std::string& msg)
 {
-    std::cout << "Message envoyé => " << msg << std::endl;
     socket_.send_to(boost::asio::buffer(msg), endpoint_);
     return true;
 }
@@ -126,24 +125,19 @@ Entity ClientOpenUDP::deserialize(std::string serializedData) {
     boost::archive::binary_iarchive ia(received_data);
     Entity received_obj(971);
     ia >> received_obj;
-
-    // std::cout << "Entity type: " << received_obj.getType() << std::endl;
-    // std::cout << "Entity id: " << received_obj.getId() << std::endl;
-    // std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+    std::cout << "Entity type: " << received_obj.getType() << std::endl;
+    std::cout << "Entity id: " << received_obj.getId() << std::endl;
+    std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
     return received_obj;
 }
 
 bool ClientOpenUDP::readMessageGlobal()
 {
-    std::string buffer;
+    std::array<char, 1024> buffer;
     boost::asio::ip::udp::endpoint senderEndpoint;
-    boost::system::error_code ec;
-    socket_.receive_from(boost::asio::buffer(buffer), senderEndpoint);
+    size_t size = socket_.receive_from(boost::asio::buffer(buffer), senderEndpoint);
 
-    std::shared_ptr<Entity> ent = std::make_shared<Entity>(stoi(my_id_));
-
-
-    // deserialize(buffer.data());
+    std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(std::string(buffer.data(), size)));
 
 
 
@@ -291,7 +285,7 @@ void ClientOpenUDP::run() {
     if (!playersEntity_.empty()) {
         for (std::shared_ptr<Entity> &pl: playersEntity_) {
             if (pl->getId() == std::stoi(my_id_)) {
-                sendMessageSync(my_id_ + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX()) + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()) + " false");
+                sendMessageSync(serialize(pl));
             }
         }
     }

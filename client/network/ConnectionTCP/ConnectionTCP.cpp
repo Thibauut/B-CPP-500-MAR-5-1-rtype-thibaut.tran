@@ -213,7 +213,6 @@ bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, st
     sendMessage(message_);
     message_ = "";
     readMessage();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
     setMessage("START \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);
     readMessage();

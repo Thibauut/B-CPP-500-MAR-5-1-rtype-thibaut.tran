@@ -56,14 +56,10 @@ void RoomLobby::gameEntryPoint()
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     for (std::shared_ptr<PlayerLobby> player : _players) {
         Entity player_entity(id, 1);
-        std::cout << "1"<< std::endl;
         player_entity.setId(id);
-        std::cout << "2"<< std::endl;
         health.setId(id_comp);
         id_comp++;
-        std::cout << "3"<< std::endl;
         position.setId(id_comp);
-        std::cout << "4"<< std::endl;
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
         player_entity.addComponent(positionShared);
@@ -71,14 +67,11 @@ void RoomLobby::gameEntryPoint()
         entityManager.addEntity(player_entity);
         id++, id_comp++;
     }
-    std::cout << "Is here ?" << std::endl;
     // ---------------------------------
     Engine game(entityManager);
     // apl du serv---------------
-    std::cout << "Is here ??" << std::endl;
 
     boost::asio::io_context io_context = boost::asio::io_context();
-    std::cout << "Le port du room "<< _port<< " est libre." << std::endl;
     std::thread t([&io_context](){ io_context.run(); });
     std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, std::make_shared<EntityManager>(gamee._manager)); });
     // --------------------------

@@ -41,7 +41,7 @@ public:
         return false;
     }
 
-    std::string serialize(std::shared_ptr<Entity> entity) {
+    std::string serialize(std::shared_ptr<Entity> &entity) {
         std::ostringstream oss;
         boost::archive::binary_oarchive archive(oss);
         archive << *entity.get();
@@ -60,16 +60,16 @@ public:
     }
 
     void StartReceive();
-    void handleReceive(const std::string& message);
+    void handleReceive(Entity entity);
     void sendThread();
     void sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints);
     void sendToClient(const std::string& message, udp::endpoint &client_t);
     udp::socket &Socket(){return socket_;}
     std::shared_ptr<EntityManager> &Entities(){return entityManagerPtr_;}
     // ------------CMD--------------
-    void StartExec(const std::string& message, udp::endpoint &client);
+    void StartExec(Entity &entity, udp::endpoint &client);
     void sendPlayersPosition();
-    void setPlayerPosition(Entity player);
+    void setPlayerPosition(Entity &player);
     void setMobPosition(Entity player);
     void sendBulletPosition();
     // void sendProjectilsPosition();

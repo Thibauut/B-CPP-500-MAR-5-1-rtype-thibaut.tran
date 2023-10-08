@@ -7,6 +7,8 @@
 
 #pragma once
     #include <iostream>
+    #include <string>
+    #include <array>
     #include <boost/asio.hpp>
     #include <boost/array.hpp>
     #include <boost/serialization/vector.hpp>
@@ -15,7 +17,6 @@
     #include <boost/archive/binary_iarchive.hpp>
     #include <boost/serialization/export.hpp>
     #include "../ThreadHandler/ThreadHandler.hpp"
-    #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
     #include "../../../GameEngine/GameEngine.hpp"
 
 class ClientOpenUDP : public ThreadHandler {
@@ -52,7 +53,7 @@ class ClientOpenUDP : public ThreadHandler {
         std::string message_;
         std::string my_id_;
 
-        boost::array<char, 128>  buffer_;
+        std::array<char, 1024>  buffer_;
         boost::asio::io_context ioService;
         boost::asio::ip::udp::socket socket_;
         boost::asio::ip::udp::endpoint endpoint_;

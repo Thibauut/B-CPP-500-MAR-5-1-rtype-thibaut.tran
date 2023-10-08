@@ -16,6 +16,7 @@
 #include "Components/AI/AI.hpp"
 // #include "Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "Components/HitBoxCircle/HitBoxCircle.hpp"
+#include "Components/Sprite/Sprite.hpp"
 #include "Components/Weapon/Weapon.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"

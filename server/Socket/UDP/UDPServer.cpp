@@ -20,22 +20,19 @@ UDPServer::UDPServer(boost::asio::io_context& io_context, unsigned short port, s
 }
 
 void UDPServer::StartReceive() {
-    while (1) {
+    for (;;) {
         recv_buf_ = {0};
-        socket_.receive_from(boost::asio::buffer(recv_buf_), client);
-        // std::cout << recv_buf_.data() << std::endl;
-        handleReceive(recv_buf_.data());
-
+        size_t size = socket_.receive_from(boost::asio::buffer(recv_buf_), client);
+        handleReceive(deserialize(std::string(recv_buf_.data(), size)));
+        sendPlayersPosition();
         //     break;
         // if (remote_endpoints_.empty() == false)
         //     sendAll("test");
     }
 }
 
-
-void UDPServer::handleReceive(const std::string& message) {
-    // std::cout << "    <- " << message << std::endl;
-    StartExec(message, client);
+void UDPServer::handleReceive(Entity entity) {
+    StartExec(entity, client);
     if (EndpointExist(client) == false) {
         remote_endpoints_.push_back(std::make_shared<udp::endpoint>(client));
     }
@@ -71,8 +68,7 @@ void UDPServer::sendPlayersPosition()
     std::string resp = "";
     if (!Entities().get()->getEntitiesByType(player_type).empty()) {
         for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-            serialize(player);
-                sendAll(serialize(player), remote_endpoints_);
+            sendAll(serialize(player), remote_endpoints_);
         }
     }
     else
@@ -91,7 +87,7 @@ void UDPServer::sendBulletPosition()
     }
 }
 
-void UDPServer::setPlayerPosition(Entity player)
+void UDPServer::setPlayerPosition(Entity &player)
 {
     entityManagerPtr_->getEntity(player.getId())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
@@ -105,10 +101,7 @@ void UDPServer::setMobPosition(Entity player)
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY());
 }
 
-void UDPServer::StartExec(const std::string& message, udp::endpoint &client) {
-    if (!message.empty()) {
-        Entity data = deserialize(message);
-        if (data.getType() == 1)
-            setPlayerPosition(deserialize(message));
-    }
+void UDPServer::StartExec(Entity &entity, udp::endpoint &client) {
+        if (entity.getType() == 1)
+            setPlayerPosition(entity);
 }

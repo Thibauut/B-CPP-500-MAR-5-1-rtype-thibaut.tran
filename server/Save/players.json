@@ -64,6 +64,12 @@
             "name": "thibz",
             "online": true,
             "uuid": "f86d84aa-8797-42dd-8702-fdb624289c8b"
+        },
+        {
+            "level": 1,
+            "name": "Username",
+            "online": true,
+            "uuid": "84809813-cd8b-4841-89ea-21bffdbd4527"
         }
     ]
 }
