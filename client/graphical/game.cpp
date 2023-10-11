@@ -98,7 +98,7 @@ void Game::HandleEvents()
             pos.second -= 3;
             positionComp->setPositionY(pos.second);
             my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
+            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
         }
     }
     if (_moveDown) {
@@ -106,7 +106,7 @@ void Game::HandleEvents()
             pos.second += 3;
             positionComp->setPositionY(pos.second);
             my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
+            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
         }
     }
     if (_moveLeft) {
@@ -114,7 +114,7 @@ void Game::HandleEvents()
             pos.first -= 3;
             positionComp->setPositionX(pos.first);
             my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
+            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
         }
     }
     if (_moveRight) {
@@ -122,7 +122,7 @@ void Game::HandleEvents()
             pos.first += 3;
             positionComp->setPositionX(pos.first);
             my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
+            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
         }
     }
     // if (_shooting) {
