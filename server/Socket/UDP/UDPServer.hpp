@@ -61,16 +61,17 @@ public:
         std::cout << "Sprite: " << received_obj.getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSpriteX() << std::endl;
         return received_obj;
     }
-
+    void sendAllEntitys();
+    bool PlayerLogin(std::string data, udp::endpoint &client);
     void StartReceive();
-    void handleReceive(Entity entity);
+    void handleReceive(std::string &data);
     void sendThread();
     void sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints);
     void sendToClient(const std::string& message, udp::endpoint &client_t);
     udp::socket &Socket(){return socket_;}
     std::shared_ptr<EntityManager> &Entities(){return entityManagerPtr_;}
     // ------------CMD--------------
-    void StartExec(Entity &entity, udp::endpoint &client);
+    void StartExec(Entity entity, udp::endpoint &client);
     void sendPlayersPosition();
     void setPlayerPosition(Entity &player);
     void setEntity(Entity &entity);

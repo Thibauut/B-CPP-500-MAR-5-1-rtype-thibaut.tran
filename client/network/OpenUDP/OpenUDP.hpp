@@ -33,8 +33,10 @@ class ClientOpenUDP : public ThreadHandler {
             int posY;
         };
 
-        ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::vector<std::shared_ptr<Entity>> &playersEntity, const std::string my_id);
+        ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::shared_ptr<EntityManager> &entities, const std::string my_id);
         void setMessage(const std::string&);
+        void init(std::shared_ptr<Entity> &);
+        void recursRead(std::shared_ptr<Entity> &);
         void run() override;
 
         bool sendMessageSync(const std::string&);
@@ -65,8 +67,8 @@ class ClientOpenUDP : public ThreadHandler {
 
         // std::vector<std::shared_ptr<PlayerUDP>> &players_;
 
-        std::vector<std::shared_ptr<Entity>> &playersEntity_;
-
+        // std::vector<std::shared_ptr<Entity>> &playersEntity_;
+        std::shared_ptr<EntityManager> &entities_;
 
         std::vector<std::shared_ptr<PlayersPos>> playersPos_;
 

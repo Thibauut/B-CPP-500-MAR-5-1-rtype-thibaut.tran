@@ -39,8 +39,8 @@ set(HPP_CLIENT client/include/menu.hpp
                 client/network/ThreadHandler/ThreadHandler.hpp
 )
 
-add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
+add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${SERVER} Boost::serialization)

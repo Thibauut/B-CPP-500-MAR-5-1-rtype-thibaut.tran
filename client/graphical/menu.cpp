@@ -33,15 +33,23 @@ void Menu::Loop()
         } else {
             _game = new Game(_window);
 
-            _game->playersEntity_ = std::vector<std::shared_ptr<Entity>>();
+            _game->entities_ = std::make_shared<EntityManager>();
+            _game->my_player = std::make_shared<Entity>(std::atoi(_game->my_id_.c_str()), 1);
 
             _game->my_id_ = start_id_;
             _game->portUDP_ = start_port_;
             std::cout << "my id: " << _game->my_id_ << std::endl;
             std::cout << "my port: " << _game->portUDP_ << std::endl;
-            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>(_inputIp, _game->portUDP_, _game->playersEntity_, _game->my_id_);
+            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>(_inputIp, _game->portUDP_, _game->entities_, _game->my_id_);
             _game->_clientOpenUDP = clientudp;
 
+            std::thread ioThread([&] {
+                clientudp->ioService.run();
+            });
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            clientudp->init(_game->my_player);
+            _game->my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->initSprite();
             std::thread th([clientudp]() {
                 clientudp->run();
             });
@@ -51,6 +59,7 @@ void Menu::Loop()
             // delete _game;
             // _inGame = false;
             th.join();
+            ioThread.join();
         }
     }
     _tcpConnection->stop();

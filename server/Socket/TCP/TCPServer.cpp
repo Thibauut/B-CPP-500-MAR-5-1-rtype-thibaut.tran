@@ -24,7 +24,6 @@ void TCPServer::handle_accept(TCPConnection::pointer new_connection, const boost
     new_connection->start();
     std::cout <<"Check uuid connection: " << boost::uuids::to_string(new_connection->uuid()) << std::endl;
     players_.push_back(std::make_shared<PlayerLobby>(new_connection));
-    // Clients().push_back(new_connection);
   }
   start_accept();
 }

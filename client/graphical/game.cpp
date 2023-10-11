@@ -91,64 +91,50 @@ void Game::HandleEvents()
                 _shooting = false;
         }
     }
+    std::shared_ptr<Position> positionComp = my_player->getComponentByType<Position>(CONFIG::CompType::POSITION);
+    std::pair<int, int> pos = positionComp->getPosition();
     if (_moveUp) {
-        for (std::shared_ptr<Entity>& pl : playersEntity_) {
-            if (pl->getId() == std::stoi(my_id_) && pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() > 0) {
-                int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
-                int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() - 1;
-                pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(posY);
-                pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(posX, posY));
-                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
-                break;
-            }
+        if (positionComp->getPositionY() > 0) {
+            pos.second -= 3;
+            positionComp->setPositionY(pos.second);
+            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
         }
     }
     if (_moveDown) {
-        for (std::shared_ptr<Entity>& pl : playersEntity_) {
-            if (pl->getId() == std::stoi(my_id_) && pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() < (1075 - (17.2 * 3))) {
-                int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
-                int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + 1;
-                pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(posY);
-                pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(posX, posY));
-                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
-                break;
-            }
+        if (positionComp->getPositionY() < (1075 - (17.2 * 3))) {
+            pos.second += 3;
+            positionComp->setPositionY(pos.second);
+            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
         }
     }
     if (_moveLeft) {
-        for (std::shared_ptr<Entity>& pl : playersEntity_) {
-            if (pl->getId() == std::stoi(my_id_) && pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() > 5) {
-                int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() - 1;
-                int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
-                pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(posX);
-                pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(posX, posY));
-                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
-                break;
-            }
+        if (positionComp->getPositionX() > 5) {
+            pos.first -= 3;
+            positionComp->setPositionX(pos.first);
+            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
         }
     }
     if (_moveRight) {
-        for (std::shared_ptr<Entity>& pl : playersEntity_) {
-            if (pl->getId() == std::stoi(my_id_) && pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() < (1915 - (33.2 * 3))) {
-                int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + 1;
-                int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
-                pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(posX);
-                pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(posX, posY));
-                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
-                break;
-            }
+        if (positionComp->getPositionX() < (1915 - (33.2 * 3))) {
+            pos.first += 3;
+            positionComp->setPositionX(pos.first);
+            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+            // _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(pl));
         }
     }
-    if (_shooting) {
-        for (std::shared_ptr<Entity>& pl : playersEntity_) {
-            if (pl->getId() == std::stoi(my_id_)) {
-                int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
-                int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
-                _clientOpenUDP.get()->sendMessageSync(my_id_ + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX()) + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()) + " true");
-                break;
-            }
-        }
-    }
+    // if (_shooting) {
+    //     for (std::shared_ptr<Entity>& pl : playersEntity_) {
+    //         if (pl->getId() == std::stoi(my_id_)) {
+    //             int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
+    //             int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
+    //             _clientOpenUDP.get()->sendMessageSync(my_id_ + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX()) + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()) + " true");
+    //             break;
+    //         }
+    //     }
+    // }
 }
 
 void Game::Draw()
@@ -157,10 +143,11 @@ void Game::Draw()
         _window->draw(_background);
         _window->draw(_background2);
 
-        for (std::shared_ptr<Entity>& pl : playersEntity_) {
-            std::cout << "Entity id: " << pl->getId() << std::endl;
-            std::cout << "Pos: x: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
-            _window->draw(pl->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
+        for (std::shared_ptr<Entity>& entity : entities_->getEntities()) {
+            // std::cout << "Entity id: " << pl->getId() << std::endl;
+            // std::cout << "Pos: x: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+            _window->draw(entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
         }
+        _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
         _window->display();
 }

@@ -24,19 +24,34 @@ void UDPServer::StartReceive() {
     for (;;) {
         recv_buf_ = {0};
         size_t size = socket_.receive_from(boost::asio::buffer(recv_buf_), client);
-        handleReceive(deserialize(std::string(recv_buf_.data(), size)));
-        // sendPlayersPosition();
-        //     break;
-        // if (remote_endpoints_.empty() == false)
-        //     sendAll("test");
+        std::string message(recv_buf_.begin(), recv_buf_.end());
+        handleReceive(message);
     }
 }
 
-void UDPServer::handleReceive(Entity entity) {
-    StartExec(entity, client);
+void UDPServer::handleReceive(std::string &data) {
+    // std::cout << "message recu = "<<data << std::endl;
     if (EndpointExist(client) == false) {
         remote_endpoints_.push_back(std::make_shared<udp::endpoint>(client));
     }
+    if (PlayerLogin(data, client) == false)
+        StartExec(deserialize(data), client);
+}
+
+bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
+{
+    std::istringstream splitedData(data);
+    std::string word;
+    std::vector <std::string> cmd;
+    while (splitedData >> word)
+        cmd.push_back(word);
+    if (cmd[0] == "LOGIN") {
+            int player_id = std::atoi(cmd[1].c_str());
+            std::string serializedEntity = serialize(entityManagerPtr_.get()->getEntity(player_id));
+            socket_.send_to(boost::asio::buffer(serializedEntity), client);
+        return true;
+    }
+    return false;
 }
 
 void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t)
@@ -54,9 +69,18 @@ void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<
     }
 }
 
+
+void  UDPServer::sendAllEntitys()
+{
+    for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
+        sendAll(serialize(Entity), remote_endpoints_);
+    }
+}
+
 void UDPServer::sendThread() {
     while(1) {
-        sendPlayersPosition();
+        std::this_thread::sleep_for(std::chrono::microseconds(14));
+        sendAllEntitys();
     }
 }
 
@@ -109,7 +133,7 @@ void UDPServer::setMobPosition(Entity player)
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY());
 }
 
-void UDPServer::StartExec(Entity &entity, udp::endpoint &client) {
+void UDPServer::StartExec(Entity entity, udp::endpoint &client) {
         if (entity.getType() == 1)
             setPlayerPosition(entity);
         // if (entity.getType() == 2)

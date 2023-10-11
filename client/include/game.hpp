@@ -42,7 +42,9 @@ class Game {
 
 
     // std::vector<std::shared_ptr<PlayerUDP>> _players;
-    std::vector<std::shared_ptr<Entity>> playersEntity_;
+    std::shared_ptr<Entity> my_player;
+    // std::vector<std::shared_ptr<Entity>> playersEntity_;
+    std::shared_ptr<EntityManager> entities_;
 
     SfmlFunc sfmlFunc;
     sf::RenderWindow *_window;
