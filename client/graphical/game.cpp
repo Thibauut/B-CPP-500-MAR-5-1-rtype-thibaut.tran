@@ -125,16 +125,9 @@ void Game::HandleEvents()
             _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
         }
     }
-    // if (_shooting) {
-    //     for (std::shared_ptr<Entity>& pl : playersEntity_) {
-    //         if (pl->getId() == std::stoi(my_id_)) {
-    //             int posX = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
-    //             int posY = pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
-    //             _clientOpenUDP.get()->sendMessageSync(my_id_ + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX()) + " " + std::to_string(pl->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()) + " true");
-    //             break;
-    //         }
-    //     }
-    // }
+    if (_shooting) {
+        _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+    }
 }
 
 void Game::Draw()
@@ -143,11 +136,8 @@ void Game::Draw()
         _window->draw(_background);
         _window->draw(_background2);
 
-        for (std::shared_ptr<Entity>& entity : entities_->getEntities()) {
-            // std::cout << "Entity id: " << pl->getId() << std::endl;
-            // std::cout << "Pos: x: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << pl->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
+        for (std::shared_ptr<Entity>& entity : entities_->getEntities())
             _window->draw(entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
-        }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
         _window->display();
 }

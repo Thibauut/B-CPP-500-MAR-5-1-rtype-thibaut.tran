@@ -144,10 +144,16 @@
             "uuid": "78eb0b3a-7421-4774-a37b-dd07d2042b69"
         },
         {
-            "level": 1,
-            "name": "YANIS",
+            "level": 999999,
+            "name": "YANIS-SAN",
             "online": true,
             "uuid": "39810ce6-1aa1-4612-aded-bf80d3ec6767"
+        },
+        {
+            "level": 1,
+            "name": "YOUNIS",
+            "online": true,
+            "uuid": "15fce714-d71a-48b1-831c-e65a02d17f14"
         }
     ]
 }

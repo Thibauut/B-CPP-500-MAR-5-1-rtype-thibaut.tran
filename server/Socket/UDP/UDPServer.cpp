@@ -30,7 +30,6 @@ void UDPServer::StartReceive() {
 }
 
 void UDPServer::handleReceive(std::string &data) {
-    // std::cout << "message recu = "<<data << std::endl;
     if (EndpointExist(client) == false) {
         remote_endpoints_.push_back(std::make_shared<udp::endpoint>(client));
     }

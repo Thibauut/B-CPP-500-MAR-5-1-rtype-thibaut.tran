@@ -55,12 +55,9 @@ public:
         boost::archive::binary_iarchive ia(received_data);
         Entity received_obj(971);
         ia >> received_obj;
-        std::cout << "Entity type: " << received_obj.getType() << std::endl;
-        std::cout << "Entity id: " << received_obj.getId() << std::endl;
-        std::cout << "Pos: x: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() << " y: " << received_obj.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() << std::endl;
-        std::cout << "Sprite: " << received_obj.getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSpriteX() << std::endl;
         return received_obj;
     }
+
     void sendAllEntitys();
     bool PlayerLogin(std::string data, udp::endpoint &client);
     void StartReceive();
