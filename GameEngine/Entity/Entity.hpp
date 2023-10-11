@@ -9,9 +9,12 @@
 #include <memory>
 #include <list>
 #include "../Components/AComponent/AComponent.hpp"
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/list.hpp>
 
 using namespace GameEngine;
-
 
 namespace GameEngine {
     class Entity {
@@ -20,6 +23,13 @@ namespace GameEngine {
             Entity(unsigned int id) : _id(id), _entityType(0) {}
 
             ~Entity() {}
+
+            template <class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & _id;
+                ar & _entityType;
+                ar & _entityContent;
+            }
 
             unsigned int getId() const {
                 return _id;
@@ -53,19 +63,25 @@ namespace GameEngine {
                 return nullptr;
             }
 
-            template <typename T>
-            std::list<std::shared_ptr<T>> &getComponents() {
+            std::list<std::shared_ptr<AComponent>> &getComponents() {
                 return _entityContent;
+            }
+
+            void setEntityContent(std::list<std::shared_ptr<AComponent>> &entity) {
+                _entityContent = entity;
             }
 
             int getType() const {
                 return _entityType;
             }
 
+            void setId(unsigned int id) {
+                _id = id;
+            }
+
         private:
-            std::list<std::shared_ptr<IComponent>> _entityContent;
+            std::list<std::shared_ptr<AComponent>> _entityContent;
             unsigned int _id;
             int _entityType;
-
     };
 }

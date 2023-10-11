@@ -23,7 +23,13 @@ namespace GameEngine {
                 ret.second = height;
                 return ret;
             }
-
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & _idComponent;
+                ar & _type;
+                ar & _width;
+                ar & _height;
+            }
             int getWidth(){return _width;}
             int getHeight(){return _height;}
 

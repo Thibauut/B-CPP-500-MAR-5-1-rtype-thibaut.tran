@@ -9,177 +9,133 @@
 #define player_x  std::to_string(entityManagerPtr_.get()->getEntity(std::stoi(cmd_[0])).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
 #define player_y  std::to_string(entityManagerPtr_.get()->getEntity(std::stoi(cmd_[0])).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second)
 #define player_type 1
-
-void ParsCmd(std::vector<std::string> &tmp, std::string cmd)
-{
-    int i = 0;
-    std::istringstream iss(cmd);
-    std::string arg;
-    while (iss >> arg) {
-        tmp.push_back(arg);
-    }
-}
+#define mob_type 2
+#define bullet_type 3
 
 UDPServer::UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager)
     : socket_(io_context, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager) {
         port_ = port;
-        StartReceive();
         remote_endpoints_.clear();
+        send_thread_ = std::thread(&UDPServer::sendThread, this);
+        StartReceive();
 }
 
 void UDPServer::StartReceive() {
-    // while (1) {
-        // socket_.receive_from(boost::asio::buffer(recv_buf_), client);
-        // handleReceive(recv_buf_.data());
-        // std::cout << recv_buf_.data() << std::endl;
-        // if (remote_endpoints_.empty() == false)
-        //     sendAll("test");
-    // }
-    socket_.async_receive_from(
-    boost::asio::buffer(recv_buf_), client,
-    [this](const boost::system::error_code& error, std::size_t bytes_received) {
-        std::cout << "message recu du client"<< std::endl;
-        if (!error || error == boost::asio::error::message_size) {
-            std::string message(recv_buf_.begin(), recv_buf_.begin() + bytes_received);
-            std::cout << recv_buf_.data() << std::endl;
-            handleReceive(message);
-        } else {
-            std::cerr << "Receive error: " << error.message() << std::endl;
-        }
-    });
+    for (;;) {
+        recv_buf_ = {0};
+        size_t size = socket_.receive_from(boost::asio::buffer(recv_buf_), client);
+        std::string message(recv_buf_.begin(), recv_buf_.end());
+        handleReceive(message);
+    }
 }
 
-
-void UDPServer::handleReceive(const std::string& message) {
-    std::cout << "    <- " << message << std::endl;
+void UDPServer::handleReceive(std::string &data) {
+    // std::cout << "message recu = "<<data << std::endl;
     if (EndpointExist(client) == false) {
-        std::cout << "Endpoint not exist" << std::endl;
-        remote_endpoints_.push_back(client);
+        remote_endpoints_.push_back(std::make_shared<udp::endpoint>(client));
     }
-    // sendAll("Putin");
-    // StartExec(message, client);
-    StartReceive();
+    if (PlayerLogin(data, client) == false)
+        StartExec(deserialize(data), client);
+}
+
+bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
+{
+    std::istringstream splitedData(data);
+    std::string word;
+    std::vector <std::string> cmd;
+    while (splitedData >> word)
+        cmd.push_back(word);
+    if (cmd[0] == "LOGIN") {
+            int player_id = std::atoi(cmd[1].c_str());
+            std::string serializedEntity = serialize(entityManagerPtr_.get()->getEntity(player_id));
+            socket_.send_to(boost::asio::buffer(serializedEntity), client);
+        return true;
+    }
+    return false;
 }
 
 void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t)
 {
-    // std::string new_message = message + "\n";
+    std::string new_message = message + "\n";
     // std::cout << "    -> " << new_message;;
-    // socket_.send_to(boost::asio::buffer(new_message), client_t);
-        socket_.async_send_to(
-        boost::asio::buffer(message), client_t,
-        [this](const boost::system::error_code& error, std::size_t bytes_sent) {
-            if (error) {
-                std::cerr << "Send error: " << error.message() << std::endl;
-                // Entitys().get()->getEntity(1).get()->getComponentByType<Position>(1).get()->getPosition().first;
-            }
-        });
+    socket_.send_to(boost::asio::buffer(new_message), client_t);
+
 }
 
-void UDPServer::sendAll(const std::string& message)
+void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints)
 {
-    std::string new_message = message + "\n";
-    for (udp::endpoint &remote_client : remote_endpoints_) {
-        socket_.send_to(boost::asio::buffer(new_message), remote_client);
-        std::cout << "    -> " << new_message;
+    for (std::shared_ptr<udp::endpoint> remote_client : endpoints) {
+        socket_.send_to(boost::asio::buffer(message), *remote_client.get());
     }
 }
 
-void UDPServer::moveLeft(int id, udp::endpoint &client) {
-    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionX(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() - 2);
-    std::string resp;
-    resp = cmd_[0] + " " + player_x + " " + player_y;
+
+void  UDPServer::sendAllEntitys()
+{
+    for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
+        sendAll(serialize(Entity), remote_endpoints_);
+    }
 }
 
-void UDPServer::moveRight(int id, udp::endpoint &client)
-{
-    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionX(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX() + 2);
-    std::string resp;
-    resp = cmd_[0] + " " + player_x + " " + player_y;
-}
-
-void UDPServer::moveUp(int id, udp::endpoint &client)
-{
-    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionY(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() - 2);
-    std::string resp;
-    resp = cmd_[0] + " " + player_x + " " + player_y;
-}
-void UDPServer::moveDown(int id, udp::endpoint &client)
-{
-    entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPositionY(entityManagerPtr_.get()->getEntity(id).get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() + 2);
-    std::string resp;
-    resp = cmd_[0] + " " + player_x + " " + player_y;
-    sendToClient(resp, client);
-}
-void UDPServer::Shoot()
-{
-    std::string resp;
-    // si l'arme peut re-tirer OK sinon KO
-    // if ()
-    //     resp = cmd_[0] + " \"SHOOT\" " + "\"OK\"";
-    // else 
-    //     resp = cmd_[0] + " \"SHOOT\" " + "\"KO\"";
-    // sendToClient(resp);
+void UDPServer::sendThread() {
+    while(1) {
+        std::this_thread::sleep_for(std::chrono::microseconds(14));
+        sendAllEntitys();
+    }
 }
 
 #define player_id1 std::to_string(player.get()->getId())
 #define player_x1 std::to_string(player.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
 #define player_y1 std::to_string(player.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second)
 
-// void UDPServer::sendPlayersPosition()
-// {
-//     std::string resp = "";
-//     if (!entityManagerPtr_.get()->getEntitiesByType(player_type).empty()) {
-//         for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-//             resp = resp + player_id1 + " " + player_x1 + " " + player_y1;
-//             if (player != entityManagerPtr_.get()->getEntitiesByType(player_type).back())
-//                 resp = resp + " ";
-//         }
-//     }
-//     else
-//     std::cout << "Players list is empty :(" << std::endl;
-//     sendAll(resp);
-// }
-
-// void UDPServer::sendProjectilsPosition(){StartSend("Projectil");}
-// void UDPServer::sendBotsPosition(){ StartSend("Pnj");}
-// void UDPServer::sendPowerUpPosition(){StartSend("Collectible");}
-// void UDPServer::sendScores(){StartSend("Scores");}
-void UDPServer::StartExec(const std::string& message, udp::endpoint &client) {
-    ParsCmd(cmd_, message);
-    if (!cmd_.empty()) {
-        if (cmd_.size() > 1) {
-            if (cmd_[1].compare("UP") == 0)
-                moveUp(std::stoi(cmd_[0]), client);
-            else if (cmd_[1].compare("DOWN") == 0)
-                moveDown(std::stoi(cmd_[0]), client);
-            else if (cmd_[1].compare("LEFT") == 0)
-                moveLeft(std::stoi(cmd_[0]), client);
-            else if (cmd_[1].compare("RIGHT") == 0)
-                moveRight(std::stoi(cmd_[0]), client);
-            else if (cmd_[1].compare("SHOOT") == 0)
-                Shoot();
+void UDPServer::sendPlayersPosition()
+{
+    std::string resp = "";
+    if (!Entities().get()->getEntitiesByType(player_type).empty()) {
+        for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
+            sendAll(serialize(player), remote_endpoints_);
         }
-        // else if (cmd_[0].compare("GETPLAYERS") == 0)
-        //     sendPlayersPosition();
-        // else if (cmd_[0].compare("GETPROJECTILES") == 0)
-        //     sendProjectilsPosition();
-        // else if (cmd_[0].compare("GETPNJ") == 0)
-        //     sendBotsPosition();
-        // else if (cmd_[0].compare("GETCOLLECTIBLES") == 0)
-        //     sendPowerUpPosition();
-        // else if (cmd_[0].compare("GETSCORES") == 0)
-        //     sendScores();
-        cmd_.clear();
-
     }
+    else
+        std::cout << "Players list is empty :(" << std::endl;
+}
+#define bullet_id std::to_string(bullet.get()->getId())
+#define bullet_x std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
+#define bullet_y std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second)
 
+void UDPServer::sendBulletPosition()
+{
+    if (!Entities().get()->getEntitiesByType(bullet_type).empty()) {
+        for (std::shared_ptr<GameEngine::Entity> bullet : entityManagerPtr_.get()->getEntitiesByType(bullet_type)) {
+            sendAll(serialize(bullet), remote_endpoints_);
+        }
+    }
 }
 
-// int main()
-// {
-// 	boost::asio::io_service io_service;
-// 	UDPServer server(io_service, 1234);
-// 	io_service.run();
-// 	return 0;
-// }
+void UDPServer::setEntity(Entity &entity)
+{
+    // entityManagerPtr_->getEntity(entity.getId())->setEntityContent(entity.getComponents());
+    // std::shared_ptr<Entity> entityPtr = std::make_shared<Entity>(entity);
+    // entityManagerPtr_->getEntity(entity.getId()) = entityPtr;
+}
+
+void UDPServer::setPlayerPosition(Entity &player)
+{
+    entityManagerPtr_->getEntity(player.getId())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
+        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
+        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY());
+}
+
+void UDPServer::setMobPosition(Entity player)
+{
+    entityManagerPtr_->getEntity(player.getId())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
+        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
+        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY());
+}
+
+void UDPServer::StartExec(Entity entity, udp::endpoint &client) {
+        if (entity.getType() == 1)
+            setPlayerPosition(entity);
+        // if (entity.getType() == 2)
+        //     setEntityPosition(entity, 2);
+}

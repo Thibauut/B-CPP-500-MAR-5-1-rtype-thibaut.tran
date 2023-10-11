@@ -51,16 +51,8 @@ void ClientConnectionTCP::handleRead(const boost::system::error_code& error, std
 
 void ClientConnectionTCP::readMessage()
 {
-    // std::unique_lock<std::mutex> lock(mutex_);
     int bytes = socket_.read_some(boost::asio::buffer(buff));
-    std::cout << "Bytes received: " << bytes << std::endl;
     response_ = std::string(buff.begin(), buff.begin() + bytes - 1);
-    // boost::asio::read_until(socket_, buffer_, '\n');
-
-    // std::istream response_stream(&buffer_);
-    // std::string server_response;
-    // std::getline(response_stream, server_response);
-    // response_ = server_response;
 }
 
 void ClientConnectionTCP::run()
@@ -71,10 +63,6 @@ void ClientConnectionTCP::run()
     }
     std::thread readThread([this]() {
         while (1) {}
-        // while (1) {
-        //     readMessage();
-        //     // std::this_thread::sleep_for(std::chrono::seconds(3));
-        // }
     });
     readThread.join();
 }
@@ -96,9 +84,7 @@ void ClientConnectionTCP::Login()
     message_ = "";
     readMessage();
     readMessage();
-    // std::cout << "Réponse from login : " << response_ << std::endl;
     uuid_ = extractArguments(response_, "LOGIN ");
-    // std::cout << "UUID : " << uuid_ << std::endl;
 }
 
 void ClientConnectionTCP::Disconnect()
@@ -108,7 +94,6 @@ void ClientConnectionTCP::Disconnect()
     message_ = "";
     readMessage();
     std::string tmp = extractArguments(response_, "DISCONNECT ");
-    // std::cout << "Disconnect : " << tmp << std::endl;
     stop();
 }
 
@@ -170,32 +155,34 @@ void ClientConnectionTCP::GetRoomList()
     if (shouldStop == false)
         readMessage();
     std::string tmp = extractArguments(response_, "GET_ROOMS ");
-
     std::istringstream stream(tmp);
     size_t pos = 0;
+
+    std::vector<std::string> values;
+
     while (pos < tmp.size()) {
-        size_t nameStart = tmp.find_first_not_of(' ', pos);
-        if (nameStart == std::string::npos) break;
-        size_t nameEnd = tmp.find('"', nameStart + 1);
-        if (nameEnd == std::string::npos) break;
-        std::string name = tmp.substr(nameStart + 1, nameEnd - nameStart - 1);
-        size_t slotsStart = tmp.find_first_not_of(' ', nameEnd + 1);
-        if (slotsStart == std::string::npos) break;
-        size_t slotsEnd = tmp.find('"', slotsStart + 1);
-        if (slotsEnd == std::string::npos) break;
-        std::string slots = tmp.substr(slotsStart + 1, slotsEnd - slotsStart - 1);
-        size_t uuid_start = tmp.find_first_not_of(' ', slotsEnd + 1);
-        if (uuid_start == std::string::npos) break;
-        size_t uuid_end = tmp.find('"', uuid_start + 1);
-        if (uuid_end == std::string::npos) break;
-        std::string uuid = tmp.substr(uuid_start + 1, uuid_end - uuid_start - 1);
-        Room *room = new Room;
-        room->name = name;
-        room->slot = slots;
-        room->uuid = uuid;
-        rooms.push_back(room);
-        pos = slotsEnd + 1;
+        if (tmp[pos] == '"') {
+            size_t endQuote = tmp.find('"', pos + 1);
+            if (endQuote == std::string::npos) {
+                break;
+            }
+            std::string value = tmp.substr(pos + 1, endQuote - pos - 1);
+            values.push_back(value);
+            pos = endQuote + 1;
+        } else {
+            pos++;
+        }
     }
+    if (!values.empty() && values.size() % 3 == 0) {
+        for (size_t i = 0; i < values.size(); i += 3) {
+            Room *room = new Room;
+            room->name = values[i];
+            room->slot = values[i + 1];
+            room->uuid = values[i + 2];
+            rooms.push_back(room);
+        }
+    }
+    response_ = "";
 }
 
 void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
@@ -205,7 +192,6 @@ void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
     message_ = "";
     readMessage();
     infoRoomUuid_ = extractArguments(response_, "CREATE_ROOM ");
-    // std::cout << "CreateRoom: " << infoRoomUuid_ << std::endl;
 }
 
 std::string ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string playeruuid)
@@ -215,6 +201,7 @@ std::string ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string pla
     message_ = "";
     readMessage();
     std::string res = extractArguments(response_, "JOIN_ROOM ");
+    std::cout << "RESPONSE ======> " + res << std::endl;
     return res;
 }
 
@@ -226,34 +213,20 @@ bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, st
     sendMessage(message_);
     message_ = "";
     readMessage();
-    std::cout << "RESPONSE ======> " + response_ << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    for (ClientConnectionTCP::Room *room : rooms) {
-        if (room->uuid == roomuuid) {
-            setMessage("START \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
-            sendMessage(message_);
-            std::cout << "IS GOING HERE ?!" << std::endl;
-            readMessage();
-            std::cout << "<- " << response_ << std::endl;
-            if (response_.find("START") != std::string::npos) {
-                std::cout << "RESPONSE ======> " + response_ << std::endl;
-                std::string res = extractArguments(response_, "START ");
-                std::istringstream iss(res);
-                std::string port, id;
-                if(iss >> id >> port) {
-                    startId = id;
-                    portUdp = port;
-                }
-                startGame = true;
-                return true;
-            } else {
-                std::cout << "NOW HERE ?!" << std::endl;
-                setMessage("START \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
-                sendMessage(message_);
-                readMessage();
-                std::cout << "<- " << response_ << std::endl;
-            }
+    setMessage("START \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
+    sendMessage(message_);
+    readMessage();
+    if (response_.find("START") != std::string::npos) {
+        std::cout << "RESPONSE ======> " + response_ << std::endl;
+        std::string res = extractArguments(response_, "START ");
+        std::istringstream iss(res);
+        std::string port, id;
+        if(iss >> id >> port) {
+            startId = id;
+            portUdp = port;
         }
+        startGame = true;
+        return true;
     }
     return false;
 }
@@ -264,8 +237,6 @@ void ClientConnectionTCP::LeaveRoom(std::string roomuuid)
     sendMessage(message_);
     message_ = "";
     readMessage();
-
-    // std::cout << "from LeaveRoom: " << response_ << std::endl;
 }
 
 void ClientConnectionTCP::DeleteRoom(std::string roomuuid)
@@ -274,8 +245,6 @@ void ClientConnectionTCP::DeleteRoom(std::string roomuuid)
     sendMessage(message_);
     message_ = "";
     readMessage();
-
-    // std::cout << "from DeleteRoom: " << response_ << std::endl;
 }
 
 void ClientConnectionTCP::setMessage(const std::string& message)

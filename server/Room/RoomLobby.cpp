@@ -37,6 +37,7 @@ RoomLobby::~RoomLobby() {
 void RoomLobby::startGame()
 {
     try {
+        _isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
         _thread = std::thread(&RoomLobby::gameEntryPoint, this);
@@ -51,23 +52,56 @@ void RoomLobby::gameEntryPoint()
     EntityManager entityManager;
     int id = 1;
     int id_comp = 0;
-    for (std::shared_ptr<PlayerLobby> &player : _players) {
+    Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
+    Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
+    Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+    for (std::shared_ptr<PlayerLobby> player : _players) {
         Entity player_entity(id, 1);
-        std::shared_ptr<Position> position = std::make_shared<Position>(CONFIG::CompType::POSITION, id_comp, 200, 300);
-        std::shared_ptr<Health> health = std::make_shared<Health>(CONFIG::CompType::HEALTH, id_comp, 100);
-        std::shared_ptr<Direction> direction = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, id_comp, CONFIG::Dir::RIGHT);
-        player_entity.addComponent(position);
-        player_entity.addComponent(health);
-        player_entity.addComponent(direction);
+        player_entity.setId(id);
+        health.setId(id_comp);
+
+        sf::IntRect spriteRect(0, std::round(17.2 * (id - 1)), std::round(33.2), std::round(17.2));
+        sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
+
+        id_comp++;
+        sprite.setId(id_comp);
+        id_comp++;
+        position.setId(id_comp);
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        player_entity.addComponent(positionShared);
+        player_entity.addComponent(healthShared);
+        player_entity.addComponent(spriteShared);
         entityManager.addEntity(player_entity);
         id++, id_comp++;
     }
-
+    // Add mob entity
+    id_comp = 0;
+    position = Position(CONFIG::CompType::POSITION, id_comp, 1600, 300);
+    health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
+    sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+    Entity mob_entity(id, 2);
+    mob_entity.setId(id);
+    health.setId(id_comp);
+    id_comp++;
+    sprite.setId(id_comp);
+    id_comp++;
+    position.setId(id_comp);
+    sf::IntRect spriteRect(0, 0, std::round(33.3125), 36);
+    sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet5.gif", sf::Vector2f(3, 3), spriteRect);
+    std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+    std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+    std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+    mob_entity.addComponent(positionShared);
+    mob_entity.addComponent(healthShared);
+    mob_entity.addComponent(spriteShared);
+    entityManager.addEntity(mob_entity);
     // ---------------------------------
     Engine game(entityManager);
     // apl du serv---------------
-    boost::asio::io_context io_context;
-    std::cout << "Le port du room "<< _port<< " est libre." << std::endl;
+
+    boost::asio::io_context io_context = boost::asio::io_context();
     std::thread t([&io_context](){ io_context.run(); });
     std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, std::make_shared<EntityManager>(gamee._manager)); });
     // --------------------------
@@ -75,10 +109,10 @@ void RoomLobby::gameEntryPoint()
     t1.join();
     t.join();
 
-    while (!shouldStop.load(std::memory_order_relaxed)) {
-        std::cout << "Room " << _name << " is running" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-    }
+    // while (!shouldStop.load(std::memory_order_relaxed)) {
+    //     std::cout << "Room " << _name << " is running" << std::endl;
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    // }
     std::cout << "Room " << _name << " stopped" << std::endl;
 }
 

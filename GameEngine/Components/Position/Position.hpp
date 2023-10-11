@@ -1,3 +1,4 @@
+
 /*
 ** EPITECH PROJECT, 2023
 ** Position
@@ -7,12 +8,15 @@
 
 #pragma once
 
-#include "../AComponent/AComponent.hpp"
+#include "../../Components/AComponent/AComponent.hpp"
 
 namespace GameEngine {
-    class Position : public IComponent {
+    class Position : public AComponent {
         public:
-            Position(CONFIG::CompType type, int id, int x, int y) : _idComponent(id), _type(type), _xPos(x), _yPos(y) {}
+            friend class boost::serialization::access;
+            friend class AComponent;
+            Position() : AComponent(CONFIG::CompType::POSITION) {}
+            Position(CONFIG::CompType type, int id, int x, int y) : AComponent(CONFIG::CompType::POSITION), _idComponent(id), _type(type), _xPos(x), _yPos(y) {}
             virtual ~Position() = default;
 
             void setPosition(int xPos, int yPos) {
@@ -39,6 +43,15 @@ namespace GameEngine {
             int getPositionY() {
                 return _yPos;
             }
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar.template register_type<Position>();
+                ar & boost::serialization::base_object<AComponent>(*this);
+                ar & _idComponent;
+                ar & _type;
+                ar & _xPos;
+                ar & _yPos;
+            }
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -54,3 +67,5 @@ namespace GameEngine {
             int _yPos;
     };
 }
+
+BOOST_CLASS_EXPORT_KEY(GameEngine::Position);

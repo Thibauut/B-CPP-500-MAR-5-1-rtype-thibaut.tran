@@ -24,6 +24,12 @@ namespace GameEngine {
                 std::cout << "AI getter : state =" << _activate << std::endl;
                 return _activate;
             }
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & _idComponent;
+                ar & _type;
+                ar & _activate;
+            }
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};

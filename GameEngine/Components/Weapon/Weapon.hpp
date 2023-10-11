@@ -9,14 +9,30 @@
     #include "../AComponent/AComponent.hpp"
 
     namespace GameEngine {
-        class Weapon : public IComponent {
+        class Weapon : public AComponent {
             public:
-                Weapon(CONFIG::CompType type, int id, double coulDown, double xSpeed, double ySpeed, double posX, double posY) 
-                : _idComponent(id), _type(type), _coulDown(coulDown), _xSpeed(xSpeed), _ySpeed(ySpeed), _posX(posX), _posY(posY)  {}
+                friend class boost::serialization::access;
+                friend class AComponent;
+                Weapon() : AComponent() {};
+                Weapon(CONFIG::CompType type, int id, double coolDown, double xSpeed, double ySpeed, double posX, double posY) 
+                : AComponent(), _idComponent(id), _type(type), _coolDown(coolDown), _xSpeed(xSpeed), _ySpeed(ySpeed), _posX(posX), _posY(posY)  {}
                 ~Weapon() = default;
 
-                void setWeapon(double couldDown, double xSpeed, double ySpeed, double posX, double posY) {
-                    _coulDown = couldDown;
+                template<class Archive>
+                void serialize(Archive & ar, const unsigned int version) {
+                    ar.template register_type<Weapon>();
+                    ar & boost::serialization::base_object<AComponent>(*this);
+                    ar & _idComponent;
+                    ar & _type;
+                    ar & _coolDown;
+                    ar & _xSpeed;
+                    ar & _ySpeed;
+                    ar & _posX;
+                    ar & _posY;
+                }
+
+                void setWeapon(double cooldDown, double xSpeed, double ySpeed, double posX, double posY) {
+                    _coolDown = cooldDown;
                     _xSpeed = xSpeed;
                     _ySpeed = ySpeed;
                     _posX = posX;
@@ -33,10 +49,12 @@
                 CONFIG::CompType _type;
 
             private:
-                double _coulDown;
+                double _coolDown;
                 double _xSpeed;
                 double _ySpeed;
                 double _posX;
                 double _posY;
         };
     }
+
+    BOOST_CLASS_EXPORT_KEY(GameEngine::Weapon);

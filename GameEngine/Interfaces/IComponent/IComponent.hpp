@@ -7,16 +7,20 @@
 
 #pragma once
 #include "../../Utils/Utils.hpp"
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/export.hpp>
 
 namespace GameEngine {
 
     class IComponent {
         public:
-            virtual ~IComponent() = default;
 
+            virtual ~IComponent() = default;
             virtual CONFIG::CompType getType() = 0;
             virtual void setType(const CONFIG::CompType type) = 0;
             virtual int getId() = 0;
             virtual void setId(const int id) = 0;
+            template <typename Archive>
+            void serialize(Archive& ar, const unsigned int version) {}
     };
 }

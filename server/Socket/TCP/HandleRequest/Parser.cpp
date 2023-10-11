@@ -279,7 +279,7 @@ void Parser::ready(std::string player_uuid, std::string room_uuid) {
             std::string response = "READY OK\n";
             std::cout << "-> " << response;
             _socket.write_some(boost::asio::buffer(response));
-            room->addReadyPlayer();
+            // room->addReadyPlayer();
             return;
         }
     }
@@ -288,16 +288,17 @@ void Parser::ready(std::string player_uuid, std::string room_uuid) {
 void Parser::start(std::string player_uuid, std::string room_uuid) {
     for (std::shared_ptr<RoomLobby> room : _server->_lobbys) {
         if (room->getUuid() == room_uuid) {
-            if (room->getNbReadyPlayers() == room->getNbPlayers()) {
+            if (room->addReadyPlayer()) {
                 int id = 1;
-                room->startGame();
+                if (!room->isStarted())
+                    room->startGame();
                 for (std::shared_ptr<PlayerLobby> player : room->getPlayers()) {
-                    std::cout << "Player in room: " << player.get()->getUsername() << std::endl;
-                    std::string response = "START " + std::to_string(id) + " " + std::to_string(room->getPort()) + "\n";
-                    std::cout << "READ THIS NOOB ! :" << response << " on " << player->connection->uuid() << std::endl;
-                    player->connection->socket().write_some(boost::asio::buffer(response));
-                    std::cout << "-> " << response;
-                    id++;
+                        std::cout << "Player in room: " << player.get()->getUsername() << std::endl;
+                        std::string response = "START " + std::to_string(id) + " " + std::to_string(room->getPort()) + "\n";
+                        std::cout << "READ THIS NOOB ! :" << response << " on " << player->connection->uuid() << std::endl;
+                        player->connection->socket().write_some(boost::asio::buffer(response));
+                        std::cout << "-> " << response;
+                        id++;
                 }
             }
         }

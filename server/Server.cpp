@@ -47,8 +47,6 @@ void Server::refreshFromDb() {
 
 void Server::refresh()
 {
-    // PlayerLobby player = PlayerLobby("Tbz");
-    // RoomLobby lobby = RoomLobby(player, 4, "le galion");
     // lobby.startGame();
     while (1) {
         // refreshFromDb();
