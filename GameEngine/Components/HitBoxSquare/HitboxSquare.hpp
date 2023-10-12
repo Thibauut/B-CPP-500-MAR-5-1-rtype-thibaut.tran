@@ -9,12 +9,12 @@
 
 namespace GameEngine {
 
-    class HitboxSquare : public IComponent {
+    class HitBoxSquare : public IComponent {
         public:
-            HitboxSquare(CONFIG::CompType type, int id, int x, int y) : _idComponent(id), _type(type), _x(x), _y(y) {}
-            ~HitboxSquare() = default;
+            HitBoxSquare(CONFIG::CompType type, int id, int x, int y) : _idComponent(id), _type(type), _x(x), _y(y) {}
+            ~HitBoxSquare() = default;
 
-            void setHitbox(int x, int y){ _x = x, _y = y;}
+            void setHitBox(int x, int y){ _x = x, _y = y;}
 
 
             int getHitBoxSquareX()
