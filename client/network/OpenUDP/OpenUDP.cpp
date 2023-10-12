@@ -27,10 +27,10 @@ ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& ser
     }
 }
 
-bool ClientOpenUDP::sendMessageSync(const std::string& msg)
+void ClientOpenUDP::sendMessageSync(const std::string& msg)
 {
     socket_.send_to(boost::asio::buffer(msg), endpoint_);
-    return true;
+    return;
 }
 
 std::string ClientOpenUDP::serialize(std::shared_ptr<Entity> entity) {
@@ -48,7 +48,7 @@ Entity ClientOpenUDP::deserialize(std::string serializedData) {
     return received_obj;
 }
 
-bool ClientOpenUDP::readMessageGlobal()
+void ClientOpenUDP::readMessageGlobal()
 {
     std::array<char, 1024> buffer;
     boost::asio::ip::udp::endpoint senderEndpoint;
@@ -56,7 +56,7 @@ bool ClientOpenUDP::readMessageGlobal()
 
     std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(std::string(buffer.data(), size)));
     if (ent == nullptr)
-        return false;
+        return;
 
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
         if (entity->getId() == ent->getId()) {
@@ -76,7 +76,7 @@ bool ClientOpenUDP::readMessageGlobal()
         entities_->addEntity(*ent.get());
     }
 
-    return false;
+    return;
 }
 
 void ClientOpenUDP::setMessage(const std::string& message)

@@ -39,9 +39,9 @@ class ClientOpenUDP : public ThreadHandler {
         void recursRead(std::shared_ptr<Entity> &);
         void run() override;
 
-        bool sendMessageSync(const std::string&);
+        void sendMessageSync(const std::string&);
 
-        bool readMessageGlobal();
+        void readMessageGlobal();
 
         std::string serialize(std::shared_ptr<Entity> entity);
 
