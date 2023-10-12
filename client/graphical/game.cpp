@@ -136,8 +136,15 @@ void Game::Draw()
         _window->draw(_background);
         _window->draw(_background2);
 
-        for (std::shared_ptr<Entity>& entity : entities_->getEntities())
-            _window->draw(entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
+        for (std::shared_ptr<Entity>& entity : entities_->getEntities()) {
+            std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+            if (spriteComp) {
+                std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
+                sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
+                spriteComp->setPositionSprite(pos);
+                _window->draw(spriteComp->getSprite());
+            }
+        }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
         _window->display();
 }

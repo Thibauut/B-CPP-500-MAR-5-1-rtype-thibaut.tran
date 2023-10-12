@@ -77,11 +77,11 @@ void RoomLobby::gameEntryPoint()
         id++, id_comp++;
     }
     // Add mob entity
-    id_comp = 0;
+    id = 100;
     position = Position(CONFIG::CompType::POSITION, id_comp, 1600, 300);
     health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
-    AI ai = AI(CONFIG::CompType::AI, CONFIG::AiType::MOB1, id_comp, 1);
+    AI ai = AI(CONFIG::CompType::AI, CONFIG::AiType::MOB1, id_comp, 0.005);
     Entity mob_entity(id, 2);
     mob_entity.setId(id);
     health.setId(id_comp);

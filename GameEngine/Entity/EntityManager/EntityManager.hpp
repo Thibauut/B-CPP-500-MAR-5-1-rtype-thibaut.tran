@@ -36,6 +36,10 @@ namespace GameEngine {
                 throw std::runtime_error("Entity not found");
             }
 
+            std::shared_ptr<EntityManager> getEntityManager() {
+                return std::make_shared<EntityManager>(*this);
+            }
+
             std::list<std::shared_ptr<Entity>>& getEntities() {
                 return _listEntity;
             }

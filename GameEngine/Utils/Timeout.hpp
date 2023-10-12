@@ -8,25 +8,27 @@ namespace GameEngine {
     {
     public:
         Timeout(){timeout_ = 1;};
-        Timeout(float timeout){timeout_ = timeout;}
+        Timeout(float timeout)
+        {
+            Start();
+            timeout_ = timeout;
+        }
         void Start()
         {
-            auto now = std::chrono::system_clock::now();
-            std::time_t current_time = std::chrono::system_clock::to_time_t(now);
-            startTime_ = current_time;
+            startTime_ = std::chrono::steady_clock::now();
         }
         bool can_execute()
         {
-            auto now = std::chrono::system_clock::now();
-            std::time_t current_time = std::chrono::system_clock::to_time_t(now);
-            double elapsed_seconds = std::difftime(current_time, startTime_);
-            if (elapsed_seconds >= timeout_)
+            auto current_time = std::chrono::steady_clock::now();
+            elapsed_seconds_ = std::chrono::duration_cast<std::chrono::duration<double>>(current_time - startTime_).count();
+            if (elapsed_seconds_ >= timeout_)
                 return true;
             return false;
 
         }
         // ~Timeout();
-        float timeout_;
-        std::time_t startTime_;
+        double timeout_;
+        std::chrono::_V2::steady_clock::time_point startTime_;
+        double elapsed_seconds_;
     };
 }
