@@ -21,7 +21,7 @@ int main() {
 
     std::shared_ptr<Health> healthComponentMob = std::make_shared<Health>(CONFIG::CompType::HEALTH, 3, 100);
     std::shared_ptr<Position> positionComponentMob = std::make_shared<Position>(CONFIG::CompType::POSITION, 4, 1920, 1080);
-    std::shared_ptr<AI> aiComponentMob = std::make_shared<AI>(CONFIG::CompType::AI, 1);
+    // std::shared_ptr<AI> aiComponentMob = std::make_shared<AI>(CONFIG::CompType::AI, 1);
 
 
     // Add components to player

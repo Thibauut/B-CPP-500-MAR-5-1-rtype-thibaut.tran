@@ -9,6 +9,14 @@
 
 namespace CONFIG {
 
+    enum AiType {
+        MOB1,
+        MOB2,
+        BOSS,
+        ALLY,
+        PLAYER,
+    };
+
     enum CompType {
         SPRITE,
         POSITION,

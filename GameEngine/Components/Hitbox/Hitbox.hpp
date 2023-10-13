@@ -10,14 +10,14 @@
 namespace GameEngine {
 
     template <class T>
-    class Hitbox : public AComponent {
+    class HitBox : public AComponent {
         public:
-            Hitbox(CONFIG::CompType type, int id, int width, int height) { _type(type), _id(id),  _width(width), _height(height);}
-            ~Hitbox() = default;
+            HitBox(CONFIG::CompType type, int id, int width, int height) { _type(type), _id(id),  _width(width), _height(height);}
+            ~HitBox() = default;
 
-            void setHitbox(int new_width, int new_height){ _width = new_width, _height = new_height;}
+            void setHitBox(int new_width, int new_height){ _width = new_width, _height = new_height;}
 
-            std::pair getHitbox() {
+            std::pair getHitBox() {
                 std::pair<int, int> ret;
                 ret.first = _width;
                 ret.second = height;

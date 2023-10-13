@@ -7,40 +7,44 @@
 
 #pragma once
 #include "../ASystem/ASystem.hpp"
+#include "../../Components/Position/Position.hpp"
+#include "../../Components/AI/AI.hpp"
+#include <chrono>
+#include "../../Utils/Timeout.hpp"
 
 namespace GameEngine {
-    template <class T>
-    class SysAI : public ASystem {
+    class SysAI : public ISystem {
         public:
-            SysAI(std::list<std::shared_ptr<Entity>> &);
+            SysAI(std::list<std::shared_ptr<Entity>> &entityList) : _entities(entityList), isRunning(true) {}
             ~SysAI() {};
-            bool isAI() {};
+            bool isAI() { return true; };
 
-            template <class T>
             virtual void update() override {
-                // Logique AI (à implémenter)
                 if (!isRunning) {
                     return;
                 }
 
-                for (const auto& entityPtr : EntityManager_) {
-                    auto aiComponent = entityPtr->getComponent<AI>();
-
-                    if (!aiComponent) {
-                        std::cout << "No AI component found on this entity." << '\n';
-                    } else if (aiComponent == 1) {
-
+                for (std::shared_ptr<Entity> &entityPtr : _entities) {
+                    std::shared_ptr<AI> aiComponent = entityPtr->getComponentByType<AI>(CONFIG::CompType::AI);
+                    if (aiComponent != nullptr) {
+                        if (aiComponent->getAiType() == CONFIG::AiType::MOB1) {
+                            mobalgo1(entityPtr);
+                        }
                     }
-                //  if fonction mob
-                // if fonction player
                 }
-
-
-            }
+        };
 
         private:
+            void mobalgo1(std::shared_ptr<Entity> entity) {
+                auto aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
+                auto posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+                if (aiComponent->canMove()) {
+                    posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
+                    aiComponent->resetCooldown();
+                }
+            };
             bool isRunning;
-            std::list<std::shared_ptr<Entity>> &_entities;
+            std::list<std::shared_ptr<Entity>> _entities;
     };
 
 }

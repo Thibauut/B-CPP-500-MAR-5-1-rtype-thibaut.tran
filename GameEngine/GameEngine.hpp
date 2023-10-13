@@ -20,6 +20,7 @@
 #include "Components/Weapon/Weapon.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
+#include "Systems/SysAI/SysAI.hpp"
 // #include "Systems/SysMovement/SysMovement.hpp"
 // #include "Systems/SysRender/SysRender.hpp"
 // #include "Systems/SysCollision/SysCollision.hpp"
@@ -42,7 +43,7 @@ namespace GameEngine {
             void run() {
                 _isRunning = true;
                 for (;;) {
-                    for (auto& _system : _systems) {
+                    for (std::shared_ptr<ISystem> &_system : _systems) {
                         _system->update();
                     }
                 }

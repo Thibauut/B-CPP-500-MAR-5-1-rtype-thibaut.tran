@@ -7,6 +7,7 @@
 
 #pragma once
 #include "../../Interfaces/ISystem/ISystem.hpp"
+#include "../../Entity/EntityManager/EntityManager.hpp"
 #include "../../Entity/Entity.hpp"
 
 
