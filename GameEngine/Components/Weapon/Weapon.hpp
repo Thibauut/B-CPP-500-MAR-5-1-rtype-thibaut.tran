@@ -54,6 +54,10 @@
                     _coolDown.Start();
                 }
 
+                Timeout getCoolDown() {
+                    return _coolDown;
+                }
+
                 void setWeapon(CONFIG::WeaponType weaponType, int posX, int posY) {
                     _weaponType = weaponType;
                     _posX = posX;

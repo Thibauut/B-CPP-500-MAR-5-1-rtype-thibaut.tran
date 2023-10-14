@@ -21,6 +21,7 @@
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"
+#include "Systems/SysWeapon/SysWeapon.hpp"
 // #include "Systems/SysMovement/SysMovement.hpp"
 // #include "Systems/SysRender/SysRender.hpp"
 // #include "Systems/SysCollision/SysCollision.hpp"

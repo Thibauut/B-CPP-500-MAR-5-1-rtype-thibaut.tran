@@ -21,19 +21,14 @@ namespace GameEngine {
         ~SysShoot() {};
 
         virtual void update() override {
-                for (std::shared_ptr<Entity> &entityPtr : _entities) {
-                std::shared_ptr<Weapon> WeaponComponent = entityPtr->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
-                if (WeaponComponent != nullptr) {
-                    if (WeaponComponent.get()->getWeaponType() == CONFIG::WeaponType::Weapon1 && WeaponComponent.get()->canShoot()) {
-                        Weapon1(entityPtr);
-                    }
-
-                    if (WeaponComponent.get()->getWeaponType() == CONFIG::WeaponType::Weapon2 && WeaponComponent.get()->canShoot()) {
-                        Weapon2(entityPtr);
-                    }
-
-                    if (WeaponComponent.get()->getWeaponType() == CONFIG::WeaponType::Weapon3 && WeaponComponent.get()->canShoot()) {
-                        Weapon3(entityPtr);
+            for (std::shared_ptr<Entity> &entityPtr : _entities) {
+                if (entityPtr.get()->getType() == 4) {
+                    std::shared_ptr<Position> positionComponent = entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION);
+                    std::shared_ptr<Weapon> weaponComponent = entityPtr->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                    if (positionComponent != nullptr && weaponComponent != nullptr) {
+                        Timeout coulDown = weaponComponent.get()->getCoolDown();
+                        int posX = positionComponent.get()->getPositionX();
+                        int posY = positionComponent.get()->getPositionY();
                     }
                 }
             }

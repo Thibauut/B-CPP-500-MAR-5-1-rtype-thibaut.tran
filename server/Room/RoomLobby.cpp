@@ -134,6 +134,7 @@ void RoomLobby::gameEntryPoint()
     // ---------------------------------
     Engine game(entityManager);
     game.addSystem(std::make_shared<SysAI>(game.getManager()->getEntities()));
+    game.addSystem(std::make_shared<SysWeapon>(game.getManager()->getEntities()));
     // apl du serv---------------
 
     boost::asio::io_context io_context = boost::asio::io_context();
