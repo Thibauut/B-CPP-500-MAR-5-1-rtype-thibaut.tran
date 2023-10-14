@@ -17,8 +17,8 @@
                 friend class boost::serialization::access;
                 friend class AComponent;
                 Weapon() : AComponent() {};
-                Weapon(CONFIG::CompType type, int id, int posX, int posY, CONFIG::WeaponType weaponType)
-                : AComponent(),  _type(type), _idComponent(id), _posX(posX), _posY(posY), _weaponType(weaponType)
+                Weapon(CONFIG::CompType type, int id, CONFIG::WeaponType weaponType)
+                : AComponent(),  _type(type), _idComponent(id), _weaponType(weaponType)
                 {
                     std::cout << "constructeur weapon dans Weapon.hpp" << std::endl;
                     if (weaponType == CONFIG::WeaponType::Weapon1) {_coolDown = 1.5;}
@@ -37,8 +37,6 @@
                     ar & boost::serialization::base_object<AComponent>(*this);
                     ar & _idComponent;
                     ar & _type;
-                    ar & _posX;
-                    ar & _posY;
                 }
 
                 bool canShoot()
@@ -58,11 +56,10 @@
                     return _coolDown;
                 }
 
-                void setWeapon(CONFIG::WeaponType weaponType, int posX, int posY) {
+                void setWeapon(CONFIG::WeaponType weaponType) {
                     _weaponType = weaponType;
-                    _posX = posX;
-                    _posY = posY;
                 }
+
                 CONFIG::WeaponType getWeaponType(){return _weaponType;}
                 virtual CONFIG::CompType getType() {return _type;};
                 virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -76,8 +73,6 @@
             private:
                 Timeout _coolDown;
                 CONFIG::WeaponType _weaponType;
-                int _posX;
-                int _posY;
         };
     }
 

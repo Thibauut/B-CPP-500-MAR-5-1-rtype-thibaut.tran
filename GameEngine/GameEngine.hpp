@@ -34,7 +34,7 @@ namespace GameEngine {
 
     class Engine {
         public:
-            Engine(EntityManager manager) : _manager(manager) {_isRunning = false;}
+            Engine(EntityManager manager) : _manager(std::make_shared<EntityManager>(manager)) {_isRunning = false;}
             ~Engine() {}
 
             void init() {
@@ -55,7 +55,7 @@ namespace GameEngine {
             }
 
             std::shared_ptr<EntityManager> getManager() {
-                return std::make_shared<EntityManager>(_manager);
+                return _manager;
             }
 
             void addSystem(std::shared_ptr<ISystem> system) {
@@ -66,7 +66,7 @@ namespace GameEngine {
                 _systems.remove(system);
             }
 
-            EntityManager _manager;
+            std::shared_ptr<EntityManager> _manager;
         private:
             bool _isRunning;
             std::list<std::shared_ptr<ISystem>> _systems;

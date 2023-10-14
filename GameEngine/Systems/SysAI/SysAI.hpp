@@ -8,6 +8,7 @@
 #pragma once
 #include "../ASystem/ASystem.hpp"
 #include "../../Components/Position/Position.hpp"
+#include "../../Entity/EntityManager/EntityManager.hpp"
 #include "../../Components/AI/AI.hpp"
 #include <chrono>
 #include "../../Utils/Timeout.hpp"
@@ -15,7 +16,7 @@
 namespace GameEngine {
     class SysAI : public ISystem {
         public:
-            SysAI(std::list<std::shared_ptr<Entity>> &entityList) : _entities(entityList), isRunning(true) {}
+            SysAI(std::shared_ptr<EntityManager> entityList) : _manager(entityList), isRunning(true) {}
             ~SysAI() {};
             bool isAI() { return true; };
 
@@ -24,7 +25,7 @@ namespace GameEngine {
                     return;
                 }
 
-                for (std::shared_ptr<Entity> &entityPtr : _entities) {
+                for (std::shared_ptr<Entity> &entityPtr : _manager->getEntities()) {
                     std::shared_ptr<AI> aiComponent = entityPtr->getComponentByType<AI>(CONFIG::CompType::AI);
                     if (aiComponent != nullptr) {
                         if (aiComponent->getAiType() == CONFIG::AiType::MOB1) {
@@ -44,7 +45,7 @@ namespace GameEngine {
                 }
             };
             bool isRunning;
-            std::list<std::shared_ptr<Entity>> _entities;
+            std::shared_ptr<EntityManager> _manager;
     };
 
 }
