@@ -57,22 +57,51 @@ void RoomLobby::gameEntryPoint()
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
     for (std::shared_ptr<PlayerLobby> player : _players) {
         Entity player_entity(id, 1);
+        std::cout << "creation de weapon dans roomlobby.hpp" << std::endl;
+
+
+        // --------------segfault ici -----------------
+        // Weapon weapon = Weapon(
+        //     CONFIG::CompType::WEAPON,
+        //     id_comp,
+        //     player_entity.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
+        //     player_entity.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY(),
+        //     CONFIG::WeaponType::Weapon1
+        // );
+
+        // --------------/segfault ici -----------------
+        // version qui fonctionne
+        Weapon weapon = Weapon(
+            CONFIG::CompType::WEAPON,
+            id_comp,
+            400,
+            400,
+            CONFIG::WeaponType::Weapon1
+        // --------------------------------------------------
+        );
+        std::cout << "weapon creer dans roomlobby.hpp" << std::endl;
         player_entity.setId(id);
         health.setId(id_comp);
-
         sf::IntRect spriteRect(0, std::round(17.2 * (id - 1)), std::round(33.2), std::round(17.2));
         sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
-
         id_comp++;
         sprite.setId(id_comp);
         id_comp++;
         position.setId(id_comp);
+        id_comp++;
+        weapon.setId(id_comp);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        std::cout << "creation de ptr weapon dans roomlobby.hpp" << std::endl;
+        std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        std::cout << "ptr weapon creer dans roomlobby.hpp" << std::endl;
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
         player_entity.addComponent(spriteShared);
+        std::cout << "comp weapon add dans roomlobby.hpp" << std::endl;
+        player_entity.addComponent(weaponShared);
+        std::cout << "comp weapon bien add dans roomlobby.hpp" << std::endl;
         entityManager.addEntity(player_entity);
         id++, id_comp++;
     }

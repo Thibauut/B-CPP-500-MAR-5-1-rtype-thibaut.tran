@@ -55,7 +55,7 @@ namespace GameEngine {
                 std::cout << "comp position creer" << std::endl;
                 Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp + 1);
                 std::cout << "comp sprite creer" << std::endl;
-                sf::IntRect spriteRect(0, std::round(17.2), std::round(33.2), std::round(17.2));
+                sf::IntRect spriteRect(0, std::round(0), std::round(16), std::round(12));
                 std::cout << "rectangle sprite creer" << std::endl;
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/simpleBullet.png", sf::Vector2f(3, 3), spriteRect);
                 std::cout << "sprite creer" << std::endl;
