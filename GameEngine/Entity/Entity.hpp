@@ -71,6 +71,10 @@ namespace GameEngine {
                 _entityContent = entity;
             }
 
+            void setType(int type) {
+                _entityType = type;
+            }
+
             int getType() const {
                 return _entityType;
             }

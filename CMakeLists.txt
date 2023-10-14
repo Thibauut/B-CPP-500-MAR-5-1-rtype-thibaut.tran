@@ -13,7 +13,8 @@ find_package(Boost REQUIRED COMPONENTS system thread log log_setup PATHS ${CMAKE
 find_package(nlohmann_json REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
 # Server
-set(SRC_SERVER  server/LaunchServer.cpp
+set(SRC_SERVER  server/Elements/Map/Map.cpp
+                server/LaunchServer.cpp
                 server/Server.cpp
                 server/Socket/TCP/TCPServer.cpp
                 server/Socket/TCP/TCPConnexion.cpp
@@ -39,8 +40,8 @@ set(HPP_CLIENT client/include/menu.hpp
                 client/network/ThreadHandler/ThreadHandler.hpp
 )
 
-add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
+add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${SERVER} Boost::serialization)

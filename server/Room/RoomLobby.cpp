@@ -49,7 +49,7 @@ void RoomLobby::startGame()
 void RoomLobby::gameEntryPoint()
 {
     std::cout << "Room " << _name << " started" << std::endl;
-    EntityManager entityManager;
+    std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
     int id = 1;
     int id_comp = 0;
     Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
@@ -73,37 +73,42 @@ void RoomLobby::gameEntryPoint()
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
         player_entity.addComponent(spriteShared);
-        entityManager.addEntity(player_entity);
+        entityManager->addEntity(player_entity);
         id++, id_comp++;
     }
+    RType::Map map("maps/map1.json");
+    map.loadMap(entityManager);
+    for (std::shared_ptr<Entity> entity : entityManager->getEntities()) {
+        std::cout << "Entity " << entity->getId() << std::endl;
+    }
     // Add mob entity
-    id = 100;
-    position = Position(CONFIG::CompType::POSITION, id_comp, 1600, 300);
-    health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
-    sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
-    AI ai = AI(CONFIG::CompType::AI, CONFIG::AiType::MOB1, id_comp, 0.005);
-    Entity mob_entity(id, 2);
-    mob_entity.setId(id);
-    health.setId(id_comp);
-    id_comp++;
-    sprite.setId(id_comp);
-    id_comp++;
-    position.setId(id_comp);
-    id_comp++;
-    ai.setId(id_comp);
-    sf::IntRect spriteRect(0, 0, std::round(33.3125), 36);
-    sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet5.gif", sf::Vector2f(3, 3), spriteRect);
-    std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
-    std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
-    std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
-    std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
-    mob_entity.addComponent(positionShared);
-    mob_entity.addComponent(healthShared);
-    mob_entity.addComponent(spriteShared);
-    mob_entity.addComponent(aiShared);
-    entityManager.addEntity(mob_entity);
+    // id = 100;
+    // position = Position(CONFIG::CompType::POSITION, id_comp, 1600, 300);
+    // health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
+    // sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+    // AI ai = AI(CONFIG::CompType::AI, CONFIG::AiType::MOB1, id_comp, 0.005);
+    // Entity mob_entity(id, 2);
+    // mob_entity.setId(id);
+    // health.setId(id_comp);
+    // id_comp++;
+    // sprite.setId(id_comp);
+    // id_comp++;
+    // position.setId(id_comp);
+    // id_comp++;
+    // ai.setId(id_comp);
+    // sf::IntRect spriteRect(0, 0, std::round(33.3125), 36);
+    // sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet5.gif", sf::Vector2f(3, 3), spriteRect);
+    // std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+    // std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+    // std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+    // std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
+    // mob_entity.addComponent(positionShared);
+    // mob_entity.addComponent(healthShared);
+    // mob_entity.addComponent(spriteShared);
+    // mob_entity.addComponent(aiShared);
+    // entityManager.addEntity(mob_entity);
     // ---------------------------------
-    Engine game(entityManager);
+    Engine game(*entityManager.get());
     game.addSystem(std::make_shared<SysAI>(game.getManager()->getEntities()));
     // apl du serv---------------
 

@@ -13,6 +13,7 @@
 #include "../Elements/Player/PlayerLobby.hpp"
 #include "../Socket/UDP/UDPServer.hpp"
 #include "../../GameEngine/GameEngine.hpp"
+#include "../Elements/Map/Map.hpp"
 
 class RoomLobby {
     public:
