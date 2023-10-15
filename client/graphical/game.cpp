@@ -84,8 +84,9 @@ void Game::HandleEvents()
 
             }
             if (_event.key.code == sf::Keyboard::Space) {
-                _shooting = true;
-                _timeComp.Start();
+                _shooting = false;
+                my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
             }
         }
         if (_event.type == sf::Event::KeyReleased) {
@@ -138,6 +139,7 @@ void Game::HandleEvents()
         }
     }
     if (_shooting) {
+        _elapsedTime = _timeComp.getElapsedSeconds();
         my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(true, _elapsedTime);
         _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
     }
