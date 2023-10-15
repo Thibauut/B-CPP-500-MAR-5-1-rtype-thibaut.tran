@@ -13,7 +13,7 @@ int main() {
     // Create components
     std::shared_ptr<Health> healthComponent = std::make_shared<Health>(CONFIG::CompType::HEALTH, 3, 100);
     std::shared_ptr<Position> positionComponent = std::make_shared<Position>(CONFIG::CompType::POSITION, 4, 1920, 1080);
-    std::shared_ptr<Direction> directionComponent = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, 36, CONFIG::Dir::DOWN);
+    // std::shared_ptr<Direction> directionComponent = std::make_shared<Direction>(CONFIG::CompType::DIRECTION, 36, CONFIG::Dir::DOWN);
     std::shared_ptr<Velocity> velocityComponent = std::make_shared<Velocity>(CONFIG::CompType::VELOCITY, 5, 1);
     std::shared_ptr<HitBoxCircle> circleHitBoxComponent = std::make_shared<HitBoxCircle>(CONFIG::CompType::HITBOXCIRCLE, 6, 5);
     std::shared_ptr<HitBoxSquare> squareHitBoxComponent = std::make_shared<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE, 7, 5, 5);
@@ -27,7 +27,7 @@ int main() {
     // Add components to player
     player.addComponent(healthComponent);
     player.addComponent(positionComponent);
-    player.addComponent(directionComponent);
+    // player.addComponent(directionComponent);
     player.addComponent(velocityComponent);
     player.addComponent(circleHitBoxComponent);
     player.addComponent(squareHitBoxComponent);

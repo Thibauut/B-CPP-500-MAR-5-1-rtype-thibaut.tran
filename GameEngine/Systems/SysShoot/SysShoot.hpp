@@ -17,18 +17,20 @@
 namespace GameEngine {
 
     class SysShoot : public ISystem {
-        SysShoot(std::shared_ptr<EntityManager> entityList) : _manager(entityList), isRunning(true) {}
+        public:
+        SysShoot(std::shared_ptr<EntityManager> entityList) : _manager(entityList), isRunning(true){}
         ~SysShoot() {};
 
         virtual void update() override {
             for (std::shared_ptr<Entity> &entityPtr : _manager->getEntities()) {
                 if (entityPtr->getType() == 4) {
                     std::shared_ptr<Position> positionComponent = entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION);
-                    std::shared_ptr<Weapon> weaponComponent = entityPtr->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
-                    if (positionComponent != nullptr && weaponComponent != nullptr) {
-                        Timeout coulDown = weaponComponent->getCoolDown();
-                        int posX = positionComponent->getPositionX();
-                        int posY = positionComponent->getPositionY();
+                    std::shared_ptr<TimeComp> couldownComponent = entityPtr->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
+                    if (couldownComponent.get()->couldown_is_finish()) {
+                        if (positionComponent != nullptr) {
+                            positionComponent.get()->setPosition(positionComponent.get()->getPositionX() + 1, positionComponent.get()->getPositionY());
+                        }
+                        couldownComponent.get()->reset_couldown();
                     }
                 }
             }
@@ -37,7 +39,6 @@ namespace GameEngine {
 
 
         private:
-
             bool isRunning;
             std::shared_ptr<EntityManager> _manager;
     };

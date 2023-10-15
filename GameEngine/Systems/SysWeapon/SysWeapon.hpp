@@ -10,6 +10,7 @@
 #include "../../Components/Position/Position.hpp"
 #include "../../Components/Weapon/Weapon.hpp"
 #include "../../Components/Sprite/Sprite.hpp"
+#include "../../Components/TimeComp/TimeComp.hpp"
 #include "../../Entity/EntityManager/EntityManager.hpp"
 #include "../../Utils/Timeout.hpp"
 #include <chrono>
@@ -42,34 +43,33 @@ namespace GameEngine {
             };
 
         private:
-            Entity createNewBullet(int posX, int posY)
+            Entity createNewBullet(int posX, int posY, double couldown_value)
             {
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_int_distribution<> dis(3000, 10000);
-                std::cout << "num:: " << dis(gen) << std::endl;
                 Entity newBullet(dis(gen), 4);
                 int id_comp = 4452;
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);
                 Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp + 1);
+                TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, 1, couldown_value);
+
                 sf::IntRect spriteRect(0, 0, 16, 12);
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/simpleBullet.png", sf::Vector2f(3, 3), spriteRect);
                 std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
                 std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+                std::shared_ptr<TimeComp> coulDownShared = std::make_shared<TimeComp>(couldown);
                 newBullet.addComponent(positionShared);
                 newBullet.addComponent(spriteShared);
+                newBullet.addComponent(coulDownShared);
                 return newBullet;
             }
 
             void Weapon1(std::shared_ptr<Entity> entity) {
-                std::cout << "func weapon 1"<< std::endl;
                 int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
                 int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
-                std::cout << "position entitée recuperée" << std::endl;
                 _manager->createEntity();
-                _manager->addEntity(createNewBullet(x, y));
-                std::cout << "nouvelle bullet ajouter aux Entity" << std::endl;
-                std::cout << "fin weapon 1"<< std::endl;
+                _manager->addEntity(createNewBullet(x, y, 0.002));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {

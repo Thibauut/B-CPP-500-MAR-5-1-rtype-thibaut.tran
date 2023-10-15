@@ -20,13 +20,10 @@
                 Weapon(CONFIG::CompType type, int id, CONFIG::WeaponType weaponType)
                 : AComponent(),  _type(type), _idComponent(id), _weaponType(weaponType)
                 {
-                    std::cout << "constructeur weapon dans Weapon.hpp" << std::endl;
                     if (weaponType == CONFIG::WeaponType::Weapon1) {_coolDown = 1.5;}
                     if (weaponType == CONFIG::WeaponType::Weapon2) { _coolDown = 1.5;}
                     if (weaponType == CONFIG::WeaponType::Weapon3){ _coolDown = 0.3;}
-                    std::cout << "start du couldown" << std::endl;
                     _coolDown.Start();
-                    std::cout << "constructeur weapon dans Weapon.hpp" << std::endl;
 
                 }
                 ~Weapon() = default;

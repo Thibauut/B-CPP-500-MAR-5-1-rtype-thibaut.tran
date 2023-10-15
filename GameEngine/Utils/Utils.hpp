@@ -33,6 +33,7 @@ namespace CONFIG {
         AI,
         HITBOXSQUARE,
         HITBOXCIRCLE,
+        TIMECOMP,
     };
 
     enum Dir {
