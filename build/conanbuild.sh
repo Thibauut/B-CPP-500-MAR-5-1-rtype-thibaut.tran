@@ -1,0 +1,1 @@
+. "/Users/thibaut/Documents/Epitech/TEK3/B-CPP-500-MAR-5-1-rtype-maori.dino/build/conanbuildenv-release-x86_64.sh"

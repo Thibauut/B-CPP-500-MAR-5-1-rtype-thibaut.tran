@@ -20,11 +20,11 @@
                 Weapon(CONFIG::CompType type, int id, CONFIG::WeaponType weaponType)
                 : AComponent(),  _type(type), _idComponent(id), _weaponType(weaponType)
                 {
+                    _isShooting = false;
                     if (weaponType == CONFIG::WeaponType::Weapon1) {_coolDown = 1.5;}
                     if (weaponType == CONFIG::WeaponType::Weapon2) { _coolDown = 1.5;}
                     if (weaponType == CONFIG::WeaponType::Weapon3){ _coolDown = 0.3;}
                     _coolDown.Start();
-
                 }
                 ~Weapon() = default;
 
@@ -34,6 +34,8 @@
                     ar & boost::serialization::base_object<AComponent>(*this);
                     ar & _idComponent;
                     ar & _type;
+                    ar & _isShooting;
+                    ar & _timePressed;
                 }
 
                 bool canShoot()
@@ -57,6 +59,11 @@
                     _weaponType = weaponType;
                 }
 
+                void setShooting(bool isShooting, double timePressed) {
+                    _isShooting = isShooting;
+                    _timePressed = timePressed;
+                }
+
                 CONFIG::WeaponType getWeaponType(){return _weaponType;}
                 virtual CONFIG::CompType getType() {return _type;};
                 virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -66,6 +73,8 @@
             protected:
                 int _idComponent;
                 CONFIG::CompType _type;
+                bool _isShooting;
+                float _timePressed;
 
             private:
                 Timeout _coolDown;

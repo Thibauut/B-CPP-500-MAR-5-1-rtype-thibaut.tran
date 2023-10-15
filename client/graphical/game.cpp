@@ -62,21 +62,31 @@ void Game::Loop()
 
 void Game::HandleEvents()
 {
+
     while (_window->pollEvent(_event)) {
         if (_event.type == sf::Event::Closed) {
             _window->close();
         }
         if (_event.type == sf::Event::KeyPressed) {
-            if (_event.key.code == sf::Keyboard::Up)
+            if (_event.key.code == sf::Keyboard::Up) {
                 _moveUp = true;
-            if (_event.key.code == sf::Keyboard::Down)
+            }
+            if (_event.key.code == sf::Keyboard::Down) {
                 _moveDown = true;
-            if (_event.key.code == sf::Keyboard::Left)
+
+            }
+            if (_event.key.code == sf::Keyboard::Left) {
                 _moveLeft = true;
-            if (_event.key.code == sf::Keyboard::Right)
+
+            }
+            if (_event.key.code == sf::Keyboard::Right) {
                 _moveRight = true;
-            if (_event.key.code == sf::Keyboard::Space)
+
+            }
+            if (_event.key.code == sf::Keyboard::Space) {
                 _shooting = true;
+                _timeComp.Start();
+            }
         }
         if (_event.type == sf::Event::KeyReleased) {
             if (_event.key.code == sf::Keyboard::Up)
@@ -87,8 +97,10 @@ void Game::HandleEvents()
                 _moveLeft = false;
             if (_event.key.code == sf::Keyboard::Right)
                 _moveRight = false;
-            if (_event.key.code == sf::Keyboard::Space)
+            if (_event.key.code == sf::Keyboard::Space) {
                 _shooting = false;
+                _elapsedTime = _timeComp.getElapsedSeconds();
+            }
         }
     }
     std::shared_ptr<Position> positionComp = my_player->getComponentByType<Position>(CONFIG::CompType::POSITION);
@@ -126,6 +138,7 @@ void Game::HandleEvents()
         }
     }
     if (_shooting) {
+        my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(true, _elapsedTime);
         _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
     }
 }
