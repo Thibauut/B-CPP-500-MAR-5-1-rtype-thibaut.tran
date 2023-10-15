@@ -17,6 +17,7 @@
 #include "../../../GameEngine/Components/Position/Position.hpp"
 #include "../../../GameEngine/Components/Health/Health.hpp"
 #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
+#include "../../../GameEngine/Components/Weapon/Weapon.hpp"
 
 using boost::asio::ip::udp;
 

@@ -55,6 +55,14 @@
                     return _coolDown;
                 }
 
+                bool getIsShooting() {
+                    return _isShooting;
+                }
+
+                double getTimePressed() {
+                    return _timePressed;
+                }
+
                 void setWeapon(CONFIG::WeaponType weaponType) {
                     _weaponType = weaponType;
                 }
@@ -74,7 +82,7 @@
                 int _idComponent;
                 CONFIG::CompType _type;
                 bool _isShooting;
-                float _timePressed;
+                double _timePressed;
 
             private:
                 Timeout _coolDown;

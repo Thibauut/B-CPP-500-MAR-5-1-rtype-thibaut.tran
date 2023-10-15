@@ -68,6 +68,11 @@ namespace GameEngine {
             void Weapon1(std::shared_ptr<Entity> entity) {
                 int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
                 int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY();
+                std::cout << "time pressed" << entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getTimePressed()<< std::endl;
+                if (entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getIsShooting())
+                    std::cout << "is shoot" << std::endl;
+                else
+                    std::cout << "no shoot" << std::endl;
                 _manager->createEntity();
                 _manager->addEntity(createNewBullet(x, y, 0.002));
             }

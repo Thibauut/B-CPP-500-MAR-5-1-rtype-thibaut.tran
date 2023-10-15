@@ -67,7 +67,7 @@ class Game {
     bool _moveRight = false;
     bool _shooting = false;
 
-    float _elapsedTime = 0.0;
+    double _elapsedTime = 0.0;
     Timeout _timeComp;
 
     std::string my_id_;
