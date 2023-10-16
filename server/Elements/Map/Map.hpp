@@ -11,6 +11,8 @@
 #include "../../../GameEngine/Components/Position/Position.hpp"
 #include "../../../GameEngine/Components/AI/AI.hpp"
 #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
+#include "../../../GameEngine/Components/Weapon/Weapon.hpp"
+#include "../../../GameEngine/Components/HitBoxSquare/HitBoxSquare.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>

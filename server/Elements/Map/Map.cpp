@@ -54,6 +54,11 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         sprite.setSprite(position.getPositionX(), position.getPositionY(), entity["sprite"], sf::Vector2f(3, 3), rect);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
         new_entity.addComponent(spriteShared);
+        id_comp += 1;
+        HitBoxSquare hitBoxSquare = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, rect);
+        hitBoxSquare.setId(id_comp);
+        std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitBoxSquare);
+        new_entity.addComponent(hitBoxSquareShared);
         manager->addEntity(new_entity);
         id_comp += 1, id += 1;
     }

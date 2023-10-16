@@ -62,13 +62,13 @@ void RoomLobby::gameEntryPoint()
         id_comp,
         CONFIG::WeaponType::Weapon3
     );
-    HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
     for (std::shared_ptr<PlayerLobby> player : _players) {
         entityManager->createEntity();
         Entity player_entity(id, 1);
         player_entity.setId(id);
         health.setId(id_comp);
         sf::IntRect spriteRect(0, 0, std::round(33.2), std::round(17.2));
+        HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
         id_comp++;
         sprite.setId(id_comp);

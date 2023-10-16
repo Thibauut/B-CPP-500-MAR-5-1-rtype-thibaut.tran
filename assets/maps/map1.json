@@ -1,0 +1,40 @@
+{
+    "name": "Rak Road",
+    "size": 4000,
+    "enemies": [
+        {
+            "type": 0,
+            "speed": 1,
+            "health": 100,
+            "positions": [
+                {
+                    "x": 1600,
+                    "y": 300
+                },
+                {
+                    "x": 1600,
+                    "y": 700
+                },
+                {
+                    "x": 5000,
+                    "y": 900
+                },
+                {
+                    "x": 2000,
+                    "y": 900
+                },
+                {
+                    "x": 600,
+                    "y": 200
+                }
+            ],
+            "rectangle": {
+                "left": 0,
+                "top": 0,
+                "width": 33,
+                "height": 36
+            },
+            "sprite": "assets/sprites/r-typesheet5.gif"
+        }
+    ]
+}
