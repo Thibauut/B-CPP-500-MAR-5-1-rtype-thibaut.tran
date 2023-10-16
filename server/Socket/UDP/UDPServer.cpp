@@ -139,8 +139,9 @@ void UDPServer::setMobPosition(Entity player)
 }
 
 void UDPServer::StartExec(Entity entity, udp::endpoint &client) {
-        if (entity.getType() == 1)
+        if (entity.getType() == 1) {
             setPlayerPosition(entity);
+        }
         // if (entity.getType() == 2)
         //     setEntityPosition(entity, 2);
 }

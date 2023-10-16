@@ -55,6 +55,7 @@ void RoomLobby::gameEntryPoint()
     Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
         id_comp,
@@ -65,7 +66,8 @@ void RoomLobby::gameEntryPoint()
         Entity player_entity(id, 1);
         player_entity.setId(id);
         health.setId(id_comp);
-        sf::IntRect spriteRect(0, std::round(17.2 * (id - 1)), std::round(33.2), std::round(17.2));
+        sf::IntRect spriteRect(0, 0, std::round(33.2), std::round(17.2));
+        HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
         id_comp++;
         sprite.setId(id_comp);
@@ -73,14 +75,18 @@ void RoomLobby::gameEntryPoint()
         position.setId(id_comp);
         id_comp++;
         weapon.setId(id_comp);
+        id_comp++;
+        hitbox.setId(id_comp);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
         player_entity.addComponent(spriteShared);
         player_entity.addComponent(weaponShared);
+        player_entity.addComponent(hitboxShared);
         entityManager.addEntity(player_entity);
         id++, id_comp++;
     }
@@ -100,15 +106,18 @@ void RoomLobby::gameEntryPoint()
     id_comp++;
     ai.setId(id_comp);
     sf::IntRect spriteRect(0, 0, std::round(33.3125), 36);
+    HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
     sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet5.gif", sf::Vector2f(3, 3), spriteRect);
     std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
     std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
     std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+    std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
     std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
     mob_entity.addComponent(positionShared);
     mob_entity.addComponent(healthShared);
     mob_entity.addComponent(spriteShared);
     mob_entity.addComponent(aiShared);
+    mob_entity.addComponent(hitboxShared);
     entityManager.addEntity(mob_entity);
 
     // ---------------------------------
@@ -116,6 +125,7 @@ void RoomLobby::gameEntryPoint()
     game.addSystem(std::make_shared<SysAI>(game.getManager()));
     game.addSystem(std::make_shared<SysWeapon>(game.getManager()));
     game.addSystem(std::make_shared<SysShoot>(game.getManager()));
+    game.addSystem(std::make_shared<SysCollision>(game.getManager()));
     // apl du serv---------------
 
     boost::asio::io_context io_context = boost::asio::io_context();

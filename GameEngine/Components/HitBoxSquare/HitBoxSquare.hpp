@@ -6,37 +6,45 @@
 */
 #pragma once
 #include "../AComponent/AComponent.hpp"
+#include "../../Utils/Utils.hpp"
 
 namespace GameEngine {
 
-    class HitBoxSquare : public IComponent {
+    class HitBoxSquare : public AComponent {
         public:
-            HitBoxSquare(CONFIG::CompType type, int id, int x, int y) : _idComponent(id), _type(type), _x(x), _y(y) {}
+            HitBoxSquare() : AComponent(), _idComponent(0), _type(CONFIG::CompType::HITBOXSQUARE) {}
+            HitBoxSquare(CONFIG::CompType type, int id, sf::IntRect rectangle)
+            : AComponent(), _idComponent(id), _type(type) {
+                _rectangle.width = rectangle.width;
+                _rectangle.height = rectangle.height;
+            }
             ~HitBoxSquare() = default;
-
-            void setHitbox(int x, int y){ _x = x, _y = y;}
-
-
-            int getHitBoxSquareX()
+            int getWidth()
             {
-                return _x;
+                return _rectangle.width;
+            }
+            int getHeight()
+            {
+                return _rectangle.height;
             }
 
-            int getHitBoxSquareY()
+            void setHitboxPosition(int x, int y)
             {
-                return _y;
+                _rectangle.left = x;
+                _rectangle.top = y;
             }
 
-            std::pair<int, int> getHitBoxSquare()
+            sf::IntRect getRectangle()
             {
-                return std::make_pair(_x, _y);
+                return _rectangle;
             }
+
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
+                ar.template register_type<HitBoxSquare>();
+                ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 ar & _type;
-                ar & _x;
-                ar & _y;
             }
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -48,7 +56,7 @@ namespace GameEngine {
             CONFIG::CompType _type;
 
         private:
-            int _x;
-            int _y;
+            sf::IntRect _rectangle;
     };
 }
+BOOST_CLASS_EXPORT_KEY(GameEngine::HitBoxSquare);

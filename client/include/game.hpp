@@ -72,4 +72,8 @@ class Game {
 
     std::string my_id_;
     std::string portUDP_;
+
+
+    //TEST
+    std::vector<sf::RectangleShape> _rects;
 };

@@ -26,6 +26,9 @@ void Game::InitBackground()
     sf::Color spriteColor2 = _background2.getColor();
     spriteColor2.a = 128;
     _background2.setColor(spriteColor2);
+
+
+
 }
 
 void Game::AnimateBackground() {
@@ -63,6 +66,7 @@ void Game::Loop()
 void Game::HandleEvents()
 {
 
+
     while (_window->pollEvent(_event)) {
         if (_event.type == sf::Event::Closed) {
             _window->close();
@@ -84,7 +88,7 @@ void Game::HandleEvents()
 
             }
             if (_event.key.code == sf::Keyboard::Space) {
-                _shooting = false;
+                _shooting = true;
                 my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
                 _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
             }
@@ -100,7 +104,8 @@ void Game::HandleEvents()
                 _moveRight = false;
             if (_event.key.code == sf::Keyboard::Space) {
                 _shooting = false;
-                _elapsedTime = _timeComp.getElapsedSeconds();
+                my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
             }
         }
     }
@@ -158,8 +163,35 @@ void Game::Draw()
                 sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
                 spriteComp->setPositionSprite(pos);
                 _window->draw(spriteComp->getSprite());
+
+            }
+            std::shared_ptr<HitBoxSquare> hitBoxSquareComp = entity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
+            if (hitBoxSquareComp) {
+                sf::RectangleShape rect(sf::Vector2f(hitBoxSquareComp->getWidth(), hitBoxSquareComp->getHeight()));
+                rect.setSize(sf::Vector2f(hitBoxSquareComp->getWidth() * 3, hitBoxSquareComp->getHeight() * 3));
+                rect.setOutlineThickness(2.0f);
+                rect.setOutlineColor(sf::Color::Red);
+                rect.setFillColor(sf::Color::Transparent);
+                _rects.push_back(rect);
             }
         }
+
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
+
+        std::shared_ptr<HitBoxSquare> hitBoxSquareComp = my_player->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
+        if (hitBoxSquareComp) {
+            sf::RectangleShape rect(sf::Vector2f(hitBoxSquareComp->getWidth(), hitBoxSquareComp->getHeight()));
+            rect.setSize(sf::Vector2f(hitBoxSquareComp->getWidth() * 3, hitBoxSquareComp->getHeight() * 3));
+            rect.setOutlineThickness(2.0f);
+            rect.setOutlineColor(sf::Color::Red);
+            rect.setFillColor(sf::Color::Transparent);
+            _rects.push_back(rect);
+        }
+
+        for (sf::RectangleShape rect : _rects) {
+            _window->draw(rect);
+        }
+        _rects.clear();
+
         _window->display();
 }
