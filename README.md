@@ -50,6 +50,13 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 ![CONAN](https://img.shields.io/badge/Conan-6699CB.svg?style=for-the-badge&logo=Conan&logoColor=white)
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
+![JSON](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
+
+📁 The project uses three libraries:
+
+* SFML: The library used to display.
+* Boost: The library used to manage communication, threads and processes.
+
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
@@ -98,10 +105,12 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
 ## Documentation
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
 You can find the project's technical documentation in our [Github-Wiki](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/wiki/RTYPE). The documentation is divided into 3 main parts, the server, the client and the game engine, in which you'll find instructions for using the game engine.
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
+
 
 ## Contributing
 
