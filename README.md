@@ -16,19 +16,22 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 
 ## Table of Contents
 
-- [Getting Started](#gettingstarted)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Customization](#customization)
-- [Documentation](#documentation)
+- [Comability](#compability)
+- [Built-With](#built-with)
+- [StarterPack](#starterpack)
 - [Contributing](#contributing)
 - [License](#license)
 
 
 ⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡
 
+ ## Compability
 
-## Built With
+* ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+* ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
+* ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+## Built-With
 
 * ![CONAN](https://img.shields.io/badge/Conan-6699CB.svg?style=for-the-badge&logo=Conan&logoColor=white)
 * ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
@@ -37,24 +40,17 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
  
- ## Compability
+## StarterPack
 
-* ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-* ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
-* ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+#### Requirements
 
-
-## Getting Started
-
-## Requirements
-
-* Conan ${\color{red}version \space 2.0.13}$
-* CMake ${\color{red}min \space version \space 3.0.0}$
-* Xorg/System ${\color{red}version \space x.x.x}$
+* Conan version ${\color{red}2.0.13}$
+* CMake version ${\color{red}3.0.0}$
+* Xorg/System version ${\color{red}x.x.x}$
 
 
 
-## Installation
+#### Installation
 
 To start the game, just follow these instructions :smile:
 
@@ -73,6 +69,16 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 ./install.sh
 ```
 
+> step 4
+```sh
+./r_type_server
+```
+
+> step 5
+```sh
+./r_type_client
+```
+
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
 ## Contributing
@@ -81,7 +87,7 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 <!-- TEAM -->
 
 
-## 🇫🇷 Crew
+### 🇫🇷 Crew
 ╚═════╝
 
 | Roles | Name |
