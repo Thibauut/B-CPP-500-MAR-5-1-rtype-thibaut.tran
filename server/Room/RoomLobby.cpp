@@ -62,13 +62,13 @@ void RoomLobby::gameEntryPoint()
         id_comp,
         CONFIG::WeaponType::Weapon1
     );
+    HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
     for (std::shared_ptr<PlayerLobby> player : _players) {
-        entityManager.createEntity();
+        entityManager->createEntity();
         Entity player_entity(id, 1);
         player_entity.setId(id);
         health.setId(id_comp);
         sf::IntRect spriteRect(0, 0, std::round(33.2), std::round(17.2));
-        HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
         id_comp++;
         sprite.setId(id_comp);
@@ -88,7 +88,7 @@ void RoomLobby::gameEntryPoint()
         player_entity.addComponent(spriteShared);
         player_entity.addComponent(weaponShared);
         player_entity.addComponent(hitboxShared);
-        entityManager.addEntity(player_entity);
+        entityManager->addEntity(player_entity);
         id++, id_comp++;
     }
     RType::Map map(_pathMap);
@@ -123,13 +123,12 @@ void RoomLobby::gameEntryPoint()
     // mob_entity.addComponent(aiShared);
     // entityManager.addEntity(mob_entity);
     // ---------------------------------
-    Engine game(entityManager);
+    Engine game(*entityManager.get());
     game.addSystem(std::make_shared<SysAI>(game.getManager()));
     game.addSystem(std::make_shared<SysWeapon>(game.getManager()));
     game.addSystem(std::make_shared<SysShoot>(game.getManager()));
     game.addSystem(std::make_shared<SysCollision>(game.getManager()));
     // apl du serv---------------
-
     boost::asio::io_context io_context = boost::asio::io_context();
     std::thread t([&io_context](){ io_context.run(); });
     std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
