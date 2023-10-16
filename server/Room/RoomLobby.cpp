@@ -76,7 +76,7 @@ void RoomLobby::gameEntryPoint()
         entityManager->addEntity(player_entity);
         id++, id_comp++;
     }
-    RType::Map map("maps/map1.json");
+    RType::Map map("assets/maps/map1.json");
     map.loadMap(entityManager);
     for (std::shared_ptr<Entity> entity : entityManager->getEntities()) {
         std::cout << "Entity " << entity->getId() << std::endl;

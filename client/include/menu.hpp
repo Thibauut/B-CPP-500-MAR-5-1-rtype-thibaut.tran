@@ -21,6 +21,11 @@
 #include "../network/ConnectionTCP/ConnectionTCP.hpp"
 #include "../network/OpenUDP/OpenUDP.hpp"
 #include "../graphical/game.cpp"
+// #include <opendir.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080

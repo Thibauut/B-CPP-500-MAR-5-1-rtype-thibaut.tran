@@ -73,7 +73,34 @@ void Menu::HandleTcpEvents()
         if (buttonCreateBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
             // std::cout << "Create" << std::endl;
             _isCreatingRoom = true;
-        }
+            // Récupérer tous les fichiers .json dans le dossier maps
+            // the first string in the vector is the file["name"] in json format and the second is the path of the file
+            std::vector<std::pair<std::string, std::string>> maps;
+            DIR *dir;
+            struct dirent *ent;
+            if ((dir = opendir("assets/maps/")) != NULL) {
+                while ((ent = readdir(dir)) != NULL) {
+                    if (ent->d_name[0] != '.') {
+                        std::string path = "assets/maps/";
+                        path.append(ent->d_name);
+                        if (path.find(".json") == std::string::npos)
+                            continue;
+                        std::ifstream input_file(path);
+                        nlohmann::json map_data;
+                        input_file >> map_data;
+                        try {
+                            std::string name = map_data["name"];
+                            maps.push_back(std::make_pair(name, path));
+                            input_file.close();
+                            std::cout << "Name: " << name << " path=" << path << std::endl;
+                        } catch (std::exception &e) {
+                            std::cerr << "Error while parsing the file " << ent->d_name << "\n" << e.what() << std::endl;
+                        }
+                    }
+                }
+                closedir(dir);
+            }
+       }
         if (_isCreatingRoom && buttonCreateRoomBounds.contains(mousePos) && _roomSlot > 0) {
             _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString());
             if (_tcpConnection->infoRoomUuid_ == "KO") {
