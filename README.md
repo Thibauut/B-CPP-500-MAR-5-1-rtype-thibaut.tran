@@ -16,7 +16,7 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 
 ## Table of Contents
 
-- [Comability](#compability)
+- [Compability](#compability)
 - [Built-With](#built-with)
 - [StarterPack](#starterpack)
 - [Contributing](#contributing)
@@ -69,6 +69,8 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 ./install.sh
 ```
 
+#### Start-Game
+
 > step 4
 ```sh
 ./r_type_server
@@ -83,11 +85,17 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 
 ## Contributing
 
+If you want to contribute to a project and make it better, your help is very welcome. Contributing is also a great way to learn more about social coding on Github, new technologies and and their ecosystems and how to make constructive, helpful bug reports, feature requests and the noblest of all contributions: a good, clean pull request.
+
+### How to make a clean pull request
+
+Follow instruction in [CONTRIBUTING.md](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/blob/main/CONTRIBUTING.md)
+
 
 <!-- TEAM -->
 
 
-### 🇫🇷 Crew
+#### 🇫🇷 Crew
 ╚═════╝
 
 | Roles | Name |
