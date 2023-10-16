@@ -11,10 +11,12 @@
 
 </div>
 
-㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓㆓
+
+⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡
 
 The aim of this project is to re-create the famous RType arcade game in C++ and implement client-server architecture with multi-player mode. A modular game engine was to be developed, with content creation tools. Possibility of a single-player mode with AI. The project imposes professional rigor in both the design and writing of the code, and the optimization of client-server communication. The game's performance is up to the highest standards.
-――――――――――――――――――――――――――――――――――――――――――――――――――
+#
+
 <h3 align="center">Built With</h3>
 
 * ![CONAN](https://img.shields.io/badge/Conan-6699CB.svg?style=for-the-badge&logo=Conan&logoColor=white)
