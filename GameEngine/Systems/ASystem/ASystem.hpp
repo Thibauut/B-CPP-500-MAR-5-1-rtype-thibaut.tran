@@ -15,13 +15,13 @@ namespace GameEngine {
 
     class ASystem : public ISystem {
         public:
-            ASystem(std::shared_ptr<EntityManager> &entityManagerPtr) : _entityRefList(entityManagerPtr){}
+            ASystem(std::shared_ptr<EntityManager> entityManagerPtr) : entityManager(entityManagerPtr){}
             virtual ~ASystem() = default;
 
             virtual void update() {};
 
         protected:
-           std::shared_ptr<EntityManager> &_entityRefList;
+           std::shared_ptr<EntityManager> entityManager;
 
         private:
     };

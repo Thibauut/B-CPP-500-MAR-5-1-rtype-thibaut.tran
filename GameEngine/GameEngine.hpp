@@ -14,13 +14,18 @@
 #include "Components/Velocity/Velocity.hpp"
 #include "Components/Health/Health.hpp"
 #include "Components/AI/AI.hpp"
-// #include "Components/HitBoxSquare/HitBoxSquare.hpp"
+#include "Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "Components/HitBoxCircle/HitBoxCircle.hpp"
 #include "Components/Sprite/Sprite.hpp"
 #include "Components/Weapon/Weapon.hpp"
+#include "Components/TimeComp/TimeComp.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"
+#include "Systems/SysWeapon/SysWeapon.hpp"
+#include "Systems/SysShoot/SysShoot.hpp"
+#include "Systems/SysCollision/SysCollision.hpp"
+
 // #include "Systems/SysMovement/SysMovement.hpp"
 // #include "Systems/SysRender/SysRender.hpp"
 // #include "Systems/SysCollision/SysCollision.hpp"
@@ -33,7 +38,7 @@ namespace GameEngine {
 
     class Engine {
         public:
-            Engine(EntityManager manager) : _manager(manager) {_isRunning = false;}
+            Engine(EntityManager manager) : _manager(std::make_shared<EntityManager>(manager)) {_isRunning = false;}
             ~Engine() {}
 
             void init() {
@@ -54,7 +59,7 @@ namespace GameEngine {
             }
 
             std::shared_ptr<EntityManager> getManager() {
-                return std::make_shared<EntityManager>(_manager);
+                return _manager;
             }
 
             void addSystem(std::shared_ptr<ISystem> system) {
@@ -65,7 +70,7 @@ namespace GameEngine {
                 _systems.remove(system);
             }
 
-            EntityManager _manager;
+            std::shared_ptr<EntityManager> _manager;
         private:
             bool _isRunning;
             std::list<std::shared_ptr<ISystem>> _systems;

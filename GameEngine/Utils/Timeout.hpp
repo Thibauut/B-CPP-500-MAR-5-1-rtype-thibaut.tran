@@ -26,9 +26,17 @@ namespace GameEngine {
             return false;
 
         }
+
+        double getElapsedSeconds() const
+        {
+            auto current_time = std::chrono::steady_clock::now();
+            double newTime = std::chrono::duration_cast<std::chrono::duration<double>>(current_time - startTime_).count();
+            return newTime;
+        }
+
         // ~Timeout();
         double timeout_;
-        std::chrono::_V2::steady_clock::time_point startTime_;
+        std::chrono::steady_clock::time_point startTime_;
         double elapsed_seconds_;
     };
 }

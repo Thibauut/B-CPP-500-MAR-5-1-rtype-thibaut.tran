@@ -122,7 +122,13 @@ void UDPServer::setPlayerPosition(Entity &player)
 {
     entityManagerPtr_->getEntity(player.getId())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
-        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY());
+        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY()
+    );
+    entityManagerPtr_->getEntity(player.getId())->getComponentByType<Weapon>(CONFIG::CompType::WEAPON).get()->setShooting(
+        player.getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getIsShooting(),
+        player.getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getTimePressed()
+    );
+
 }
 
 void UDPServer::setMobPosition(Entity player)
@@ -133,8 +139,9 @@ void UDPServer::setMobPosition(Entity player)
 }
 
 void UDPServer::StartExec(Entity entity, udp::endpoint &client) {
-        if (entity.getType() == 1)
+        if (entity.getType() == 1) {
             setPlayerPosition(entity);
+        }
         // if (entity.getType() == 2)
         //     setEntityPosition(entity, 2);
 }

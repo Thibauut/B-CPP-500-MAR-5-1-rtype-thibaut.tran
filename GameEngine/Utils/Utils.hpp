@@ -9,6 +9,12 @@
 
 namespace CONFIG {
 
+    enum WeaponType{
+        Weapon1,
+        Weapon2,
+        Weapon3,
+    };
+
     enum AiType {
         MOB1,
         MOB2,
@@ -27,6 +33,7 @@ namespace CONFIG {
         AI,
         HITBOXSQUARE,
         HITBOXCIRCLE,
+        TIMECOMP,
     };
 
     enum Dir {

@@ -26,6 +26,9 @@ void Game::InitBackground()
     sf::Color spriteColor2 = _background2.getColor();
     spriteColor2.a = 128;
     _background2.setColor(spriteColor2);
+
+
+
 }
 
 void Game::AnimateBackground() {
@@ -62,21 +65,33 @@ void Game::Loop()
 
 void Game::HandleEvents()
 {
+
+
     while (_window->pollEvent(_event)) {
         if (_event.type == sf::Event::Closed) {
             _window->close();
         }
         if (_event.type == sf::Event::KeyPressed) {
-            if (_event.key.code == sf::Keyboard::Up)
+            if (_event.key.code == sf::Keyboard::Up) {
                 _moveUp = true;
-            if (_event.key.code == sf::Keyboard::Down)
+            }
+            if (_event.key.code == sf::Keyboard::Down) {
                 _moveDown = true;
-            if (_event.key.code == sf::Keyboard::Left)
+
+            }
+            if (_event.key.code == sf::Keyboard::Left) {
                 _moveLeft = true;
-            if (_event.key.code == sf::Keyboard::Right)
+
+            }
+            if (_event.key.code == sf::Keyboard::Right) {
                 _moveRight = true;
-            if (_event.key.code == sf::Keyboard::Space)
+
+            }
+            if (_event.key.code == sf::Keyboard::Space) {
                 _shooting = true;
+                my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
         }
         if (_event.type == sf::Event::KeyReleased) {
             if (_event.key.code == sf::Keyboard::Up)
@@ -87,8 +102,11 @@ void Game::HandleEvents()
                 _moveLeft = false;
             if (_event.key.code == sf::Keyboard::Right)
                 _moveRight = false;
-            if (_event.key.code == sf::Keyboard::Space)
+            if (_event.key.code == sf::Keyboard::Space) {
                 _shooting = false;
+                my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
         }
     }
     std::shared_ptr<Position> positionComp = my_player->getComponentByType<Position>(CONFIG::CompType::POSITION);
@@ -126,6 +144,8 @@ void Game::HandleEvents()
         }
     }
     if (_shooting) {
+        _elapsedTime = _timeComp.getElapsedSeconds();
+        my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(true, _elapsedTime);
         _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
     }
 }
@@ -143,8 +163,35 @@ void Game::Draw()
                 sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
                 spriteComp->setPositionSprite(pos);
                 _window->draw(spriteComp->getSprite());
+
+            }
+            std::shared_ptr<HitBoxSquare> hitBoxSquareComp = entity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
+            if (hitBoxSquareComp) {
+                sf::RectangleShape rect(sf::Vector2f(hitBoxSquareComp->getWidth(), hitBoxSquareComp->getHeight()));
+                rect.setSize(sf::Vector2f(hitBoxSquareComp->getWidth() * 3, hitBoxSquareComp->getHeight() * 3));
+                rect.setOutlineThickness(2.0f);
+                rect.setOutlineColor(sf::Color::Red);
+                rect.setFillColor(sf::Color::Transparent);
+                _rects.push_back(rect);
             }
         }
+
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
+
+        std::shared_ptr<HitBoxSquare> hitBoxSquareComp = my_player->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
+        if (hitBoxSquareComp) {
+            sf::RectangleShape rect(sf::Vector2f(hitBoxSquareComp->getWidth(), hitBoxSquareComp->getHeight()));
+            rect.setSize(sf::Vector2f(hitBoxSquareComp->getWidth() * 3, hitBoxSquareComp->getHeight() * 3));
+            rect.setOutlineThickness(2.0f);
+            rect.setOutlineColor(sf::Color::Red);
+            rect.setFillColor(sf::Color::Transparent);
+            _rects.push_back(rect);
+        }
+
+        for (sf::RectangleShape rect : _rects) {
+            _window->draw(rect);
+        }
+        _rects.clear();
+
         _window->display();
 }

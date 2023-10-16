@@ -25,6 +25,8 @@ namespace GameEngine {
             }
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
+                ar.template register_type<HitBox>();
+                ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 ar & _type;
                 ar & _width;
