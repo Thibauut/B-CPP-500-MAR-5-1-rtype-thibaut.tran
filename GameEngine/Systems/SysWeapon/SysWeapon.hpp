@@ -12,6 +12,7 @@
 #include "../../Components/Sprite/Sprite.hpp"
 #include "../../Components/TimeComp/TimeComp.hpp"
 #include "../../Components/HitBoxCircle/HitBoxCircle.hpp"
+#include "../../Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "../../Entity/EntityManager/EntityManager.hpp"
 #include "../../Utils/Timeout.hpp"
 #include <chrono>
