@@ -60,7 +60,7 @@ void RoomLobby::gameEntryPoint()
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
         id_comp,
-        CONFIG::WeaponType::Weapon1
+        CONFIG::WeaponType::Weapon3
     );
     HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
     for (std::shared_ptr<PlayerLobby> player : _players) {

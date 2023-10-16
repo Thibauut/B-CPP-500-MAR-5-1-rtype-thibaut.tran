@@ -22,8 +22,8 @@
                 {
                     _isShooting = false;
                     if (weaponType == CONFIG::WeaponType::Weapon1) {_coolDown = 1.5;}
-                    if (weaponType == CONFIG::WeaponType::Weapon2) { _coolDown = 1.5;}
-                    if (weaponType == CONFIG::WeaponType::Weapon3){ _coolDown = 0.3;}
+                    if (weaponType == CONFIG::WeaponType::Weapon2) { _coolDown = 2.5;}
+                    if (weaponType == CONFIG::WeaponType::Weapon3){ _coolDown = 0.2;}
                     _coolDown.Start();
                 }
                 ~Weapon() = default;

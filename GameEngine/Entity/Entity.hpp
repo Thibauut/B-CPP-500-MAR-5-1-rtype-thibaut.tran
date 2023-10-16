@@ -53,6 +53,17 @@ namespace GameEngine {
                 }
                 return nullptr;
             }
+            template <typename T>
+            std::vector<std::shared_ptr<T>> getComponentsByType(CONFIG::CompType type) {
+                std::vector<std::shared_ptr<T>> components;
+                for (std::shared_ptr<T> &component : _entityContent) {
+                    if (component.get()->getType() == type)
+                        components.push_back(component);
+                }
+                if (!components.empty())
+                    return components;
+                return nullptr;
+            }
 
             template <typename T>
             std::shared_ptr<T> getComponentById(int id) {
