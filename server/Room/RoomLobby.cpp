@@ -67,7 +67,7 @@ void RoomLobby::gameEntryPoint()
         Entity player_entity(id, 1);
         player_entity.setId(id);
         health.setId(id_comp);
-        sf::IntRect spriteRect(0, 0, std::round(33.2), std::round(17.2));
+        sf::IntRect spriteRect(0, id * 17, std::round(33.2), std::round(17.2));
         HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
         id_comp++;
