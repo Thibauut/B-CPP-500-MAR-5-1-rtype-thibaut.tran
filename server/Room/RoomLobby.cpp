@@ -59,7 +59,7 @@ void RoomLobby::gameEntryPoint()
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
         id_comp,
-        CONFIG::WeaponType::Weapon1
+        CONFIG::WeaponType::Weapon3
     );
     for (std::shared_ptr<PlayerLobby> player : _players) {
         entityManager.createEntity();

@@ -44,7 +44,7 @@ namespace GameEngine {
             };
 
         private:
-            Entity createNewBullet(int posX, int posY, double couldown_value)
+            Entity createNewBullet(int posX, int posY, double couldown_value, std::string img_path)
             {
                 std::random_device rd;
                 std::mt19937 gen(rd());
@@ -56,7 +56,7 @@ namespace GameEngine {
                 TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, 1, couldown_value);
                 sf::IntRect spriteRect(0, 0, 16, 12);
                 HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
-                sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/simpleBullet.png", sf::Vector2f(3, 3), spriteRect);
+                sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect);
                 std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
                 std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
                 std::shared_ptr<TimeComp> coulDownShared = std::make_shared<TimeComp>(couldown);
@@ -72,15 +72,22 @@ namespace GameEngine {
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (33.2 * 3);
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.002));
+                    _manager->addEntity(createNewBullet(x, y, 0.001, "assets/sprites/simpleBullet.png"));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {
-
+                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (33.2 * 3);
+                    int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
+                    _manager->createEntity();
+                    _manager->addEntity(createNewBullet(x, y, 0.0017, "assets/sprites/simpleBullet.png"));
+                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0017, "assets/sprites/simpleBullet.png"));
             }
 
             void Weapon3(std::shared_ptr<Entity> entity) {
-
+                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (33.2 * 3);
+                    int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
+                    _manager->createEntity();
+                    _manager->addEntity(createNewBullet(x, y, 0.0005, "assets/sprites/simpleBullet.png"));
             }
 
 
