@@ -141,7 +141,7 @@ If you want to contribute to a project and make it better, your help is very wel
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
