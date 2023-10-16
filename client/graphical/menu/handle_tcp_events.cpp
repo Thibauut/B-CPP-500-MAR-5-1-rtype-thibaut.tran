@@ -15,6 +15,8 @@ void Menu::HandleTcpEvents()
         sf::FloatRect buttonCreateBounds = _buttonCreate.getGlobalBounds();
         sf::FloatRect buttonDisconnectBounds = _buttonDisconnect.getGlobalBounds();
         sf::FloatRect addSlotBounds = _addSlot.getGlobalBounds();
+        sf::FloatRect nextMapBounds = _next_level_choose.getGlobalBounds();
+        sf::FloatRect previousMapBounds = _previous_level_choose.getGlobalBounds();
         sf::FloatRect removeSlotBounds = _removeSlot.getGlobalBounds();
         sf::FloatRect buttonLeaveBounds = _buttonLeave.getGlobalBounds();
         sf::FloatRect buttonDeleteBounds = _roomDelete.getGlobalBounds();
@@ -71,11 +73,53 @@ void Menu::HandleTcpEvents()
         //                      CREATE                      //
         //////////////////////////////////////////////////////
         if (buttonCreateBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
-            // std::cout << "Create" << std::endl;
             _isCreatingRoom = true;
+            DIR *dir;
+            struct dirent *ent;
+            if ((dir = opendir("assets/maps/")) != NULL) {
+                for (bool isFirst = true; (ent = readdir(dir)) != NULL; ) {
+                    if (ent->d_name[0] != '.') {
+                        std::string path = "assets/maps/";
+                        path.append(ent->d_name);
+                        if (path.find(".json") == std::string::npos)
+                            continue;
+                        std::ifstream input_file(path);
+                        nlohmann::json map_data;
+                        input_file >> map_data;
+                        try {
+                            std::string name = map_data["name"];
+                            _maps.push_back(std::make_pair(name, path));
+                            input_file.close();
+                            std::cout << "Name: " << name << " path=" << path << std::endl;
+                            if (isFirst)
+                                _text_level_choose.setString(name);
+                            isFirst = false;
+                        } catch (std::exception &e) {
+                            std::cerr << "Error while parsing the file " << ent->d_name << "\n" << e.what() << std::endl;
+                        }
+                    }
+                }
+                closedir(dir);
+            }
+        }
+        if (_isCreatingRoom && nextMapBounds.contains(mousePos)) {
+            if (_maps.size() > 1) {
+                _mapIndex++;
+                if (_mapIndex >= _maps.size())
+                    _mapIndex = 0;
+                _text_level_choose.setString(_maps[_mapIndex].first);
+            }
+        }
+        if (_isCreatingRoom && previousMapBounds.contains(mousePos)) {
+            if (_maps.size() > 1) {
+                _mapIndex--;
+                if (_mapIndex < 0)
+                    _mapIndex = _maps.size() - 1;
+                _text_level_choose.setString(_maps[_mapIndex].first);
+            }
         }
         if (_isCreatingRoom && buttonCreateRoomBounds.contains(mousePos) && _roomSlot > 0) {
-            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString());
+            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second);
             if (_tcpConnection->infoRoomUuid_ == "KO") {
                 std::cerr << "Error until new room create" << std::endl;
             } else {

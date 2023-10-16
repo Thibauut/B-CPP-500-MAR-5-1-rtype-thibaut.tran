@@ -7,6 +7,8 @@
 
 #include "Server.hpp"
 
+using namespace RType;
+
 Server::Server(boost::asio::io_context& io_context, int port) : _menu(io_context), _port(port) { initServer();}
 
 Server::~Server() {}

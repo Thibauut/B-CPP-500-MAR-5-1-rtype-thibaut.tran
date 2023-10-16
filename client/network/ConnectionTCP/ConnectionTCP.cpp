@@ -185,9 +185,9 @@ void ClientConnectionTCP::GetRoomList()
     response_ = "";
 }
 
-void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize)
+void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize, std::string pathName)
 {
-    setMessage("CREATE_ROOM \"" + uuid_ + "\" \"" + roomSize + "\" \""+ roomName + "\"\n");
+    setMessage("CREATE_ROOM \"" + uuid_ + "\" \"" + roomSize + "\" \""+ roomName + "\" \"" + pathName + "\"\n");
     sendMessage(message_);
     message_ = "";
     readMessage();

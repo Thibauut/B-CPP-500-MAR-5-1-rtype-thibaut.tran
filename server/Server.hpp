@@ -17,21 +17,24 @@
 #include "Socket/TCP/TCPServer.hpp"
 #include <nlohmann/json.hpp>
 
-class Server {
-    public:
-        Server(boost::asio::io_context& io_context, int port);
-        ~Server();
-        void initServer();
-        void run(boost::asio::io_context &context);
-        void refresh();
-        void refreshFromDb();
-        void createRoom(PlayerLobby owner, std::string name, int _nbSlots);
-        void addClientToRoom(int pos, PlayerLobby client);
-        void deleteRoom(int pos);
-        bool isExistPlayer(std::string uuid);
 
-    private:
-        TCPServer _menu;
-        int _port;
+namespace RType {
+    class Server {
+        public:
+            Server(boost::asio::io_context& io_context, int port);
+            ~Server();
+            void initServer();
+            void run(boost::asio::io_context &context);
+            void refresh();
+            void refreshFromDb();
+            void createRoom(PlayerLobby owner, std::string name, int _nbSlots);
+            void addClientToRoom(int pos, PlayerLobby client);
+            void deleteRoom(int pos);
+            bool isExistPlayer(std::string uuid);
 
-};
+        private:
+            TCPServer _menu;
+            int _port;
+
+    };
+}

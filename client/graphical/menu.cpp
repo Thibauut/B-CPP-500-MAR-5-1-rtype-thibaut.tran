@@ -139,6 +139,10 @@ void Menu::Draw() {
 
         _window->draw(_buttonCancel);
         _window->draw(_buttonCancelText);
+
+        _window->draw(_previous_level_choose);
+        _window->draw(_text_level_choose);
+        _window->draw(_next_level_choose);
     }
     if (_isConnected && _selectedRoom && !_isCreatingRoom) {
         _window->draw(_roomMenu);
