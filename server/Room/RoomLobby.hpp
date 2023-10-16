@@ -17,7 +17,7 @@
 
 class RoomLobby {
     public:
-        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid);
+        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap);
         ~RoomLobby();
 
         void startGame();
@@ -44,6 +44,7 @@ class RoomLobby {
         unsigned short _port;
         std::string _uuid;
         std::string _name;
+        std::string _pathMap;
         unsigned int _nbSlots;
         unsigned int _nbPlayers;
         unsigned int _nbReadyPlayers;

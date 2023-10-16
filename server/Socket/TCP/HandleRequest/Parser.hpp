@@ -36,7 +36,7 @@ private:
     void getPlayerInfo() {};
 
     void createRoom(std::string player_uuid,
-                    int nb_slots, std::string name);
+                    int nb_slots, std::string name, std::string pathMap);
     void joinRoom(std::string player_uuid, std::string room_uuid);
     void leaveRoom(std::string player_uuid, std::string room_uuid);
     void deleteRoom(std::string player_uuid, std::string room_uuid);

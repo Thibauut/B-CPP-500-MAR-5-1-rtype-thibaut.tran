@@ -111,6 +111,15 @@ class Menu {
         sf::Text _text_port_input;
         std::string _inputPort;
 
+        sf::Text _text_level_choose;
+        std::string _input_level_choose;
+        sf::Sprite _next_level_choose;
+        sf::Texture _next_level_choose_texture;
+        sf::Sprite _previous_level_choose;
+        sf::Texture _previous_level_choose_texture;
+
+        std::vector<std::pair<std::string, std::string>> _maps;
+
         int _current_input;
         bool _isFocused;
         bool _isFocused2;
@@ -133,7 +142,6 @@ class Menu {
         sf::RectangleShape _buttonDisconnect;
         sf::Text _buttonDisconnectText;
 
-
         sf::Sprite _roomDelete;
         sf::Texture _roomDeleteTexture;
 
@@ -152,6 +160,7 @@ class Menu {
         bool _isFirstBackspacePress = true;
 
         bool _inGame;
+        int _mapIndex = 0;
 
         bool _isCreatingRoom = false;
         sf::RectangleShape _buttonCreateRoom;

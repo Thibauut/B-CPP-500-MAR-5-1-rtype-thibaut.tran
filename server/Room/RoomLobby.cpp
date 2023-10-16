@@ -19,7 +19,7 @@ unsigned short findOpenPort() {
     return nombreAleatoire;
 }
 
-RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid) : _owner(owner)
+RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap) : _owner(owner)
 {
     _players.push_back(owner);
     _nbPlayers = 1;
@@ -28,6 +28,7 @@ RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, s
     _uuid = uuid;
     _nbReadyPlayers = 0;
     _isStarted = false;
+    _pathMap = pathMap;
 }
 
 RoomLobby::~RoomLobby() {
@@ -76,7 +77,7 @@ void RoomLobby::gameEntryPoint()
         entityManager->addEntity(player_entity);
         id++, id_comp++;
     }
-    RType::Map map("assets/maps/map1.json");
+    RType::Map map(_pathMap);
     map.loadMap(entityManager);
     for (std::shared_ptr<Entity> entity : entityManager->getEntities()) {
         std::cout << "Entity " << entity->getId() << std::endl;
