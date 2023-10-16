@@ -52,7 +52,7 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 ![JSON](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
 
-📁 The project uses three libraries:
+📁 The project uses two libraries:
 
 * SFML: The library used to display.
 * Boost: The library used to manage communication, threads and processes.
@@ -138,7 +138,7 @@ If you want to contribute to a project and make it better, your help is very wel
 | ------ | ------ |
 | Project Leader & Engineer  | Maori Dino |
 | AI Engineer |  Mohamed Mansour |
-| Network Engineer | Yanis Denat |
+| Network Engineer & Game Engineer | Yanis Denat |
 | Network & Game Engineer | Thibault Tran |
 | Game Engineer | Raphael de Monchy |
 
