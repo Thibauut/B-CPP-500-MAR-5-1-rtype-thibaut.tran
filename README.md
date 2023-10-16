@@ -138,7 +138,7 @@ If you want to contribute to a project and make it better, your help is very wel
 | ------ | ------ |
 | Project Leader & Engineer  | Maori Dino |
 | AI Engineer |  Mohamed Mansour |
-| Network Engineer & Game Engineer | Yanis Denat |
+| Network & Game Engineer | Yanis Denat |
 | Network & Game Engineer | Thibault Tran |
 | Game Engineer | Raphael de Monchy |
 
