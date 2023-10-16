@@ -23,24 +23,32 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 - [License](#license)
 
 
-⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡⟡
+
 
  ## Compability
+ 
+</br>
 
-* ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-* ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
-* ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+<p align="right">(<a href="#R-TYPE">back to top</a>)</p>
+
 
 ## Built-With
 
-* ![CONAN](https://img.shields.io/badge/Conan-6699CB.svg?style=for-the-badge&logo=Conan&logoColor=white)
-* ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-* ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
+</br>
+
+![CONAN](https://img.shields.io/badge/Conan-6699CB.svg?style=for-the-badge&logo=Conan&logoColor=white)
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
  
 ## StarterPack
+
 
 #### Requirements
 
@@ -48,7 +56,7 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 * CMake version ${\color{red}3.0.0}$
 * Xorg/System version ${\color{red}x.x.x}$
 
-
+</br>
 
 #### Installation
 
@@ -87,15 +95,17 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 
 If you want to contribute to a project and make it better, your help is very welcome. Contributing is also a great way to learn more about social coding on Github, new technologies and and their ecosystems and how to make constructive, helpful bug reports, feature requests and the noblest of all contributions: a good, clean pull request.
 
-### How to make a clean pull request
+</br>
 
-Follow instruction in [CONTRIBUTING.md](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/blob/main/CONTRIBUTING.md)
+#### How to make a clean pull request
+
+* Follow instruction in [CONTRIBUTING.md](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/blob/main/CONTRIBUTING.md)
 
 
 <!-- TEAM -->
+</br>
 
-
-#### 🇫🇷 Crew
+##### 🇫🇷 Crew
 ╚═════╝
 
 | Roles | Name |
