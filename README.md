@@ -19,7 +19,13 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 - [Compability](#compability)
 - [Built-With](#built-with)
 - [StarterPack](#starterpack)
+  * [Requirements](#requirements)
+  * [Installation](#installation)
+  * [Start-Game](#start-game)
 - [Contributing](#contributing)
+  * [How-to-participate](#how-to-participate)
+  * [Todo-List](#todo-list)
+  * [Crew](#crew)
 - [License](#license)
 
 
@@ -60,7 +66,6 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
 
 #### Installation
 
-To start the game, just follow these instructions :smile:
 
 > step 1
 ```sh
@@ -97,16 +102,21 @@ If you want to contribute to a project and make it better, your help is very wel
 
 </br>
 
-#### How to make a clean pull request
+#### How-to-participate
 
 * Follow instruction in [CONTRIBUTING.md](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/blob/main/CONTRIBUTING.md)
 
+</br>
+
+#### TODO-LIST
+
+* We have some ideas for functionality but our team is overwhelmed, if the force is with you do not hesitate to consult our [Todo-List.txt](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/blob/main/Todo-List.txt) and follow the procedure of contribution, in case of problem do not hesitate to contact one of the members of our team.
 
 <!-- TEAM -->
 </br>
 
-##### 🇫🇷 Crew
-╚═════╝
+##### Crew
+╚═══🇫🇷══╝
 
 | Roles | Name |
 | ------ | ------ |
