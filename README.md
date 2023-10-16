@@ -22,6 +22,7 @@ The aim of this project is to re-create the famous RType arcade game in C++ and 
   * [Requirements](#requirements)
   * [Installation](#installation)
   * [Start-Game](#start-game)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
   * [How-to-participate](#how-to-participate)
   * [Todo-List](#todo-list)
@@ -93,6 +94,12 @@ cd B-CPP-500-MAR-5-1-rtype-maori.dino.git
 ```sh
 ./r_type_client
 ```
+
+<p align="right">(<a href="#R-TYPE">back to top</a>)</p>
+
+## Documentation
+
+You can find the project's technical documentation in our [Github-Wiki](https://github.com/EpitechPromo2026/B-CPP-500-MAR-5-1-rtype-maori.dino/wiki/RTYPE). The documentation is divided into 3 main parts, the server, the client and the game engine, in which you'll find instructions for using the game engine.
 
 <p align="right">(<a href="#R-TYPE">back to top</a>)</p>
 
