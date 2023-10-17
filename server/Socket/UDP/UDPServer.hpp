@@ -45,10 +45,17 @@ public:
     }
 
     std::string serialize(std::shared_ptr<Entity> &entity) {
-        std::ostringstream oss;
-        boost::archive::binary_oarchive archive(oss);
-        archive << *entity.get();
-        return oss.str();
+        try {
+            Entity entity1 = *entity.get();
+            int id = entity1.getId();
+            std::ostringstream oss;
+            boost::archive::binary_oarchive archive(oss);
+            archive << *entity.get();
+            return oss.str();
+        } catch (const std::exception &exception) {
+            std::cerr << exception.what() << std::endl;
+            return "";
+        }
     }
 
     Entity deserialize(std::string serializedData) {

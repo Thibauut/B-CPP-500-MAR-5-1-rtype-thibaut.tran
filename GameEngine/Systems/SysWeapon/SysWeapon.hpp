@@ -41,10 +41,27 @@ namespace GameEngine {
                             Weapon3(entityPtr);
                         }
                     }
+                    if (entityPtr != nullptr) {
+                        if (entityPtr.get()->getType() == 4) {
+                            clearBullet(entityPtr);
+                            std::cout << "Ca dégage ! Nouvellle size: " << _manager->getEntities().size() << std::endl;
+                            return;
+                        }
+                    }
                 }
             };
 
         private:
+            void clearBullet(std::shared_ptr<Entity> &entityPtr)
+            {
+                if (entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() < 0 ||
+                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() < 0 ||
+                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() > 1820 ||
+                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() > 980) {
+                        _manager->deleteEntity(entityPtr->getId());
+                    }
+
+            }
             Entity createNewBullet(int posX, int posY, double couldown_value, std::string img_path, sf::IntRect spriteRect)
             {
                 std::random_device rd;
