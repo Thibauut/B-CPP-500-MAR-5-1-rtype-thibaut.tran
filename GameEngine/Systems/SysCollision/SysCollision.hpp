@@ -34,9 +34,9 @@ namespace GameEngine {
                             continue;
                         }
                         other_hitbox->setHitboxPosition(other_position->getPositionX(), other_position->getPositionY());
-                        // if (comp_hitbox->getRectangle().intersects(other_hitbox->getRectangle()) == true) {
-                        //     std::cout << "collision" << std::endl;
-                        // }
+                        if (comp_hitbox->getRectangle().intersects(other_hitbox->getRectangle()) == true) {
+                            // std::cout << "collision" << std::endl;
+                        }
                     }
                 }
             }

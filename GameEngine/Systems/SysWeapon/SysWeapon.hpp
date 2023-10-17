@@ -55,8 +55,8 @@ namespace GameEngine {
             {
                 if (entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() < 0 ||
                     entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() < 0 ||
-                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() > 1820 ||
-                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() > 980) {
+                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() > 1930 ||
+                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() > 1090) {
                         _manager->deleteEntity(entityPtr->getId());
                     }
 
