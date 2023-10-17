@@ -34,6 +34,7 @@ namespace CONFIG {
         HITBOXSQUARE,
         HITBOXCIRCLE,
         TIMECOMP,
+        DAMAGE
     };
 
     enum Dir {
