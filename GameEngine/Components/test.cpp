@@ -12,6 +12,7 @@
 #include "HitBoxSquare/HitBoxSquare.hpp"
 #include "Damage/Damage.hpp"
 #include "AI/AI.hpp"
+#include "Direction/Direction.hpp"
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(GameEngine::AComponent)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Health)
@@ -24,3 +25,4 @@ BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::TimeComp)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::HitBoxCircle)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::HitBoxSquare)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Damage)
+BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Direction)
