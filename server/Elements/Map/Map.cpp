@@ -37,7 +37,10 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
     Weapon weapon = Weapon(CONFIG::CompType::WEAPON, id_comp+=1);
     Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp+=1);
     HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
-    sf::IntRect rect(entity["rectangle"]["left"], entity["rectangle"]["top"], entity["rectangle"]["width"], entity["rectangle"]["height"]);
+
+    int width = entity["rectangle"]["width"];
+    int height = entity["rectangle"]["height"];
+    sf::IntRect rect(entity["rectangle"]["left"], entity["rectangle"]["top"], width, height * 3);
     for (nlohmann::json &component : entity["positions"]) {
         manager->createEntity();
         Entity new_entity = Entity(id, 2);
