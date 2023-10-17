@@ -164,7 +164,9 @@ void Game::Draw()
                 spriteComp.get()->setPositionSprite(pos);
                 _window->draw(spriteComp->getSprite());
             }
-            entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->AnimateLoop(0.1, 0, 132.8, spriteComp->getSpriteWidth());
+            if (entity->getType() == 2) {
+                entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->AnimateLoop(0.1, 0, 132.8, spriteComp->getSpriteWidth());
+            }
         }
 
         if (animStart) {
