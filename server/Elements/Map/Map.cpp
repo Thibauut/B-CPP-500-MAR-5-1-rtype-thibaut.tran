@@ -29,37 +29,35 @@ void RType::Map::loadMap(std::shared_ptr<EntityManager> manager)
 void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json &entity)
 {
     int id = 98752;
-    int id_comp = 6547452;
+    int id_comp = 1;
     float speed = 0.005 / (float) entity["speed"];
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, (int) entity["health"]);
     AI ai = AI(CONFIG::CompType::AI, (CONFIG::AiType) entity["type"], id_comp, speed);
-    Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+    Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp+=1);
+    Weapon weapon = Weapon(CONFIG::CompType::WEAPON, id_comp+=1);
+    Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp+=1);
+    HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
     sf::IntRect rect(entity["rectangle"]["left"], entity["rectangle"]["top"], entity["rectangle"]["width"], entity["rectangle"]["height"]);
     for (nlohmann::json &component : entity["positions"]) {
         manager->createEntity();
         Entity new_entity = Entity(id, 2);
-        health.setId(id_comp);
-        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
-        new_entity.addComponent(healthShared);
-        id_comp += 1;
-        ai.setId(id_comp);
-        std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
-        new_entity.addComponent(aiShared);
-        id_comp += 1;
         Position position = Position(CONFIG::CompType::POSITION, id_comp, (int) component["x"], (int) component["y"]);
-        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
-        new_entity.addComponent(positionShared);
-        id_comp += 1;
-        sprite.setId(id_comp);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), entity["sprite"], sf::Vector2f(3, 3), rect);
+        hitbox.setHitboxSize(rect.width, rect.height);
+        weapon.setWeaponWithString(entity["weapon"]);
+        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitbox);
+        std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        new_entity.addComponent(healthShared);
+        new_entity.addComponent(aiShared);
+        new_entity.addComponent(positionShared);
         new_entity.addComponent(spriteShared);
-        id_comp += 1;
-        HitBoxSquare hitBoxSquare = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, rect);
-        hitBoxSquare.setId(id_comp);
-        std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitBoxSquare);
         new_entity.addComponent(hitBoxSquareShared);
+        new_entity.addComponent(weaponShared);
         manager->addEntity(new_entity);
-        id_comp += 1, id += 1;
+        id += 1;
     }
 }

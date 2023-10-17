@@ -13,6 +13,11 @@ namespace GameEngine {
     class HitBoxSquare : public AComponent {
         public:
             HitBoxSquare() : AComponent(), _idComponent(0), _type(CONFIG::CompType::HITBOXSQUARE) {}
+            HitBoxSquare(CONFIG::CompType type, int id)
+            : AComponent(), _idComponent(id), _type(type) {
+                _rectangle.width = 0;
+                _rectangle.height = 0;
+            }
             HitBoxSquare(CONFIG::CompType type, int id, sf::IntRect rectangle)
             : AComponent(), _idComponent(id), _type(type) {
                 _rectangle.width = rectangle.width;
@@ -28,11 +33,18 @@ namespace GameEngine {
                 return _rectangle.height;
             }
 
+            void setHitboxSize(int width, int height)
+            {
+                _rectangle.width = width;
+                _rectangle.height = height;
+            }
+
             void setHitboxPosition(int x, int y)
             {
                 _rectangle.left = x;
                 _rectangle.top = y;
             }
+
 
             sf::IntRect getRectangle()
             {

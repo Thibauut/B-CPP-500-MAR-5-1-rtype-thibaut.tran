@@ -13,6 +13,7 @@
 #include "../../Components/TimeComp/TimeComp.hpp"
 #include "../../Components/HitBoxCircle/HitBoxCircle.hpp"
 #include "../../Components/HitBoxSquare/HitBoxSquare.hpp"
+#include "../../Components/Damage/Damage.hpp"
 #include "../../Entity/EntityManager/EntityManager.hpp"
 #include "../../Utils/Timeout.hpp"
 #include <chrono>
@@ -61,18 +62,21 @@ namespace GameEngine {
                     }
 
             }
-            Entity createNewBullet(int posX, int posY, double couldown_value, std::string img_path, sf::IntRect spriteRect)
+            Entity createNewBullet(int posX, int posY, double couldown_value, int damage_value, std::string img_path, sf::IntRect spriteRect)
             {
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_int_distribution<> dis(3000, 10000);
                 Entity newBullet(dis(gen), 4);
-                int id_comp = 4452;
+                int id_comp = 1;
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);
-                Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp + 1);
-                TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, 1, couldown_value);
-                HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
+                Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp += 1);
+                TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, id_comp += 1, couldown_value);
+                HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp += 1, spriteRect);
+                Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp += 1);
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect);
+                damage.setDamage(damage_value);
+                std::shared_ptr<Damage> damageShared = std::make_shared<Damage>(damage);
                 std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
                 std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
                 std::shared_ptr<TimeComp> coulDownShared = std::make_shared<TimeComp>(couldown);
@@ -81,6 +85,7 @@ namespace GameEngine {
                 newBullet.addComponent(hitBoxShared);
                 newBullet.addComponent(spriteShared);
                 newBullet.addComponent(coulDownShared);
+                newBullet.addComponent(damageShared);
                 return newBullet;
             }
 
@@ -89,7 +94,7 @@ namespace GameEngine {
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.001, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.001, 20 ,"assets/sprites/simpleBullet.png", spriteRect));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {
@@ -97,8 +102,8 @@ namespace GameEngine {
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0017, "assets/sprites/simpleBullet.png", spriteRect));
-                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0017, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0017, 15, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0017, 15,"assets/sprites/simpleBullet.png", spriteRect));
             }
 
             void Weapon3(std::shared_ptr<Entity> entity) {
@@ -106,7 +111,7 @@ namespace GameEngine {
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     sf::IntRect spriteRect(0, 0, 7, 6);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0005, "assets/sprites/smallBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0005, 4, "assets/sprites/smallBullet.png", spriteRect));
             }
 
 

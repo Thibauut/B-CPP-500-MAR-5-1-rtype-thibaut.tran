@@ -13,6 +13,7 @@
 #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
 #include "../../../GameEngine/Components/Weapon/Weapon.hpp"
 #include "../../../GameEngine/Components/HitBoxSquare/HitBoxSquare.hpp"
+#include "../../../GameEngine/Components/Damage/Damage.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>

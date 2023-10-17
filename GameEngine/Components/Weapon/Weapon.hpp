@@ -17,6 +17,10 @@
                 friend class boost::serialization::access;
                 friend class AComponent;
                 Weapon() : AComponent() {};
+                Weapon(CONFIG::CompType type, int id)
+                : AComponent(),  _type(type), _idComponent(id), _weaponType(CONFIG::Weapon1){
+                    _coolDown = 1.5;
+                }
                 Weapon(CONFIG::CompType type, int id, CONFIG::WeaponType weaponType)
                 : AComponent(),  _type(type), _idComponent(id), _weaponType(weaponType)
                 {
@@ -65,6 +69,20 @@
 
                 void setWeapon(CONFIG::WeaponType weaponType) {
                     _weaponType = weaponType;
+                }
+                void setWeaponWithString(std::string weaponType) {
+                    if (weaponType == "Weapon1") {
+                        _weaponType = CONFIG::WeaponType::Weapon1;
+                        return;
+                    }
+                    if (weaponType == "Weapon2") {
+                        _weaponType = CONFIG::WeaponType::Weapon2;
+                        return;
+                    }
+                    if (weaponType == "Weapon3") {
+                        _weaponType = CONFIG::WeaponType::Weapon3;
+                        return;
+                    }
                 }
 
                 void setShooting(bool isShooting, double timePressed) {
