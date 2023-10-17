@@ -93,55 +93,6 @@ void RoomLobby::gameEntryPoint()
     }
     RType::Map map(_pathMap);
     map.loadMap(entityManager);
-    // for (std::shared_ptr<Entity> entity : entityManager->getEntities()) {
-    //     std::cout << "Entity " << entity->getId() << std::endl;
-    // }
-    // // Add mob entity
-    // // Add mob entity
-    // id = 100;
-    // position = Position(CONFIG::CompType::POSITION, id_comp, 1600, 300);
-    // health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
-    // sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
-    // Weapon weaponMob = Weapon (
-    //     CONFIG::CompType::WEAPON,
-    //     id_comp,
-    //     CONFIG::WeaponType::Weapon3
-    // );
-    // Weapon weaponBoss = Weapon (
-    //     CONFIG::CompType::WEAPON,
-    //     id_comp,
-    //     CONFIG::WeaponType::Weapon1
-    // );
-    // AI ai = AI(CONFIG::CompType::AI, CONFIG::AiType::BOSS, id_comp, 0.005);
-    // Entity mob_entity(id, 2);
-    // mob_entity.setId(id);
-    // health.setId(id_comp);
-    // id_comp++;
-    // sprite.setId(id_comp);
-    // id_comp++;
-    // position.setId(id_comp);
-    // id_comp++;
-    // weaponMob.setId(id_comp);
-    // id_comp++;
-    // ai.setId(id_comp);
-    // sf::IntRect spriteRect(0, 0, std::round(33.3125), 36);
-    // HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
-    // sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet5.gif", sf::Vector2f(3, 3), spriteRect);
-    // std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
-    // std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
-    // std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
-    // std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
-    // std::shared_ptr<Weapon> weaponSharedMob = std::make_shared<Weapon>(weaponMob);
-    // std::shared_ptr<Weapon> weaponSharedBoss = std::make_shared<Weapon>(weaponBoss);
-    // std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
-    // mob_entity.addComponent(positionShared);
-    // mob_entity.addComponent(healthShared);
-    // mob_entity.addComponent(spriteShared);
-    // mob_entity.addComponent(weaponSharedMob);
-    // mob_entity.addComponent(weaponSharedBoss);
-    // mob_entity.addComponent(aiShared);
-    // mob_entity.addComponent(hitboxShared);
-    // entityManager->addEntity(mob_entity);
     // ---------------------------------
     Engine game(*entityManager.get());
     game.addSystem(std::make_shared<SysAI>(game.getManager()));
