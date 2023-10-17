@@ -1,9 +1,9 @@
-                     ┃          Network Working Group                                Y. Denat
-                     ┃          Request for Comments: XXX                            T. Tran
-                     ┃          Category: TCP					                                   R. de Monchy
-                     ┃          						                                               M. Dino
-                     ┃                                                                   HessType Industry. 
-                     ┃          						                                               October 2023
+                     ┃          Network Working Group                              Y. Denat
+                     ┃          Request for Comments: XXX                          T. Tran
+                     ┃          Category: TCP					                             R. de Monchy
+                     ┃          						                                       M. Dino
+                     ┃                                                               HessType Industry. 
+                     ┃          						                                       October 2023
                      ┃          
                      ┃                           Communication Protocol for Online Gaming
                      ┃          
