@@ -44,7 +44,6 @@ namespace GameEngine {
                     if (entityPtr != nullptr) {
                         if (entityPtr.get()->getType() == 4) {
                             clearBullet(entityPtr);
-                            std::cout << "Ca dégage ! Nouvellle size: " << _manager->getEntities().size() << std::endl;
                             return;
                         }
                     }
