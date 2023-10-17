@@ -8,12 +8,16 @@
 #pragma once
 
 #include "../Entity.hpp"
+#include <mutex>
 
 namespace GameEngine {
 
     class EntityManager {
         public:
             EntityManager() {}
+            EntityManager(EntityManager &entityManager) {
+                _listEntity = entityManager.getEntities();
+            }
             ~EntityManager() {}
 
             std::shared_ptr<Entity>& createEntity() {
@@ -54,18 +58,37 @@ namespace GameEngine {
                 return listEntity;
             }
 
+            std::mutex &getMutex() {
+                return _mutex;
+            }
+
             void deleteEntity(unsigned int id) {
+                std::lock_guard<std::mutex> lock(_mutex);
                 for (std::shared_ptr<Entity> entityPtr : _listEntity) {
                     if (entityPtr->getId() == id) {
                         _listEntity.remove(entityPtr);
                         return;
                     }
                 }
+                // unlock();
+            }
+
+            bool try_lock() {
+                return _mutex.try_lock();
+            }
+
+            void lock() {
+                _mutex.lock();
+            }
+
+            void unlock() {
+                _mutex.unlock();
             }
 
         private:
             std::list<std::shared_ptr<Entity>> _listEntity;
             std::shared_ptr<Entity> _entityPtr;
+            std::mutex _mutex;
     };
 
 }

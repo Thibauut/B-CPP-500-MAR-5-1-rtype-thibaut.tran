@@ -75,18 +75,20 @@ void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<
 
 void  UDPServer::sendAllEntitys()
 {
-    for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
-        try {
-            sendAll(serialize(Entity), remote_endpoints_);
-        } catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
+    std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
+        for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
+            try {
+                sendAll(serialize(Entity), remote_endpoints_);
+            } catch(const std::exception& e) {
+                std::cerr << e.what() << '\n';
+            }
         }
-    }
 }
 
 void UDPServer::sendThread() {
     while(1) {
         std::this_thread::sleep_for(std::chrono::microseconds(14));
+        
         sendAllEntitys();
     }
 }
@@ -98,17 +100,18 @@ void UDPServer::sendThread() {
 void UDPServer::sendPlayersPosition()
 {
     std::string resp = "";
-    if (!Entities().get()->getEntitiesByType(player_type).empty()) {
-        for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-            try {
-                sendAll(serialize(player), remote_endpoints_);
-            } catch (std::exception &exception) {
-                std::cout << exception.what() << std::endl;
+    std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
+        if (!Entities().get()->getEntitiesByType(player_type).empty()) {
+            for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
+                try {
+                    sendAll(serialize(player), remote_endpoints_);
+                } catch (std::exception &exception) {
+                    std::cout << exception.what() << std::endl;
+                }
             }
         }
-    }
-    else
-        std::cout << "Players list is empty :(" << std::endl;
+        else
+            std::cout << "Players list is empty :(" << std::endl;
 }
 #define bullet_id std::to_string(bullet.get()->getId())
 #define bullet_x std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
@@ -116,15 +119,16 @@ void UDPServer::sendPlayersPosition()
 
 void UDPServer::sendBulletPosition()
 {
-    if (!Entities().get()->getEntitiesByType(bullet_type).empty()) {
-        for (std::shared_ptr<GameEngine::Entity> bullet : entityManagerPtr_.get()->getEntitiesByType(bullet_type)) {
-            try {
-                sendAll(serialize(bullet), remote_endpoints_);
-            } catch (const std::exception &exception) {
-                std::cerr << exception.what() << std::endl;
+    std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
+        if (!Entities().get()->getEntitiesByType(bullet_type).empty()) {
+            for (std::shared_ptr<GameEngine::Entity> bullet : entityManagerPtr_.get()->getEntitiesByType(bullet_type)) {
+                try {
+                    sendAll(serialize(bullet), remote_endpoints_);
+                } catch (const std::exception &exception) {
+                    std::cerr << exception.what() << std::endl;
+                }
             }
         }
-    }
 }
 
 void UDPServer::setEntity(Entity &entity)
