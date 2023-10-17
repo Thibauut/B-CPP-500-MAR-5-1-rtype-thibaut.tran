@@ -64,7 +64,11 @@ void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t
 void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<udp::endpoint>> &endpoints)
 {
     for (std::shared_ptr<udp::endpoint> remote_client : endpoints) {
-        socket_.send_to(boost::asio::buffer(message), *remote_client.get());
+        try {
+            socket_.send_to(boost::asio::buffer(message), *remote_client.get());
+        } catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
     }
 }
 
@@ -72,7 +76,11 @@ void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<
 void  UDPServer::sendAllEntitys()
 {
     for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
-        sendAll(serialize(Entity), remote_endpoints_);
+        try {
+            sendAll(serialize(Entity), remote_endpoints_);
+        } catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
     }
 }
 
@@ -92,7 +100,11 @@ void UDPServer::sendPlayersPosition()
     std::string resp = "";
     if (!Entities().get()->getEntitiesByType(player_type).empty()) {
         for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-            sendAll(serialize(player), remote_endpoints_);
+            try {
+                sendAll(serialize(player), remote_endpoints_);
+            } catch (std::exception &exception) {
+                std::cout << exception.what() << std::endl;
+            }
         }
     }
     else
@@ -106,7 +118,11 @@ void UDPServer::sendBulletPosition()
 {
     if (!Entities().get()->getEntitiesByType(bullet_type).empty()) {
         for (std::shared_ptr<GameEngine::Entity> bullet : entityManagerPtr_.get()->getEntitiesByType(bullet_type)) {
-            sendAll(serialize(bullet), remote_endpoints_);
+            try {
+                sendAll(serialize(bullet), remote_endpoints_);
+            } catch (const std::exception &exception) {
+                std::cerr << exception.what() << std::endl;
+            }
         }
     }
 }

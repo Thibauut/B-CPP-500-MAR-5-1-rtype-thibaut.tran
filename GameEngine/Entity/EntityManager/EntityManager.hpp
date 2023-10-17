@@ -55,7 +55,7 @@ namespace GameEngine {
             }
 
             void deleteEntity(unsigned int id) {
-                for (auto& entityPtr : _listEntity) {
+                for (std::shared_ptr<Entity> entityPtr : _listEntity) {
                     if (entityPtr->getId() == id) {
                         _listEntity.remove(entityPtr);
                         return;

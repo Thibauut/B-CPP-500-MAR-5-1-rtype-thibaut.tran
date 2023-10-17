@@ -19,6 +19,7 @@ using namespace GameEngine;
 namespace GameEngine {
     class Entity {
         public:
+            Entity(){}
             Entity(unsigned int id, int type) : _id(id), _entityType(type) {}
             Entity(unsigned int id) : _id(id), _entityType(0) {}
 
