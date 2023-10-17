@@ -73,6 +73,10 @@ namespace GameEngine {
                 _sprite.setTextureRect(_rect);
             }
 
+            int getSpriteWidth() {
+                return width;
+            }
+
             int getSpriteX() {
                 return _x;
             }
@@ -83,6 +87,33 @@ namespace GameEngine {
 
             sf::Sprite getSprite() {
                 return _sprite;
+            }
+
+            void AnimateLoop(float animDuration, float start, float end, float frameSize) {
+                sf::Time elapsed = _clock.getElapsedTime();
+                if (elapsed.asSeconds() > animDuration) {
+                    _rect.left += frameSize;
+                    if (_rect.left >= end) {
+                        _rect.left = start;
+                    }
+                    _clock.restart();
+                    _sprite.setTextureRect(_rect);
+                }
+            }
+
+            bool AnimationInput(float animDuration, float start, float end, float frameSize, bool &animStart) {
+                sf::Time elapsed = _clock.getElapsedTime();
+
+                if (elapsed.asSeconds() > animDuration) {
+                    _rect.left += frameSize;
+                    if (_rect.left >= end) {
+                        _rect.left = start;
+                        animStart = false;
+                    }
+                    _clock.restart();
+                    _sprite.setTextureRect(_rect);
+                }
+                return true;
             }
 
             void setPositionSprite(const sf::Vector2f &pos) {

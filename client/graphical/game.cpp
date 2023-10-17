@@ -26,9 +26,6 @@ void Game::InitBackground()
     sf::Color spriteColor2 = _background2.getColor();
     spriteColor2.a = 128;
     _background2.setColor(spriteColor2);
-
-
-
 }
 
 void Game::AnimateBackground() {
@@ -52,10 +49,12 @@ Game::Game(sf::RenderWindow *window): _window(window)
 {
     _font.loadFromFile("assets/fonts/WANTONE.otf");
     InitBackground();
+    _timeMove = Timeout(0.01);
 }
 
 void Game::Loop()
 {
+    _timeMove.Start();
     while (_window->isOpen()) {
         HandleEvents();
         AnimateBackground();
@@ -66,32 +65,30 @@ void Game::Loop()
 void Game::HandleEvents()
 {
 
-
     while (_window->pollEvent(_event)) {
+
         if (_event.type == sf::Event::Closed) {
             _window->close();
         }
         if (_event.type == sf::Event::KeyPressed) {
-            if (_event.key.code == sf::Keyboard::Up) {
-                _moveUp = true;
-            }
-            if (_event.key.code == sf::Keyboard::Down) {
-                _moveDown = true;
-
-            }
-            if (_event.key.code == sf::Keyboard::Left) {
-                _moveLeft = true;
-
-            }
-            if (_event.key.code == sf::Keyboard::Right) {
-                _moveRight = true;
-
-            }
-            if (_event.key.code == sf::Keyboard::Space) {
-                _shooting = true;
-                my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
-                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
-            }
+                if (_event.key.code == sf::Keyboard::Up) {
+                    animStart = true;
+                    _moveUp = true;
+                }
+                if (_event.key.code == sf::Keyboard::Down) {
+                    _moveDown = true;
+                }
+                if (_event.key.code == sf::Keyboard::Left) {
+                    _moveLeft = true;
+                }
+                if (_event.key.code == sf::Keyboard::Right) {
+                    _moveRight = true;
+                }
+                if (_event.key.code == sf::Keyboard::Space) {
+                    _shooting = true;
+                    my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
+                    _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+                }
         }
         if (_event.type == sf::Event::KeyReleased) {
             if (_event.key.code == sf::Keyboard::Up)
@@ -111,37 +108,40 @@ void Game::HandleEvents()
     }
     std::shared_ptr<Position> positionComp = my_player->getComponentByType<Position>(CONFIG::CompType::POSITION);
     std::pair<int, int> pos = positionComp->getPosition();
-    if (_moveUp) {
-        if (positionComp->getPositionY() > 0) {
-            pos.second -= 3;
-            positionComp->setPositionY(pos.second);
-            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+    if ( _timeMove.can_execute()) {
+        if (_moveUp) {
+            if (positionComp->getPositionY() > 0) {
+                pos.second -= 10;
+                positionComp->setPositionY(pos.second);
+                my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
         }
-    }
-    if (_moveDown) {
-        if (positionComp->getPositionY() < (1075 - (17.2 * 3))) {
-            pos.second += 3;
-            positionComp->setPositionY(pos.second);
-            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+        if (_moveDown) {
+            if (positionComp->getPositionY() < (1075 - (17.2 * 3))) {
+                pos.second += 10;
+                positionComp->setPositionY(pos.second);
+                my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
         }
-    }
-    if (_moveLeft) {
-        if (positionComp->getPositionX() > 5) {
-            pos.first -= 3;
-            positionComp->setPositionX(pos.first);
-            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+        if (_moveLeft) {
+            if (positionComp->getPositionX() > 5) {
+                pos.first -= 10;
+                positionComp->setPositionX(pos.first);
+                my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
         }
-    }
-    if (_moveRight) {
-        if (positionComp->getPositionX() < (1915 - (33.2 * 3))) {
-            pos.first += 3;
-            positionComp->setPositionX(pos.first);
-            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
-            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+        if (_moveRight) {
+            if (positionComp->getPositionX() < (1915 - (33.2 * 3))) {
+                pos.first += 10;
+                positionComp->setPositionX(pos.first);
+                my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(pos.first, pos.second));
+                _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
         }
+        _timeMove.Start();
     }
     if (_shooting) {
         _elapsedTime = _timeComp.getElapsedSeconds();
@@ -161,37 +161,17 @@ void Game::Draw()
             if (spriteComp) {
                 std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
                 sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
-                spriteComp->setPositionSprite(pos);
+                spriteComp.get()->setPositionSprite(pos);
                 _window->draw(spriteComp->getSprite());
-
             }
-            std::shared_ptr<HitBoxSquare> hitBoxSquareComp = entity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
-            if (hitBoxSquareComp) {
-                sf::RectangleShape rect(sf::Vector2f(hitBoxSquareComp->getWidth(), hitBoxSquareComp->getHeight()));
-                rect.setSize(sf::Vector2f(hitBoxSquareComp->getWidth() * 3, hitBoxSquareComp->getHeight() * 3));
-                rect.setOutlineThickness(2.0f);
-                rect.setOutlineColor(sf::Color::Red);
-                rect.setFillColor(sf::Color::Transparent);
-                _rects.push_back(rect);
-            }
+            entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->AnimateLoop(0.1, 0, 132.8, spriteComp->getSpriteWidth());
         }
 
+        if (animStart) {
+            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->AnimationInput(0.1, 0, 132.8, my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->getSpriteWidth(), animStart);
+        }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
 
-        std::shared_ptr<HitBoxSquare> hitBoxSquareComp = my_player->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
-        if (hitBoxSquareComp) {
-            sf::RectangleShape rect(sf::Vector2f(hitBoxSquareComp->getWidth(), hitBoxSquareComp->getHeight()));
-            rect.setSize(sf::Vector2f(hitBoxSquareComp->getWidth() * 3, hitBoxSquareComp->getHeight() * 3));
-            rect.setOutlineThickness(2.0f);
-            rect.setOutlineColor(sf::Color::Red);
-            rect.setFillColor(sf::Color::Transparent);
-            _rects.push_back(rect);
-        }
-
-        for (sf::RectangleShape rect : _rects) {
-            _window->draw(rect);
-        }
-        _rects.clear();
 
         _window->display();
 }
