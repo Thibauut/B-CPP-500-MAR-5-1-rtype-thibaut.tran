@@ -13,6 +13,8 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/list.hpp>
+#include "../Utils/Timeout.hpp"
+
 
 using namespace GameEngine;
 
@@ -20,8 +22,10 @@ namespace GameEngine {
     class Entity {
         public:
             Entity(){}
-            Entity(unsigned int id, int type) : _id(id), _entityType(type) {}
-            Entity(unsigned int id) : _id(id), _entityType(0) {}
+            Entity(unsigned int id, int type) : _id(id), _entityType(type), _isDeath(false) {
+                _Destroy.timeout_ = 0.03;
+            }
+            Entity(unsigned int id) : _id(id), _entityType(0), _isDeath(false) {}
 
             ~Entity() {}
 
@@ -30,7 +34,20 @@ namespace GameEngine {
                 ar & _id;
                 ar & _entityType;
                 ar & _entityContent;
+                ar & _isDeath;
             }
+
+            bool canDestroy() {
+                if (_Destroy.can_execute())
+                    return true;
+                return false;
+            }
+
+            void startDestroy() {
+                _Destroy.Start();
+            }
+
+            bool DestroyStarted(){return _Destroy.isStarted();}
 
             unsigned int getId() const {
                 return _id;
@@ -82,20 +99,18 @@ namespace GameEngine {
             void setEntityContent(std::list<std::shared_ptr<AComponent>> &entity) {
                 _entityContent = entity;
             }
-
-            void setType(int type) {
-                _entityType = type;
-            }
-
-            int getType() const {
-                return _entityType;
-            }
+            void setIsDeath(bool status){_isDeath = status;}
+            void setType(int type) {_entityType = type;}
+            int getType() const {return _entityType;}
+            int getIsDeath(){return _isDeath;}
 
             void setId(unsigned int id) {
                 _id = id;
             }
 
         private:
+            Timeout _Destroy;
+            bool _isDeath;
             std::list<std::shared_ptr<AComponent>> _entityContent;
             unsigned int _id;
             int _entityType;

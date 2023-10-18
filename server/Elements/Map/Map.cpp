@@ -43,7 +43,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
     sf::IntRect rect(entity["rectangle"]["left"], entity["rectangle"]["top"], width, height * 3);
     for (nlohmann::json &component : entity["positions"]) {
         manager->createEntity();
-        Entity new_entity = Entity(id, 2);
+        Entity new_entity = Entity(id+=1, 2);
         Position position = Position(CONFIG::CompType::POSITION, id_comp, (int) component["x"], (int) component["y"]);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), entity["sprite"], sf::Vector2f(3, 3), rect);
         hitbox.setHitboxSize(rect.width, rect.height);

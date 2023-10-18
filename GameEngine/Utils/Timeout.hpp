@@ -7,7 +7,7 @@ namespace GameEngine {
     class Timeout
     {
     public:
-        Timeout(){timeout_ = 1;};
+        Timeout(){timeout_ = 1, wasStarted_ = false, startTime_ = std::chrono::steady_clock::now();}
         Timeout(float timeout)
         {
             Start();
@@ -16,6 +16,7 @@ namespace GameEngine {
         void Start()
         {
             startTime_ = std::chrono::steady_clock::now();
+            wasStarted_ = true;
         }
         bool can_execute()
         {
@@ -26,6 +27,8 @@ namespace GameEngine {
             return false;
 
         }
+
+        bool isStarted(){return wasStarted_;}
 
         double getElapsedSeconds() const
         {
@@ -38,5 +41,6 @@ namespace GameEngine {
         double timeout_;
         std::chrono::steady_clock::time_point startTime_;
         double elapsed_seconds_;
+        bool wasStarted_;
     };
 }

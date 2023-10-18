@@ -48,6 +48,7 @@ bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
             int player_id = std::atoi(cmd[1].c_str());
             std::string serializedEntity = serialize(entityManagerPtr_.get()->getEntity(player_id));
             socket_.send_to(boost::asio::buffer(serializedEntity), client);
+
         return true;
     }
     return false;
@@ -77,18 +78,14 @@ void  UDPServer::sendAllEntitys()
 {
     std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
         for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
-            try {
-                sendAll(serialize(Entity), remote_endpoints_);
-            } catch(const std::exception& e) {
-                std::cerr << e.what() << '\n';
-            }
+            sendAll(serialize(Entity), remote_endpoints_);
         }
 }
 
 void UDPServer::sendThread() {
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     while(1) {
-        std::this_thread::sleep_for(std::chrono::microseconds(14));
-        
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
         sendAllEntitys();
     }
 }

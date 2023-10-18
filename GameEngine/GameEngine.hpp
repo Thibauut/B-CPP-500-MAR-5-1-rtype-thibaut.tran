@@ -25,6 +25,7 @@
 #include "Systems/SysWeapon/SysWeapon.hpp"
 #include "Systems/SysShoot/SysShoot.hpp"
 #include "Systems/SysCollision/SysCollision.hpp"
+#include "Systems/SysClear/SysClear.hpp"
 
 // #include "Systems/SysMovement/SysMovement.hpp"
 // #include "Systems/SysRender/SysRender.hpp"

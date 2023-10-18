@@ -26,6 +26,7 @@ namespace GameEngine {
             }
             ~Damage() = default;
             void setDamage(int new_damage){ _damage = new_damage;}
+            int getDamage() const {return _damage;}
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<Damage>();

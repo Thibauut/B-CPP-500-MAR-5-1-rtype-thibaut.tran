@@ -45,7 +45,6 @@ namespace GameEngine {
                     if (entityPtr != nullptr) {
                         if (entityPtr.get()->getType() == 4) {
                             clearBullet(entityPtr);
-                            return;
                         }
                     }
                 }
@@ -56,17 +55,17 @@ namespace GameEngine {
             {
                 if (entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() < 0 ||
                     entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() < 0 ||
-                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() > 1830 ||
+                    entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() > 1930 ||
                     entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() > 1090) {
-                        _manager->deleteEntity(entityPtr->getId());
-                    }
-
+                        entityPtr->setIsDeath(true);
+                        // _manager->deleteEntity(entityPtr->getId());
+                }
             }
             Entity createNewBullet(int posX, int posY, double couldown_value, int damage_value, std::string img_path, sf::IntRect spriteRect)
             {
                 std::random_device rd;
                 std::mt19937 gen(rd());
-                std::uniform_int_distribution<> dis(3000, 10000);
+                std::uniform_int_distribution<> dis(3000, 100000);
                 Entity newBullet(dis(gen), 4);
                 int id_comp = 1;
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);

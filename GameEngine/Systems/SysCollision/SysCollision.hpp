@@ -44,32 +44,30 @@ namespace GameEngine {
                 }
             }
             void  HandleDamage(std::shared_ptr<Entity> &entity1, std::shared_ptr<Entity> &entity2) {
-                // std::cout <<"collision with " << entity1->getType()<< " and " << entity2->getType() << std::endl;
                 if (entity2.get()->getType() == 4) {
                     std::shared_ptr<Damage> damage = entity2->getComponentByType<Damage>(CONFIG::CompType::DAMAGE);
                     if (entity1->getType() == 1 || entity1->getType() == 2) {
                         std::shared_ptr<Health> health = entity1->getComponentByType<Health>(CONFIG::CompType::HEALTH);
-                        health->setHealth(health->getHealth() - 1);
-                        // std::cout << "mob life: "<< health->getHealth() << std::endl;
+                        if (entity2->getIsDeath() != true)
+                            health->setHealth(health->getHealth() - damage->getDamage());
                         if (health->getHealth() <= 0) {
-                            std::cout << "is dead" << std::endl;
-                            _entityManager->deleteEntity(entity1->getId());
+                            entity1->setIsDeath(true);
                             return;
                         }
-                        _entityManager->deleteEntity(entity2->getId());
+                        entity2->setIsDeath(true);
                     }
                 }
                 if (entity1.get()->getType() == 4) {
                     std::shared_ptr<Damage> damage = entity1->getComponentByType<Damage>(CONFIG::CompType::DAMAGE);
                     if (entity2->getType() == 1 || entity2->getType() == 2) {
                         std::shared_ptr<Health> health = entity2->getComponentByType<Health>(CONFIG::CompType::HEALTH);
-                        health->setHealth(health->getHealth() - 1);
+                        if (entity1->getIsDeath() != true)
+                            health->setHealth(health->getHealth() - damage->getDamage());
                         if (health->getHealth() <= 0) {
-                            std::cout << "is dead" << std::endl;
-                            _entityManager->deleteEntity(entity2->getId());
+                            entity2->setIsDeath(true);
                             return;
                         }
-                        _entityManager->deleteEntity(entity1->getId());
+                        entity1->setIsDeath(true);
                     }
                 }
             }
