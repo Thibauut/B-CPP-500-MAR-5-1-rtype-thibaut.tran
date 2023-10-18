@@ -65,6 +65,8 @@ class ClientOpenUDP : public ThreadHandler {
         bool is3 = false;
         bool is4 = false;
 
+        std::mutex mutex_;
+
         // std::vector<std::shared_ptr<PlayerUDP>> &players_;
 
         // std::vector<std::shared_ptr<Entity>> &playersEntity_;

@@ -55,18 +55,22 @@ void ClientOpenUDP::readMessageGlobal()
     size_t size = socket_.receive_from(boost::asio::buffer(buffer), senderEndpoint);
 
     std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(std::string(buffer.data(), size)));
-    if (ent == nullptr)
+    if (!ent)
         return;
 
+    //adding entities
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
-        if (entity->getId() == ent->getId()) {
+        if (entity->getId() == ent->getId() && ent->getIsDeath() == false) {
             entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
             entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
             entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()));
             return;
         }
+         if (entity->getId() == ent->getId() && ent->getIsDeath() == true) {
+            entity->setIsDeath(true);
+            return;
+        }
     }
-
     if (ent->getId() != std::stoi(my_id_)) {
         entities_->createEntity();
         std::shared_ptr<Sprite> spriteComp = ent->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
@@ -75,7 +79,6 @@ void ClientOpenUDP::readMessageGlobal()
         }
         entities_->addEntity(*ent.get());
     }
-
     return;
 }
 

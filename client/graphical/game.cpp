@@ -157,15 +157,18 @@ void Game::Draw()
         _window->draw(_background2);
 
         for (std::shared_ptr<Entity>& entity : entities_->getEntities()) {
-            std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
-            if (spriteComp) {
-                std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
-                sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
-                spriteComp.get()->setPositionSprite(pos);
-                _window->draw(spriteComp->getSprite());
-            }
-            if (entity->getType() == 2) {
-                entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->AnimateLoop(0.1, 0, 132.8, spriteComp->getSpriteWidth());
+            if (entity->getIsDeath() == false) {
+                std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+                if (spriteComp) {
+                    std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
+                    sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
+                    spriteComp.get()->setPositionSprite(pos);
+
+                    _window->draw(spriteComp->getSprite());
+                }
+                if (entity->getType() == 2) {
+                    entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->AnimateLoop(0.1, 0, 132.8, spriteComp->getSpriteWidth());
+                }
             }
         }
 
@@ -173,7 +176,18 @@ void Game::Draw()
             my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->AnimationInput(0.1, 0, 132.8, my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->getSpriteWidth(), animStart);
         }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
-
-
         _window->display();
+
+        _1Mutex.lock();
+        if (!entities_->getEntities().empty()) {
+            for (std::shared_ptr<Entity>&entity : entities_->getEntities()) {
+                if (entity && entity->getIsDeath() == true) {
+                    std::cout << "DELETE " << entity->getId() << std::endl;
+                    std::cout << "---------------------------------" << std::endl;
+                    entities_->deleteEntity(entity->getId());
+                    break;
+                }
+            }
+        }
+        _1Mutex.unlock();
 }

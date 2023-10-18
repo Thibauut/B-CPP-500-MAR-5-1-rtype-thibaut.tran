@@ -43,7 +43,7 @@ void TimerThread(Menu* menu) {
 
 int main(int ac, char **av)
 {
-    Menu *menu = new Menu("10.79.217.124", "12345");
+    Menu *menu = new Menu("10.79.216.219", "12345");
     std::thread timer(TimerThread, menu);
     menu->Loop();
     timer.detach();

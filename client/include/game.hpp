@@ -41,9 +41,7 @@ class Game {
         void Draw();
 
 
-    // std::vector<std::shared_ptr<PlayerUDP>> _players;
     std::shared_ptr<Entity> my_player;
-    // std::vector<std::shared_ptr<Entity>> playersEntity_;
     std::shared_ptr<EntityManager> entities_;
 
     SfmlFunc sfmlFunc;
@@ -67,13 +65,14 @@ class Game {
     bool _moveRight = false;
     bool _shooting = false;
 
-
     std::string my_id_;
     std::string portUDP_;
 
 
     //ANIMATION
     bool animStart = false;
+
+    std::mutex _1Mutex;
 
     //TIMER MOVEMENT & SHOOT
 
