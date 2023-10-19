@@ -59,15 +59,18 @@ void ClientOpenUDP::readMessageGlobal()
         return;
 
     //adding entities
+    entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
         if (entity->getId() == ent->getId() && ent->getIsDeath() == false) {
             entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
             entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
             entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()));
+            entities_->unlock();
             return;
         }
          if (entity->getId() == ent->getId() && ent->getIsDeath() == true) {
             entity->setIsDeath(true);
+            entities_->unlock();
             return;
         }
     }
@@ -79,7 +82,7 @@ void ClientOpenUDP::readMessageGlobal()
         }
         entities_->addEntity(*ent.get());
     }
-    return;
+    entities_->unlock();
 }
 
 void ClientOpenUDP::setMessage(const std::string& message)
