@@ -15,6 +15,7 @@ namespace GameEngine {
             friend class boost::serialization::access;
             friend class AComponent;
             Direction() : AComponent() {}
+            Direction(CONFIG::CompType type, int id) : AComponent(CONFIG::CompType::DIRECTION), _idComponent(id), _type(type), _direction(1) {}
             Direction(CONFIG::CompType type, int id, int value) : AComponent(CONFIG::CompType::DIRECTION), _idComponent(id), _type(type), _direction(value) {}
             ~Direction() = default;
 

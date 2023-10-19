@@ -56,6 +56,7 @@ void RoomLobby::gameEntryPoint()
     Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+    Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1);
 
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
@@ -70,24 +71,22 @@ void RoomLobby::gameEntryPoint()
         sf::IntRect spriteRect(0, id * 17, std::round(33.2), std::round(17.2));
         HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
         sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
-        id_comp++;
-        sprite.setId(id_comp);
-        id_comp++;
-        position.setId(id_comp);
-        id_comp++;
-        weapon.setId(id_comp);
-        id_comp++;
-        hitbox.setId(id_comp);
+        sprite.setId(id_comp+=1);
+        position.setId(id_comp+=1);
+        weapon.setId(id_comp+=1);
+        hitbox.setId(id_comp += 1);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
         std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
+        std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
         player_entity.addComponent(spriteShared);
         player_entity.addComponent(weaponShared);
         player_entity.addComponent(hitboxShared);
+        player_entity.addComponent(directionShared);
         entityManager->addEntity(player_entity);
         id++, id_comp++;
     }

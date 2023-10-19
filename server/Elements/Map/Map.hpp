@@ -14,6 +14,7 @@
 #include "../../../GameEngine/Components/Weapon/Weapon.hpp"
 #include "../../../GameEngine/Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "../../../GameEngine/Components/Damage/Damage.hpp"
+#include "../../../GameEngine/Components/Direction/Direction.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>

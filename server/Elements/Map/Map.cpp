@@ -37,6 +37,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
     Weapon weapon = Weapon(CONFIG::CompType::WEAPON, id_comp+=1);
     Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp+=1);
     HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
+    Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp+=1);
 
     int width = entity["rectangle"]["width"];
     int height = entity["rectangle"]["height"];
@@ -48,18 +49,21 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         sprite.setSprite(position.getPositionX(), position.getPositionY(), entity["sprite"], sf::Vector2f(3, 3), rect);
         hitbox.setHitboxSize(rect.width, rect.height);
         weapon.setWeaponWithString(entity["weapon"]);
+        direction.setDirection(-1);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
         std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
         std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitbox);
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
         new_entity.addComponent(healthShared);
         new_entity.addComponent(aiShared);
         new_entity.addComponent(positionShared);
         new_entity.addComponent(spriteShared);
         new_entity.addComponent(hitBoxSquareShared);
         new_entity.addComponent(weaponShared);
+        new_entity.addComponent(directionShared);
         manager->addEntity(new_entity);
         id += 1;
     }
