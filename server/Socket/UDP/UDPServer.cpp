@@ -78,61 +78,17 @@ void  UDPServer::sendAllEntitys()
 {
     std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
         for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
-            sendAll(serialize(Entity), remote_endpoints_);
+            if (Entity->getType() != 1)
+                sendAll(serialize(Entity), remote_endpoints_);
         }
 }
 
 void UDPServer::sendThread() {
     std::this_thread::sleep_for(std::chrono::seconds(1));
     while(1) {
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
+        std::this_thread::sleep_for(std::chrono::microseconds(10000));
         sendAllEntitys();
     }
-}
-
-#define player_id1 std::to_string(player.get()->getId())
-#define player_x1 std::to_string(player.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
-#define player_y1 std::to_string(player.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second)
-
-void UDPServer::sendPlayersPosition()
-{
-    std::string resp = "";
-    std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
-        if (!Entities().get()->getEntitiesByType(player_type).empty()) {
-            for (std::shared_ptr<GameEngine::Entity> player : entityManagerPtr_.get()->getEntitiesByType(player_type)) {
-                try {
-                    sendAll(serialize(player), remote_endpoints_);
-                } catch (std::exception &exception) {
-                    std::cout << exception.what() << std::endl;
-                }
-            }
-        }
-        else
-            std::cout << "Players list is empty :(" << std::endl;
-}
-#define bullet_id std::to_string(bullet.get()->getId())
-#define bullet_x std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().first)
-#define bullet_y std::to_string(bullet.get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPosition().second)
-
-void UDPServer::sendBulletPosition()
-{
-    std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
-        if (!Entities().get()->getEntitiesByType(bullet_type).empty()) {
-            for (std::shared_ptr<GameEngine::Entity> bullet : entityManagerPtr_.get()->getEntitiesByType(bullet_type)) {
-                try {
-                    sendAll(serialize(bullet), remote_endpoints_);
-                } catch (const std::exception &exception) {
-                    std::cerr << exception.what() << std::endl;
-                }
-            }
-        }
-}
-
-void UDPServer::setEntity(Entity &entity)
-{
-    // entityManagerPtr_->getEntity(entity.getId())->setEntityContent(entity.getComponents());
-    // std::shared_ptr<Entity> entityPtr = std::make_shared<Entity>(entity);
-    // entityManagerPtr_->getEntity(entity.getId()) = entityPtr;
 }
 
 void UDPServer::setPlayerPosition(Entity &player)
@@ -148,16 +104,11 @@ void UDPServer::setPlayerPosition(Entity &player)
 
 }
 
-void UDPServer::setMobPosition(Entity player)
-{
-    entityManagerPtr_->getEntity(player.getId())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
-        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
-        player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY());
-}
-
 void UDPServer::StartExec(Entity entity, udp::endpoint &client) {
         if (entity.getType() == 1) {
             setPlayerPosition(entity);
+            std::shared_ptr Entity_ptr = std::make_shared<Entity>(entity);
+            sendAll(serialize(Entity_ptr), remote_endpoints_);
         }
         // if (entity.getType() == 2)
         //     setEntityPosition(entity, 2);

@@ -77,11 +77,7 @@ public:
     std::shared_ptr<EntityManager> &Entities(){return entityManagerPtr_;}
     // ------------CMD--------------
     void StartExec(Entity entity, udp::endpoint &client);
-    void sendPlayersPosition();
     void setPlayerPosition(Entity &player);
-    void setEntity(Entity &entity);
-    void setMobPosition(Entity player);
-    void sendBulletPosition();
     // void sendProjectilsPosition();
     // void sendBotsPosition();
     // void sendPowerUpPosition();

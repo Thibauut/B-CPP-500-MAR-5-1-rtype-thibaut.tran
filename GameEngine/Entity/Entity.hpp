@@ -23,7 +23,7 @@ namespace GameEngine {
         public:
             Entity(){}
             Entity(unsigned int id, int type) : _id(id), _entityType(type), _isDeath(false) {
-                _Destroy.timeout_ = 0.01;
+                _Destroy.timeout_ = 0.05;
             }
             Entity(unsigned int id) : _id(id), _entityType(0), _isDeath(false) {}
 
