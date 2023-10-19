@@ -3,18 +3,14 @@
     "size": 4000,
     "enemies": [
         {
-            "type": 0,
+            "type": 1,
             "speed": 1,
             "health": 100,
             "weapon": "Weapon1",
             "positions": [
                 {
-                    "x": 1600,
+                    "x": 500,
                     "y": 300
-                },
-                {
-                    "x": 1600,
-                    "y": 700
                 }
             ],
             "rectangle": {
@@ -23,7 +19,7 @@
                 "width": 33,
                 "height": 36
             },
-            "sprite": "assets/sprites/r-typesheet5.gif"
+            "sprite": "assets/sprites/r-typesheet11.gif"
         }
     ]
 }
