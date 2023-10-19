@@ -10,6 +10,8 @@
 #include "../../Components/Position/Position.hpp"
 #include "../../Components/AI/AI.hpp"
 #include "../../Components/Weapon/Weapon.hpp"
+#include "../../Components/Direction/Direction.hpp"
+
 #include <chrono>
 #include "../../Utils/Timeout.hpp"
 
@@ -89,14 +91,14 @@ namespace GameEngine {
             void mobalgo2(std::shared_ptr<Entity> entity) {
                 auto aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
                 auto posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
-                auto weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                std::shared_ptr<GameEngine::Weapon> weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                weapComponent->setShooting(true, 0);
                 std::list<std::shared_ptr<Entity>> playerList = _entities.get()->getEntitiesByType(1);
                 if (playerList.size() == 1) {
-
                     _clostestPY = playerList.front().get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY();
                     _clostestPX = playerList.front().get()->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX();
-                    std::cout << "Clostest player Position Y --> " << _clostestPY << std::endl;
-                    std::cout << "Clostest player Position X --> " << _clostestPX << std::endl;
+                    // std::cout << "Clostest player Position Y --> " << _clostestPY << std::endl;
+                    // std::cout << "Clostest player Position X --> " << _clostestPX << std::endl;
                 } else {
 
                     for (std::shared_ptr<Entity> &entity : playerList) {
@@ -109,15 +111,15 @@ namespace GameEngine {
                 if (_clostestPY > posComponent->getPositionY() + 150) {
                     // weapComponent->setShooting(false, 0);
                     if (weapComponent->canShoot()) {
-                        weapComponent->setShooting(true, 0);
+                        // weapComponent->setShooting(true, 0);
                     }
                 } else if (_clostestPY < posComponent->getPositionY() - 150) {
                     // weapComponent->setShooting(false, 0);
                     if (weapComponent->canShoot()) {
-                        weapComponent->setShooting(true, 0);
+                        // weapComponent->setShooting(true, 0);
                     }
                 } else if (_clostestPY == posComponent->getPositionY()) {
-                    std::cout << "Shooting !" << std::endl;
+                    // std::cout << "Shooting !" << std::endl;
                 }
                 if (_clostestPY > posComponent->getPositionY()) {
                     if (canMoveYMob2.can_execute()) {
@@ -141,13 +143,15 @@ namespace GameEngine {
                         canMoveXMob2.Start();
                     }
                 }
-                if (_clostestPX < posComponent->getPositionX() + 250 && _clostestPX >= posComponent->getPositionX()) {
-                    if (canMoveXMob2.can_execute() && posComponent->getPositionX() > 100) {
+                if (_clostestPX < posComponent->getPositionX() + 450 && _clostestPX >= posComponent->getPositionX()) {
+                    if (canMoveXMob2.can_execute() && posComponent->getPositionX() > 450) {
                         posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
+                        entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(1);
                         canMoveXMob2.Start();
                     }
-                } else if (_clostestPX > posComponent->getPositionX() - 250 && _clostestPX <= posComponent->getPositionX()) {
+                } else if (_clostestPX > posComponent->getPositionX() - 450 && _clostestPX <= posComponent->getPositionX()) {
                     if (canMoveXMob2.can_execute() && posComponent->getPositionX() < 1820) {
+                        entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(-1);
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
                         canMoveXMob2.Start();
                     }
@@ -163,8 +167,8 @@ namespace GameEngine {
                 //         canMoveYMob2.Start();
                 //     }
                 // }
-                std::cout << "Mob X --> " << posComponent->getPositionX() << std::endl;
-                std::cout << "Mob Y --> " << posComponent->getPositionY() << std::endl;
+                // std::cout << "Mob X --> " << posComponent->getPositionX() << std::endl;
+                // std::cout << "Mob Y --> " << posComponent->getPositionY() << std::endl;
             };
             void mobAlgoBoss(std::shared_ptr<Entity> entity) {
                 auto aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
@@ -174,12 +178,12 @@ namespace GameEngine {
                 std::list<std::shared_ptr<Entity>> playerList = _entities.get()->getEntitiesByType(1);
                 for (std::shared_ptr<Entity> &entity : playerList) {
                     if (entity->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() <= posComponent->getPositionY() + 150 && entity->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() >= posComponent->getPositionY() - 150) {
-                        std::cout << "In front shooting ! " << std::endl;
+                        // std::cout << "In front shooting ! " << std::endl;
                         if (weapBossComponent->canShoot()) {
                             weapBossComponent->setShooting(true, 0);
                         }
                     } else {
-                        std::cout << "NOT In front shooting ! " << std::endl;
+                        // std::cout << "NOT In front shooting ! " << std::endl;
                         if (weapComponent->canShoot()) {
                             weapComponent->setShooting(true, 0);
                         }

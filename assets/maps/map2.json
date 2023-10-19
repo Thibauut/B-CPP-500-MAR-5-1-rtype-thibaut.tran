@@ -6,7 +6,7 @@
             "type": 1,
             "speed": 1,
             "health": 100,
-            "weapon": "Weapon1",
+            "weapon": "Weapon3",
             "positions": [
                 {
                     "x": 500,

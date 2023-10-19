@@ -28,6 +28,8 @@ namespace GameEngine {
 
         }
 
+        void setTimeout(double new_time) {timeout_ = new_time;}
+
         bool isStarted(){return wasStarted_;}
 
         double getElapsedSeconds() const

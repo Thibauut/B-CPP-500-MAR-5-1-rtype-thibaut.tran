@@ -18,9 +18,7 @@
                 friend class AComponent;
                 Weapon() : AComponent() {};
                 Weapon(CONFIG::CompType type, int id)
-                : AComponent(),  _type(type), _idComponent(id), _weaponType(CONFIG::Weapon1){
-                    _coolDown = 1.5;
-                }
+                : AComponent(),  _type(type), _idComponent(id), _weaponType(CONFIG::Weapon1){}
                 Weapon(CONFIG::CompType type, int id, CONFIG::WeaponType weaponType)
                 : AComponent(),  _type(type), _idComponent(id), _weaponType(weaponType)
                 {
@@ -73,14 +71,17 @@
                 void setWeaponWithString(std::string weaponType) {
                     if (weaponType == "Weapon1") {
                         _weaponType = CONFIG::WeaponType::Weapon1;
+                        _coolDown = 1.5;
                         return;
                     }
                     if (weaponType == "Weapon2") {
                         _weaponType = CONFIG::WeaponType::Weapon2;
+                        _coolDown = 2.5;
                         return;
                     }
                     if (weaponType == "Weapon3") {
                         _weaponType = CONFIG::WeaponType::Weapon3;
+                        _coolDown = 0.2;
                         return;
                     }
                 }
