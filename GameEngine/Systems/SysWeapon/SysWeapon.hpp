@@ -15,6 +15,7 @@
 #include "../../Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "../../Components/Damage/Damage.hpp"
 #include "../../Components/Direction/Direction.hpp"
+#include "../../Components/Team/Team.hpp"
 #include "../../Entity/EntityManager/EntityManager.hpp"
 #include "../../Utils/Timeout.hpp"
 #include <chrono>
@@ -61,7 +62,7 @@ namespace GameEngine {
                         entityPtr->setIsDeath(true);
                 }
             }
-            Entity createNewBullet(int posX, int posY, double couldown_value, int damage_value, int direction_value, std::string img_path, sf::IntRect spriteRect)
+            Entity createNewBullet(int posX, int posY, double couldown_value, int damage_value, int direction_value, std::string img_path, sf::IntRect spriteRect, int team_value)
             {
                 Entity newBullet(4);
                 newBullet.init();
@@ -72,6 +73,7 @@ namespace GameEngine {
                 HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp += 1, spriteRect);
                 Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp += 1);
                 Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp += 1);
+                Team team = Team(CONFIG::CompType::TEAM, id_comp += 1, team_value);
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect);
                 damage.setDamage(damage_value);
                 direction.setDirection(direction_value);
@@ -82,12 +84,14 @@ namespace GameEngine {
                 std::shared_ptr<TimeComp> coulDownShared = std::make_shared<TimeComp>(couldown);
                 std::shared_ptr<HitBoxSquare> hitBoxShared = std::make_shared<HitBoxSquare>(hitbox);
                 std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
+                std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
                 newBullet.addComponent(positionShared);
                 newBullet.addComponent(hitBoxShared);
                 newBullet.addComponent(spriteShared);
                 newBullet.addComponent(coulDownShared);
                 newBullet.addComponent(damageShared);
                 newBullet.addComponent(directionShared);
+                newBullet.addComponent(teamShared);
                 return newBullet;
             }
 
@@ -95,28 +99,31 @@ namespace GameEngine {
                     int dir = entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->getDirection();
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (((33.2 * 3) * dir));
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
+                    int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0004, 20 , dir, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0004, 20 , dir, "assets/sprites/simpleBullet.png", spriteRect, team));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {
                     int dir = entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->getDirection();
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir);
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
+                    int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0007, 15, dir, "assets/sprites/simpleBullet.png", spriteRect));
-                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, 15, dir, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0007, 15, dir, "assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, 15, dir, "assets/sprites/simpleBullet.png", spriteRect, team));
             }
 
             void Weapon3(std::shared_ptr<Entity> entity) {
                     int dir = entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->getDirection();
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir);
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
+                    int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
                     sf::IntRect spriteRect(0, 0, 7, 6);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0005, 8, dir, "assets/sprites/smallBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0005, 8, dir, "assets/sprites/smallBullet.png", spriteRect, team));
             }
 
 

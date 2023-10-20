@@ -16,6 +16,7 @@
 #include "../../../GameEngine/Components/Damage/Damage.hpp"
 #include "../../../GameEngine/Components/Direction/Direction.hpp"
 #include "../../../GameEngine/Components/TimeComp/TimeComp.hpp"
+#include "../../../GameEngine/Components/Team/Team.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>

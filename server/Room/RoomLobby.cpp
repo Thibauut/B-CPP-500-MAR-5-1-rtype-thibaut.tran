@@ -57,6 +57,7 @@ void RoomLobby::gameEntryPoint()
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
     Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1);
+    Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, 1);
 
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
@@ -82,12 +83,14 @@ void RoomLobby::gameEntryPoint()
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
         std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
         std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
+        std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
         player_entity.addComponent(spriteShared);
         player_entity.addComponent(weaponShared);
         player_entity.addComponent(hitboxShared);
         player_entity.addComponent(directionShared);
+        player_entity.addComponent(teamShared);
         entityManager->addEntity(player_entity);
         id++, id_comp++;
     }

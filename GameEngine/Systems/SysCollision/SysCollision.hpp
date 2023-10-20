@@ -11,6 +11,7 @@
 #include "../../Components/HitBoxCircle/HitBoxCircle.hpp"
 #include "../../Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "../../Components/Damage/Damage.hpp"
+#include "../../Components/Team/Team.hpp"
 #include "../../Components/Health/Health.hpp"
 #include "../../Utils/Utils.hpp"
 #include <list>
@@ -45,7 +46,7 @@ namespace GameEngine {
             void  HandleDamage(std::shared_ptr<Entity> &entity1, std::shared_ptr<Entity> &entity2) {
                 if (entity2.get()->getType() == 4) {
                     std::shared_ptr<Damage> damage = entity2->getComponentByType<Damage>(CONFIG::CompType::DAMAGE);
-                    if (entity1->getType() == 2) {
+                    if (entity1->getType() == 2 && entity1->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam() != entity2->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam()) {
                         std::shared_ptr<Health> health = entity1->getComponentByType<Health>(CONFIG::CompType::HEALTH);
                         if (entity2->getIsDeath() != true)
                             health->setHealth(health->getHealth() - damage->getDamage());
@@ -56,19 +57,19 @@ namespace GameEngine {
                         entity2->setIsDeath(true);
                     }
                 }
-                if (entity1.get()->getType() == 4) {
-                    std::shared_ptr<Damage> damage = entity1->getComponentByType<Damage>(CONFIG::CompType::DAMAGE);
-                    if (entity2->getType() == 2) {
-                        std::shared_ptr<Health> health = entity2->getComponentByType<Health>(CONFIG::CompType::HEALTH);
-                        if (entity1->getIsDeath() != true)
-                            health->setHealth(health->getHealth() - damage->getDamage());
-                        if (health->getHealth() <= 0) {
-                            entity2->setIsDeath(true);
-                            return;
-                        }
-                        entity1->setIsDeath(true);
-                    }
-                }
+                // if (entity1.get()->getType() == 4) {
+                //     std::shared_ptr<Damage> damage = entity1->getComponentByType<Damage>(CONFIG::CompType::DAMAGE);
+                //     if (entity2->getType() == 2 && entity1->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam() != entity1->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam()) {
+                //         std::shared_ptr<Health> health = entity2->getComponentByType<Health>(CONFIG::CompType::HEALTH);
+                //         if (entity1->getIsDeath() != true)
+                //             health->setHealth(health->getHealth() - damage->getDamage());
+                //         if (health->getHealth() <= 0) {
+                //             entity2->setIsDeath(true);
+                //             return;
+                //         }
+                //         entity1->setIsDeath(true);
+                //     }
+                // }
             }
         private:
             std::shared_ptr<EntityManager> _entityManager;
