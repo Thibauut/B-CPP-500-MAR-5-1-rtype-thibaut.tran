@@ -93,8 +93,8 @@ namespace GameEngine {
                 auto posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
                 auto weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
                 auto couldown = entity->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
-                couldown->create_new_coulDown(0.001, "canMoveX");
-                couldown->create_new_coulDown(0.001, "canMoveY");
+                couldown->create_new_coulDown(0.01, "canMoveX");
+                couldown->create_new_coulDown(0.01, "canMoveY");
                 weapComponent->setShooting(true, 0);
                 std::list<std::shared_ptr<Entity>> playerList = _entities.get()->getEntitiesByType(1);
                 if (playerList.size() == 1) {
@@ -153,7 +153,7 @@ namespace GameEngine {
                         couldown->reset_couldown("canMoveX");
                     }
                 } else if (_clostestPX > posComponent->getPositionX() - 450 && _clostestPX <= posComponent->getPositionX()) {
-                    if (couldown->couldown_is_finish("canMoveX") && posComponent->getPositionX() < 1820) {
+                    if (couldown->couldown_is_finish("canMoveX") && posComponent->getPositionX() < 1470) {
                         entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(-1);
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
                         couldown->reset_couldown("canMoveX");
