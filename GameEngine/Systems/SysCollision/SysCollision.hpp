@@ -38,7 +38,6 @@ namespace GameEngine {
                         other_hitbox->setHitboxPosition(other_position->getPositionX(), other_position->getPositionY());
                         if (comp_hitbox->getRectangle().intersects(other_hitbox->getRectangle()) == true) {
                             HandleDamage(entity, otherEntity);
-                            return;
                         }
                     }
                 }

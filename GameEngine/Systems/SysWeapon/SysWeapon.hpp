@@ -10,7 +10,7 @@
 #include "../../Components/Position/Position.hpp"
 #include "../../Components/Weapon/Weapon.hpp"
 #include "../../Components/Sprite/Sprite.hpp"
-#include "../../Components/TimeComp/TimeComp.hpp"
+#include "../../Components/Cooldown/Cooldown.hpp"
 #include "../../Components/HitBoxCircle/HitBoxCircle.hpp"
 #include "../../Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "../../Components/Damage/Damage.hpp"
@@ -68,18 +68,18 @@ namespace GameEngine {
                 int id_comp = 1;
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);
                 Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp += 1);
-                TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, id_comp += 1);
+                Cooldown couldown = Cooldown(CONFIG::CompType::TIMECOMP, id_comp += 1);
                 HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp += 1, spriteRect);
                 Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp += 1);
                 Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp += 1);
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect);
                 damage.setDamage(damage_value);
                 direction.setDirection(direction_value);
-                couldown.create_new_coulDown(couldown_value, "bullet");
+                couldown.create(couldown_value, "bullet");
                 std::shared_ptr<Damage> damageShared = std::make_shared<Damage>(damage);
                 std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
                 std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
-                std::shared_ptr<TimeComp> coulDownShared = std::make_shared<TimeComp>(couldown);
+                std::shared_ptr<Cooldown> coulDownShared = std::make_shared<Cooldown>(couldown);
                 std::shared_ptr<HitBoxSquare> hitBoxShared = std::make_shared<HitBoxSquare>(hitbox);
                 std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
                 newBullet.addComponent(positionShared);
