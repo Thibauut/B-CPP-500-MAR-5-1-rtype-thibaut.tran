@@ -20,6 +20,63 @@
                 "height": 36
             },
             "sprite": "assets/sprites/r-typesheet11.gif"
+        },
+        {
+            "type": 1,
+            "speed": 1,
+            "health": 100,
+            "weapon": "Weapon3",
+            "positions": [
+                {
+                    "x": 1500,
+                    "y": 100
+                }
+            ],
+            "rectangle": {
+                "left": 0,
+                "top": 0,
+                "width": 33,
+                "height": 36
+            },
+            "sprite": "assets/sprites/r-typesheet11.gif"
+        },
+        {
+            "type": 0,
+            "speed": 1,
+            "health": 100,
+            "weapon": "Weapon1",
+            "positions": [
+                {
+                    "x": 1500,
+                    "y": 100
+                }
+            ],
+            "rectangle": {
+                "left": 0,
+                "top": 0,
+                "width": 33,
+                "height": 36
+            },
+            "sprite": "assets/sprites/r-typesheet5.gif"
+        },
+        {
+            "type": 0,
+            "speed": 1,
+            "health": 100,
+            "weapon": "Weapon1",
+            "positions": [
+                {
+                    "x": 500,
+                    "y": 880
+                }
+            ],
+            "rectangle": {
+                "left": 0,
+                "top": 0,
+                "width": 33,
+                "height": 36
+            },
+            "sprite": "assets/sprites/r-typesheet5.gif"
         }
     ]
 }

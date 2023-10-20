@@ -97,7 +97,7 @@ namespace GameEngine {
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.001, 20 , dir, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0004, 20 , dir, "assets/sprites/simpleBullet.png", spriteRect));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {
@@ -106,8 +106,8 @@ namespace GameEngine {
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0017, 15, dir, "assets/sprites/simpleBullet.png", spriteRect));
-                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0017, 15, dir, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0007, 15, dir, "assets/sprites/simpleBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, 15, dir, "assets/sprites/simpleBullet.png", spriteRect));
             }
 
             void Weapon3(std::shared_ptr<Entity> entity) {
@@ -116,7 +116,7 @@ namespace GameEngine {
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     sf::IntRect spriteRect(0, 0, 7, 6);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0005, 4, dir, "assets/sprites/smallBullet.png", spriteRect));
+                    _manager->addEntity(createNewBullet(x, y, 0.0005, 8, dir, "assets/sprites/smallBullet.png", spriteRect));
             }
 
 
