@@ -7,11 +7,11 @@
 
 #pragma once
 #include "../AComponent/AComponent.hpp"
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/base_object.hpp>
 #include <boost/serialization/unique_ptr.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <chrono>
 #include "../../Utils/Timeout.hpp"
@@ -24,9 +24,11 @@ namespace GameEngine {
             friend class AComponent;
             AI() : AComponent(), _moveCooldown(100) {
                 _moveCooldown.Start();
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             };
             AI(CONFIG::CompType type, CONFIG::AiType aiType, int id, float couldown) : _moveCooldown(couldown), _idComponent(id), _type(type), _aiType(aiType), _couldown(couldown), _activate(false) {
                 _moveCooldown.Start();
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
             ~AI() = default;
 
@@ -44,6 +46,7 @@ namespace GameEngine {
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<AI>();
                 ar & boost::serialization::base_object<AComponent>(*this);
+                // ar & _uuid;
                 ar & _idComponent;
                 ar & _type;
             }
@@ -64,6 +67,7 @@ namespace GameEngine {
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) {_idComponent = id;};
+            virtual std::string getUuid() {return _uuid;};
             CONFIG::AiType getAiType() {return _aiType;};
             void setAiType(const CONFIG::AiType aiType) {_aiType = aiType;};
             float getCouldown() {return _couldown;};
@@ -73,6 +77,7 @@ namespace GameEngine {
             CONFIG::CompType _type;
             CONFIG::AiType _aiType;
             float _couldown;
+            std::string _uuid;
 
         private:
             Timeout _moveCooldown;

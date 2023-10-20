@@ -182,9 +182,7 @@ void Game::Draw()
         if (!entities_->getEntities().empty()) {
             for (std::shared_ptr<Entity>&entity : entities_->getEntities()) {
                 if (entity && entity->getIsDeath() == true) {
-                    std::cout << "DELETE " << entity->getId() << std::endl;
-                    std::cout << "---------------------------------" << std::endl;
-                    entities_->deleteEntity(entity->getId());
+                    entities_->deleteEntity(entity->getUuid());
                     break;
                 }
             }

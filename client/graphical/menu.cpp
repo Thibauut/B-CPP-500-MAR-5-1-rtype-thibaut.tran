@@ -34,9 +34,9 @@ void Menu::Loop()
             _game = new Game(_window);
 
             _game->entities_ = std::make_shared<EntityManager>();
+            _game->my_id_ = start_id_;
             _game->my_player = std::make_shared<Entity>(std::atoi(_game->my_id_.c_str()), 1);
 
-            _game->my_id_ = start_id_;
             _game->portUDP_ = start_port_;
             std::cout << "my id: " << _game->my_id_ << std::endl;
             std::cout << "my port: " << _game->portUDP_ << std::endl;

@@ -47,7 +47,6 @@ public:
     std::string serialize(std::shared_ptr<Entity> &entity) {
         try {
             Entity entity1 = *entity.get();
-            int id = entity1.getId();
             std::ostringstream oss;
             boost::archive::binary_oarchive archive(oss);
             archive << *entity.get();

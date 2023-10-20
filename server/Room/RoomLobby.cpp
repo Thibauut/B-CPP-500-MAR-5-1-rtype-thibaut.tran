@@ -66,6 +66,7 @@ void RoomLobby::gameEntryPoint()
     for (std::shared_ptr<PlayerLobby> player : _players) {
         entityManager->createEntity();
         Entity player_entity(id, 1);
+        player_entity.init();
         player_entity.setId(id);
         health.setId(id_comp);
         sf::IntRect spriteRect(0, id * 17, std::round(33.2), std::round(17.2));

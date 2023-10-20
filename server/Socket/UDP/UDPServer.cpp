@@ -46,8 +46,11 @@ bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
         cmd.push_back(word);
     if (cmd[0] == "LOGIN") {
             int player_id = std::atoi(cmd[1].c_str());
-            std::string serializedEntity = serialize(entityManagerPtr_.get()->getEntity(player_id));
+            std::string serializedEntity = serialize(entityManagerPtr_->getEntityById(player_id));
+            Entity entity = deserialize(serializedEntity);
+            std::cout << "Player " << player_id << " connected" << std::endl;
             socket_.send_to(boost::asio::buffer(serializedEntity), client);
+            std::cout << "Player " << serializedEntity << " connected" << std::endl;
 
         return true;
     }
@@ -93,11 +96,11 @@ void UDPServer::sendThread() {
 
 void UDPServer::setPlayerPosition(Entity &player)
 {
-    entityManagerPtr_->getEntity(player.getId())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
+    entityManagerPtr_->getEntity(player.getUuid())->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->setPosition(
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY()
     );
-    entityManagerPtr_->getEntity(player.getId())->getComponentByType<Weapon>(CONFIG::CompType::WEAPON).get()->setShooting(
+    entityManagerPtr_->getEntity(player.getUuid())->getComponentByType<Weapon>(CONFIG::CompType::WEAPON).get()->setShooting(
         player.getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getIsShooting(),
         player.getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getTimePressed()
     );

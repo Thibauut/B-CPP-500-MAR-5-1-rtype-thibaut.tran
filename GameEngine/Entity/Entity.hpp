@@ -13,7 +13,13 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/list.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/array.hpp>
 #include "../Utils/Timeout.hpp"
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 
 using namespace GameEngine;
@@ -21,17 +27,26 @@ using namespace GameEngine;
 namespace GameEngine {
     class Entity {
         public:
-            Entity(){}
+            Entity() {}
             Entity(unsigned int id, int type) : _id(id), _entityType(type), _isDeath(false) {
                 _Destroy.timeout_ = 0.05;
             }
-            Entity(unsigned int id) : _id(id), _entityType(0), _isDeath(false) {}
+
+            Entity(int type) : _id(0), _entityType(type), _isDeath(false) {
+                _Destroy.timeout_ = 0.05;
+            }
+
+            void init() {
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+                // std::cout << "UUID: " << _uuid << std::endl;
+            }
 
             ~Entity() {}
 
             template <class Archive>
             void serialize(Archive & ar, const unsigned int version) {
                 ar & _id;
+                ar & _uuid;
                 ar & _entityType;
                 ar & _entityContent;
                 ar & _isDeath;
@@ -51,6 +66,10 @@ namespace GameEngine {
 
             unsigned int getId() const {
                 return _id;
+            }
+
+            std::string getUuid() {
+                return _uuid;
             }
 
             template <typename T>
@@ -92,6 +111,15 @@ namespace GameEngine {
                 return nullptr;
             }
 
+            template <typename T>
+            std::shared_ptr<T> getComponentByUuid(std::string uuid) {
+                for (auto &component : _entityContent) {
+                    if (component.get()->getUuid() == uuid)
+                        return component;
+                }
+                return nullptr;
+            }
+
             std::list<std::shared_ptr<AComponent>> &getComponents() {
                 return _entityContent;
             }
@@ -99,10 +127,12 @@ namespace GameEngine {
             void setEntityContent(std::list<std::shared_ptr<AComponent>> &entity) {
                 _entityContent = entity;
             }
+
             void setIsDeath(bool status){_isDeath = status;}
             void setType(int type) {_entityType = type;}
             int getType() const {return _entityType;}
             int getIsDeath(){return _isDeath;}
+            std::string getUuid() const {return _uuid;}
 
             void setId(unsigned int id) {
                 _id = id;
@@ -114,5 +144,6 @@ namespace GameEngine {
             std::list<std::shared_ptr<AComponent>> _entityContent;
             unsigned int _id;
             int _entityType;
+            std::string _uuid;
     };
 }

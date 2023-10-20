@@ -14,9 +14,16 @@ namespace GameEngine {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            Health() : AComponent() {}
-            Health(CONFIG::CompType type, int id, int value) : AComponent(CONFIG::CompType::HEALTH), _idComponent(id), _type(type), _hp(value)
-            {}
+            Health() : AComponent() {
+                _idComponent = 0;
+                _type = CONFIG::CompType::HEALTH;
+                _hp = 1;
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+            }
+            Health(CONFIG::CompType type, int id, int value) : AComponent(CONFIG::CompType::HEALTH), _idComponent(id), _type(type), _hp(value) {
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+            }
+
             ~Health() = default;
 
             bool decrementHealth(int damage) {
@@ -37,6 +44,7 @@ namespace GameEngine {
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<Health>();
                 ar & boost::serialization::base_object<AComponent>(*this);
+                // ar & _uuid;
                 ar & _idComponent;
                 ar & _type;
                 ar & _hp;
@@ -45,10 +53,12 @@ namespace GameEngine {
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) {_idComponent = id;};
+            virtual std::string getUuid() {return _uuid;};
 
         protected:
             int _idComponent;
             CONFIG::CompType _type;
+            std::string _uuid;
 
         private:
             int _hp;

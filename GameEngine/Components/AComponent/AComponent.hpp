@@ -9,23 +9,28 @@
 #include <iostream>
 #include <list>
 #include <memory>
-#include <boost/archive/binary_iarchive.hpp>
 #include "../../Interfaces/IComponent/IComponent.hpp"
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/base_object.hpp>
 #include <boost/serialization/unique_ptr.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 namespace GameEngine {
 
     class AComponent : public IComponent{
         public:
-            AComponent() {};
-            AComponent(CONFIG::CompType type) : _type(type) {};
+            AComponent() {
+                _id = 0;
+            };
+            AComponent(CONFIG::CompType type) : _type(type) {
+                _id = 0;
+            };
             AComponent(AComponent &component) {
                 _type = component.getType();
                 _id = component.getId();
+                _uuid = component.getUuid();
             };
             virtual ~AComponent() = default;
             template <class Archive>
@@ -33,6 +38,7 @@ namespace GameEngine {
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<AComponent>();
                 ar & _id;
+                // ar & _uuid;
                 ar & _type;
             }
 
@@ -40,9 +46,11 @@ namespace GameEngine {
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _id;};
             virtual void setId(const int id) {_id = id;};
+            virtual std::string getUuid() {return _uuid;};
 
         protected:
             int _id;
             CONFIG::CompType _type;
+            std::string _uuid;
     };
 }

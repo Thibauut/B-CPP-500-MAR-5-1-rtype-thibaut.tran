@@ -16,11 +16,14 @@
             public:
                 friend class boost::serialization::access;
                 friend class AComponent;
-                TimeComp() : AComponent() {};
+                TimeComp() : AComponent() {
+                    _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+                };
                 TimeComp(CONFIG::CompType type, int id, double timeout_value)
                 : AComponent(),  _type(type), _idComponent(id) {
                     _coulDown.timeout_ = timeout_value;
                     _coulDown.Start();
+                    _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
                 }
                 ~TimeComp() = default;
 
@@ -28,6 +31,7 @@
                 void serialize(Archive & ar, const unsigned int version) {
                     ar.template register_type<TimeComp>();
                     ar & boost::serialization::base_object<AComponent>(*this);
+                    // ar & _uuid;
                     ar & _idComponent;
                     ar & _type;
                     // ar &_coulDown;
@@ -53,10 +57,12 @@
                 virtual void setType(const CONFIG::CompType type) {_type = type;};
                 virtual int getId() {return _idComponent;};
                 virtual void setId(const int id) {_idComponent = id;};
+                virtual std::string getUuid() {return _uuid;};
 
             protected:
                 int _idComponent;
                 CONFIG::CompType _type;
+                std::string _uuid;
 
             private:
                 Timeout _coulDown;
