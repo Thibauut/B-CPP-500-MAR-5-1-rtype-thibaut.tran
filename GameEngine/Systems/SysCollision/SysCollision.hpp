@@ -59,7 +59,7 @@ namespace GameEngine {
                 }
                 if (entity1.get()->getType() == 4) {
                     std::shared_ptr<Damage> damage = entity1->getComponentByType<Damage>(CONFIG::CompType::DAMAGE);
-                    if (entity2->getType() == 1 || entity2->getType() == 2) {
+                    if (entity2->getType() == 2) {
                         std::shared_ptr<Health> health = entity2->getComponentByType<Health>(CONFIG::CompType::HEALTH);
                         if (entity1->getIsDeath() != true)
                             health->setHealth(health->getHealth() - damage->getDamage());

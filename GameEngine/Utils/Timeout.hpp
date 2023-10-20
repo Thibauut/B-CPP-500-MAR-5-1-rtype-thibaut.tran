@@ -41,6 +41,7 @@ namespace GameEngine {
 
         // ~Timeout();
         double timeout_;
+        std::string _name;
         std::chrono::steady_clock::time_point startTime_;
         double elapsed_seconds_;
         bool wasStarted_;

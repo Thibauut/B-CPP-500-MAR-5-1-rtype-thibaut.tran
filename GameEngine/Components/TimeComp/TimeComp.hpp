@@ -17,11 +17,8 @@
                 friend class boost::serialization::access;
                 friend class AComponent;
                 TimeComp() : AComponent() {};
-                TimeComp(CONFIG::CompType type, int id, double timeout_value)
-                : AComponent(),  _type(type), _idComponent(id) {
-                    _coulDown.timeout_ = timeout_value;
-                    _coulDown.Start();
-                }
+                TimeComp(CONFIG::CompType type, int id)
+                : AComponent(),  _type(type), _idComponent(id) {}
                 ~TimeComp() = default;
 
                 template<class Archive>
@@ -30,24 +27,37 @@
                     ar & boost::serialization::base_object<AComponent>(*this);
                     ar & _idComponent;
                     ar & _type;
-                    // ar &_coulDown;
                 }
 
-                bool couldown_is_finish()
+                void create_new_coulDown(double new_value, std::string name)
                 {
-                    if (_coulDown.can_execute())
-                        return true;
+                      for (auto &_coulDown : _timeout) {
+                        if (_coulDown._name == name)
+                            return;
+                    }
+                    Timeout new_couldown = Timeout(new_value);
+                    new_couldown._name = name;
+                    _timeout.push_back(new_couldown);
+                }
+
+                bool couldown_is_finish(std::string name)
+                {
+                    for (auto &_coulDown : _timeout) {
+                        if (_coulDown._name == name) {
+                            if (_coulDown.can_execute())
+                                return true;
+                        }
+                    }
                     return false;
                 }
 
-                void reset_couldown() {
-                    _coulDown.Start();
+                void reset_couldown(std::string name) {
+                    for (auto &_coulDown : _timeout) {
+                        if (_coulDown._name == name)
+                            _coulDown.Start();
+                    }
                 }
 
-                void set_new_coulDown(double new_value)
-                {
-                    _coulDown.timeout_ = new_value;
-                }
 
                 virtual CONFIG::CompType getType() {return _type;};
                 virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -59,7 +69,7 @@
                 CONFIG::CompType _type;
 
             private:
-                Timeout _coulDown;
+                std::vector<Timeout> _timeout;
         };
     }
 

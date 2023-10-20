@@ -38,6 +38,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
     Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp+=1);
     HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
     Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp+=1);
+    TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, id_comp+=1);
 
     int width = entity["rectangle"]["width"];
     int height = entity["rectangle"]["height"];
@@ -57,6 +58,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitbox);
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
         std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
+        std::shared_ptr<TimeComp> couldownShared = std::make_shared<TimeComp>(couldown);
         new_entity.addComponent(healthShared);
         new_entity.addComponent(aiShared);
         new_entity.addComponent(positionShared);
@@ -64,6 +66,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         new_entity.addComponent(hitBoxSquareShared);
         new_entity.addComponent(weaponShared);
         new_entity.addComponent(directionShared);
+        new_entity.addComponent(couldownShared);
         manager->addEntity(new_entity);
         id += 1;
     }

@@ -29,11 +29,11 @@ namespace GameEngine {
                     std::shared_ptr<Position> positionComponent = entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION);
                     std::shared_ptr<TimeComp> couldownComponent = entityPtr->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
                     int distance = entityPtr->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->getDirection();
-                    if (couldownComponent.get()->couldown_is_finish()) {
+                    if (couldownComponent.get()->couldown_is_finish("bullet")) {
                         if (positionComponent != nullptr) {
                             positionComponent.get()->setPosition(positionComponent.get()->getPositionX() + distance, positionComponent.get()->getPositionY());
                         }
-                        couldownComponent.get()->reset_couldown();
+                        couldownComponent.get()->reset_couldown("bullet");
                     }
                 }
             }

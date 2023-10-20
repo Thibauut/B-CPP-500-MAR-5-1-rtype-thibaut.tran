@@ -11,6 +11,7 @@
 #include "../../Components/AI/AI.hpp"
 #include "../../Components/Weapon/Weapon.hpp"
 #include "../../Components/Direction/Direction.hpp"
+#include "../../Components/TimeComp/TimeComp.hpp"
 
 #include <chrono>
 #include "../../Utils/Timeout.hpp"
@@ -18,12 +19,7 @@
 namespace GameEngine {
     class SysAI : public ISystem {
         public:
-            SysAI(std::shared_ptr<EntityManager> entityList) : _entities(entityList), _sinusoidalY(false), _stateMobOneY(false), _stateMobOneX(false), isRunning(true) {
-                canMoveXMob1 = Timeout(0.01);
-                canMoveYMob1 = Timeout(0.001);
-                canMoveXMob2 = Timeout(0.001);
-                canMoveYMob2 = Timeout(0.001);
-            }
+            SysAI(std::shared_ptr<EntityManager> entityList) : _entities(entityList), _sinusoidalY(false), _stateMobOneY(false), _stateMobOneX(false), isRunning(true) {}
             ~SysAI() {};
             bool isAI() { return true; };
 
@@ -34,6 +30,7 @@ namespace GameEngine {
 
                 for (std::shared_ptr<Entity> &entityPtr : _entities.get()->getEntities()) {
                     std::shared_ptr<AI> aiComponent = entityPtr->getComponentByType<AI>(CONFIG::CompType::AI);
+                    std::shared_ptr<TimeComp> couldowComponent = entityPtr->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
                     if (aiComponent != nullptr) {
                         if (aiComponent->getAiType() == CONFIG::AiType::MOB1) {
                             mobalgo1(entityPtr);
@@ -64,7 +61,10 @@ namespace GameEngine {
             void mobalgo1(std::shared_ptr<Entity> entity) {
                 auto aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
                 auto posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
-                if (canMoveXMob1.can_execute()) {
+                auto couldown = entity->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
+                couldown->create_new_coulDown(0.01, "canMoveX");
+                couldown->create_new_coulDown(0.001, "canMoveY");
+                if (couldown->couldown_is_finish("canMoveX")) {
                     // posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
                     if (posComponent->getPositionX() <= 1100)
                         _stateMobOneX = true;
@@ -74,9 +74,9 @@ namespace GameEngine {
                         posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
                     else
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
-                    canMoveXMob1.Start();
+                    couldown->reset_couldown("canMoveX");
                 }
-                if (canMoveYMob1.can_execute()) {
+                if (couldown->couldown_is_finish("canMoveY")) {
                     if (posComponent->getPositionY() >= 980)
                     _stateMobOneY = true;
                     else if (posComponent->getPositionY() <= 5)
@@ -85,13 +85,16 @@ namespace GameEngine {
                         posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() + 1);
                     else
                         posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() - 1);
-                    canMoveYMob1.Start();
+                    couldown->reset_couldown("canMoveY");
                 }
             };
             void mobalgo2(std::shared_ptr<Entity> entity) {
                 auto aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
                 auto posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
-                std::shared_ptr<GameEngine::Weapon> weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                auto weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                auto couldown = entity->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
+                couldown->create_new_coulDown(0.001, "canMoveX");
+                couldown->create_new_coulDown(0.001, "canMoveY");
                 weapComponent->setShooting(true, 0);
                 std::list<std::shared_ptr<Entity>> playerList = _entities.get()->getEntitiesByType(1);
                 if (playerList.size() == 1) {
@@ -122,38 +125,38 @@ namespace GameEngine {
                     // std::cout << "Shooting !" << std::endl;
                 }
                 if (_clostestPY > posComponent->getPositionY()) {
-                    if (canMoveYMob2.can_execute()) {
+                    if (couldown->couldown_is_finish("canMoveY")) {
                         posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() + 1);
-                        canMoveYMob2.Start();
+                        couldown->reset_couldown("canMoveY");
                     }
                 } else if (_clostestPY < posComponent->getPositionY()) {
-                    if (canMoveYMob2.can_execute()) {
+                    if (couldown->couldown_is_finish("canMoveY")) {
                         posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() - 1);
-                        canMoveYMob2.Start();
+                        couldown->reset_couldown("canMoveY");
                     }
                 }
                 if (_clostestPX > posComponent->getPositionX() + 250) {
-                    if (canMoveXMob2.can_execute()) {
+                    if (couldown->couldown_is_finish("canMoveX")) {
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
-                        canMoveXMob2.Start();
+                        couldown->reset_couldown("canMoveX");
                     }
                 } else if (_clostestPX < posComponent->getPositionX() - 250) {
-                    if (canMoveXMob2.can_execute()) {
+                    if (couldown->couldown_is_finish("canMoveX")) {
                         posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
-                        canMoveXMob2.Start();
+                        couldown->reset_couldown("canMoveX");
                     }
                 }
                 if (_clostestPX < posComponent->getPositionX() + 450 && _clostestPX >= posComponent->getPositionX()) {
-                    if (canMoveXMob2.can_execute() && posComponent->getPositionX() > 450) {
+                    if (couldown->couldown_is_finish("canMoveX") && posComponent->getPositionX() > 450) {
                         posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
                         entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(1);
-                        canMoveXMob2.Start();
+                        couldown->reset_couldown("canMoveX");
                     }
                 } else if (_clostestPX > posComponent->getPositionX() - 450 && _clostestPX <= posComponent->getPositionX()) {
-                    if (canMoveXMob2.can_execute() && posComponent->getPositionX() < 1820) {
+                    if (couldown->couldown_is_finish("canMoveX") && posComponent->getPositionX() < 1820) {
                         entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(-1);
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
-                        canMoveXMob2.Start();
+                        couldown->reset_couldown("canMoveX");
                     }
                 }
                 // if (_clostestPY < posComponent->getPositionY() + 150 && _clostestPY >= posComponent->getPositionY()) {
@@ -190,10 +193,6 @@ namespace GameEngine {
                     }
                 }
             };
-            Timeout canMoveXMob1;
-            Timeout canMoveYMob1;
-            Timeout canMoveXMob2;
-            Timeout canMoveYMob2;
             bool _sinusoidalY;
             int _basicPositionY;
             int _basicPositionX;

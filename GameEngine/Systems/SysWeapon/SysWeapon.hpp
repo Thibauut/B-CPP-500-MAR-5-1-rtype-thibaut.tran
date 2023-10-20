@@ -70,13 +70,14 @@ namespace GameEngine {
                 int id_comp = 1;
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);
                 Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp += 1);
-                TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, id_comp += 1, couldown_value);
+                TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, id_comp += 1);
                 HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp += 1, spriteRect);
                 Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp += 1);
                 Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp += 1);
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect);
                 damage.setDamage(damage_value);
                 direction.setDirection(direction_value);
+                couldown.create_new_coulDown(couldown_value, "bullet");
                 std::shared_ptr<Damage> damageShared = std::make_shared<Damage>(damage);
                 std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
                 std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
