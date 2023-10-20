@@ -63,10 +63,8 @@ namespace GameEngine {
             }
             Entity createNewBullet(int posX, int posY, double couldown_value, int damage_value, int direction_value, std::string img_path, sf::IntRect spriteRect)
             {
-                std::random_device rd;
-                std::mt19937 gen(rd());
-                std::uniform_int_distribution<> dis(3000, 100000);
-                Entity newBullet(dis(gen), 4);
+                Entity newBullet(4);
+                newBullet.init();
                 int id_comp = 1;
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);
                 Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp += 1);

@@ -25,7 +25,7 @@ namespace GameEngine {
             }
             for (std::shared_ptr<Entity> &entity : _manager->getEntities()) {
                 if (entity.get()->canDestroy() && entity->DestroyStarted() == true) {
-                     _manager->deleteEntity(entity->getId());
+                     _manager->deleteEntity(entity->getUuid());
                      break;
                 }
            }

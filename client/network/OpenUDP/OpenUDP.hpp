@@ -15,7 +15,6 @@
     #include <boost/serialization/shared_ptr.hpp>
     #include <boost/archive/binary_oarchive.hpp>
     #include <boost/archive/binary_iarchive.hpp>
-    #include <boost/serialization/export.hpp>
     #include "../ThreadHandler/ThreadHandler.hpp"
     #include "../../../GameEngine/GameEngine.hpp"
 

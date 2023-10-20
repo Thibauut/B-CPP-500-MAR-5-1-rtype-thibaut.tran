@@ -13,8 +13,12 @@ namespace GameEngine {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            Velocity() : AComponent() {};
-            Velocity(CONFIG::CompType type, int id, int speedMult) : _idComponent(id), _type(type), _speedMult(speedMult) {}
+            Velocity() : AComponent() {
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+            };
+            Velocity(CONFIG::CompType type, int id, int speedMult) : _idComponent(id), _type(type), _speedMult(speedMult) {
+                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+            }
             ~Velocity() = default;
 
            void setVelocity(int speedMult) {
@@ -30,6 +34,7 @@ namespace GameEngine {
                 ar.template register_type<Velocity>();
                 ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
+                // ar & _uuid;
                 ar & _type;
                 ar & _speedMult;
             }
@@ -38,10 +43,12 @@ namespace GameEngine {
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) {_idComponent = id;};
+            virtual std::string getUuid() {return _uuid;};
 
         protected:
             int _idComponent;
             CONFIG::CompType _type;
+            std::string _uuid;
 
         private:
             int _speedMult;

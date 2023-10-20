@@ -31,7 +31,16 @@ namespace GameEngine {
                 return _entityPtr;
             }
 
-            std::shared_ptr<Entity>& getEntity(unsigned int id) {
+            std::shared_ptr<Entity>& getEntity(std::string uuid) {
+                for (auto& entityPtr : _listEntity) {
+                    if (entityPtr->getUuid() == uuid) {
+                        return entityPtr;
+                    }
+                }
+                throw std::runtime_error("Entity not found");
+            }
+
+            std::shared_ptr<Entity>& getEntityById(unsigned int id) {
                 for (auto& entityPtr : _listEntity) {
                     if (entityPtr->getId() == id) {
                         return entityPtr;
@@ -62,10 +71,10 @@ namespace GameEngine {
                 return _mutex;
             }
 
-            void deleteEntity(unsigned int id) {
+            void deleteEntity(std::string uuid) {
                 std::lock_guard<std::mutex> lock(_mutex);
                 for (std::shared_ptr<Entity> entityPtr : _listEntity) {
-                    if (entityPtr->getId() == id) {
+                    if (entityPtr->getUuid() == uuid) {
                         _listEntity.remove(entityPtr);
                         return;
                     }
