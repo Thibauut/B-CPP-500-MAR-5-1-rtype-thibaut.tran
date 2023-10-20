@@ -35,7 +35,8 @@ namespace CONFIG {
         HITBOXCIRCLE,
         TIMECOMP,
         DAMAGE,
-        TEAM
+        TEAM,
+        SOUND
     };
 
     enum Dir {
