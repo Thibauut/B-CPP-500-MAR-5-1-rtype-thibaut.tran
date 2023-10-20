@@ -52,6 +52,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         hitbox.setHitboxSize(rect.width, rect.height);
         weapon.setWeaponWithString(entity["weapon"]);
         direction.setDirection(-1);
+        direction.setOrientation(180);
         std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
         std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);

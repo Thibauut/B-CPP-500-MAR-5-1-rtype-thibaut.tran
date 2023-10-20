@@ -56,7 +56,7 @@ void RoomLobby::gameEntryPoint()
     Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
-    Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1);
+    Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 0);
     Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, 1);
 
     Weapon weapon = Weapon(
