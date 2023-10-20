@@ -18,7 +18,7 @@
 #include "Components/HitBoxCircle/HitBoxCircle.hpp"
 #include "Components/Sprite/Sprite.hpp"
 #include "Components/Weapon/Weapon.hpp"
-#include "Components/TimeComp/TimeComp.hpp"
+#include "Components/Cooldown/Cooldown.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"

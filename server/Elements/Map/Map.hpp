@@ -15,8 +15,8 @@
 #include "../../../GameEngine/Components/HitBoxSquare/HitBoxSquare.hpp"
 #include "../../../GameEngine/Components/Damage/Damage.hpp"
 #include "../../../GameEngine/Components/Direction/Direction.hpp"
-#include "../../../GameEngine/Components/TimeComp/TimeComp.hpp"
 #include "../../../GameEngine/Components/Team/Team.hpp"
+#include "../../../GameEngine/Components/Cooldown/Cooldown.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>

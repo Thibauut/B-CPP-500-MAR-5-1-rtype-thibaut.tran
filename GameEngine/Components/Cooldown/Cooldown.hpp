@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** TimeComp
+** Cooldown
 ** File description:
 ** Timeout
 */
@@ -12,31 +12,31 @@
 
     namespace GameEngine {
 
-        class TimeComp : public AComponent {
+        class Cooldown : public AComponent {
             public:
                 friend class boost::serialization::access;
                 friend class AComponent;
-                TimeComp() : AComponent() {
+                Cooldown() : AComponent() {
                     _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
                 };
-                TimeComp(CONFIG::CompType type, int id)
+                Cooldown(CONFIG::CompType type, int id)
                 : AComponent(),  _type(type), _idComponent(id) {
                     // _coulDown.timeout_ = timeout_value;
                     // _coulDown.Start();
                     _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
                 }
-                ~TimeComp() = default;
+                ~Cooldown() = default;
 
                 template<class Archive>
                 void serialize(Archive & ar, const unsigned int version) {
-                    ar.template register_type<TimeComp>();
+                    ar.template register_type<Cooldown>();
                     ar & boost::serialization::base_object<AComponent>(*this);
                     // ar & _uuid;
                     ar & _idComponent;
                     ar & _type;
                 }
 
-                void create_new_coulDown(double new_value, std::string name)
+                void create(double new_value, std::string name)
                 {
                       for (auto &_coulDown : _timeout) {
                         if (_coulDown._name == name)
@@ -47,7 +47,7 @@
                     _timeout.push_back(new_couldown);
                 }
 
-                bool couldown_is_finish(std::string name)
+                bool isFinish(std::string name)
                 {
                     for (auto &_coulDown : _timeout) {
                         if (_coulDown._name == name) {
@@ -58,7 +58,7 @@
                     return false;
                 }
 
-                void reset_couldown(std::string name) {
+                void reset(std::string name) {
                     for (auto &_coulDown : _timeout) {
                         if (_coulDown._name == name)
                             _coulDown.Start();
@@ -82,4 +82,4 @@
         };
     }
 
-    BOOST_CLASS_EXPORT_KEY(GameEngine::TimeComp);
+    BOOST_CLASS_EXPORT_KEY(GameEngine::Cooldown);

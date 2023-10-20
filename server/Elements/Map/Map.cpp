@@ -37,8 +37,9 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
     Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp+=1);
     HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
     Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp+=1);
-    TimeComp couldown = TimeComp(CONFIG::CompType::TIMECOMP, id_comp+=1);
     Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, 2);
+    Cooldown couldown = Cooldown(CONFIG::CompType::TIMECOMP, id_comp+=1);
+
     int width = entity["rectangle"]["width"];
     int height = entity["rectangle"]["height"];
     sf::IntRect rect(entity["rectangle"]["left"], entity["rectangle"]["top"], width, height * 3);
@@ -58,8 +59,8 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitbox);
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
         std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
-        std::shared_ptr<TimeComp> couldownShared = std::make_shared<TimeComp>(couldown);
         std::shared_ptr<Team> teamShared = std::make_shared<Team>(team);
+        std::shared_ptr<Cooldown> couldownShared = std::make_shared<Cooldown>(couldown);
         new_entity.addComponent(healthShared);
         new_entity.addComponent(aiShared);
         new_entity.addComponent(positionShared);

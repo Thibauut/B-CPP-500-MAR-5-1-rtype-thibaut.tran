@@ -7,7 +7,7 @@
 #include "Sprite/Sprite.hpp"
 #include "Velocity/Velocity.hpp"
 #include "Weapon/Weapon.hpp"
-#include "TimeComp/TimeComp.hpp"
+#include "Cooldown/Cooldown.hpp"
 #include "HitBoxCircle/HitBoxCircle.hpp"
 #include "HitBoxSquare/HitBoxSquare.hpp"
 #include "Damage/Damage.hpp"
@@ -21,7 +21,7 @@ BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Sprite)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Velocity)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Weapon)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::AI)
-BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::TimeComp)
+BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Cooldown)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::HitBoxCircle)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::HitBoxSquare)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Damage)

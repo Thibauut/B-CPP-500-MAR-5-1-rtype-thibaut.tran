@@ -72,6 +72,9 @@ namespace GameEngine {
             void setAiType(const CONFIG::AiType aiType) {_aiType = aiType;};
             float getCouldown() {return _couldown;};
 
+            bool _stateMobOneX = false;
+            bool _stateMobOneY = false;
+
         protected:
             int _idComponent;
             CONFIG::CompType _type;

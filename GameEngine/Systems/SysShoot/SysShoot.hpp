@@ -10,7 +10,7 @@
 #include "../../Components/Position/Position.hpp"
 #include "../../Components/Weapon/Weapon.hpp"
 #include "../../Components/Sprite/Sprite.hpp"
-#include "../../Components/TimeComp/TimeComp.hpp"
+#include "../../Components/Cooldown/Cooldown.hpp"
 #include "../../Components/Direction/Direction.hpp"
 #include "../../Utils/Timeout.hpp"
 #include <chrono>
@@ -27,13 +27,13 @@ namespace GameEngine {
             for (std::shared_ptr<Entity> &entityPtr : _manager->getEntities()) {
                 if (entityPtr->getType() == 4) {
                     std::shared_ptr<Position> positionComponent = entityPtr->getComponentByType<Position>(CONFIG::CompType::POSITION);
-                    std::shared_ptr<TimeComp> couldownComponent = entityPtr->getComponentByType<TimeComp>(CONFIG::CompType::TIMECOMP);
+                    std::shared_ptr<Cooldown> couldownComponent = entityPtr->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
                     int distance = entityPtr->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->getDirection();
-                    if (couldownComponent.get()->couldown_is_finish("bullet")) {
+                    if (couldownComponent.get()->isFinish("bullet")) {
                         if (positionComponent != nullptr) {
                             positionComponent.get()->setPosition(positionComponent.get()->getPositionX() + distance, positionComponent.get()->getPositionY());
                         }
-                        couldownComponent.get()->reset_couldown("bullet");
+                        couldownComponent.get()->reset("bullet");
                     }
                 }
             }
