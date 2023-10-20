@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../../Components/AComponent/AComponent.hpp"
+#include <SFML/Audio.hpp>
 
 namespace GameEngine {
     class Sound : public AComponent {
@@ -27,6 +28,7 @@ namespace GameEngine {
 
             void setSound(std::string soundPath) {
                 _soundPath = soundPath
+                
             }
 
             std::string getSoundPath() {
@@ -56,7 +58,8 @@ namespace GameEngine {
             std::string _uuid;
 
         private:
-            std::string _soundPath
+            std::string _soundPath;
+            sf::Music _sound;
     };
 }
 
