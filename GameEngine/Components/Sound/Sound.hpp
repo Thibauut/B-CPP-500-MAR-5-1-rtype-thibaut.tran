@@ -27,7 +27,7 @@ namespace GameEngine {
             virtual ~Sound() = default;
 
             void setSound(std::string soundPath) {
-                _soundPath = soundPath
+                _soundPath = soundPath;
                 
             }
 
