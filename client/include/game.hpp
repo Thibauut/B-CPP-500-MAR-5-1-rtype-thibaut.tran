@@ -90,4 +90,7 @@ class Game {
     double _elapsedTime = 0.0;
     Timeout _timeComp;
     Timeout _timeMove;
+
+    std::string _soundPath;
+    sf::Music _sound;
 };

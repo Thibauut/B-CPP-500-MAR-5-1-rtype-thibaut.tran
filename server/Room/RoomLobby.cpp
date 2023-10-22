@@ -59,6 +59,8 @@ void RoomLobby::gameEntryPoint()
     Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 0);
     Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, 1);
 
+    Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
+
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
         id_comp,
@@ -85,6 +87,7 @@ void RoomLobby::gameEntryPoint()
         std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
         std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
         std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
+        std::shared_ptr<Sound>soundBulletShared = std::make_shared<Sound>(soundBullet);
         player_entity.addComponent(positionShared);
         player_entity.addComponent(healthShared);
         player_entity.addComponent(spriteShared);
@@ -92,6 +95,7 @@ void RoomLobby::gameEntryPoint()
         player_entity.addComponent(hitboxShared);
         player_entity.addComponent(directionShared);
         player_entity.addComponent(teamShared);
+        player_entity.addComponent(soundBulletShared);
         entityManager->addEntity(player_entity);
         id++, id_comp++;
     }
@@ -113,10 +117,6 @@ void RoomLobby::gameEntryPoint()
     t1.join();
     t.join();
 
-    // while (!shouldStop.load(std::memory_order_relaxed)) {
-    //     std::cout << "Room " << _name << " is running" << std::endl;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-    // }
     std::cout << "Room " << _name << " stopped" << std::endl;
 }
 

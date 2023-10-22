@@ -15,24 +15,23 @@ namespace GameEngine {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            Sound() : AComponent(CONFIG::CompType::SOUND) {
+            Sound() : AComponent() {
                 _idComponent = 0;
                 _type = CONFIG::CompType::SOUND;
                 _soundPath = "";
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
-            Sound(CONFIG::CompType type, int id, std::string soundPath) : AComponent(CONFIG::CompType::SOUND), _idComponent(id), _type(type), _soundPath(soundPath) {
+            Sound(CONFIG::CompType type, int id, std::string soundPath)
+            : AComponent(), _type(type), _idComponent(id), _soundPath(soundPath) {
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
-            virtual ~Sound() = default;
-
-            void setSound(std::string soundPath) {
-                _soundPath = soundPath;
+            Sound(const Sound& other) {
+                _idComponent = other._idComponent;
+                _type = other._type;
+                _soundPath = other._soundPath;
+                _uuid = other._uuid;
             }
-
-            std::string getSoundPath() {
-                return _soundPath;
-            }
+            ~Sound() = default;
 
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
@@ -43,6 +42,26 @@ namespace GameEngine {
                 ar & _type;
                 ar & _soundPath;
             }
+
+            void setSoundPath(std::string soundPath) {
+                _soundPath = soundPath;
+            }
+
+            std::string getSoundPath() {
+                return _soundPath;
+            }
+
+            sf::Music& getSound() {
+                return _sound;
+            }
+
+            void playSound() {
+                _sound.openFromFile(_soundPath);
+                _sound.play();
+                _sound.setVolume(3);
+                _sound.setLoop(false);
+            }
+
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};

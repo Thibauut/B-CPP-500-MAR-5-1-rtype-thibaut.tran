@@ -19,6 +19,7 @@
 #include "Components/Sprite/Sprite.hpp"
 #include "Components/Weapon/Weapon.hpp"
 #include "Components/Cooldown/Cooldown.hpp"
+#include "Components/Sound/Sound.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"

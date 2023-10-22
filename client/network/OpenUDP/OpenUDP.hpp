@@ -36,7 +36,7 @@ class ClientOpenUDP : public ThreadHandler {
         void setMessage(const std::string&);
         void init(std::shared_ptr<Entity> &);
         void recursRead(std::shared_ptr<Entity> &);
-        void run() {};
+        void run() override {};
         void run(unsigned int my_id);
 
         void sendMessageSync(const std::string&);

@@ -50,12 +50,19 @@ Game::Game(sf::RenderWindow *window): _window(window), gameEngine_(*std::make_sh
     _font.loadFromFile("assets/fonts/WANTONE.otf");
     InitBackground();
     _timeMove = Timeout(0.01);
+
+    _soundPath = "assets/audio/a.ogg";
+    _sound.openFromFile(_soundPath);
+    _sound.setVolume(1);
+    _sound.setLoop(true);
+
 }
 
 void Game::Loop()
 {
     _timeMove.Start();
     gameEngine_._manager->getEntities().push_back(my_player);
+    _sound.play();
     while (_window->isOpen()) {
         HandleEvents();
         AnimateBackground();
@@ -87,6 +94,7 @@ void Game::HandleEvents()
                 }
                 if (_event.key.code == sf::Keyboard::Space) {
                     _shooting = true;
+                    my_player->getComponentByType<Sound>(CONFIG::CompType::SOUND)->playSound();
                     my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
                     _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
                 }
