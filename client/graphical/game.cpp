@@ -45,7 +45,7 @@ void Game::AnimateBackground() {
     }
 }
 
-Game::Game(sf::RenderWindow *window): _window(window)
+Game::Game(sf::RenderWindow *window): _window(window), gameEngine_(*std::make_shared<EntityManager>())
 {
     _font.loadFromFile("assets/fonts/WANTONE.otf");
     InitBackground();
@@ -55,6 +55,7 @@ Game::Game(sf::RenderWindow *window): _window(window)
 void Game::Loop()
 {
     _timeMove.Start();
+    gameEngine_._manager->getEntities().push_back(my_player);
     while (_window->isOpen()) {
         HandleEvents();
         AnimateBackground();
@@ -64,7 +65,6 @@ void Game::Loop()
 
 void Game::HandleEvents()
 {
-
     while (_window->pollEvent(_event)) {
 
         if (_event.type == sf::Event::Closed) {
@@ -72,10 +72,11 @@ void Game::HandleEvents()
         }
         if (_event.type == sf::Event::KeyPressed) {
                 if (_event.key.code == sf::Keyboard::Up) {
-                    animStart = true;
+                    my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setDoAnimationUp(true);
                     _moveUp = true;
                 }
                 if (_event.key.code == sf::Keyboard::Down) {
+                    my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setDoAnimationDown(true);
                     _moveDown = true;
                 }
                 if (_event.key.code == sf::Keyboard::Left) {
@@ -156,36 +157,33 @@ void Game::Draw()
         _window->draw(_background);
         _window->draw(_background2);
 
-        for (std::shared_ptr<Entity>& entity : entities_->getEntities()) {
+        for (std::shared_ptr<Entity>& entity : gameEngine_._manager->getEntities()) {
             if (entity->getIsDeath() == false) {
-                std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
-                if (spriteComp) {
-                    std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
-                    sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
-                    spriteComp.get()->setPositionSprite(pos);
-
-                    _window->draw(spriteComp->getSprite());
-                }
-                if (entity->getType() == 2) {
-                    entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->AnimateLoop(0.1, 0, 132.8, spriteComp->getSpriteWidth());
+                if (entity->getType() == 2 || entity->getType() == 4) {
+                    std::vector<std::shared_ptr<Sprite>> SpriteComps = entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
+                    for (std::shared_ptr<Sprite> spriteComp : SpriteComps) {
+                        if (spriteComp->getSpriteType() == CONFIG::SpriteType::ENEMYSPRITE || spriteComp->getSpriteType() == CONFIG::SpriteType::BULLETSPRITE) {
+                            std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
+                            sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
+                            spriteComp.get()->setPositionSprite(pos);
+                            _window->draw(spriteComp->getSprite());
+                        }
+                    }
                 }
             }
-        }
-
-        if (animStart) {
-            my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->AnimationInput(0.1, 0, 132.8, my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->getSpriteWidth(), animStart);
+            if (entity->getType() == 2) {
+                std::vector<std::shared_ptr<Sprite>> SpriteComps = entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
+                for (std::shared_ptr<Sprite> spriteComp : SpriteComps) {
+                    if (spriteComp->getDoAnimationDead() == true && spriteComp->getSpriteType() == CONFIG::SpriteType::DEATHSPRITE) {
+                        std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
+                        sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
+                        spriteComp.get()->setPositionSprite(pos);
+                        _window->draw(spriteComp->getSprite());
+                    }
+                }
+            }
         }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
-        _window->display();
 
-        _1Mutex.lock();
-        if (!entities_->getEntities().empty()) {
-            for (std::shared_ptr<Entity>&entity : entities_->getEntities()) {
-                if (entity && entity->getIsDeath() == true) {
-                    entities_->deleteEntity(entity->getUuid());
-                    break;
-                }
-            }
-        }
-        _1Mutex.unlock();
+        _window->display();
 }

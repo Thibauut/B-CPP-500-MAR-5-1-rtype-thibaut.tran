@@ -80,6 +80,11 @@ void ClientOpenUDP::readMessageGlobal()
             return;
         }
          if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == true) {
+
+            for (std::shared_ptr<Sprite> &spriteComp : entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE)) {
+                if (spriteComp->getSpriteType() == CONFIG::SpriteType::DEATHSPRITE && entity->getType() == 2)
+                    spriteComp->setDoAnimationDead(true);
+            }
             entity->setIsDeath(true);
             entities_->unlock();
             return;
@@ -87,8 +92,8 @@ void ClientOpenUDP::readMessageGlobal()
     }
     if (ent->getId() != std::stoi(my_id_)) {
         entities_->createEntity();
-        std::shared_ptr<Sprite> spriteComp = ent->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
-        if (spriteComp) {
+        std::vector<std::shared_ptr<Sprite>> spriteComps = ent->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
+        for (std::shared_ptr<Sprite> &spriteComp : spriteComps) {
             spriteComp->initSprite();
         }
         entities_->addEntity(*ent.get());

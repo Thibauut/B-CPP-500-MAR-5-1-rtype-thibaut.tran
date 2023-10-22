@@ -70,9 +70,10 @@ void RoomLobby::gameEntryPoint()
         player_entity.init();
         player_entity.setId(id);
         health.setId(id_comp);
-        sf::IntRect spriteRect(0, id * 17, std::round(33.2), std::round(17.2));
+        sf::IntRect spriteRect(100, id * 17, std::round(33.2), std::round(17.2));
         HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
-        sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect);
+        sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
+        sprite.setMaxDimensions(166, 86);
         sprite.setId(id_comp+=1);
         position.setId(id_comp+=1);
         weapon.setId(id_comp+=1);

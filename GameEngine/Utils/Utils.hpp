@@ -46,5 +46,12 @@ namespace CONFIG {
         LEFT,
         NONE,
     };
+
+    enum SpriteType {
+        PLAYERSPRITE,
+        ENEMYSPRITE,
+        DEATHSPRITE,
+        BULLETSPRITE,
+    };
 }
 

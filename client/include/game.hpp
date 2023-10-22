@@ -18,6 +18,7 @@
 #include "../graphical/utils/sfml_func.cpp"
 #include "global.hpp"
 #include "../../GameEngine/GameEngine.hpp"
+#include "../network/OpenUDP/OpenUDP.hpp"
 
 
 #define DEFAULT_WINDOW_WIDTH 1920
@@ -42,7 +43,8 @@ class Game {
 
 
     std::shared_ptr<Entity> my_player;
-    std::shared_ptr<EntityManager> entities_;
+    GameEngine::Engine gameEngine_;
+
 
     SfmlFunc sfmlFunc;
     sf::RenderWindow *_window;
@@ -70,9 +72,18 @@ class Game {
 
 
     //ANIMATION
-    bool animStart = false;
+    bool animStartUp = false;
+    bool animEndUp = false;
+    bool animStartDown = false;
+    bool animEndDown = false;
 
     std::mutex _1Mutex;
+
+    sf::Sprite _spriteDeath;
+    sf::Texture _textureDeath;
+    sf::IntRect _rectDeath;
+    bool startDeath = false;
+    sf::Clock _clockDeath;
 
     //TIMER MOVEMENT & SHOOT
 

@@ -90,16 +90,28 @@ namespace GameEngine {
                 }
                 return nullptr;
             }
+
             template <typename T>
+            // std::vector<std::shared_ptr<T>> getComponentsByType(CONFIG::CompType type) {
+            //     std::vector<std::shared_ptr<T>> components;
+            //     for (auto &component: _entityContent) {
+            //         if (component->getType() == type) {
+            //             components.push_back(std::dynamic_pointer_cast<T>(component));
+            //         }
+            //     }
+            //     return components;
+            // }
             std::vector<std::shared_ptr<T>> getComponentsByType(CONFIG::CompType type) {
-                std::vector<std::shared_ptr<T>> components;
-                for (std::shared_ptr<T> &component : _entityContent) {
-                    if (component.get()->getType() == type)
-                        components.push_back(component);
+                std::vector<std::shared_ptr<T>> result;
+                for (auto &component : _entityContent) {
+                    if (component->getType() == type) {
+                        auto derivedComponent = std::dynamic_pointer_cast<T>(component);
+                        if (derivedComponent) {
+                            result.push_back(derivedComponent);
+                        }
+                    }
                 }
-                if (!components.empty())
-                    return components;
-                return nullptr;
+                return result;
             }
 
             template <typename T>

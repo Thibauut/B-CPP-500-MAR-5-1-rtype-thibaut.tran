@@ -87,7 +87,7 @@ void  UDPServer::sendAllEntitys()
 }
 
 void UDPServer::sendThread() {
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
     while(1) {
         std::this_thread::sleep_for(std::chrono::microseconds(10000));
         sendAllEntitys();

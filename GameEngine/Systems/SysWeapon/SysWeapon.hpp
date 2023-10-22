@@ -74,7 +74,7 @@ namespace GameEngine {
                 Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp += 1);
                 Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp += 1);
                 Team team = Team(CONFIG::CompType::TEAM, id_comp += 1, team_value);
-                sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect);
+                sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::BULLETSPRITE);
                 damage.setDamage(damage_value);
                 direction.setDirection(direction_value);
                 direction.setOrientation(oriantation);

@@ -33,6 +33,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, (int) entity["health"]);
     AI ai = AI(CONFIG::CompType::AI, (CONFIG::AiType) entity["type"], id_comp, speed);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp+=1);
+    Sprite spriteDead = Sprite(CONFIG::CompType::SPRITE, id_comp+=1);
     Weapon weapon = Weapon(CONFIG::CompType::WEAPON, id_comp+=1);
     Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp+=1);
     HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
@@ -48,7 +49,15 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         Entity new_entity = Entity(2);
         new_entity.init();
         Position position = Position(CONFIG::CompType::POSITION, id_comp, (int) component["x"], (int) component["y"]);
-        sprite.setSprite(position.getPositionX(), position.getPositionY(), entity["sprite"], sf::Vector2f(3, 3), rect);
+        sprite.setSprite(position.getPositionX(), position.getPositionY(), entity["sprite"], sf::Vector2f(3, 3), rect, CONFIG::SpriteType::ENEMYSPRITE);
+        sprite.setMaxDimensions(entity["maxWidth"], entity["maxHeight"]);
+        sprite.setAnimDelay(entity["animDelay"]);
+
+        sf::IntRect rectDead(entity["rectangleDead"]["left"], entity["rectangleDead"]["top"], entity["rectangleDead"]["width"], entity["rectangleDead"]["height"]);
+        spriteDead.setSprite(100, 100, entity["spriteDead"], sf::Vector2f(6, 6), rectDead, CONFIG::SpriteType::DEATHSPRITE);
+        spriteDead.setMaxDimensions(entity["maxWidthDead"], entity["maxHeightDead"]);
+        spriteDead.setAnimDelay(entity["animDelayDead"]);
+
         hitbox.setHitboxSize(rect.width, rect.height);
         weapon.setWeaponWithString(entity["weapon"]);
         direction.setDirection(-1);
@@ -57,6 +66,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         std::shared_ptr<AI> aiShared = std::make_shared<AI>(ai);
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        std::shared_ptr<Sprite> spriteDeadShared = std::make_shared<Sprite>(spriteDead);
         std::shared_ptr<HitBoxSquare> hitBoxSquareShared = std::make_shared<HitBoxSquare>(hitbox);
         std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
         std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
@@ -66,6 +76,7 @@ void RType::Map::loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json 
         new_entity.addComponent(aiShared);
         new_entity.addComponent(positionShared);
         new_entity.addComponent(spriteShared);
+        new_entity.addComponent(spriteDeadShared);
         new_entity.addComponent(hitBoxSquareShared);
         new_entity.addComponent(weaponShared);
         new_entity.addComponent(directionShared);

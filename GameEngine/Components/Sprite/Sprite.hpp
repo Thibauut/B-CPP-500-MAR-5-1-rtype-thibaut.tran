@@ -15,13 +15,9 @@ namespace GameEngine {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            Sprite() : AComponent() {
-                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
-            };
+            Sprite() : AComponent() {};
             Sprite(CONFIG::CompType type, int id)
-            : AComponent(), _idComponent(id), _type(type) {
-                _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
-            };
+            : AComponent(), _idComponent(id), _type(type) {}
 
             ~Sprite() = default;
 
@@ -30,7 +26,6 @@ namespace GameEngine {
                 ar.template register_type<Sprite>();
                 ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
-                // ar & _uuid;
                 ar & _type;
                 ar & _x;
                 ar & _y;
@@ -41,20 +36,20 @@ namespace GameEngine {
                 ar & _scaleX;
                 ar & _scaleY;
                 ar & _path;
+                ar & maxWidth;
+                ar & maxHeight;
+                ar & animDelay;
+                ar & _typeSprite;
             }
 
-            void setSprite(int width, int height, const std::string &path, sf::Vector2f scale, sf::IntRect &rect) {
+            void setSprite(int width, int height, const std::string &path, sf::Vector2f scale, sf::IntRect &rect, CONFIG::SpriteType type) {
                 _x = width;
                 _y = height;
                 _scaleX = scale.x;
                 _scaleY = scale.y;
                 _path = path;
+                _typeSprite = type;
                 setIntRect(rect);
-                // _spriteTexture.loadFromFile(path);
-                // _sprite.setTexture(_spriteTexture);
-                // _sprite.setTextureRect(rect);
-                // _sprite.setScale(sf::Vector2f(_scaleX, _scaleY));
-                // _sprite.setPosition(sf::Vector2f(_x, _y));
             }
 
             void initSprite() {
@@ -78,6 +73,7 @@ namespace GameEngine {
                 _sprite.setTextureRect(_rect);
             }
 
+
             int getSpriteWidth() {
                 return width;
             }
@@ -94,47 +90,91 @@ namespace GameEngine {
                 return _sprite;
             }
 
-            void AnimateLoop(float animDuration, float start, float end, float frameSize) {
-                sf::Time elapsed = _clock.getElapsedTime();
-                if (elapsed.asSeconds() > animDuration) {
-                    _rect.left += frameSize;
-                    if (_rect.left >= end) {
-                        _rect.left = start;
-                    }
-                    _clock.restart();
-                    _sprite.setTextureRect(_rect);
-                }
+            void setSprite(sf::Sprite sprite) {
+                _sprite = sprite;
             }
 
-            bool AnimationInput(float animDuration, float start, float end, float frameSize, bool &animStart) {
-                sf::Time elapsed = _clock.getElapsedTime();
+            sf::IntRect getRect() {
+                return _rect;
+            }
 
-                if (elapsed.asSeconds() > animDuration) {
-                    _rect.left += frameSize;
-                    if (_rect.left >= end) {
-                        _rect.left = start;
-                        animStart = false;
-                    }
-                    _clock.restart();
-                    _sprite.setTextureRect(_rect);
-                }
-                return true;
+            void setRect(sf::IntRect rect) {
+                _rect = rect;
+            }
+
+            sf::Clock getClock() {
+                return _clock;
+            }
+
+            void setClock(sf::Clock clock) {
+                _clock = clock;
+            }
+
+            void setMaxDimensions(int width, int height) {
+                maxWidth = width;
+                maxHeight = height;
+            }
+
+            int getMaxWidth() {
+                return maxWidth;
+            }
+
+            int getMaxHeight() {
+                return maxHeight;
             }
 
             void setPositionSprite(const sf::Vector2f &pos) {
                 _sprite.setPosition(pos);
             }
 
+            void setDoAnimationUp(bool start) {
+                doAnimationUp = start;
+            }
+
+            bool getDoAnimationUp() {
+                return doAnimationUp;
+            }
+
+            void setDoAnimationDown(bool start) {
+                doAnimationDown = start;
+            }
+
+            bool getDoAnimationDown() {
+                return doAnimationDown;
+            }
+
+            void setAnimDelay(float seconds) {
+                animDelay = seconds;
+            }
+
+            float getAnimDelay() {
+                return animDelay;
+            }
+
+            void setSpriteType(CONFIG::SpriteType type) {
+                _typeSprite = type;
+            }
+
+            CONFIG::SpriteType getSpriteType() {
+                return _typeSprite;
+            }
+
+            void setDoAnimationDead(bool start) {
+                doAnimationDead = start;
+            }
+
+            bool getDoAnimationDead() {
+                return doAnimationDead;
+            }
+
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
             virtual void setId(const int id) { _idComponent = id;};
-            virtual std::string getUuid() {return _uuid;};
 
         protected:
             int _idComponent;
             CONFIG::CompType _type;
-            std::string _uuid;
 
         private:
             int _x;
@@ -145,11 +185,21 @@ namespace GameEngine {
             int height;
             int _scaleX;
             int _scaleY;
+
+            bool doAnimationUp = false;
+            bool doAnimationDown = false;
+            bool doAnimationDead = false;
+
+            int maxWidth;
+            int maxHeight;
             std::string  _path;
+            float animDelay;
             sf::Sprite _sprite;
             sf::Texture _spriteTexture;
             sf::IntRect _rect;
             sf::Clock _clock;
+
+            CONFIG::SpriteType _typeSprite;
     };
 }
 
