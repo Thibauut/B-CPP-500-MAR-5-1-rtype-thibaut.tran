@@ -28,14 +28,12 @@ namespace GameEngine {
 
             void setSound(std::string soundPath) {
                 _soundPath = soundPath;
-                
             }
 
             std::string getSoundPath() {
                 return _soundPath;
             }
 
-    
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
                 ar.template register_type<Sound>();

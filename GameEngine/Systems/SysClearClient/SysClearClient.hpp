@@ -25,6 +25,10 @@ namespace GameEngine {
                     _manager->deleteEntity(entity->getUuid());
                     break;
                 }
+                if (entity->getIsDeath() == true && entity->getType() == 1) {
+                    std::cout << "delete player" << std::endl;
+                    break;
+                }
             }
         };
 

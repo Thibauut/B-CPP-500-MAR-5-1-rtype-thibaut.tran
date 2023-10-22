@@ -62,13 +62,19 @@ namespace GameEngine {
                 std::shared_ptr<AI> aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
                 std::shared_ptr<Position> posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
                 std::shared_ptr<Cooldown> cooldown = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
+                auto weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                weapComponent->setShooting(false, 0);
                 cooldown->create(0.01, "canMoveX");
-                cooldown->create(0.01, "canMoveY");
+                cooldown->create(0.001, "canMoveY");
+                if (!aiComponent->_setSpawn) {
+                    aiComponent->_spawnY = posComponent->getPositionY();
+                    aiComponent->_setSpawn = true;
+                }
                 if (cooldown->isFinish("canMoveX")) {
                     // posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
-                    if (posComponent->getPositionX() <= 1100)
-                        aiComponent->_stateMobOneX = true;
-                    else if (posComponent->getPositionX() >= 1830)
+                    // if (posComponent->getPositionX() <= 1100)
+                        // aiComponent->_stateMobOneX = true;
+                    // else if (posComponent->getPositionX() >= 1830)
                         aiComponent->_stateMobOneX = false;
                     if (!aiComponent->_stateMobOneX)
                         posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
@@ -76,7 +82,7 @@ namespace GameEngine {
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
                     cooldown->reset("canMoveX");
                 }
-                if (cooldown->isFinish("canMoveY")) {
+                if (cooldown->isFinish("canMoveY") ) {
                     // posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() + 1);
                     // if (posComponent->getPositionY() >= 980)
                     //     posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() - 1);
@@ -181,7 +187,36 @@ namespace GameEngine {
                 auto posComponent = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
                 auto weapComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
                 auto weapBossComponent = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON);
+                std::shared_ptr<Cooldown> cooldown = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
                 std::list<std::shared_ptr<Entity>> playerList = _entities.get()->getEntitiesByType(1);
+                cooldown->create(0.03, "canMoveXBoss1");
+                cooldown->create(0.003, "canMoveYBoss1");
+                if (cooldown->isFinish("canMoveXBoss1")) {
+                    // posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
+                    if (posComponent->getPositionX() <= 100)
+                        aiComponent->_stateMobOneX = true;
+                    else if (posComponent->getPositionX() >= 1820)
+                        aiComponent->_stateMobOneX = false;
+                    if (!aiComponent->_stateMobOneX)
+                        posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
+                    else
+                        posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
+                    cooldown->reset("canMoveXBoss1");
+                }
+                if (cooldown->isFinish("canMoveYBoss1")) {
+                    // posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() + 1);
+                    // if (posComponent->getPositionY() >= 980)
+                    //     posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() - 1);
+                    if (posComponent->getPositionY() >= 780)
+                    aiComponent->_stateMobOneY = true;
+                    else if (posComponent->getPositionY() <= 300)
+                        aiComponent->_stateMobOneY = false;
+                    if (!aiComponent->_stateMobOneY)
+                        posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() + 1);
+                    else
+                        posComponent->setPosition(posComponent->getPositionX(), posComponent->getPositionY() - 1);
+                    cooldown->reset("canMoveYBoss1");
+                }
                 for (std::shared_ptr<Entity> &entity : playerList) {
                     if (entity->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() <= posComponent->getPositionY() + 150 && entity->getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY() >= posComponent->getPositionY() - 150) {
                         // std::cout << "In front shooting ! " << std::endl;

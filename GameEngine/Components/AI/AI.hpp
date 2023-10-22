@@ -75,6 +75,10 @@ namespace GameEngine {
             bool _stateMobOneX = false;
             bool _stateMobOneY = false;
 
+            bool _setSpawn = false;
+            int _spawnX = 0;
+            int _spawnY = 0;
+
         protected:
             int _idComponent;
             CONFIG::CompType _type;

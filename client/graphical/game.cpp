@@ -159,7 +159,7 @@ void Game::Draw()
 
         for (std::shared_ptr<Entity>& entity : gameEngine_._manager->getEntities()) {
             if (entity->getIsDeath() == false) {
-                if (entity->getType() == 2 || entity->getType() == 4) {
+                if (entity->getType() == 2 || entity->getType() == 4 || entity->getType() == 1) {
                     std::vector<std::shared_ptr<Sprite>> SpriteComps = entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
                     for (std::shared_ptr<Sprite> spriteComp : SpriteComps) {
                         if (spriteComp->getSpriteType() == CONFIG::SpriteType::ENEMYSPRITE || spriteComp->getSpriteType() == CONFIG::SpriteType::BULLETSPRITE) {
@@ -168,6 +168,8 @@ void Game::Draw()
                             spriteComp.get()->setPositionSprite(pos);
                             _window->draw(spriteComp->getSprite());
                         }
+                        if (spriteComp->getSpriteType() == CONFIG::SpriteType::PLAYERSPRITE)
+                            _window->draw(spriteComp->getSprite());
                     }
                 }
             }

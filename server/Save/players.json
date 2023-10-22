@@ -166,6 +166,12 @@
             "name": "AAA",
             "online": true,
             "uuid": "c93fd2cc-7fdc-4e71-a273-f3fa87bfa3a3"
+        },
+        {
+            "level": 1,
+            "name": "test",
+            "online": true,
+            "uuid": "64b1135c-abd9-4865-9286-55906788f8c7"
         }
     ]
 }
