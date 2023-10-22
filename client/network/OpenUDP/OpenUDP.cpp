@@ -59,7 +59,7 @@ Entity ClientOpenUDP::deserialize(std::string serializedData) {
     return received_obj;
 }
 
-void ClientOpenUDP::readMessageGlobal()
+void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
 {
     std::array<char, 1024> buffer;
     boost::asio::ip::udp::endpoint senderEndpoint;
@@ -72,7 +72,7 @@ void ClientOpenUDP::readMessageGlobal()
     //adding entities
     entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
-        if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false) {
+        if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false && ent->getId() != my_id) {
             entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
             entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
             entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()));
@@ -130,8 +130,8 @@ void ClientOpenUDP::init(std::shared_ptr<Entity> &player) {
     recursRead(player);
 }
 
-void ClientOpenUDP::run() {
+void ClientOpenUDP::run(unsigned int my_id) {
     for (;;)
-        readMessageGlobal();
+        readMessageGlobal(my_id);
     ioService.stop();
 }

@@ -29,11 +29,11 @@ namespace GameEngine {
         public:
             Entity() {}
             Entity(unsigned int id, int type) : _id(id), _entityType(type), _isDeath(false) {
-                _Destroy.timeout_ = 0.05;
+                _Destroy.timeout_ = 0.03;
             }
 
             Entity(int type) : _id(0), _entityType(type), _isDeath(false) {
-                _Destroy.timeout_ = 0.05;
+                _Destroy.timeout_ = 0.03;
             }
 
             void init() {

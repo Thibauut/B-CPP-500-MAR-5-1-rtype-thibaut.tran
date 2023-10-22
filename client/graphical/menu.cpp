@@ -37,6 +37,7 @@ void Menu::Loop()
             _game->gameEngine_.addSystem(std::make_shared<SysClearClient>(_game->gameEngine_.getManager()));
 
             _game->my_player = std::make_shared<Entity>(std::atoi(_game->my_id_.c_str()), 1);
+            _game->my_player->init();
 
             //id & port initialize
             _game->my_id_ = start_id_;
@@ -59,8 +60,8 @@ void Menu::Loop()
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
             clientudp->init(_game->my_player);
             _game->my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->initSprite();
-            std::thread th([clientudp]() {
-                clientudp->run();
+            std::thread th([clientudp, my_id = _game->my_player->getId()]() {
+                clientudp->run(my_id);
             });
 
             _game->Loop();

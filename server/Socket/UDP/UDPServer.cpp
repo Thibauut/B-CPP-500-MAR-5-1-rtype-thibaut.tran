@@ -16,8 +16,19 @@ UDPServer::UDPServer(boost::asio::io_context& io_context, unsigned short port, s
     : socket_(io_context, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager) {
         port_ = port;
         remote_endpoints_.clear();
+        // init();
         send_thread_ = std::thread(&UDPServer::sendThread, this);
         StartReceive();
+}
+
+void UDPServer::init() {
+    bool isRunning = true;
+    while (isRunning) {
+        recv_buf_ = {0};
+        size_t size = socket_.receive_from(boost::asio::buffer(recv_buf_), client);
+        std::string message(recv_buf_.begin(), recv_buf_.end());
+        handleReceive(message);
+    }
 }
 
 void UDPServer::StartReceive() {
@@ -87,9 +98,9 @@ void  UDPServer::sendAllEntitys()
 }
 
 void UDPServer::sendThread() {
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     while(1) {
-        std::this_thread::sleep_for(std::chrono::microseconds(10000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
         sendAllEntitys();
     }
 }

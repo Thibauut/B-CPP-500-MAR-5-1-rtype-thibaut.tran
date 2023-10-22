@@ -172,15 +172,16 @@ void Game::Draw()
                             _window->draw(spriteComp->getSprite());
                     }
                 }
-            }
-            if (entity->getType() == 2) {
-                std::vector<std::shared_ptr<Sprite>> SpriteComps = entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
-                for (std::shared_ptr<Sprite> spriteComp : SpriteComps) {
-                    if (spriteComp->getDoAnimationDead() == true && spriteComp->getSpriteType() == CONFIG::SpriteType::DEATHSPRITE) {
-                        std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
-                        sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
-                        spriteComp.get()->setPositionSprite(pos);
-                        _window->draw(spriteComp->getSprite());
+            } else {
+                if (entity->getType() == 2) {
+                    std::vector<std::shared_ptr<Sprite>> SpriteComps = entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
+                    for (std::shared_ptr<Sprite> spriteComp : SpriteComps) {
+                        if (spriteComp->getDoAnimationDead() == true && spriteComp->getSpriteType() == CONFIG::SpriteType::DEATHSPRITE) {
+                            std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
+                            sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
+                            spriteComp->setPositionSprite(pos);
+                            _window->draw(spriteComp->getSprite());
+                        }
                     }
                 }
             }

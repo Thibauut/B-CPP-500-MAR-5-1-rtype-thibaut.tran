@@ -65,6 +65,7 @@ public:
         return received_obj;
     }
 
+    void init();
     void sendAllEntitys();
     bool PlayerLogin(std::string data, udp::endpoint &client);
     void StartReceive();
