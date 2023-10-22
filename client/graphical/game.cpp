@@ -157,6 +157,7 @@ void Game::Draw()
         _window->draw(_background);
         _window->draw(_background2);
 
+        gameEngine_._manager->lock();
         for (std::shared_ptr<Entity>& entity : gameEngine_._manager->getEntities()) {
             if (entity->getIsDeath() == false) {
                 if (entity->getType() == 2 || entity->getType() == 4 || entity->getType() == 1) {
@@ -187,6 +188,7 @@ void Game::Draw()
             }
         }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
+        gameEngine_._manager->unlock();
 
         _window->display();
 }
