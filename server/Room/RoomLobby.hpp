@@ -40,7 +40,7 @@ class RoomLobby {
 
     private:
         void gameEntryPoint();
-
+        void PvpEntryPoint();
         unsigned short _port;
         std::string _uuid;
         std::string _name;
