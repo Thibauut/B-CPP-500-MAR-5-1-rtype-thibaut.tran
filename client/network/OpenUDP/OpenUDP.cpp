@@ -72,10 +72,13 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
     //adding entities
     entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
-        
         if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false && ent->getId() != my_id) {
             std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
             std::shared_ptr<Position> positionComp = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+            std::shared_ptr<Cooldown> cooldownDeleteComp = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
+            if (cooldownDeleteComp != nullptr) {
+                cooldownDeleteComp->reset("delete");
+            }
             if (spriteComp == nullptr || positionComp == nullptr)
                 return;
             positionComp->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
@@ -136,7 +139,20 @@ void ClientOpenUDP::init(std::shared_ptr<Entity> &player) {
 }
 
 void ClientOpenUDP::run(unsigned int my_id) {
+    for (std::shared_ptr<Entity> entity: entities_->getEntities()) {
+        if (entity->getType() != 4)
+            continue;
+        std::shared_ptr<Cooldown> cooldown = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
+        if (cooldown == nullptr)
+            continue;
+        cooldown->create(1, "delete");
+        if (cooldown->isFinish("delete")) {
+            entities_->deleteEntity(entity->getUuid());
+            break;
+        }
+    }
     for (;;)
         readMessageGlobal(my_id);
+    // std::cout << "size: " << entities_->getEntities().size() << std::endl;
     ioService.stop();
 }

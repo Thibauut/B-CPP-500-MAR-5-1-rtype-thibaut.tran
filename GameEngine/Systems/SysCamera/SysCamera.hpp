@@ -57,7 +57,7 @@ namespace GameEngine {
                     cam->pop();
                     // std::cout << "6" << std::endl;
                     return;
-                }
+                } else { return; }
             }
         };
 
