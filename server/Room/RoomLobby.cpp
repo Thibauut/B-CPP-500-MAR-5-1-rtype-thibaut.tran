@@ -175,7 +175,7 @@ void RoomLobby::PvpEntryPoint()
     Weapon weapon2 = Weapon(
         CONFIG::CompType::WEAPON,
         id_comp,
-        CONFIG::WeaponType::Weapon3
+        CONFIG::WeaponType::Weapon1
     );
     Team team2 = Team(CONFIG::CompType::TEAM, id_comp+=1, 2);
     entityManager->createEntity();
@@ -185,19 +185,19 @@ void RoomLobby::PvpEntryPoint()
     health2.setId(id_comp);
     sf::IntRect spriteRect2(0, id * 17, std::round(33.2), std::round(17.2));
     HitBoxSquare hitbox2 = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect2);
-    sprite2.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
+    sprite2.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect2, CONFIG::SpriteType::PLAYERSPRITE);
     sprite2.setId(id_comp+=1);
     position2.setId(id_comp+=1);
     weapon2.setId(id_comp+=1);
     hitbox2.setId(id_comp += 1);
     direction2.setOrientation(180);
-    std::shared_ptr<Position> positionShared2 = std::make_shared<Position>(position);
-    std::shared_ptr<Health> healthShared2 = std::make_shared<Health>(health);
-    std::shared_ptr<Sprite> spriteShared2 = std::make_shared<Sprite>(sprite);
-    std::shared_ptr<Weapon> weaponShared2 = std::make_shared<Weapon>(weapon);
-    std::shared_ptr<HitBoxSquare> hitboxShared2 = std::make_shared<HitBoxSquare>(hitbox);
-    std::shared_ptr<Direction> directionShared2 = std::make_shared<Direction>(direction);
-    std::shared_ptr<Team>teamShared2 = std::make_shared<Team>(team);
+    std::shared_ptr<Position> positionShared2 = std::make_shared<Position>(position2);
+    std::shared_ptr<Health> healthShared2 = std::make_shared<Health>(health2);
+    std::shared_ptr<Sprite> spriteShared2 = std::make_shared<Sprite>(sprite2);
+    std::shared_ptr<Weapon> weaponShared2 = std::make_shared<Weapon>(weapon2);
+    std::shared_ptr<HitBoxSquare> hitboxShared2 = std::make_shared<HitBoxSquare>(hitbox2);
+    std::shared_ptr<Direction> directionShared2 = std::make_shared<Direction>(direction2);
+    std::shared_ptr<Team>teamShared2 = std::make_shared<Team>(team2);
     player_entity2.addComponent(positionShared2);
     player_entity2.addComponent(healthShared2);
     player_entity2.addComponent(spriteShared2);
@@ -206,7 +206,6 @@ void RoomLobby::PvpEntryPoint()
     player_entity2.addComponent(directionShared2);
     player_entity2.addComponent(teamShared2);
     entityManager->addEntity(player_entity2);
-    id++, id_comp++;
     // ---------------------------------
     Engine game(*entityManager.get());
     game.addSystem(std::make_shared<SysWeapon>(game.getManager()));
@@ -221,11 +220,6 @@ void RoomLobby::PvpEntryPoint()
     game.run();
     t1.join();
     t.join();
-
-    // while (!shouldStop.load(std::memory_order_relaxed)) {
-    //     std::cout << "Room " << _name << " is running" << std::endl;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-    // }
     std::cout << "Room " << _name << " stopped" << std::endl;
 }
 
