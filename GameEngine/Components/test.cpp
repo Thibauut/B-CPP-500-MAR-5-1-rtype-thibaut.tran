@@ -15,6 +15,7 @@
 #include "AI/AI.hpp"
 #include "Direction/Direction.hpp"
 #include "Sound/Sound.hpp"
+#include "Camera/Camera.hpp"
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(GameEngine::AComponent)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Health)
@@ -30,3 +31,4 @@ BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Damage)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Direction)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Team)
 BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Sound)
+BOOST_CLASS_EXPORT_IMPLEMENT(GameEngine::Camera)

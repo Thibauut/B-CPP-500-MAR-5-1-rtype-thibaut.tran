@@ -36,7 +36,8 @@ namespace CONFIG {
         TIMECOMP,
         DAMAGE,
         TEAM,
-        SOUND
+        SOUND,
+        CAMERA
     };
 
     enum Dir {

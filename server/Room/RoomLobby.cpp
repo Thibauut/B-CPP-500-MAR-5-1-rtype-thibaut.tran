@@ -104,6 +104,7 @@ void RoomLobby::gameEntryPoint()
     game.addSystem(std::make_shared<SysShoot>(game.getManager()));
     game.addSystem(std::make_shared<SysCollision>(game.getManager()));
     game.addSystem(std::make_shared<SysClear>(game.getManager()));
+    game.addSystem(std::make_shared<SysCamera>(game.getManager()));
     // apl du serv---------------
     boost::asio::io_context io_context = boost::asio::io_context();
     std::thread t([&io_context](){ io_context.run(); });

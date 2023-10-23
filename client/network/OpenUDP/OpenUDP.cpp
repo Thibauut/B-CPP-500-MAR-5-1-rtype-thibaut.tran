@@ -72,10 +72,15 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
     //adding entities
     entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
+        
         if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false && ent->getId() != my_id) {
-            entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
-            entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
-            entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->setPositionSprite(sf::Vector2f(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX(), ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY()));
+            std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+            std::shared_ptr<Position> positionComp = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+            if (spriteComp == nullptr || positionComp == nullptr)
+                return;
+            positionComp->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
+            positionComp->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
+            spriteComp->setPositionSprite(sf::Vector2f(positionComp->getPositionX(), positionComp->getPositionY()));
             entities_->unlock();
             return;
         }

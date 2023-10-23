@@ -28,6 +28,8 @@
 #include "Systems/SysClear/SysClear.hpp"
 #include "Systems/SysAnimation/SysAnimation.hpp"
 #include "Systems/SysClearClient/SysClearClient.hpp"
+// #include "Systems/SysSound/SysSound.hpp"
+#include "Systems/SysCamera/SysCamera.hpp"
 
 // #include "Systems/SysMovement/SysMovement.hpp"
 // #include "Systems/SysRender/SysRender.hpp"

@@ -29,10 +29,16 @@ namespace GameEngine {
                 for ( std::shared_ptr<Entity> &entity : _entityManager->getEntities()) {
                     std::shared_ptr<HitBoxSquare> comp_hitbox = entity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
                     std::shared_ptr<Position> comp_position = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+                    if (comp_hitbox == nullptr || comp_position == nullptr) {
+                        continue;
+                    }
                     comp_hitbox->setHitboxPosition(comp_position->getPositionX(), comp_position->getPositionY());
                     for ( std::shared_ptr<Entity> &otherEntity : _entityManager->getEntities()) {
                         std::shared_ptr<HitBoxSquare> other_hitbox = otherEntity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
                         std::shared_ptr<Position> other_position = otherEntity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+                        if (other_hitbox == nullptr || other_position == nullptr) {
+                            continue;
+                        }
                         if (entity == otherEntity) {
                             continue;
                         }

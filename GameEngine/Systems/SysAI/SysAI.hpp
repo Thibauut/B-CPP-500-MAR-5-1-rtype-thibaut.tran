@@ -31,16 +31,16 @@ namespace GameEngine {
                 for (std::shared_ptr<Entity> &entityPtr : _entities.get()->getEntities()) {
                     std::shared_ptr<AI> aiComponent = entityPtr->getComponentByType<AI>(CONFIG::CompType::AI);
                     std::shared_ptr<Cooldown> couldowComponent = entityPtr->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
-                    if (aiComponent != nullptr) {
-                        if (aiComponent->getAiType() == CONFIG::AiType::MOB1) {
-                            mobalgo1(entityPtr);
-                        }
-                        if (aiComponent->getAiType() == CONFIG::AiType::MOB2) {
-                            mobalgo2(entityPtr);
-                        }
-                        if (aiComponent->getAiType() == CONFIG::AiType::BOSS) {
-                            mobAlgoBoss(entityPtr);
-                        }
+                    if (aiComponent == nullptr || couldowComponent == nullptr)
+                        continue;
+                    if (aiComponent->getAiType() == CONFIG::AiType::MOB1) {
+                        mobalgo1(entityPtr);
+                    }
+                    if (aiComponent->getAiType() == CONFIG::AiType::MOB2) {
+                        mobalgo2(entityPtr);
+                    }
+                    if (aiComponent->getAiType() == CONFIG::AiType::BOSS) {
+                        mobAlgoBoss(entityPtr);
                     }
                 }
         };
