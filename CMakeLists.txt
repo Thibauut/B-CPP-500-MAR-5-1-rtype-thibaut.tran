@@ -6,11 +6,10 @@ project(${CLIENT} LANGUAGES CXX)
 project(${SERVER} LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(SFML COMPONENTS graphics window system audio network REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build)
-find_package(Boost REQUIRED COMPONENTS system thread log log_setup PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build)
-find_package(nlohmann_json REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build)
+find_package(SFML COMPONENTS graphics window system audio network REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/ConanLibs/)
+find_package(Boost REQUIRED COMPONENTS system thread log log_setup PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/ConanLibs/)
+find_package(nlohmann_json REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/ConanLibs/)
 
 # Server
 set(SRC_SERVER  server/Elements/Map/Map.cpp
@@ -42,14 +41,14 @@ set(HPP_CLIENT client/include/menu.hpp
 
 add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
+
 target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${SERVER} Boost::serialization)
 target_link_libraries(${SERVER} nlohmann_json::nlohmann_json)
 
+
 target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${CLIENT} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${CLIENT} Boost::serialization)
 target_link_libraries(${CLIENT} nlohmann_json::nlohmann_json)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

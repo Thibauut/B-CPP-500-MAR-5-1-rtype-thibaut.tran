@@ -10,7 +10,7 @@
 using json = nlohmann::json;
 
 HandleSave::HandleSave() {
-std::ifstream input_file("./server/Save/players.json");
+std::ifstream input_file("../server/Save/players.json");
 input_file >> players_data;
 input_file.close();
 }
@@ -20,7 +20,7 @@ HandleSave::~HandleSave() {
 };
 
 void HandleSave::save() {
-    std::ofstream input_file("./server/Save/players.json");
+    std::ofstream input_file("../server/Save/players.json");
     input_file << std::setw(4) << players_data << std::endl;
     input_file.close();
 }
@@ -35,7 +35,7 @@ PlayerLobby HandleSave::createPlayer(std::string name, TCPConnection::pointer cl
         {"online", true}
     };
     players_data["players"].push_back(new_player);
-    std::ofstream output_file("./server/Save/players.json");
+    std::ofstream output_file("../server/Save/players.json");
     output_file << players_data;
     output_file.close();
     PlayerLobby pl = PlayerLobby(name, uuid, 1, client);
