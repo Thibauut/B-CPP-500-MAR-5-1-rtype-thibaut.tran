@@ -35,7 +35,7 @@ namespace GameEngine {
 
             // std::cout << "1" << std::endl;
 
-            cooldown->create(0.1, "camera");
+            cooldown->create(0.03, "camera");
             // std::cout << "2" << std::endl;
 
             if (cooldown->isFinish("camera")) {

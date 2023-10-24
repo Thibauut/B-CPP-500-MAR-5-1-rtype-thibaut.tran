@@ -91,7 +91,6 @@ void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<
 void  UDPServer::sendAllEntitys()
 {
     std::lock_guard<std::mutex> lock(entityManagerPtr_->getMutex());
-    std::cout << "size: " << entityManagerPtr_->getEntities().size() << std::endl;
         for (std::shared_ptr<GameEngine::Entity> &Entity : entityManagerPtr_.get()->getEntities()) {
             if (Entity->getType() != 1 && Entity->getType() != 5)
                 sendAll(serialize(Entity), remote_endpoints_);
