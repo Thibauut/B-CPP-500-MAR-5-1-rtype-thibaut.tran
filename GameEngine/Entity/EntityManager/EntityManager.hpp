@@ -67,6 +67,15 @@ namespace GameEngine {
                 return listEntity;
             }
 
+            std::shared_ptr<Entity> getEntityByType(int entityType) {
+                for (std::shared_ptr<Entity> &entityPtr : _listEntity) {
+                    if (entityPtr.get()->getType() == entityType) {
+                        return entityPtr;
+                    }
+                }
+                return nullptr;
+            }
+
             std::mutex &getMutex() {
                 return _mutex;
             }

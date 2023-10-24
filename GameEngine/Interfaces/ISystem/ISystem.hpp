@@ -13,5 +13,8 @@ namespace GameEngine {
         public:
             virtual ~ISystem() = default;
             virtual void update() = 0;
+            // virtual bool isActive() = 0;
+            // virtual void run() = 0;
+            // virtual void stop() = 0;
     };
 }

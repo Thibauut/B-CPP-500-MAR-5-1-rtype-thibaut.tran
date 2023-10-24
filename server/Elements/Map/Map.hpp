@@ -17,6 +17,8 @@
 #include "../../../GameEngine/Components/Direction/Direction.hpp"
 #include "../../../GameEngine/Components/Team/Team.hpp"
 #include "../../../GameEngine/Components/Cooldown/Cooldown.hpp"
+#include "../../../GameEngine/Components/Sound/Sound.hpp"
+#include "../../../GameEngine/Components/Camera/Camera.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
@@ -31,7 +33,7 @@ namespace RType {
             void loadMap(std::shared_ptr<EntityManager> manager);
 
         private:
-            void loadMob(std::shared_ptr<EntityManager> manager, nlohmann::json &entity);
+            void loadMob(std::shared_ptr<Camera> camera, nlohmann::json &entity);
             std::string _path;
     };
 }

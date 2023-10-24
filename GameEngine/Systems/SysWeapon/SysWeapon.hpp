@@ -70,6 +70,7 @@ namespace GameEngine {
                 Position position = Position(CONFIG::CompType::POSITION, id_comp, posX, posY);
                 Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp += 1);
                 Cooldown couldown = Cooldown(CONFIG::CompType::TIMECOMP, id_comp += 1);
+                Cooldown couldownDelete = Cooldown(CONFIG::CompType::TIMECOMP, id_comp += 1);
                 HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp += 1, spriteRect);
                 Damage damage = Damage(CONFIG::CompType::DAMAGE, id_comp += 1);
                 Direction direction = Direction(CONFIG::CompType::DIRECTION, id_comp += 1);
