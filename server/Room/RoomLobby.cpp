@@ -41,7 +41,7 @@ void RoomLobby::startGame()
         _isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
-        _thread = std::thread(&RoomLobby::gameEntryPoint, this);
+        _thread = std::thread(&RoomLobby::PvpEntryPoint, this);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
@@ -124,95 +124,68 @@ void RoomLobby::gameEntryPoint()
 void RoomLobby::PvpEntryPoint()
 {
     std::cout << "Room PVP " << _name << " started" << std::endl;
-    std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
+        std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
     int id = 1;
     int id_comp = 0;
-    // ----------------------------------PLAYER 1---------------------------------
-    Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
-    Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 0);
+
+    Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
+
     Weapon weapon = Weapon(
         CONFIG::CompType::WEAPON,
         id_comp,
         CONFIG::WeaponType::Weapon3
     );
-    Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, 1);
-    entityManager->createEntity();
-    Entity player_entity(id, 1);
-    player_entity.init();
-    player_entity.setId(id);
-    health.setId(id_comp);
-    sf::IntRect spriteRect(0, id * 17, std::round(33.2), std::round(17.2));
-    HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
-    sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
-    sprite.setId(id_comp+=1);
-    position.setId(id_comp+=1);
-    weapon.setId(id_comp+=1);
-    hitbox.setId(id_comp += 1);
-    direction.setOrientation(0);
-    std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
-    std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
-    std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
-    std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
-    std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
-    std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
-    std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
-    player_entity.addComponent(positionShared);
-    player_entity.addComponent(healthShared);
-    player_entity.addComponent(spriteShared);
-    player_entity.addComponent(weaponShared);
-    player_entity.addComponent(hitboxShared);
-    player_entity.addComponent(directionShared);
-    player_entity.addComponent(teamShared);
-    entityManager->addEntity(player_entity);
-    id++, id_comp++;
-    // ----------------------------------PLAYER 2---------------------------------
-
-    Position position2 = Position(CONFIG::CompType::POSITION, id_comp, 1720, 300);
-    Health health2 = Health(CONFIG::CompType::HEALTH, id_comp, 100);
-    Sprite sprite2 = Sprite(CONFIG::CompType::SPRITE, id_comp);
-    Direction direction2 = Direction (CONFIG::CompType::DIRECTION, id_comp, -1, 0);
-    Weapon weapon2 = Weapon(
-        CONFIG::CompType::WEAPON,
-        id_comp,
-        CONFIG::WeaponType::Weapon1
-    );
-    Team team2 = Team(CONFIG::CompType::TEAM, id_comp+=1, 2);
-    entityManager->createEntity();
-    Entity player_entity2(id, 1);
-    player_entity2.init();
-    player_entity2.setId(id);
-    health2.setId(id_comp);
-    sf::IntRect spriteRect2(0, id * 17, std::round(33.2), std::round(17.2));
-    HitBoxSquare hitbox2 = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect2);
-    sprite2.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect2, CONFIG::SpriteType::PLAYERSPRITE);
-    sprite2.setId(id_comp+=1);
-    position2.setId(id_comp+=1);
-    weapon2.setId(id_comp+=1);
-    hitbox2.setId(id_comp += 1);
-    direction2.setOrientation(180);
-    std::shared_ptr<Position> positionShared2 = std::make_shared<Position>(position2);
-    std::shared_ptr<Health> healthShared2 = std::make_shared<Health>(health2);
-    std::shared_ptr<Sprite> spriteShared2 = std::make_shared<Sprite>(sprite2);
-    std::shared_ptr<Weapon> weaponShared2 = std::make_shared<Weapon>(weapon2);
-    std::shared_ptr<HitBoxSquare> hitboxShared2 = std::make_shared<HitBoxSquare>(hitbox2);
-    std::shared_ptr<Direction> directionShared2 = std::make_shared<Direction>(direction2);
-    std::shared_ptr<Team>teamShared2 = std::make_shared<Team>(team2);
-    player_entity2.addComponent(positionShared2);
-    player_entity2.addComponent(healthShared2);
-    player_entity2.addComponent(spriteShared2);
-    player_entity2.addComponent(weaponShared2);
-    player_entity2.addComponent(hitboxShared2);
-    player_entity2.addComponent(directionShared2);
-    player_entity2.addComponent(teamShared2);
-    entityManager->addEntity(player_entity2);
+    int equipe = 1;
+    int x = 200;
+    int y = 300;
+    for (std::shared_ptr<PlayerLobby> player : _players) {
+        Position position = Position(CONFIG::CompType::POSITION, id_comp, x, y);
+        Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 0);
+        Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, equipe);
+        equipe += 1;
+        x += 200;
+        entityManager->createEntity();
+        Entity player_entity(id, 1);
+        player_entity.init();
+        player_entity.setId(id);
+        health.setId(id_comp);
+        sf::IntRect spriteRect(100, id * 17, std::round(33.2), std::round(17.2));
+        HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
+        sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
+        sprite.setMaxDimensions(166, 86);
+        sprite.setId(id_comp+=1);
+        position.setId(id_comp+=1);
+        weapon.setId(id_comp+=1);
+        hitbox.setId(id_comp += 1);
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
+        std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
+        std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
+        std::shared_ptr<Sound>soundBulletShared = std::make_shared<Sound>(soundBullet);
+        player_entity.addComponent(positionShared);
+        player_entity.addComponent(healthShared);
+        player_entity.addComponent(spriteShared);
+        player_entity.addComponent(weaponShared);
+        player_entity.addComponent(hitboxShared);
+        player_entity.addComponent(directionShared);
+        player_entity.addComponent(teamShared);
+        player_entity.addComponent(soundBulletShared);
+        entityManager->addEntity(player_entity);
+        id++, id_comp++;
+    }
     // ---------------------------------
     Engine game(*entityManager.get());
+    game.addSystem(std::make_shared<SysAI>(game.getManager()));
     game.addSystem(std::make_shared<SysWeapon>(game.getManager()));
     game.addSystem(std::make_shared<SysShoot>(game.getManager()));
     game.addSystem(std::make_shared<SysCollision>(game.getManager()));
     game.addSystem(std::make_shared<SysClear>(game.getManager()));
+    game.addSystem(std::make_shared<SysCamera>(game.getManager()));
     // apl du serv---------------
     boost::asio::io_context io_context = boost::asio::io_context();
     std::thread t([&io_context](){ io_context.run(); });
@@ -221,6 +194,7 @@ void RoomLobby::PvpEntryPoint()
     game.run();
     t1.join();
     t.join();
+
     std::cout << "Room " << _name << " stopped" << std::endl;
 }
 
