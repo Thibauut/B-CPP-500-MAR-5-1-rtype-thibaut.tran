@@ -9,6 +9,13 @@
 
 namespace CONFIG {
 
+    enum GameType {
+        NORMAL,
+        SOLOPVP,
+        TEAMPVP,
+        SURVIVAL,
+        BR
+    };
     enum WeaponType{
         Weapon1,
         Weapon2,

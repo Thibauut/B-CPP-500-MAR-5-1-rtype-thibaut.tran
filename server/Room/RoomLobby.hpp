@@ -14,18 +14,9 @@
 #include "../Socket/UDP/UDPServer.hpp"
 #include "../../GameEngine/GameEngine.hpp"
 #include "../Elements/Map/Map.hpp"
-
-
-enum GameType {
-    SOLOPVP,
-    TEAMPVP,
-    SURVIVAL,
-    NORMAL,
-    BR
-};
 class RoomLobby {
     public:
-        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap);
+        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap, CONFIG::GameType gameType);
         ~RoomLobby();
 
         void startGame();
@@ -56,7 +47,7 @@ class RoomLobby {
         unsigned int _nbSlots;
         unsigned int _nbPlayers;
         unsigned int _nbReadyPlayers;
-        GameType _gameType;
+        CONFIG::GameType _gameType;
         std::shared_ptr<PlayerLobby> _owner;
         std::vector<std::shared_ptr<PlayerLobby>> _players;
         std::thread _thread;

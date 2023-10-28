@@ -119,7 +119,7 @@ void Menu::HandleTcpEvents()
             }
         }
         if (_isCreatingRoom && buttonCreateRoomBounds.contains(mousePos) && _roomSlot > 0) {
-            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second);
+            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second, 1);
             if (_tcpConnection->infoRoomUuid_ == "KO") {
                 std::cerr << "Error until new room create" << std::endl;
             } else {

@@ -19,7 +19,7 @@ unsigned short findOpenPort() {
     return nombreAleatoire;
 }
 
-RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap) : _owner(owner)
+RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap, CONFIG::GameType gametype) : _owner(owner)
 {
     _players.push_back(owner);
     _nbPlayers = 1;
@@ -29,6 +29,7 @@ RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, s
     _nbReadyPlayers = 0;
     _isStarted = false;
     _pathMap = pathMap;
+    _gameType = gametype;
 }
 
 RoomLobby::~RoomLobby() {
@@ -41,7 +42,10 @@ void RoomLobby::startGame()
         _isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
-        _thread = std::thread(&RoomLobby::PvpEntryPoint, this);
+        if (_gameType == CONFIG::GameType::SOLOPVP)
+            _thread = std::thread(&RoomLobby::PvpEntryPoint, this);
+        if (_gameType == CONFIG::GameType::NORMAL)
+            _thread = std::thread(&RoomLobby::gameEntryPoint, this);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
