@@ -32,15 +32,17 @@ set(HPP_SERVER server/Includes.hpp
 set(SRC_CLIENT  client/main.cpp
                 client/network/ThreadHandler/ThreadHandler.cpp
                 GameEngine/Components/test.cpp
+                client/editor/Editor.cpp
 )
 
 set(HPP_CLIENT client/include/menu.hpp
                 client/network/ConnectionTCP/ConnectionTCP.hpp
                 client/network/ThreadHandler/ThreadHandler.hpp
+                client/editor/Editor.hpp
 )
 
-add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
+add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 
 target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)

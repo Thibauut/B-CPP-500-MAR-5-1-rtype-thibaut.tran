@@ -73,7 +73,6 @@ namespace GameEngine {
                 _sprite.setTextureRect(_rect);
             }
 
-
             int getSpriteWidth() {
                 return width;
             }

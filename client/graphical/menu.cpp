@@ -118,6 +118,9 @@ void Menu::Draw() {
 
         _window->draw(_button);
         _window->draw(_buttonText);
+
+        _window->draw(_buttonEditor);
+        _window->draw(_buttonEditorText);
     }
     if (_isConnected && !_selectedRoom && !_isCreatingRoom) {
         _window->draw(_roomMenu);

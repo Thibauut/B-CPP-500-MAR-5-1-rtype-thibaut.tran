@@ -37,7 +37,10 @@ namespace CONFIG {
         DAMAGE,
         TEAM,
         SOUND,
-        CAMERA
+        CAMERA,
+        WINDOW,
+        DRAGGABLE,
+        BUTTON
     };
 
     enum Dir {

@@ -19,7 +19,9 @@
 #include "Components/Sprite/Sprite.hpp"
 #include "Components/Weapon/Weapon.hpp"
 #include "Components/Cooldown/Cooldown.hpp"
+#include "Components/Draggable/Draggable.hpp"
 #include "Components/Sound/Sound.hpp"
+#include "Components/Window/Window.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"
@@ -45,6 +47,8 @@ namespace GameEngine {
     class Engine {
         public:
             Engine(EntityManager manager) : _manager(std::make_shared<EntityManager>(manager)) {_isRunning = false;}
+            Engine() : _manager(std::make_shared<EntityManager>()) {_isRunning = false;}
+
             ~Engine() {}
 
             void init() {
