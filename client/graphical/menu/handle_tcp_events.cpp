@@ -16,6 +16,10 @@ void Menu::HandleTcpEvents()
         sf::FloatRect buttonDisconnectBounds = _buttonDisconnect.getGlobalBounds();
         sf::FloatRect addSlotBounds = _addSlot.getGlobalBounds();
         sf::FloatRect nextMapBounds = _next_level_choose.getGlobalBounds();
+
+        sf::FloatRect nextGameTypeBounds = _next_GameType_choose.getGlobalBounds();
+        sf::FloatRect previousGameTypeBounds = _previous_GameType_choose.getGlobalBounds();
+
         sf::FloatRect previousMapBounds = _previous_level_choose.getGlobalBounds();
         sf::FloatRect removeSlotBounds = _removeSlot.getGlobalBounds();
         sf::FloatRect buttonLeaveBounds = _buttonLeave.getGlobalBounds();
@@ -37,6 +41,40 @@ void Menu::HandleTcpEvents()
                 _text_slot_input_room.setString(std::to_string(_roomSlot));
             }
         }
+        //////////////////////////////////////////////////////
+        //                      GAME TYPE                    //
+        //////////////////////////////////////////////////////
+
+        if (nextGameTypeBounds.contains(mousePos) && _isCreatingRoom && _Game_Type < 4) {
+            _Game_Type++;
+            if (_Game_Type == 0)
+                TypeName = "Normal";
+            if (_Game_Type == 1)
+                TypeName = "Solo PVP";
+            if (_Game_Type == 2)
+                TypeName = "Duo PVP";
+            if (_Game_Type == 3)
+                TypeName = "Survival";
+            if (_Game_Type == 4)
+                TypeName = "Battle Royal";
+            _text_GameType_choose.setString(TypeName);
+        }
+        if (previousGameTypeBounds.contains(mousePos) && _isCreatingRoom && _Game_Type > 0) {
+            _Game_Type--;
+             if (_Game_Type == 0)
+                TypeName = "Normal";
+            if (_Game_Type == 1)
+                TypeName = "Solo PVP", _roomSlot = 2;
+            if (_Game_Type == 2)
+                TypeName = "Duo PVP", _roomSlot = 4;
+            if (_Game_Type == 3)
+                TypeName = "Survival";
+            if (_Game_Type == 4)
+                TypeName = "Battle Royal";
+            _text_GameType_choose.setString(TypeName);
+        }
+        _text_GameType_choose.setString(TypeName);
+
 
         //////////////////////////////////////////////////////
         //                      LOGIN                       //
@@ -68,6 +106,7 @@ void Menu::HandleTcpEvents()
             _isConnected = false;
             // std::cout << "Disconnect" << std::endl;
         }
+
 
         //////////////////////////////////////////////////////
         //                      CREATE                      //
@@ -119,7 +158,7 @@ void Menu::HandleTcpEvents()
             }
         }
         if (_isCreatingRoom && buttonCreateRoomBounds.contains(mousePos) && _roomSlot > 0) {
-            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second, 1);
+            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second, _Game_Type);
             if (_tcpConnection->infoRoomUuid_ == "KO") {
                 std::cerr << "Error until new room create" << std::endl;
             } else {

@@ -16,7 +16,7 @@
 #include "../Elements/Map/Map.hpp"
 class RoomLobby {
     public:
-        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap, CONFIG::GameType gameType);
+        RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap, int gameType);
         ~RoomLobby();
 
         void startGame();
@@ -40,6 +40,9 @@ class RoomLobby {
     private:
         void gameEntryPoint();
         void PvpEntryPoint();
+        void BattleRoyalEntryPoint();
+        void DuoPvpEntryPoint();
+        void SurvivalEntryPoint();
         unsigned short _port;
         std::string _uuid;
         std::string _name;
@@ -47,7 +50,7 @@ class RoomLobby {
         unsigned int _nbSlots;
         unsigned int _nbPlayers;
         unsigned int _nbReadyPlayers;
-        CONFIG::GameType _gameType;
+        int _gameType;
         std::shared_ptr<PlayerLobby> _owner;
         std::vector<std::shared_ptr<PlayerLobby>> _players;
         std::thread _thread;

@@ -19,7 +19,7 @@ unsigned short findOpenPort() {
     return nombreAleatoire;
 }
 
-RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap, CONFIG::GameType gametype) : _owner(owner)
+RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, std::string name, std::string uuid, std::string pathMap, int gametype) : _owner(owner)
 {
     _players.push_back(owner);
     _nbPlayers = 1;
@@ -42,10 +42,16 @@ void RoomLobby::startGame()
         _isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
-        if (_gameType == CONFIG::GameType::SOLOPVP)
-            _thread = std::thread(&RoomLobby::PvpEntryPoint, this);
-        if (_gameType == CONFIG::GameType::NORMAL)
+        if (_gameType == 0)
             _thread = std::thread(&RoomLobby::gameEntryPoint, this);
+        if (_gameType == 1)
+            _thread = std::thread(&RoomLobby::PvpEntryPoint, this);
+        if (_gameType == 2)
+            _thread = std::thread(&RoomLobby::DuoPvpEntryPoint, this);
+        if (_gameType == 3)
+            _thread = std::thread(&RoomLobby::SurvivalEntryPoint, this);
+        if (_gameType == 4)
+        _thread = std::thread(&RoomLobby::BattleRoyalEntryPoint, this);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
@@ -202,6 +208,19 @@ void RoomLobby::PvpEntryPoint()
     std::cout << "Room " << _name << " stopped" << std::endl;
 }
 
+void RoomLobby::BattleRoyalEntryPoint()
+{
+    std::cout << "BR Started" << std::endl;
+}
+void RoomLobby::DuoPvpEntryPoint()
+{
+    std::cout << "DUO PVP STARTED" << std::endl;
+
+}
+void RoomLobby::SurvivalEntryPoint()
+{
+    std::cout << "SURVIVAL STARTED" << std::endl;
+}
 void RoomLobby::stopGame()
 {
     shouldStop.store(true, std::memory_order_relaxed);

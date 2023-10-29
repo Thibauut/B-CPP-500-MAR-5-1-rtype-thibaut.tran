@@ -29,8 +29,12 @@ void Menu::InitBackground() {
 }
 
 void Menu::InitSprites() {
-    sfmlFunc.LoadSprite(_next_level_choose, _next_level_choose_texture, "assets/images/plus.png", 1370, 707, 0.1, 0.1);
-    sfmlFunc.LoadSprite(_previous_level_choose, _previous_level_choose_texture, "assets/images/moins.png", 530, 707, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_next_level_choose, _next_level_choose_texture, "assets/images/plus.png", 1370, 697, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_previous_level_choose, _previous_level_choose_texture, "assets/images/moins.png", 530, 697, 0.1, 0.1);
+
+    sfmlFunc.LoadSprite(_next_GameType_choose, _next_GameType_choose_texture, "assets/images/plus.png", 1370, 737, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_previous_GameType_choose, _previous_GameType_choose_texture, "assets/images/moins.png", 530, 737, 0.1, 0.1);
+
     sfmlFunc.LoadSprite(_addSlot, _addSlotTexture, "assets/images/plus.png", 1370, 607, 0.1, 0.1);
     sfmlFunc.LoadSprite(_removeSlot, _removeSlotTexture, "assets/images/moins.png", 530, 607, 0.1, 0.1);
     sfmlFunc.LoadSprite(_roomDelete, _roomDeleteTexture, "assets/images/delete.png", 1660, 810, 0.2, 0.2);
@@ -49,7 +53,8 @@ void Menu::InitText() {
     sfmlFunc.createText(_text_port_input, _font, _inputPort, 24, sf::Color::White, sf::Vector2f(655, 708));
     sfmlFunc.createText(_text_ip_input, _font, _inputIp, 24, sf::Color::White, sf::Vector2f(655, 608));
 
-    sfmlFunc.createText(_text_level_choose, _font, "None", 24, sf::Color::White, sf::Vector2f(880, 707));
+    sfmlFunc.createText(_text_level_choose, _font, "None", 24, sf::Color::White, sf::Vector2f(880, 697));
+    sfmlFunc.createText(_text_GameType_choose, _font, "Normal", 24, sf::Color::White, sf::Vector2f(880, 737));
 
     sfmlFunc.createText(_text_name_input_room, _font, "Room 1", 24, sf::Color::White, sf::Vector2f(655, 508));
     sfmlFunc.createText(_text_slot_input_room, _font, "0", 24, sf::Color::White, sf::Vector2f(655, 608));
@@ -64,6 +69,12 @@ void Menu::InitButton() {
     sfmlFunc.CreateButton(_buttonLeave, _buttonLeaveText, _font, "Leave", sf::Vector2f(200, 50), sf::Vector2f(1210, 800), 57);
     sfmlFunc.CreateButton(_buttonReady, _buttonReadyText, _font, "Ready", sf::Vector2f(200, 50), sf::Vector2f(510, 800), 57);
 
+// -------------------------------------------------------
+
+// Creer les boutons pour choisir le type de jeu mzee
+
+
+// -------------------------------------------------------
     sfmlFunc.CreateButton(_buttonCreateRoom, _buttonCreateRoomText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(730, 800), 57);
     sfmlFunc.CreateButton(_buttonCancel, _buttonCancelText, _font, "Cancel", sf::Vector2f(200, 50), sf::Vector2f(990, 800), 57);
 }

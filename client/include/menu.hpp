@@ -120,6 +120,16 @@ class Menu {
 
         std::vector<std::pair<std::string, std::string>> _maps;
 
+
+        sf::Text _text_GameType_choose;
+        std::string _input_GameType_choose;
+        sf::Sprite _next_GameType_choose;
+        sf::Texture _next_GameType_choose_texture;
+        sf::Sprite _previous_GameType_choose;
+        sf::Texture _previous_GameType_choose_texture;
+        int _Game_Type = 0;
+        std::string TypeName = "Normal";
+
         int _current_input;
         bool _isFocused;
         bool _isFocused2;
@@ -182,7 +192,7 @@ class Menu {
         sf::Sprite _removeSlot;
         sf::Texture _removeSlotTexture;
 
-        int _roomSlot = 0;
+        int _roomSlot = 1;
 
         bool _isFocused_room = false;
         bool _isFocused2_room = false;

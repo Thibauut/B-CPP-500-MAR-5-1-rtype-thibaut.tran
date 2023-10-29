@@ -141,19 +141,22 @@ void Menu::Draw() {
         _window->draw(_text_name_room);
         _window->draw(_text_name_input_room);
 
-        _window->draw(_textField2_room);
-        _window->draw(_text_slot_room);
-        _window->draw(_text_slot_input_room);
-
-        _window->draw(_addSlot);
-        _window->draw(_removeSlot);
+        _window->draw(_previous_GameType_choose);
+        _window->draw(_text_GameType_choose);
+        _window->draw(_next_GameType_choose);
 
         _window->draw(_buttonCancel);
         _window->draw(_buttonCancelText);
-
-        _window->draw(_previous_level_choose);
-        _window->draw(_text_level_choose);
-        _window->draw(_next_level_choose);
+        if (_Game_Type == 0 || _Game_Type == 3 || _Game_Type == 4) {
+            _window->draw(_textField2_room);
+            _window->draw(_text_slot_room);
+            _window->draw(_text_slot_input_room);
+            _window->draw(_addSlot);
+            _window->draw(_removeSlot);
+            _window->draw(_previous_level_choose);
+            _window->draw(_text_level_choose);
+            _window->draw(_next_level_choose);
+        }
     }
     if (_isConnected && _selectedRoom && !_isCreatingRoom) {
         _window->draw(_roomMenu);
