@@ -211,15 +211,162 @@ void RoomLobby::PvpEntryPoint()
 void RoomLobby::BattleRoyalEntryPoint()
 {
     std::cout << "BR Started" << std::endl;
+    std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
+    int id = 1;
+    int id_comp = 0;
+    Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
+    Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+    Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
+    Weapon weapon = Weapon(
+        CONFIG::CompType::WEAPON,
+        id_comp,
+        CONFIG::WeaponType::Weapon3
+    );
+    int equipe = 1;
+    int x = 200;
+    int y = 300;
+    for (std::shared_ptr<PlayerLobby> player : _players) {
+        Position position = Position(CONFIG::CompType::POSITION, id_comp, x, y);
+        Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 0);
+        Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, equipe);
+        equipe += 1;
+        x += 200;
+        entityManager->createEntity();
+        Entity player_entity(id, 1);
+        player_entity.init();
+        player_entity.setId(id);
+        health.setId(id_comp);
+        sf::IntRect spriteRect(100, id * 17, std::round(33.2), std::round(17.2));
+        HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
+        sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
+        sprite.setMaxDimensions(166, 86);
+        sprite.setId(id_comp+=1);
+        position.setId(id_comp+=1);
+        weapon.setId(id_comp+=1);
+        hitbox.setId(id_comp += 1);
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
+        std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
+        std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
+        std::shared_ptr<Sound>soundBulletShared = std::make_shared<Sound>(soundBullet);
+        player_entity.addComponent(positionShared);
+        player_entity.addComponent(healthShared);
+        player_entity.addComponent(spriteShared);
+        player_entity.addComponent(weaponShared);
+        player_entity.addComponent(hitboxShared);
+        player_entity.addComponent(directionShared);
+        player_entity.addComponent(teamShared);
+        player_entity.addComponent(soundBulletShared);
+        entityManager->addEntity(player_entity);
+        id++, id_comp++;
+    }
+    // ---------------------------------
+    Engine game(*entityManager.get());
+    game.addSystem(std::make_shared<SysAI>(game.getManager()));
+    game.addSystem(std::make_shared<SysWeapon>(game.getManager()));
+    game.addSystem(std::make_shared<SysShoot>(game.getManager()));
+    game.addSystem(std::make_shared<SysCollision>(game.getManager()));
+    game.addSystem(std::make_shared<SysClear>(game.getManager()));
+    game.addSystem(std::make_shared<SysCamera>(game.getManager()));
+    // apl du serv---------------
+    boost::asio::io_context io_context = boost::asio::io_context();
+    std::thread t([&io_context](){ io_context.run(); });
+    std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+    // --------------------------
+    game.run();
+    t1.join();
+    t.join();
+
+    std::cout << "Room " << _name << " stopped" << std::endl;
 }
 void RoomLobby::DuoPvpEntryPoint()
 {
     std::cout << "DUO PVP STARTED" << std::endl;
+    std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
+    int id = 1;
+    int id_comp = 0;
+    Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
+    Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
+
+    Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
+
+    Weapon weapon = Weapon(
+        CONFIG::CompType::WEAPON,
+        id_comp,
+        CONFIG::WeaponType::Weapon3
+    );
+    int equipe = 1;
+    int team_count = 0;
+    int x = 200;
+    int y = 300;
+    for (std::shared_ptr<PlayerLobby> player : _players) {
+        if (team_count == 2) {
+            equipe += 1;
+            team_count = 0;
+        }
+        team_count++;
+        Position position = Position(CONFIG::CompType::POSITION, id_comp, x, y);
+        Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 0);
+        Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, equipe);
+        x += 200;
+        entityManager->createEntity();
+        Entity player_entity(id, 1);
+        player_entity.init();
+        player_entity.setId(id);
+        health.setId(id_comp);
+        sf::IntRect spriteRect(100, id * 17, std::round(33.2), std::round(17.2));
+        HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
+        sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/sprites/r-typesheet42.gif", sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
+        sprite.setMaxDimensions(166, 86);
+        sprite.setId(id_comp+=1);
+        position.setId(id_comp+=1);
+        weapon.setId(id_comp+=1);
+        hitbox.setId(id_comp += 1);
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
+        std::shared_ptr<Health> healthShared = std::make_shared<Health>(health);
+        std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
+        std::shared_ptr<Weapon> weaponShared = std::make_shared<Weapon>(weapon);
+        std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
+        std::shared_ptr<Direction> directionShared = std::make_shared<Direction>(direction);
+        std::shared_ptr<Team>teamShared = std::make_shared<Team>(team);
+        std::shared_ptr<Sound>soundBulletShared = std::make_shared<Sound>(soundBullet);
+        player_entity.addComponent(positionShared);
+        player_entity.addComponent(healthShared);
+        player_entity.addComponent(spriteShared);
+        player_entity.addComponent(weaponShared);
+        player_entity.addComponent(hitboxShared);
+        player_entity.addComponent(directionShared);
+        player_entity.addComponent(teamShared);
+        player_entity.addComponent(soundBulletShared);
+        entityManager->addEntity(player_entity);
+        id++, id_comp++;
+    }
+    // ---------------------------------
+    Engine game(*entityManager.get());
+    game.addSystem(std::make_shared<SysAI>(game.getManager()));
+    game.addSystem(std::make_shared<SysWeapon>(game.getManager()));
+    game.addSystem(std::make_shared<SysShoot>(game.getManager()));
+    game.addSystem(std::make_shared<SysCollision>(game.getManager()));
+    game.addSystem(std::make_shared<SysClear>(game.getManager()));
+    game.addSystem(std::make_shared<SysCamera>(game.getManager()));
+    // apl du serv---------------
+    boost::asio::io_context io_context = boost::asio::io_context();
+    std::thread t([&io_context](){ io_context.run(); });
+    std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+    // --------------------------
+    game.run();
+    t1.join();
+    t.join();
+
+    std::cout << "Room " << _name << " stopped" << std::endl;
 
 }
 void RoomLobby::SurvivalEntryPoint()
 {
-    std::cout << "SURVIVAL STARTED" << std::endl;
+    std::cout << "SURVIVAL STARTED quand mao aura décidé de le faire ce gros tchoupeur" << std::endl;
 }
 void RoomLobby::stopGame()
 {
