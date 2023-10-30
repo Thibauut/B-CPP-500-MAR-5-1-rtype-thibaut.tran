@@ -50,6 +50,14 @@ namespace GameEngine {
                 _window->create(sf::VideoMode(_sizeX, _sizeY), _title);
             }
 
+            void clear() {
+                _window->clear();
+            }
+
+            void display() {
+                _window->display();
+            }
+
             void setWindowSize(int sizeX, int sizeY) {
                 _sizeX = sizeX;
                 _sizeY = sizeY;
@@ -69,6 +77,11 @@ namespace GameEngine {
 
             sf::RenderWindow *getWindow() {
                 return _window;
+            }
+
+            void draw(sf::Drawable &sprite) {
+                _window->draw(sprite);
+
             }
 
             template<class Archive>

@@ -85,7 +85,7 @@ namespace GameEngine {
                 return _y;
             }
 
-            sf::Sprite getSprite() {
+            sf::Sprite &getSprite() {
                 return _sprite;
             }
 

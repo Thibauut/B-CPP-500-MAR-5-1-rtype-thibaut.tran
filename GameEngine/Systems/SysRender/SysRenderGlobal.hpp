@@ -25,13 +25,15 @@ namespace GameEngine {
                         win = entity->getComponentByType<Window>(CONFIG::CompType::WINDOW);
                 if (win == nullptr)
                     return;
-                win->getWindow()->clear(sf::Color::Black);
+                win->clear();
                 for (auto &entity : _entityManager->getEntities()) {
                     std::shared_ptr<Sprite> sprite = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
-                    if (sprite != nullptr)
-                        win->getWindow()->draw(sprite->getSprite());
+                    if (sprite != nullptr) {
+                        sprite->getSprite().setTextureRect(sprite->getRect());
+                        win->draw(sprite->getSprite());
+                    }
                 }
-                win->getWindow()->display();
+                win->display();
             }
 
         private:
