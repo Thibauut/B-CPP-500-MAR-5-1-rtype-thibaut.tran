@@ -8,6 +8,8 @@
 #pragma once
 #include "../../GameEngine/GameEngine.hpp"
 #include "../../GameEngine/Systems/SysRender/SysRenderGlobal.hpp"
+#include "../../GameEngine/Systems/SysDrag/SysDrag.hpp"
+#include "../../GameEngine/Systems/SysPollEvent/SysPollEvent.hpp"
 
 class Editor {
     public:
@@ -16,6 +18,8 @@ class Editor {
 
         void loadSprites();
         void loadSystems();
+        void loadGUI();
+        void loadButtonGUI()
 
     private:
         Engine _core;

@@ -18,7 +18,6 @@ namespace GameEngine {
             virtual ~SysRenderGlobal() = default;
 
             virtual void update() {
-                // std::cout << "SysRender update" << std::endl;
                 std::shared_ptr<Window> win = nullptr;
                 for (auto &entity : _entityManager->getEntities())
                     if (entity->getComponentByType<Window>(CONFIG::CompType::WINDOW) != nullptr)
@@ -28,10 +27,8 @@ namespace GameEngine {
                 win->clear();
                 for (auto &entity : _entityManager->getEntities()) {
                     std::shared_ptr<Sprite> sprite = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
-                    if (sprite != nullptr) {
-                        sprite->getSprite().setTextureRect(sprite->getRect());
+                    if (sprite != nullptr)
                         win->draw(sprite->getSprite());
-                    }
                 }
                 win->display();
             }

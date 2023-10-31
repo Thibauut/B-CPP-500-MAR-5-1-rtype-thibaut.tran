@@ -21,19 +21,20 @@ namespace GameEngine {
             Draggable() : AComponent() {
                 _idComponent = 0;
                 _type = CONFIG::CompType::DRAGGABLE;
-
+                _isDragged = false;
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
 
             }
             Draggable(CONFIG::CompType type) : AComponent(), _type(type) {
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
+                _isDragged = false;
             }
             virtual ~Draggable() = default;
 
 
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
-                ar.template register_type<Position>();
+                ar.template register_type<Draggable>();
                 ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 // ar & _uuid;
@@ -53,7 +54,13 @@ namespace GameEngine {
                 return _isDragged;
             }
 
+            void setEntityDragged(const std::string &uuid) {
+                _uuid_entity_dragged = uuid;
+            }
 
+            std::string getEntityDragged() const {
+                return _uuid_entity_dragged;
+            }
 
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -68,6 +75,6 @@ namespace GameEngine {
 
         private:
             bool _isDragged;
-
+            std::string _uuid_entity_dragged;
     };
 }

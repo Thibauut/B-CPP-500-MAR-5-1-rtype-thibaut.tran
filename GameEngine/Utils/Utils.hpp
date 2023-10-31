@@ -40,7 +40,8 @@ namespace CONFIG {
         CAMERA,
         WINDOW,
         DRAGGABLE,
-        BUTTON
+        BUTTON,
+        EVENT,
     };
 
     enum Dir {
@@ -56,6 +57,8 @@ namespace CONFIG {
         ENEMYSPRITE,
         DEATHSPRITE,
         BULLETSPRITE,
+        GUI,
+        BUTTON,
     };
 }
 

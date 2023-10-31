@@ -36,6 +36,14 @@ namespace GameEngine {
                 _Destroy.timeout_ = 0.03;
             }
 
+            Entity(const Entity &entity) {
+                _id = entity._id;
+                _entityType = entity._entityType;
+                _entityContent = entity._entityContent;
+                _isDeath = entity._isDeath;
+                _uuid = entity._uuid;
+            }
+
             void init() {
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
                 // std::cout << "UUID: " << _uuid << std::endl;
