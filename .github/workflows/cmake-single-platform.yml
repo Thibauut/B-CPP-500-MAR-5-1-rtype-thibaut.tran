@@ -39,7 +39,7 @@ jobs:
       run: conan profile detect --force
 
     - name: Install System lib
-      run: sudo apt-get install libudev-dev
+      run: sudo apt-get install libudev-dev libgl-dev libgl1-mesa-dev
 
     - name: Build Conan and Build with CMake
       run: |
