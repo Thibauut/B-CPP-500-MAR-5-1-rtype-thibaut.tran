@@ -36,7 +36,7 @@ jobs:
       run: echo "${{ steps.conan.outputs.version }}"
 
     - name: Create default Conan profile
-      run: conan profile new default --detect
+      run: conan profile detect --force
 
     - name: Build Conan and Build with CMake
       run: |
