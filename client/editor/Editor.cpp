@@ -143,7 +143,7 @@ void Editor::loadPalette() {
             x = 1515;
         else {
             x = 1710;
-            y += 1;
+            count_y += 1;
         }
         count += 1;
         std::ifstream input_file(entry.path().c_str());
@@ -215,6 +215,7 @@ void drag(Event::event_data &data) {
     Sprite sp(CONFIG::CompType::SPRITE, 59878);
     std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
     spriteShared->setSprite(sprite->getSprite());
+    spriteShared->setRect(sprite->getRect());
     entity_dragged.addComponent(spriteShared);
     data.entity_manager->addEntity(entity_dragged);
     draggable->startDragging();
@@ -247,8 +248,10 @@ void drop(Event::event_data &data) {
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
         spriteShared->setSprite(sprite->getSprite());
         int editor_x = editor->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
-        editor_x = data.mouse.x + editor_x;
-        std::shared_ptr<Position> positionShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 231865, editor_x, data.mouse.y);
+        sf::IntRect rect = sprite->getRect();
+        editor_x = (data.mouse.x - ((rect.width * 4) / 2)) + editor_x;
+        int editor_y = (data.mouse.y - ((rect.height * 4) / 2));
+        std::shared_ptr<Position> positionShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 231865, editor_x, editor_y);
         new_entity.addComponent(spriteShared);
         new_entity.addComponent(positionShared);
         camera->push(new_entity);

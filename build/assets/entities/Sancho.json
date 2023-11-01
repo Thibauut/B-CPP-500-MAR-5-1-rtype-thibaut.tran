@@ -1,0 +1,10 @@
+{
+    "name": "Sancho",
+    "sprite": "assets/sprites/r-typesheet17.gif",
+    "rectangle": {
+        "left": 0,
+        "top": 0,
+        "width": 65,
+        "height": 66
+    }
+}
