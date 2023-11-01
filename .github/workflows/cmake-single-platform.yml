@@ -28,7 +28,14 @@ jobs:
         rm -rf ./Makefile
         cd ..
 
-    - name: Install Conan and Build with CMake
+    - name: Install Conan
+      id: conan
+      uses: turtlebrowser/get-conan@main
+
+    - name: Create default Conan profile
+      run: conan profile new default --detect
+
+    - name: Build Conan and Build with CMake
       run: |
         cd build
         conan install .. --build=missing --output-folder=ConanLibs/
