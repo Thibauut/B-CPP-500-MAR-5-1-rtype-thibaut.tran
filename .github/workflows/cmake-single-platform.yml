@@ -1,0 +1,41 @@
+name: CMake on a single platform
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Clean CMake files & Conan libs
+      run: |
+        cd build
+        rm -rf ./build/
+        rm -rf ./CMakeFiles/
+        rm -rf ./ConanLibs/
+        rm -rf ./cmake_install.cmake
+        rm -rf ./CMakeCache.txt
+        rm -rf .CMakeUserPresets.json
+        rm -rf ./Makefile
+        cd ..
+
+    - name: Install Conan and Build with CMake
+      run: |
+        cd build
+        conan install .. --build=missing --output-folder=ConanLibs/
+        cmake -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
+        make -C ./build/ CXX=g++-17
+        cd ..
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}}
