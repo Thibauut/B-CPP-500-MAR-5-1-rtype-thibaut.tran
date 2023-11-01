@@ -31,9 +31,6 @@ jobs:
     - name: Install Conan
       run: sudo pip install conan
 
-    - name: Create default Conan profile
-      run: conan profile detect --force
-
     - name: Install System lib
       run: |
         sudo apt-get update
@@ -42,6 +39,7 @@ jobs:
     - name: Build Conan and Build with CMake
       run: |
         cd build
+        conan profile detect --force
         sudo conan install .. --build=missing --output-folder=ConanLibs/ -c tools.system.package_manager:mode=install
         cmake -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
         make -C ./build/ CXX=g++-17
