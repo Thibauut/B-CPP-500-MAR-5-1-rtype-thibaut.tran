@@ -28,9 +28,10 @@ jobs:
         rm -rf ./Makefile
         cd ..
 
-    - name: Install Conan
-      id: conan
-      uses: turtlebrowser/get-conan@main
+    - name: Get Conan
+      # You may pin to the exact commit or the version.
+      # uses: turtlebrowser/get-conan@c171f295f3f507360ee018736a6608731aa2109d
+      uses: turtlebrowser/get-conan@v1.2
 
     - name: Conan version
       run: echo "${{ steps.conan.outputs.version }}"
