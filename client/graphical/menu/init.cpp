@@ -10,7 +10,7 @@
 void Menu::Init() {
     videoMode.width = 1920;
     videoMode.height = 1080;
-    _window = new sf::RenderWindow(videoMode, "R-TYPE", sf::Style::Close | sf::Style::Resize | sf::Style::Fullscreen);
+    _window = new sf::RenderWindow(videoMode, "R-TYPE", sf::Style::Fullscreen);
     _inGame = false;
     _font.loadFromFile("assets/fonts/WANTONE.otf");
     sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title.png", 0, 0, 1, 1);
