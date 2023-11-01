@@ -44,7 +44,7 @@ jobs:
     - name: Build Conan and Build with CMake
       run: |
         cd build
-        conan install .. --build=missing --output-folder=ConanLibs/ -c tools.system.package_manager:mode=install
+        conan install .. --build=missing --output-folder=ConanLibs/
         cmake -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
         make -C ./build/ CXX=g++-17
         cd ..
