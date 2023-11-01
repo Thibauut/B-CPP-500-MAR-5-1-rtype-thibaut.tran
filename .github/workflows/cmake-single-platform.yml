@@ -16,6 +16,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Get GCC-17
+      run:   |
+             sudo apt update
+             sudo apt install gcc-17 g++-17
+      shell: bash
+
     - name: Install Conan
       run: sudo pip install conan
 
