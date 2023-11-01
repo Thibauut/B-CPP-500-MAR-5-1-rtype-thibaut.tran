@@ -8,18 +8,25 @@
 #pragma once
 #include "../../GameEngine/GameEngine.hpp"
 #include "../../GameEngine/Systems/SysRender/SysRenderGlobal.hpp"
-#include "../../GameEngine/Systems/SysDrag/SysDrag.hpp"
+// #include "../../GameEngine/Systems/SysDrag/SysDrag.hpp"
 #include "../../GameEngine/Systems/SysPollEvent/SysPollEvent.hpp"
+#include "../../GameEngine/Systems/SysCamera/SysCameraEditor.hpp"
+#include <filesystem>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "nlohmann/json.hpp"
 
 class Editor {
     public:
         Editor(sf::RenderWindow *window);
         ~Editor();
 
+        void loadPalette();
         void loadSprites();
         void loadSystems();
         void loadGUI();
-        void loadButtonGUI()
+        void loadButtonGUI();
 
     private:
         Engine _core;

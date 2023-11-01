@@ -1,0 +1,10 @@
+{
+    "name": "Botty",
+    "sprite": "assets/sprites/r-typesheet11.gif",
+    "rectangle": {
+        "left": 0,
+        "top": 0,
+        "width": 33,
+        "height": 34
+    }
+}

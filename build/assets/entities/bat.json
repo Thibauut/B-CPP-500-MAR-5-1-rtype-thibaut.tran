@@ -1,0 +1,10 @@
+{
+    "name": "Bat",
+    "sprite": "assets/sprites/r-typesheet5.gif",
+    "rectangle": {
+        "left": 0,
+        "top": 0,
+        "width": 32,
+        "height": 32
+    }
+}

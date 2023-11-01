@@ -18,14 +18,14 @@ namespace GameEngine {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            ButtonText() : AComponent(CONFIG::CompType::BUTTON) {
+            ButtonText() : AComponent(CONFIG::CompType::BUTTON_TEXT) {
                 _idComponent = 0;
-                _type = CONFIG::CompType::BUTTON;
+                _type = CONFIG::CompType::BUTTON_TEXT;
 
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
 
             }
-            ButtonText(CONFIG::CompType type, int id, int sizeX, int sizeY, std::string label, bool isActivate, bool isPressed) : AComponent(CONFIG::CompType::BUTTON), _idComponent(id), _type(type), _sizeX(sizeX), _sizeY(sizeY), _label(label), _isActivate(isActivate), _isPressed(isPressed) {
+            ButtonText(CONFIG::CompType type, int id, int sizeX, int sizeY, std::string label, bool isActivate, bool isPressed) : AComponent(CONFIG::CompType::BUTTON_TEXT), _idComponent(id), _type(type), _sizeX(sizeX), _sizeY(sizeY), _label(label), _isActivate(isActivate), _isPressed(isPressed) {
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
             virtual ~ButtonText() = default;

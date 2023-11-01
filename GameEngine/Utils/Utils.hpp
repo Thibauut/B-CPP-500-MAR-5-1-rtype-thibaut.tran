@@ -40,7 +40,7 @@ namespace CONFIG {
         CAMERA,
         WINDOW,
         DRAGGABLE,
-        BUTTON,
+        BUTTON_TEXT,
         EVENT,
     };
 

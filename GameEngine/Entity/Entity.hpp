@@ -27,7 +27,7 @@ using namespace GameEngine;
 namespace GameEngine {
     class Entity {
         public:
-            Entity() {}
+            Entity() : _id(84), _entityType(42) {}
             Entity(unsigned int id, int type) : _id(id), _entityType(type), _isDeath(false) {
                 _Destroy.timeout_ = 0.03;
             }
