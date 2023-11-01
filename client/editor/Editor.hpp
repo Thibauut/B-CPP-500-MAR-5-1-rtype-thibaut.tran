@@ -11,6 +11,7 @@
 // #include "../../GameEngine/Systems/SysDrag/SysDrag.hpp"
 #include "../../GameEngine/Systems/SysPollEvent/SysPollEvent.hpp"
 #include "../../GameEngine/Systems/SysCamera/SysCameraEditor.hpp"
+#include "../../GameEngine/Components/String/String.hpp"
 #include <filesystem>
 #include <iostream>
 #include <fstream>

@@ -16,6 +16,10 @@ void drag_and_drop(Event::event_data &data);
 bool is_dragging(Event::event_data &data);
 bool is_moving(Event::event_data &data);
 void move(Event::event_data &data);
+bool is_clicked(Event::event_data &data);
+void save(Event::event_data &data);
+void load(Event::event_data &data);
+void leave(Event::event_data &data);
 
 Editor::Editor(sf::RenderWindow *window) : _core() {
     EntityManager manager;
@@ -58,6 +62,7 @@ Editor::Editor(sf::RenderWindow *window) : _core() {
 
     loadGUI();
     loadPalette();
+    loadButtonGUI();
     loadSystems();
     _core.run();
 }
@@ -84,44 +89,63 @@ void Editor::loadButtonGUI() {
     //      LEAVE        //
     Entity buttonLeave;
     buttonLeave.init();
+    Event::event_config config1;
+    config1.isActive = is_clicked; // Ton activation d'event qui return true / false
+    config1.action = save; // Ton event
+    config1.isActive = is_clicked;
+    config1.action = save;
+    std::shared_ptr<Event> eventClick1 = std::make_shared<Event>(config1);
+    std::shared_ptr<HitBoxSquare> rectangle_load1 = std::make_shared<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE, 64, sf::IntRect(0, 0, 300, 100));
     std::shared_ptr<Sprite> spriteButtonLeaveShared = std::make_shared<Sprite>(CONFIG::CompType::SPRITE, 58978);
-    std::shared_ptr<Position> positionButtonLeaveShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 0, 500, 500);
-    Event::event_config config;
-    // config.isActive = ; // Ton activation d'event qui return true / false
-    // config.action = ; // Ton event
-    std::shared_ptr<Event> eventButtonLeaveShared = std::make_shared<Event>(config);
+    std::shared_ptr<Position> positionButtonLeaveShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 0, 1750, 100);
     sf::IntRect spriteRectButton(0, 0, 300, 100);
-    spriteButtonLeaveShared->setSprite(positionButtonLeaveShared->getPositionX(), positionButtonLeaveShared->getPositionY(), "assets/editor/leaveButton.png", sf::Vector2f(1, 1), spriteRectButton, CONFIG::SpriteType::BUTTON);
-    spriteButtonLeaveShared->setMaxDimensions(300, 100);
+    spriteButtonLeaveShared->setSprite(positionButtonLeaveShared->getPositionX(), positionButtonLeaveShared->getPositionY(), "assets/editor/gui/leaveButton.png", sf::Vector2f(0.45, 0.45), spriteRectButton, CONFIG::SpriteType::BUTTON);
+    spriteButtonLeaveShared->setMaxDimensions(150, 50);
     spriteButtonLeaveShared->initSprite();
     buttonLeave.addComponent(positionButtonLeaveShared);
     buttonLeave.addComponent(spriteButtonLeaveShared);
-    // buttonLeave.addComponent(eventButtonLeaveShared);
+    buttonLeave.addComponent(eventClick1);
+    buttonLeave.addComponent(rectangle_load1);
     //      LOAD        //
     Entity buttonLoad;
     buttonLoad.init();
+    Event::event_config config2;
+    config2.isActive = is_clicked;
+    config2.action = save; //
+    std::shared_ptr<Event> eventClick2 = std::make_shared<Event>(config2);
+    std::shared_ptr<HitBoxSquare> rectangle_load2 = std::make_shared<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE, 64, sf::IntRect(0, 0, 300, 100));
     std::shared_ptr<Sprite> spriteButtonLoadShared = std::make_shared<Sprite>(CONFIG::CompType::SPRITE, 59998);
-    std::shared_ptr<Position> positionButtonLoadShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 59886, 500, 800);
+    std::shared_ptr<Position> positionButtonLoadShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 59886, 1610, 100);
     sf::IntRect spriteRectButton2(0, 0, 300, 100);
-    spriteButtonLoadShared->setSprite(positionButtonLoadShared->getPositionX(), positionButtonLoadShared->getPositionY(), "assets/editor/loadButton.png", sf::Vector2f(1, 1), spriteRectButton2, CONFIG::SpriteType::BUTTON);
-    spriteButtonLoadShared->setMaxDimensions(300, 100);
+    spriteButtonLoadShared->setSprite(positionButtonLoadShared->getPositionX(), positionButtonLoadShared->getPositionY(), "assets/editor/gui/loadButton.png", sf::Vector2f(0.45, 0.45), spriteRectButton2, CONFIG::SpriteType::BUTTON);
+    spriteButtonLoadShared->setMaxDimensions(150, 50);
     spriteButtonLoadShared->initSprite();
+    buttonLoad.addComponent(positionButtonLoadShared);
+    buttonLoad.addComponent(spriteButtonLoadShared);
+    buttonLoad.addComponent(eventClick2);
+    buttonLoad.addComponent(rectangle_load2);
     //      SAVE        //
     Entity buttonSave;
     buttonSave.init();
+    Event::event_config config3;
+    config3.isActive = is_clicked;
+    config3.action = save;
+    std::shared_ptr<Event> eventClick3 = std::make_shared<Event>(config3);
+    std::shared_ptr<HitBoxSquare> rectangle_load3 = std::make_shared<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE, 64, sf::IntRect(0, 0, 300, 100));
     std::shared_ptr<Sprite> spriteButtonSaveShared = std::make_shared<Sprite>(CONFIG::CompType::SPRITE, 56668);
-    std::shared_ptr<Position> positionButtonSaveShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 0, 500, 1100);
+    std::shared_ptr<Position> positionButtonSaveShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 0, 1470, 100);
     sf::IntRect spriteRectButton3(0, 0, 300, 100);
-    spriteButtonSaveShared->setSprite(positionButtonSaveShared->getPositionX(), positionButtonSaveShared->getPositionY(), "assets/editor/saveButton.png", sf::Vector2f(1, 1), spriteRectButton3, CONFIG::SpriteType::BUTTON);
+    spriteButtonSaveShared->setSprite(positionButtonSaveShared->getPositionX(), positionButtonSaveShared->getPositionY(), "assets/editor/gui/saveButton.png", sf::Vector2f(0.45, 0.45), spriteRectButton3, CONFIG::SpriteType::BUTTON);
     spriteButtonSaveShared->setMaxDimensions(300, 100);
     spriteButtonSaveShared->initSprite();
-
-
+    buttonSave.addComponent(positionButtonSaveShared);
+    buttonSave.addComponent(spriteButtonSaveShared);
+    buttonSave.addComponent(eventClick3);
+    buttonSave.addComponent(rectangle_load3);
 
     _core._manager->addEntity(buttonLeave);
     _core._manager->addEntity(buttonLoad);
     _core._manager->addEntity(buttonSave);
-
 }
 
 void Editor::loadSprites() {
@@ -159,6 +183,8 @@ void Editor::loadPalette() {
         sprite1Shared->initSprite();
         std::shared_ptr<Position> position1Shared = std::make_shared<Position>(position1);
         std::shared_ptr<Draggable> draggable1Shared = std::make_shared<Draggable>(CONFIG::CompType::DRAGGABLE);
+        std::string path(entry.path().c_str());
+        std::shared_ptr<String> pathJson = std::make_shared<String>(path);
         Event::event_config config_event;
         config_event.isActive = is_dragging;
         config_event.action = drag_and_drop;
@@ -167,6 +193,7 @@ void Editor::loadPalette() {
         mob.addComponent(sprite1Shared);
         mob.addComponent(draggable1Shared);
         mob.addComponent(eventShared);
+        mob.addComponent(pathJson);
         _core._manager->addEntity(mob);
     }
 }
@@ -213,10 +240,12 @@ void drag(Event::event_data &data) {
     Entity entity_dragged(50, 30);
     entity_dragged.init();
     Sprite sp(CONFIG::CompType::SPRITE, 59878);
+    std::shared_ptr<String> path = std::make_shared<String>(data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString());
     std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
     spriteShared->setSprite(sprite->getSprite());
     spriteShared->setRect(sprite->getRect());
     entity_dragged.addComponent(spriteShared);
+    entity_dragged.addComponent(path);
     data.entity_manager->addEntity(entity_dragged);
     draggable->startDragging();
     draggable->setEntityDragged(data.entity_manager->getEntityById(50)->getUuid());
@@ -246,6 +275,7 @@ void drop(Event::event_data &data) {
         Sprite sp(CONFIG::CompType::SPRITE, 59912);
         std::shared_ptr<Sprite> sprite = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
+        std::shared_ptr<String> path = std::make_shared<String>(entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString());
         spriteShared->setSprite(sprite->getSprite());
         int editor_x = editor->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
         sf::IntRect rect = sprite->getRect();
@@ -254,6 +284,7 @@ void drop(Event::event_data &data) {
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 231865, editor_x, editor_y);
         new_entity.addComponent(spriteShared);
         new_entity.addComponent(positionShared);
+        new_entity.addComponent(path);
         camera->push(new_entity);
     }
     data.entity_manager->deleteEntity(draggable->getEntityDragged());
@@ -271,10 +302,74 @@ bool is_moving(Event::event_data &data) {
     return false;
 }
 
-void move(Event::event_data &data) {
+void move(Event::event_data &data)
+{
     std::shared_ptr<Position> position = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
     if (data.event->key.code == sf::Keyboard::Left)
         position->setPositionX(position->getPositionX() - 10);
     if (data.event->key.code == sf::Keyboard::Right)
         position->setPositionX(position->getPositionX() + 10);
+}
+
+bool is_clicked(Event::event_data &data)
+{
+    std::shared_ptr<HitBoxSquare> hitbox = data.entity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
+    std::shared_ptr<Position> position = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+    std::shared_ptr<Sprite> sprite = data.entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+    if (hitbox != nullptr) {
+        if (data.event->type == sf::Event::MouseButtonPressed) {
+            sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
+            sf::IntRect rect = hitbox->getRectangle();
+            rect.left = position->getPositionX();
+            rect.top = position->getPositionY();
+            if (sprite->getSprite().getGlobalBounds().contains(data.mouse.x, data.mouse.y))
+                return true;
+        }
+    }
+    return false;
+}
+
+void save(Event::event_data &data)
+{
+    std::cout << "SAVE !" << std::endl;
+    nlohmann::json map_json;
+    map_json["name"] = "Test de Map";
+    map_json["size"] = 3000;
+    map_json["enemies"];
+    std::vector<Entity> entities = data.entity_manager->getEntityById(550)->getComponentByType<Camera>(CONFIG::CompType::CAMERA)->getEntities();
+    for (Entity entity : entities) {
+        std::shared_ptr<Sprite> sprite = entity.getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+        std::shared_ptr<Position> position = entity.getComponentByType<Position>(CONFIG::CompType::POSITION);
+        std::shared_ptr<String> path = entity.getComponentByType<String>(CONFIG::CompType::STRING);
+        std::ifstream input_file(path->getString());
+        nlohmann::json entity_json;
+        input_file >> entity_json;
+        input_file.close();
+        entity_json["position"].push_back({
+            {"x", position->getPositionX()},
+            {"y", position->getPositionY()}
+        });
+        map_json["enemies"].push_back(entity_json);
+    }
+    std::ofstream file("assets/maps/map.json");
+    file << map_json.dump(4);
+    file.close();
+}
+
+void load(Event::event_data &data)
+{
+    std::cout << "LOAD !" << std::endl;
+    
+    std::string selectedFile;
+    try {
+        selectedFile = std::filesystem::absolute(sf::String(sf::FileDialog::getOpenFileName()));
+        std::cout << "Selected file: " << selectedFile << std::endl;
+    } catch (std::exception& e) {
+        std::cerr << "File dialog error: " << e.what() << std::endl;
+    }
+    
+}
+
+void leave(Event::event_data &data) {
+    std::cout << "leave" << std::endl;
 }

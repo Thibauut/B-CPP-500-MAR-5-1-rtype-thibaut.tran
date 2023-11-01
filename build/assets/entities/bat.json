@@ -1,10 +1,27 @@
 {
     "name": "Bat",
     "sprite": "assets/sprites/r-typesheet5.gif",
+    "type": 0,
+    "speed": 1,
+    "health": 10,
+    "weapon": "Weapon1",
     "rectangle": {
         "left": 0,
         "top": 0,
         "width": 32,
         "height": 32
-    }
+    },
+    "maxWidth": 264,
+    "maxHeight": 36,
+    "animDelay": 0.1,
+    "rectangleDead": {
+        "left": -6,
+        "top": 55,
+        "width": 34,
+        "height": 34
+    },
+    "spriteDead": "assets/sprites/r-typesheet43.gif",
+    "maxWidthDead": 199,
+    "maxHeightDead": 85,
+    "animDelayDead": 0.1
 }

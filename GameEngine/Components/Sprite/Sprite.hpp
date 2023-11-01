@@ -200,8 +200,8 @@ namespace GameEngine {
             int _topRect;
             int width;
             int height;
-            int _scaleX;
-            int _scaleY;
+            float _scaleX;
+            float _scaleY;
 
             bool doAnimationUp = false;
             bool doAnimationDown = false;

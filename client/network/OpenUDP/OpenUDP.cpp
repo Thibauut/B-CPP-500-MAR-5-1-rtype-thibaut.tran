@@ -79,8 +79,10 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
             if (cooldownDeleteComp != nullptr) {
                 cooldownDeleteComp->reset("delete");
             }
-            if (spriteComp == nullptr || positionComp == nullptr)
+            if (spriteComp == nullptr || positionComp == nullptr) {
+                entities_->unlock();
                 return;
+            }
             positionComp->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
             positionComp->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
             spriteComp->setPositionSprite(sf::Vector2f(positionComp->getPositionX(), positionComp->getPositionY()));

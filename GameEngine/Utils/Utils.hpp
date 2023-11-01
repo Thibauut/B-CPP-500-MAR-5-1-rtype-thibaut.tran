@@ -42,6 +42,7 @@ namespace CONFIG {
         DRAGGABLE,
         BUTTON_TEXT,
         EVENT,
+        STRING,
     };
 
     enum Dir {

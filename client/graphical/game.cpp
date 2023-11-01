@@ -172,6 +172,7 @@ void Game::Draw()
                     std::vector<std::shared_ptr<Sprite>> SpriteComps = entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE);
                     for (std::shared_ptr<Sprite> spriteComp : SpriteComps) {
                         if (spriteComp->getSpriteType() == CONFIG::SpriteType::ENEMYSPRITE || spriteComp->getSpriteType() == CONFIG::SpriteType::BULLETSPRITE) {
+                            std::cout << "Sprite maybe here..." << std::endl;
                             std::pair<int, int> positions = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPosition();
                             sf::Vector2f pos = {static_cast<float>(positions.first), static_cast<float>(positions.second)};
                             spriteComp.get()->setPositionSprite(pos);
