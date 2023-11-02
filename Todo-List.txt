@@ -1,7 +1,0 @@
-TODO-LIST
-
-
-[+] Graphics Interface for ECS GameEngine    :   {If you have probleme contact Game Engineer}
-      
-
-[+] Create new component & systems (it's better if we have more options)    :   {If you have probleme contact Game Engineer}
