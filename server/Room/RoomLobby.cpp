@@ -41,7 +41,7 @@ void RoomLobby::startGame()
         _isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
-        _thread = std::thread(&RoomLobby::PvpEntryPoint, this);
+        _thread = std::thread(&RoomLobby::gameEntryPoint, this);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }

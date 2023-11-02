@@ -345,7 +345,7 @@ void save(Event::event_data &data)
         nlohmann::json entity_json;
         input_file >> entity_json;
         input_file.close();
-        entity_json["position"].push_back({
+        entity_json["positions"].push_back({
             {"x", position->getPositionX()},
             {"y", position->getPositionY()}
         });
@@ -362,7 +362,7 @@ void load(Event::event_data &data)
     
     std::string selectedFile;
     try {
-        selectedFile = std::filesystem::absolute(sf::String(sf::FileDialog::getOpenFileName()));
+        // selectedFile = std::filesystem::absolute(sf::String(sf::FileDialog::getOpenFileName()));
         std::cout << "Selected file: " << selectedFile << std::endl;
     } catch (std::exception& e) {
         std::cerr << "File dialog error: " << e.what() << std::endl;
