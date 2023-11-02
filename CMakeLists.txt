@@ -42,13 +42,13 @@ set(HPP_CLIENT client/include/menu.hpp
 add_executable(${SERVER} ${SRC_SERVER} ${HPP_SERVER})
 add_executable(${CLIENT} ${SRC_CLIENT} ${HPP_CLIENT})
 
-target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+target_link_libraries(${SERVER} sfml-graphics sfml-window sfml-system sfml-audio sfml-network sfml::sfml)
 target_link_libraries(${SERVER} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${SERVER} Boost::serialization)
 target_link_libraries(${SERVER} nlohmann_json::nlohmann_json)
 
 
-target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+target_link_libraries(${CLIENT} sfml-graphics sfml-window sfml-system sfml-audio sfml-network sfml::sfml)
 target_link_libraries(${CLIENT} Boost::system Boost::thread Boost::log Boost::log_setup)
 target_link_libraries(${CLIENT} Boost::serialization)
 target_link_libraries(${CLIENT} nlohmann_json::nlohmann_json)
