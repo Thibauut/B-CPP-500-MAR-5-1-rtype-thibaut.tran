@@ -5,6 +5,7 @@
 ** game.hpp
 */
 
+#pragma once
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
@@ -15,44 +16,32 @@
 #include <memory>
 #include <map>
 #include <functional>
-#include "../graphical/utils/sfml_func.cpp"
-#include "global.hpp"
 #include "../../GameEngine/GameEngine.hpp"
-#include "../network/OpenUDP/OpenUDP.hpp"
+#include "AGame.hpp"
 
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
 #define GAME_TITLE  "R-Type"
 
-#pragma once
-
-class Game {
+class GameRtype: public AGame {
     public:
-        Game(sf::RenderWindow *window);
-        ~Game() = default;
+        GameRtype(std::shared_ptr<Engine> engine);
+        virtual ~GameRtype();
 
-        void Init();
-        void InitBackground();
+        // game
+        virtual void InitBackground() override;
+        virtual void AnimateBackground() override;
+        virtual void Loop() override;
+        virtual void HandleEvents() override;
+        virtual void Draw() override;
 
-        void AnimateBackground();
+        void LoadSprite(sf::Sprite& sprite,  sf::Texture &texture, const std::string& imagePath, float posX, float posY, float scaleX, float scaleY);
 
-        void Loop();
-        void HandleEvents();
-        void Draw();
-
-
-    std::shared_ptr<Entity> my_player;
-    GameEngine::Engine gameEngine_;
-
-
-    SfmlFunc sfmlFunc;
-    sf::RenderWindow *_window;
     sf::VideoMode _videoMode;
     sf::Event _event;
     sf::Font _font;
     sf::Clock _clock;
-    std::shared_ptr<ClientOpenUDP> _clientOpenUDP;
 
     sf::Sprite _background;
     sf::Texture _backgroundTexture;
@@ -66,10 +55,6 @@ class Game {
     bool _moveLeft = false;
     bool _moveRight = false;
     bool _shooting = false;
-
-    std::string my_id_;
-    std::string portUDP_;
-
 
     //ANIMATION
     bool animStartUp = false;

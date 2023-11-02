@@ -46,10 +46,11 @@ void Parser::parseAction(std::string data) {
         _args.push_back(data.substr(posSlot + 1, findQuote(data, 4) - findQuote(data, 3) - 1));
         _args.push_back(data.substr(posName + 1, findQuote(data, 6) - findQuote(data, 5) - 1));
         _args.push_back(data.substr(posTypeGame + 1, findQuote(data, 8) - findQuote(data, 7) - 1));
-        // if (_args.at(3) == "0") {
-            int posPathMap = findQuote(data, 9);
-            _args.push_back(data.substr(posPathMap + 1, findQuote(data, 10) - findQuote(data, 9) - 1));
-        // }
+        int posPathMap = findQuote(data, 9);
+        _args.push_back(data.substr(posPathMap + 1, findQuote(data, 10) - findQuote(data, 9) - 1));
+
+        int posTitleGame = findQuote(data, 11);
+        _args.push_back(data.substr(posTitleGame + 1, findQuote(data, 12) - findQuote(data, 11) - 1));
     }
     if (data.find("JOIN_ROOM") != std::string::npos) {
         _action = JOIN_ROOM;
@@ -107,7 +108,7 @@ void Parser::callback() {
             getPlayerInfo();
             break;
         case CREATE_ROOM:
-            createRoom(_args.at(0), std::stoi(_args.at(1)), _args.at(2), _args.at(4), std::stoi(_args.at(3)));
+            createRoom(_args.at(0), std::stoi(_args.at(1)), _args.at(2), _args.at(4), std::stoi(_args.at(3)), _args.at(5));
             break;
         case JOIN_ROOM:
             joinRoom(_args.at(0), _args.at(1));
@@ -172,7 +173,7 @@ void Parser::disconnect() {
             size_t bytes_transferred) {});
 }
 
-void Parser::createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int gameType) {
+void Parser::createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int gameType, std::string titleGame) {
     for (std::shared_ptr<RoomLobby> room : _server->_lobbys) {
         if (room->getName() == name) {
             std::string response = "CREATE_ROOM KO\n";
@@ -195,7 +196,7 @@ void Parser::createRoom(std::string player_uuid, int nb_slots, std::string name,
     std::string room_uuid = boost::uuids::to_string(boost::uuids::random_generator()());
     for (std::shared_ptr<PlayerLobby> player : _server->players_) {
         if (player->getUuid() == player_uuid) {
-            _server->_lobbys.push_back(std::make_shared<RoomLobby>(player, nb_slots, name, room_uuid, pathMap, gameType));
+            _server->_lobbys.push_back(std::make_shared<RoomLobby>(player, nb_slots, name, room_uuid, pathMap, gameType, titleGame));
             std::string response = "CREATE_ROOM " + room_uuid + "\n";
             std::cout << "-> " << response;
             _socket.async_write_some(boost::asio::buffer(response),

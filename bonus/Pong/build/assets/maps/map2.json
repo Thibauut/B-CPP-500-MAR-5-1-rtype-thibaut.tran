@@ -1,0 +1,73 @@
+{
+    "name": "Devil Tek",
+    "size": 4000,
+    "battleSound": "assets/audio/a.mp3",
+    "enemies": [
+        {
+            "type": 0,
+            "speed": 1,
+            "health": 10,
+            "weapon": "Weapon3",
+            "bulletSound": "assets/audio/gun.mp3",
+            "positions": [
+                {
+                    "x": 1500,
+                    "y": 300
+                }
+            ],
+            "rectangle": {
+                "left": 0,
+                "top": 0,
+                "width": 33,
+                "height": 36
+            },
+            "sprite": "assets/sprites/r-typesheet11.gif",
+            "maxWidth": 132,
+            "maxHeight": 36,
+            "animDelay": 0.15,
+            "rectangleDead": {
+                "left": -6,
+                "top": 55,
+                "width": 34,
+                "height": 34
+            },
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "maxWidthDead": 199,
+            "maxHeightDead": 85,
+            "animDelayDead": 0.1
+        },
+        {
+            "type": 0,
+            "speed": 1,
+            "health": 10,
+            "weapon": "Weapon3",
+            "bulletSound": "assets/audio/gun.mp3",
+            "positions": [
+                {
+                    "x": 500,
+                    "y": 300
+                }
+            ],
+            "rectangle": {
+                "left": 0,
+                "top": 0,
+                "width": 33,
+                "height": 36
+            },
+            "sprite": "assets/sprites/r-typesheet11.gif",
+            "maxWidth": 132,
+            "maxHeight": 36,
+            "animDelay": 0.15,
+            "rectangleDead": {
+                "left": -6,
+                "top": 55,
+                "width": 34,
+                "height": 34
+            },
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "maxWidthDead": 199,
+            "maxHeightDead": 85,
+            "animDelayDead": 0.1
+        }
+    ]
+}

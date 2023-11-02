@@ -31,6 +31,10 @@
 #include "Systems/SysClearClient/SysClearClient.hpp"
 // #include "Systems/SysSound/SysSound.hpp"
 #include "Systems/SysCamera/SysCamera.hpp"
+#include "Systems/SysAIPong/SysAIPong.hpp"
+#include "Systems/SysCollisionPong/SysCollisionPong.hpp"
+#include "Systems/SysMoveBallPong/SysMoveBallPong.hpp"
+
 
 // #include "Systems/SysMovement/SysMovement.hpp"
 // #include "Systems/SysRender/SysRender.hpp"
@@ -45,6 +49,11 @@ namespace GameEngine {
     class Engine {
         public:
             Engine(EntityManager manager) : _manager(std::make_shared<EntityManager>(manager)) {_isRunning = false;}
+            Engine(Engine &other) {
+                _manager = other._manager;
+                _isRunning = other._isRunning;
+                _systems = other._systems;
+            }
             ~Engine() {}
 
             void init() {

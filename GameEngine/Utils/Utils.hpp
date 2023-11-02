@@ -44,7 +44,8 @@ namespace CONFIG {
         DAMAGE,
         TEAM,
         SOUND,
-        CAMERA
+        CAMERA,
+        MENU
     };
 
     enum Dir {
@@ -57,9 +58,16 @@ namespace CONFIG {
 
     enum SpriteType {
         PLAYERSPRITE,
+        PLAYERSPRITEAI,
         ENEMYSPRITE,
         DEATHSPRITE,
         BULLETSPRITE,
+        BALLSPRITE,
+    };
+
+    enum Interfaces {
+        MENUDRAW,
+        GAMEDRAW,
     };
 }
 

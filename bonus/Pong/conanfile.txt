@@ -1,0 +1,16 @@
+[requires]
+sfml/2.5.1
+boost/1.83.0
+nlohmann_json/3.11.2
+
+[options]
+boost/1.83.0:shared=True
+sfml/2.5.1:graphics=True
+sfml/2.5.1:window=True
+sfml/2.5.1:audio=True
+sfml/2.5.1:network=True
+sfml/2.5.1:shared=True
+
+[generators]
+CMakeDeps
+CMakeToolchain

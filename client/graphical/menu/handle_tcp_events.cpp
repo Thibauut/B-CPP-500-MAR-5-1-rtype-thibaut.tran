@@ -31,7 +31,10 @@ void Menu::HandleTcpEvents()
         //////////////////////////////////////////////////////
         //                  CONFIGURE SLOT                  //
         //////////////////////////////////////////////////////
-        if (addSlotBounds.contains(mousePos) && _isCreatingRoom && _roomSlot < 11) {
+        if (_titleFirst == "R-TYPE" && addSlotBounds.contains(mousePos) && _isCreatingRoom && _roomSlot < 11) {
+            _roomSlot++;
+            _text_slot_input_room.setString(std::to_string(_roomSlot));
+        } else if (_titleFirst == "PONG" && addSlotBounds.contains(mousePos) && _isCreatingRoom && _roomSlot < 3) {
             _roomSlot++;
             _text_slot_input_room.setString(std::to_string(_roomSlot));
         }
@@ -41,39 +44,41 @@ void Menu::HandleTcpEvents()
                 _text_slot_input_room.setString(std::to_string(_roomSlot));
             }
         }
+
         //////////////////////////////////////////////////////
         //                      GAME TYPE                    //
         //////////////////////////////////////////////////////
-
-        if (nextGameTypeBounds.contains(mousePos) && _isCreatingRoom && _Game_Type < 4) {
-            _Game_Type++;
-            if (_Game_Type == 0)
-                TypeName = "Normal";
-            if (_Game_Type == 1)
-                TypeName = "Solo PVP";
-            if (_Game_Type == 2)
-                TypeName = "Duo PVP";
-            if (_Game_Type == 3)
-                TypeName = "Survival";
-            if (_Game_Type == 4)
-                TypeName = "Battle Royal";
+        if (_titleFirst == "R-TYPE") {
+            if (nextGameTypeBounds.contains(mousePos) && _isCreatingRoom && _Game_Type < 4) {
+                _Game_Type++;
+                if (_Game_Type == 0)
+                    TypeName = "Normal";
+                if (_Game_Type == 1)
+                    TypeName = "Solo PVP";
+                if (_Game_Type == 2)
+                    TypeName = "Duo PVP";
+                if (_Game_Type == 3)
+                    TypeName = "Survival";
+                if (_Game_Type == 4)
+                    TypeName = "Battle Royal";
+                _text_GameType_choose.setString(TypeName);
+            }
+            if (previousGameTypeBounds.contains(mousePos) && _isCreatingRoom && _Game_Type > 0) {
+                _Game_Type--;
+                if (_Game_Type == 0)
+                    TypeName = "Normal";
+                if (_Game_Type == 1)
+                    TypeName = "Solo PVP", _roomSlot = 2;
+                if (_Game_Type == 2)
+                    TypeName = "Duo PVP", _roomSlot = 4;
+                if (_Game_Type == 3)
+                    TypeName = "Survival";
+                if (_Game_Type == 4)
+                    TypeName = "Battle Royal";
+                _text_GameType_choose.setString(TypeName);
+            }
             _text_GameType_choose.setString(TypeName);
         }
-        if (previousGameTypeBounds.contains(mousePos) && _isCreatingRoom && _Game_Type > 0) {
-            _Game_Type--;
-             if (_Game_Type == 0)
-                TypeName = "Normal";
-            if (_Game_Type == 1)
-                TypeName = "Solo PVP", _roomSlot = 2;
-            if (_Game_Type == 2)
-                TypeName = "Duo PVP", _roomSlot = 4;
-            if (_Game_Type == 3)
-                TypeName = "Survival";
-            if (_Game_Type == 4)
-                TypeName = "Battle Royal";
-            _text_GameType_choose.setString(TypeName);
-        }
-        _text_GameType_choose.setString(TypeName);
 
 
         //////////////////////////////////////////////////////
@@ -83,9 +88,6 @@ void Menu::HandleTcpEvents()
             _tcpConnection = new ClientConnectionTCP(_text_name_input.getString().toAnsiString(),
                                                     _text_ip_input.getString().toAnsiString(),
                                                     _text_port_input.getString().toAnsiString());
-            // std::cout << _tcpConnection->ip_ << std::endl;
-            // std::cout << _tcpConnection->port_ << std::endl;
-            // std::cout << _tcpConnection->username_ << std::endl;
             _tcpConnection->Login();
 
             if (!_tcpConnection->uuid_.empty()) {
@@ -93,7 +95,6 @@ void Menu::HandleTcpEvents()
                 _isConnected = true;
                 Player_uuid_ = _tcpConnection->uuid_;
                 UpdateRoom();
-                // std::cout << "Connect" << std::endl;
             }
         }
 
@@ -112,53 +113,60 @@ void Menu::HandleTcpEvents()
         //                      CREATE                      //
         //////////////////////////////////////////////////////
         if (buttonCreateBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
-            _isCreatingRoom = true;
-            DIR *dir;
-            struct dirent *ent;
-            if ((dir = opendir("assets/maps/")) != NULL) {
-                for (bool isFirst = true; (ent = readdir(dir)) != NULL; ) {
-                    if (ent->d_name[0] != '.') {
-                        std::string path = "assets/maps/";
-                        path.append(ent->d_name);
-                        if (path.find(".json") == std::string::npos)
-                            continue;
-                        std::ifstream input_file(path);
-                        nlohmann::json map_data;
-                        input_file >> map_data;
-                        try {
-                            std::string name = map_data["name"];
-                            _maps.push_back(std::make_pair(name, path));
-                            input_file.close();
-                            std::cout << "Name: " << name << " path=" << path << std::endl;
-                            if (isFirst)
-                                _text_level_choose.setString(name);
-                            isFirst = false;
-                        } catch (std::exception &e) {
-                            std::cerr << "Error while parsing the file " << ent->d_name << "\n" << e.what() << std::endl;
+                _isCreatingRoom = true;
+            if (_titleFirst == "R-TYPE") {
+                DIR *dir;
+                struct dirent *ent;
+                if ((dir = opendir("assets/maps/")) != NULL) {
+                    for (bool isFirst = true; (ent = readdir(dir)) != NULL; ) {
+                        if (ent->d_name[0] != '.') {
+                            std::string path = "assets/maps/";
+                            path.append(ent->d_name);
+                            if (path.find(".json") == std::string::npos)
+                                continue;
+                            std::ifstream input_file(path);
+                            nlohmann::json map_data;
+                            input_file >> map_data;
+                            try {
+                                std::string name = map_data["name"];
+                                _maps.push_back(std::make_pair(name, path));
+                                input_file.close();
+                                std::cout << "Name: " << name << " path=" << path << std::endl;
+                                if (isFirst)
+                                    _text_level_choose.setString(name);
+                                isFirst = false;
+                            } catch (std::exception &e) {
+                                std::cerr << "Error while parsing the file " << ent->d_name << "\n" << e.what() << std::endl;
+                            }
                         }
                     }
+                    closedir(dir);
                 }
-                closedir(dir);
             }
         }
-        if (_isCreatingRoom && nextMapBounds.contains(mousePos)) {
-            if (_maps.size() > 1) {
-                _mapIndex++;
-                if (_mapIndex >= _maps.size())
-                    _mapIndex = 0;
-                _text_level_choose.setString(_maps[_mapIndex].first);
+        if (_titleFirst == "R-TYPE") {
+            if (_isCreatingRoom && nextMapBounds.contains(mousePos)) {
+                if (_maps.size() > 1) {
+                    _mapIndex++;
+                    if (_mapIndex >= _maps.size())
+                        _mapIndex = 0;
+                    _text_level_choose.setString(_maps[_mapIndex].first);
+                }
             }
-        }
-        if (_isCreatingRoom && previousMapBounds.contains(mousePos)) {
-            if (_maps.size() > 1) {
-                _mapIndex--;
-                if (_mapIndex < 0)
-                    _mapIndex = _maps.size() - 1;
-                _text_level_choose.setString(_maps[_mapIndex].first);
+            if (_isCreatingRoom && previousMapBounds.contains(mousePos)) {
+                if (_maps.size() > 1) {
+                    _mapIndex--;
+                    if (_mapIndex < 0)
+                        _mapIndex = _maps.size() - 1;
+                    _text_level_choose.setString(_maps[_mapIndex].first);
+                }
             }
         }
         if (_isCreatingRoom && buttonCreateRoomBounds.contains(mousePos) && _roomSlot > 0) {
-            _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second, _Game_Type);
+            if (_titleFirst == "R-TYPE")
+                _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), _maps[_mapIndex].second, _Game_Type, _titleFirst);
+            else if (_titleFirst == "PONG")
+                _tcpConnection->CreateRoom(_text_name_input_room.getString().toAnsiString(), _text_slot_input_room.getString().toAnsiString(), "", 0, _titleFirst);
             if (_tcpConnection->infoRoomUuid_ == "KO") {
                 std::cerr << "Error until new room create" << std::endl;
             } else {

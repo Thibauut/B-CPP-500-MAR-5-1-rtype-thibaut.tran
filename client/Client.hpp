@@ -1,24 +1,21 @@
 /*
 ** EPITECH PROJECT, 2023
-** Visual Studio Live Share (Workspace)
+** B-CPP-500-MAR-5-1-rtype-maori.dino
 ** File description:
 ** Client.hpp
 */
 
 #pragma once
 
-#include "include/menu.hpp"
+#include "network/OpenUDP/OpenUDP.cpp"
+#include "../GameEngine/Components/Menu/Menu.hpp"
+#include "../GameEngine/Systems/SysRender/SysRender.hpp"
+#include "../GameEngine/GameEngine.hpp"
 
 class Client {
     public:
-        Client();
-        ~Client();
+        Client(): gameEngine_(*std::make_shared<EntityManager>()) {};
+        ~Client() = default;
 
-    private:
-        Menu menuGraphical;
-
-        // UDP network /!\ in a thread
-
-        // UDP graphical
-
+        GameEngine::Engine gameEngine_;
 };

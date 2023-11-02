@@ -10,22 +10,35 @@
 void Menu::Init() {
     videoMode.width = 1920;
     videoMode.height = 1080;
-    _window = new sf::RenderWindow(videoMode, "R-TYPE",sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
+    _window = new sf::RenderWindow(videoMode, _titleFirst,sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
     _inGame = false;
-    _font.loadFromFile("assets/fonts/WANTONE.otf");
-    sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title.png", 0, 0, 1, 1);
+    _font.loadFromFile(_fontFirst);
+    if (_titleFirst == "PONG") {
+        sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title_pong.png", 0, 0, 1, 1);
+        std::cout << "PONG" << std::endl;
+    }
+    else if (_titleFirst == "R-TYPE")
+        sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title.png", 0, 0, 1, 1);
 }
 
 void Menu::InitBackground() {
-    sfmlFunc.LoadSprite(_background, _backgroundTexture, "assets/images/background_1.png", 0, 0, 8, 8);
-    sf::IntRect rectBackground(0, 0, 256, 224);
-    _rectBackground = rectBackground;
-    _background.setTextureRect(_rectBackground);
-
-    sfmlFunc.LoadSprite(_background2, _backgroundTexture2, "assets/images/background_2.png", 0, 0, 8, 8);
-    sf::IntRect rectBackground2(0, 0, 256, 224);
-    _rectBackground2 = rectBackground2;
-    _background2.setTextureRect(_rectBackground2);
+    if ( _titleFirst == "R-TYPE") {
+        sfmlFunc.LoadSprite(_background, _backgroundTexture, _backgroundFirst, 0, 0, 8, 8);
+        sf::IntRect rectBackground(0, 0, 256, 224);
+        _rectBackground = rectBackground;
+        _background.setTextureRect(_rectBackground);
+        sfmlFunc.LoadSprite(_background2, _backgroundTexture2, _background2First, 0, 0, 8, 8);
+        sf::IntRect rectBackground2(0, 0, 256, 224);
+        _rectBackground2 = rectBackground2;
+        _background2.setTextureRect(_rectBackground2);
+        return;
+    }
+    if (_titleFirst == "PONG") {
+        sfmlFunc.LoadSprite(_background, _backgroundTexture, _backgroundFirst, -800, 0, 1.7, 1.7);
+        sf::IntRect rectBackground(7680, 2160, 1280, 720);
+        _rectBackground = rectBackground;
+        _background.setTextureRect(_rectBackground);
+    }
 }
 
 void Menu::InitSprites() {

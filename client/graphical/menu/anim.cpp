@@ -9,19 +9,37 @@
 
 void Menu::AnimateBackground()
 {
-    sf::Time elapsed = _clock.getElapsedTime();
-    if (elapsed.asSeconds() > 0.03) {
-        _rectBackground.left += 1;
-        _rectBackground2.left += 2;
-        if (_rectBackground.left >= 256) {
-            _rectBackground.left = 0;
+    if (_titleFirst == "R-TYPE") {
+        sf::Time elapsed = _clock.getElapsedTime();
+        if (elapsed.asSeconds() > 0.03) {
+            _rectBackground.left += 1;
+            _rectBackground2.left += 2;
+            if (_rectBackground.left >= 256) {
+                _rectBackground.left = 0;
+            }
+            if (_rectBackground2.left >= 256) {
+                _rectBackground2.left = 0;
+            }
+            _background.setTextureRect(_rectBackground);
+            _background2.setTextureRect(_rectBackground2);
+            _clock.restart();
         }
-        if (_rectBackground2.left >= 256) {
-            _rectBackground2.left = 0;
+    }
+    if (_titleFirst == "PONG") {
+        sf::Time elapsed = _clock.getElapsedTime();
+        if (elapsed.asSeconds() > 0.03) {
+            _rectBackground.left += 1280;
+            if (_rectBackground.left >= 12800) {
+                _rectBackground.left = 0;
+                _rectBackground.top += 720;
+            }
+            if (_rectBackground.top >= 12240) {
+                _rectBackground.top = 2160;
+                _rectBackground.left = 7680;
+            }
+            _background.setTextureRect(_rectBackground);
+            _clock.restart();
         }
-        _background.setTextureRect(_rectBackground);
-        _background2.setTextureRect(_rectBackground2);
-        _clock.restart();
     }
 }
 
