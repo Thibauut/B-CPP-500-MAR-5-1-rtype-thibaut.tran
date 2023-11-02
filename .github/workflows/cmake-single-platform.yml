@@ -16,6 +16,25 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Get GCC-17
+      run:   |
+             sudo apt update
+             sudo apt install gcc
+             sudo apt install g++
+             g++ --version
+      shell: bash
+      
+    - name: Install CMake
+      run: sudo apt-get install cmake
+      
+    - name: Install Conan
+      run: sudo pip install conan
+
+    - name: Install System lib
+      run: |
+        sudo apt-get update
+        sudo apt-get install libx11-xcb-dev libfontenc-dev libxaw7-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxfixes-dev libxi-dev libxinerama-dev libxmu-dev libxmuu-dev libxpm-dev libxrandr-dev libxres-dev libxss-dev libxtst-dev libxv-dev libxvmc-dev libxxf86vm-dev libxcb-render-util0-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-dri3-dev libxcb-cursor-dev
+   
     - name: Clean CMake files & Conan libs
       run: |
         cd build
@@ -28,23 +47,13 @@ jobs:
         rm -rf ./Makefile
         cd ..
 
-    - name: Get Conan
-      # You may pin to the exact commit or the version.
-      # uses: turtlebrowser/get-conan@c171f295f3f507360ee018736a6608731aa2109d
-      uses: turtlebrowser/get-conan@v1.2
-
-    - name: Conan version
-      run: echo "${{ steps.conan.outputs.version }}"
-
     - name: Create default Conan profile
-      run: conan profile new default --detect
+      run: sudo conan profile detect --force
 
     - name: Build Conan and Build with CMake
       run: |
         cd build
-        conan install .. --build=missing --output-folder=ConanLibs/
-        cmake -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
-        make -C ./build/ CXX=g++-17
+        sudo conan install .. --build=missing --output-folder=ConanLibs/ -c tools.system.package_manager:mode=install
         cd ..
 
     - name: Test
