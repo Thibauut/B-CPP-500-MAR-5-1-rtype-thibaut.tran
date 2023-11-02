@@ -51,8 +51,8 @@ jobs:
       run: |
         cd build
         sudo conan install .. --build=missing --output-folder=ConanLibs/ -c tools.system.package_manager:mode=install
-        cmake -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
-        make -C ./build/ CXX=g++-17
+        cmake --build --config Release -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
+        make -C ./build/
         cd ..
 
     - name: Test
