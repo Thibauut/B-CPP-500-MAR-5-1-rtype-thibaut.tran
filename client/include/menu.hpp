@@ -19,17 +19,20 @@
 #include <functional>
 #include <atomic>
 #include "../network/ConnectionTCP/ConnectionTCP.hpp"
-#include "../network/OpenUDP/OpenUDP.hpp"
-#include "../graphical/game.cpp"
-// #include <opendir.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include "../graphical/utils/sfml_func.cpp"
+#include "../include/AGame.hpp"
+#include "../../GameEngine/Systems/SysAnimation/SysAnimation.hpp"
+#include "../../GameEngine/Systems/SysClearClient/SysClearClient.hpp"
 
 #define DEFAULT_WINDOW_WIDTH 1920
 #define DEFAULT_WINDOW_HEIGHT 1080
 #define MENU_TITLE  "R-Type"
+#define TITLE_IS_PONG
+
 
 class Menu {
     public:
@@ -46,7 +49,7 @@ class Menu {
             sf::Text playerLevel;
         };
 
-        Menu(std::string IP, std::string PORT);
+        Menu(std::string IP, std::string PORT, std::string font, std::string background, std::string background2, std::string title, std::shared_ptr<AGame> game);
         ~Menu() = default;
 
         void Init();
@@ -77,12 +80,24 @@ class Menu {
         std::mutex _2Mutex;
         std::mutex _3Mutex;
 
+        std::string _backgroundFirst;
+        std::string _background2First;
+        std::string _titleFirst;
+        std::string _fontFirst;
+
         SfmlFunc sfmlFunc;
         sf::RenderWindow *_window;
         sf::VideoMode _videoMode;
         sf::Event _event;
         sf::Font _font;
         sf::Clock _clock;
+
+        sf::Text _text_level_choose;
+        std::string _input_level_choose;
+        sf::Sprite _next_level_choose;
+        sf::Texture _next_level_choose_texture;
+        sf::Sprite _previous_level_choose;
+        sf::Texture _previous_level_choose_texture;
 
 
         std::string Player_uuid_;
@@ -111,15 +126,6 @@ class Menu {
         sf::Text _text_port_input;
         std::string _inputPort;
 
-        sf::Text _text_level_choose;
-        std::string _input_level_choose;
-        sf::Sprite _next_level_choose;
-        sf::Texture _next_level_choose_texture;
-        sf::Sprite _previous_level_choose;
-        sf::Texture _previous_level_choose_texture;
-
-        std::vector<std::pair<std::string, std::string>> _maps;
-
 
         sf::Text _text_GameType_choose;
         std::string _input_GameType_choose;
@@ -129,6 +135,8 @@ class Menu {
         sf::Texture _previous_GameType_choose_texture;
         int _Game_Type = 0;
         std::string TypeName = "Normal";
+
+        std::vector<std::pair<std::string, std::string>> _maps;
 
         int _current_input;
         bool _isFocused;
@@ -192,7 +200,7 @@ class Menu {
         sf::Sprite _removeSlot;
         sf::Texture _removeSlotTexture;
 
-        int _roomSlot = 1;
+        int _roomSlot = 0;
 
         bool _isFocused_room = false;
         bool _isFocused2_room = false;
@@ -201,9 +209,10 @@ class Menu {
 
         int _selectedRoomIndex = -1;
 
-        Game *_game;
-
         std::string start_id_;
         std::string start_port_;
         bool ReadyGame = false;
+
+        std::shared_ptr<AGame> _game;
+
 };

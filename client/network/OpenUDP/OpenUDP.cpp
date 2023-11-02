@@ -18,7 +18,6 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/asio.hpp>
 #include "OpenUDP.hpp"
-#include "../../include/global.hpp"
 #include <future>
 
 ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::shared_ptr<EntityManager> &entities, const std::string my_id)

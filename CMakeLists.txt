@@ -29,12 +29,13 @@ set(HPP_SERVER server/Includes.hpp
 )
 
 # Client
-set(SRC_CLIENT  client/main.cpp
+set(SRC_CLIENT  client/client.cpp
+                client/graphical/game.cpp
                 client/network/ThreadHandler/ThreadHandler.cpp
                 GameEngine/Components/test.cpp
 )
 
-set(HPP_CLIENT client/include/menu.hpp
+set(HPP_CLIENT  client/include/menu.hpp
                 client/network/ConnectionTCP/ConnectionTCP.hpp
                 client/network/ThreadHandler/ThreadHandler.hpp
 )

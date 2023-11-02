@@ -158,12 +158,12 @@ namespace GameEngine {
                 if (_clostestPX < posComponent->getPositionX() + 450 && _clostestPX >= posComponent->getPositionX()) {
                     if (cooldown->isFinish("canMoveX") && posComponent->getPositionX() > 450) {
                         posComponent->setPosition(posComponent->getPositionX() - 1, posComponent->getPositionY());
-                        entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(1);
+                        entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirectionX(1);
                         cooldown->reset("canMoveX");
                     }
                 } else if (_clostestPX > posComponent->getPositionX() - 450 && _clostestPX <= posComponent->getPositionX()) {
                     if (cooldown->isFinish("canMoveX") && posComponent->getPositionX() < 1470) {
-                        entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirection(-1);
+                        entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION)->setDirectionX(-1);
                         posComponent->setPosition(posComponent->getPositionX() + 1, posComponent->getPositionY());
                         cooldown->reset("canMoveX");
                     }

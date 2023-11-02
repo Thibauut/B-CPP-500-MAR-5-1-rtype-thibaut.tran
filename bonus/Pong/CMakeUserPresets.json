@@ -1,0 +1,10 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/Users/thibaut/Documents/B-CPP-500-MAR-5-1-rtype-maori.dino/bonus/Pong/build/ConanLibs/CMakePresets.json",
+        "/Users/thibaut/Desktop/B-CPP-500-MAR-5-1-rtype-maori.dino/bonus/Pong/build/ConanLibs/CMakePresets.json"
+    ]
+}

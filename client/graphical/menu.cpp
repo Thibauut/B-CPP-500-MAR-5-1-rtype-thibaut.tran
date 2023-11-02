@@ -7,8 +7,13 @@
 
 #include "../include/menu.hpp"
 
-Menu::Menu(std::string IP, std::string PORT): _inputIp(IP), _inputPort(PORT)
+Menu::Menu(std::string IP, std::string PORT, std::string font, std::string background, std::string background2, std::string title, std::shared_ptr<AGame> game): _inputIp(IP), _inputPort(PORT)
 {
+    _backgroundFirst = background;
+    _background2First = background2;
+    _titleFirst = title;
+    _fontFirst = font;
+    _game = game;
     Init();
     InitBackground();
     InitSprites();
@@ -31,12 +36,9 @@ void Menu::Loop()
             AnimateBackground();
             Draw();
         } else {
-            _game = new Game(_window);
-
-            _game->gameEngine_.addSystem(std::make_shared<SysAnimation>(_game->gameEngine_.getManager()));
-            _game->gameEngine_.addSystem(std::make_shared<SysClearClient>(_game->gameEngine_.getManager()));
-
-            _game->my_player = std::make_shared<Entity>(std::atoi(_game->my_id_.c_str()), 1);
+            //start game
+            _game->_window = _window;
+            _game->my_player = std::make_shared<Entity>(std::stoi(start_id_), 1);
             _game->my_player->init();
 
             //id & port initialize
@@ -45,18 +47,22 @@ void Menu::Loop()
             std::cout << "my id: " << _game->my_id_ << std::endl;
             std::cout << "game port: " << _game->portUDP_ << std::endl;
 
+            //client udp initialize
             std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>(_inputIp, _game->portUDP_, _game->gameEngine_._manager, _game->my_id_);
             _game->_clientOpenUDP = clientudp;
 
+            //add systems
+            _game->gameEngine_.addSystem(std::make_shared<SysAnimation>(_game->gameEngine_.getManager()));
+            _game->gameEngine_.addSystem(std::make_shared<SysClearClient>(_game->gameEngine_.getManager()));
 
+
+            //start threads
             std::thread ioThread([&] {
                 clientudp->ioService.run();
             });
-
             std::thread thGameEngine([&] {
                 _game->gameEngine_.run();
             });
-
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
             clientudp->init(_game->my_player);
             _game->my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->initSprite();
@@ -64,10 +70,10 @@ void Menu::Loop()
                 clientudp->run(my_id);
             });
 
+            //start game
             _game->Loop();
 
-            // delete _game;
-            // _inGame = false;
+            //stop threads
             thGameEngine.join();
             th.join();
             ioThread.join();
@@ -97,11 +103,9 @@ void Menu::HandleEvents() {
 void Menu::Draw() {
     _window->clear(sf::Color::Black);
     _window->draw(_background);
-    _window->draw(_background2);
+    if (_background2First != "")
+        _window->draw(_background2);
     _window->draw(_title);
-
-    // _window->draw(_buttonReady);
-    // _window->draw(_buttonReadyText);
 
     if (!_isConnected) {
         _window->draw(_textField);
@@ -141,22 +145,36 @@ void Menu::Draw() {
         _window->draw(_text_name_room);
         _window->draw(_text_name_input_room);
 
-        _window->draw(_previous_GameType_choose);
-        _window->draw(_text_GameType_choose);
-        _window->draw(_next_GameType_choose);
+        if (_titleFirst == "R-TYPE") {
+            _window->draw(_previous_GameType_choose);
+            _window->draw(_text_GameType_choose);
+            _window->draw(_next_GameType_choose);
+            if (_Game_Type == 0 || _Game_Type == 3 || _Game_Type == 4) {
+                _window->draw(_textField2_room);
+                _window->draw(_text_slot_room);
+                _window->draw(_text_slot_input_room);
+                _window->draw(_addSlot);
+                _window->draw(_removeSlot);
+                _window->draw(_previous_level_choose);
+                _window->draw(_text_level_choose);
+                _window->draw(_next_level_choose);
+            }
+        }
+        if (_titleFirst == "PONG") {
+            _window->draw(_textField_room);
+            _window->draw(_text_name_room);
+            _window->draw(_text_name_input_room);
 
-        _window->draw(_buttonCancel);
-        _window->draw(_buttonCancelText);
-        if (_Game_Type == 0 || _Game_Type == 3 || _Game_Type == 4) {
             _window->draw(_textField2_room);
             _window->draw(_text_slot_room);
             _window->draw(_text_slot_input_room);
+
             _window->draw(_addSlot);
             _window->draw(_removeSlot);
-            _window->draw(_previous_level_choose);
-            _window->draw(_text_level_choose);
-            _window->draw(_next_level_choose);
         }
+
+        _window->draw(_buttonCancel);
+        _window->draw(_buttonCancelText);
     }
     if (_isConnected && _selectedRoom && !_isCreatingRoom) {
         _window->draw(_roomMenu);

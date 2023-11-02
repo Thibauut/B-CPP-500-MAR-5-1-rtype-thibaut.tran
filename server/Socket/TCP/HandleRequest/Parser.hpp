@@ -35,7 +35,7 @@ private:
     void disconnect();
     void getPlayerInfo() {};
 
-    void createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int GameType);
+    void createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int GameType, std::string titleGame);
     void joinRoom(std::string player_uuid, std::string room_uuid);
     void leaveRoom(std::string player_uuid, std::string room_uuid);
     void deleteRoom(std::string player_uuid, std::string room_uuid);
@@ -49,6 +49,7 @@ private:
     std::vector<std::string> _args;
     boost::asio::ip::tcp::socket &_socket;
     Request _request;
+    std::string _titleGame;
 
 public:
     Parser(Request request, TCPServer *server) : _request(request), _socket(request._socket), _server(server) {

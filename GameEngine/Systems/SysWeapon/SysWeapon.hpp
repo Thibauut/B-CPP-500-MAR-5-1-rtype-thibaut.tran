@@ -77,7 +77,7 @@ namespace GameEngine {
                 Team team = Team(CONFIG::CompType::TEAM, id_comp += 1, team_value);
                 sprite.setSprite(position.getPositionX(), position.getPositionY(), img_path, sf::Vector2f(3, 3), spriteRect, CONFIG::SpriteType::BULLETSPRITE);
                 damage.setDamage(damage_value);
-                direction.setDirection(direction_value);
+                direction.setDirectionX(direction_value);
                 direction.setOrientation(oriantation);
                 couldown.create(couldown_value, "bullet");
                 std::shared_ptr<Damage> damageShared = std::make_shared<Damage>(damage);
@@ -99,33 +99,33 @@ namespace GameEngine {
 
             void Weapon1(std::shared_ptr<Entity> entity) {
                     auto dir = entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION);
-                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (((33.2 * 3) * dir->getDirection()));
+                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (((33.2 * 3) * dir->getDirectionX()));
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0004, 20 , dir->getDirection(), dir->getOriantation(),"assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x, y, 0.0004, 20 , dir->getDirectionX(), dir->getOriantation(),"assets/sprites/simpleBullet.png", spriteRect, team));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {
                     auto dir = entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION);
-                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir->getDirection());
+                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir->getDirectionX());
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0007, 15, dir->getDirection(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
-                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, 15, dir->getDirection(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x, y, 0.0007, 15, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, 15, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
             }
 
             void Weapon3(std::shared_ptr<Entity> entity) {
                     auto dir = entity->getComponentByType<Direction>(CONFIG::CompType::DIRECTION);
-                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir->getDirection());
+                    int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir->getDirectionX());
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
                     sf::IntRect spriteRect(0, 0, 7, 6);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0005, 8, dir->getDirection(), dir->getOriantation(), "assets/sprites/smallBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x, y, 0.0005, 8, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/smallBullet.png", spriteRect, team));
             }
 
 

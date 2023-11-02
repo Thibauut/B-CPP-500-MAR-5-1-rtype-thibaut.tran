@@ -7,14 +7,37 @@
 
 #include "../include/game.hpp"
 
-void Game::InitBackground()
+GameRtype::GameRtype(std::shared_ptr<Engine> engine) {
+    _font.loadFromFile("assets/fonts/WANTONE.otf");
+    InitBackground();
+    _timeMove = Timeout(0.01);
+
+    _soundPath = "assets/audio/a.ogg";
+    _sound.openFromFile(_soundPath);
+    _sound.setVolume(5);
+    _sound.setLoop(true);
+}
+
+GameRtype::~GameRtype() {}
+
+void GameRtype::LoadSprite(sf::Sprite& sprite,  sf::Texture &texture, const std::string& imagePath, float posX, float posY, float scaleX, float scaleY) {
+    if (texture.loadFromFile(imagePath)) {
+        sprite.setTexture(texture);
+        sprite.setPosition(posX, posY);
+        sprite.setScale(scaleX, scaleY);
+    } else {
+        std::cout << "Error: could not load image: " << imagePath << std::endl;
+    }
+}
+
+void GameRtype::InitBackground()
 {
-    sfmlFunc.LoadSprite(_background, _backgroundTexture, "assets/images/background_1.png", 0, 0, 8, 8);
+    LoadSprite(_background, _backgroundTexture, "assets/images/background_1.png", 0, 0, 8, 8);
     sf::IntRect rectBackground(0, 0, 256, 224);
     _rectBackground = rectBackground;
     _background.setTextureRect(_rectBackground);
 
-    sfmlFunc.LoadSprite(_background2, _backgroundTexture2, "assets/images/background_2.png", 0, 0, 8, 8);
+    LoadSprite(_background2, _backgroundTexture2, "assets/images/background_2.png", 0, 0, 8, 8);
     sf::IntRect rectBackground2(0, 0, 256, 224);
     _rectBackground2 = rectBackground2;
     _background2.setTextureRect(_rectBackground2);
@@ -28,7 +51,7 @@ void Game::InitBackground()
     _background2.setColor(spriteColor2);
 }
 
-void Game::AnimateBackground() {
+void GameRtype::AnimateBackground()  {
     sf::Time elapsed = _clock.getElapsedTime();
     if (elapsed.asSeconds() > 0.03) {
         _rectBackground.left += 1;
@@ -45,24 +68,12 @@ void Game::AnimateBackground() {
     }
 }
 
-Game::Game(sf::RenderWindow *window): _window(window), gameEngine_(*std::make_shared<EntityManager>())
-{
-    _font.loadFromFile("assets/fonts/WANTONE.otf");
-    InitBackground();
-    _timeMove = Timeout(0.01);
-
-    _soundPath = "assets/audio/a.ogg";
-    _sound.openFromFile(_soundPath);
-    _sound.setVolume(1);
-    _sound.setLoop(true);
-
-}
-
-void Game::Loop()
+void GameRtype::Loop()
 {
     _timeMove.Start();
     gameEngine_._manager->getEntities().push_back(my_player);
     _sound.play();
+    std::cout << "GAME STARTED" << std::endl;
     while (_window->isOpen()) {
         HandleEvents();
         AnimateBackground();
@@ -70,10 +81,9 @@ void Game::Loop()
     }
 }
 
-void Game::HandleEvents()
+void GameRtype::HandleEvents()
 {
     while (_window->pollEvent(_event)) {
-
         if (_event.type == sf::Event::Closed) {
             _window->close();
         }
@@ -159,7 +169,7 @@ void Game::HandleEvents()
     }
 }
 
-void Game::Draw()
+void GameRtype::Draw()
 {
         _window->clear(sf::Color::Black);
         _window->draw(_background);

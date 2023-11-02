@@ -16,7 +16,11 @@
     #include <boost/archive/binary_oarchive.hpp>
     #include <boost/archive/binary_iarchive.hpp>
     #include "../ThreadHandler/ThreadHandler.hpp"
-    #include "../../../GameEngine/GameEngine.hpp"
+    #include "../../../GameEngine/Entity/EntityManager/EntityManager.hpp"
+    #include "../../../GameEngine/Entity/Entity.hpp"
+    #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
+    #include "../../../GameEngine/Components/Position/Position.hpp"
+    #include "../../../GameEngine/Components/Cooldown/Cooldown.hpp"
 
 class ClientOpenUDP : public ThreadHandler {
     public:

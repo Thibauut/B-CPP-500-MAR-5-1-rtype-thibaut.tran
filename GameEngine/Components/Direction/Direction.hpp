@@ -17,13 +17,14 @@ namespace GameEngine {
             Direction() : AComponent() {
                 _idComponent = 0;
                 _type = CONFIG::CompType::DIRECTION;
-                _direction = 1;
+                _directionX = 1;
+                _directionY = 1;
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
-            Direction(CONFIG::CompType type, int id) : AComponent(CONFIG::CompType::DIRECTION), _idComponent(id), _type(type), _direction(1), _orientation(90) {
+            Direction(CONFIG::CompType type, int id) : AComponent(CONFIG::CompType::DIRECTION), _idComponent(id), _type(type), _directionX(1), _directionY(1),_orientation(90) {
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
-            Direction(CONFIG::CompType type, int id, int value, double orientation) : AComponent(CONFIG::CompType::DIRECTION), _idComponent(id), _type(type), _direction(value), _orientation(orientation) {
+            Direction(CONFIG::CompType type, int id, int directionX, int directionY, double orientation) : AComponent(CONFIG::CompType::DIRECTION), _idComponent(id), _type(type), _directionX(directionX), _directionY(directionY), _orientation(orientation) {
                 _uuid = boost::uuids::to_string(boost::uuids::random_generator()());
             }
             ~Direction() = default;
@@ -35,24 +36,40 @@ namespace GameEngine {
             double getOriantation() const {
                 return _orientation;
             }
-            void setDirection(int direction) {
-                _direction = direction;
+            void setDirectionX(int direction) {
+                _directionX = direction;
             }
 
-            int getDirection() const {
-                return _direction;
+            int getDirectionX() const {
+                return _directionX;
             }
+
+            void setDirectionY(int direction) {
+                _directionY = direction;
+            }
+
+            int getDirectionY() const {
+                return _directionY;
+            }
+
             void reverse_orientation() {
                 for (int i = 0; i != 180; i++, _orientation ++) {
                     if (_orientation > 360)
                         _orientation = 1;
                 }
             }
-            void reverse_direction() {
-                if (_direction == 1)
-                    _direction = -1;
+            void reverse_directionX() {
+                if (_directionX == 1)
+                    _directionX = -1;
                 else
-                    _direction = 1;
+                    _directionX = 1;
+            }
+
+            void reverse_directionY() {
+                if (_directionY == 1)
+                    _directionY = -1;
+                else
+                    _directionY = 1;
             }
 
             double calculateAngle(double x, double y, double xCible, double yCible) {
@@ -72,7 +89,8 @@ namespace GameEngine {
                 // ar & _uuid;
                 ar & _idComponent;
                 ar & _type;
-                ar & _direction;
+                ar & _directionX;
+                ar & _directionY;
                 ar &_orientation;
             }
             virtual CONFIG::CompType getType() {return _type;};
@@ -87,7 +105,8 @@ namespace GameEngine {
             std::string _uuid;
 
         private:
-            int _direction;
+            int _directionX;
+            int _directionY;
             double _orientation;
     };
 }
