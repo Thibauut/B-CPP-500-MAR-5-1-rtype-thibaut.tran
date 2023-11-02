@@ -23,7 +23,10 @@ jobs:
              sudo apt install g++
              g++ --version
       shell: bash
-
+      
+    - name: Install CMake
+      run: sudo apt-get install cmake
+      
     - name: Install Conan
       run: sudo pip install conan
 
