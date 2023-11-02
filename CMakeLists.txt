@@ -7,9 +7,9 @@ project(${SERVER} LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(SFML COMPONENTS graphics window system audio network REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/ConanLibs/)
-find_package(Boost REQUIRED COMPONENTS system thread log log_setup PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/ConanLibs/)
-find_package(nlohmann_json REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/ConanLibs/)
+find_package(SFML COMPONENTS graphics window system audio network REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system thread log log_setup)
+find_package(nlohmann_json REQUIRED)
 
 # Server
 set(SRC_SERVER  server/Elements/Map/Map.cpp
