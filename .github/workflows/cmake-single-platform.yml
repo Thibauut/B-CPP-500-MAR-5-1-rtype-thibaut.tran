@@ -19,6 +19,7 @@ jobs:
     - name: Get GCC-17
       run:   |
              sudo apt update
+             sudo apt install gcc
              sudo apt install g++
       shell: bash
 
