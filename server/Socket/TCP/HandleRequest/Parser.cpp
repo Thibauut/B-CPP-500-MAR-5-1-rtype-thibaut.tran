@@ -40,6 +40,10 @@ void Parser::parseAction(std::string data) {
         _action = GET_PLAYER_WEAPONS;
         _args.push_back(data.substr(20, data.length() - 22));
     }
+    if (data.find("OPEN_CASE") != std::string::npos) {
+        _action = OPEN_CASE;
+        _args.push_back(data.substr(11, data.length() - 13));
+    }
     if (data.find("SET_EQUIPED_WEAPON") != std::string::npos) {
         _action = SET_EQUIPED_WEAPON;
         int uuid = findQuote(data, 1);
@@ -141,6 +145,14 @@ void Parser::callback() {
             break;
         case START:
             start(_args.at(0), _args.at(1));
+        case OPEN_CASE:
+            startCaseOpening(_args.at(0));
+            break;
+        case SET_EQUIPED_WEAPON:
+            setEquipedWeapon(_args.at(0), _args.at(1));
+            break;
+        case GET_PLAYER_WEAPONS:
+            getWeapons(_args.at(0));
             break;
         default:
             break;
@@ -156,6 +168,7 @@ void Parser::login() {
                 _server->_save.save();
                 std::cout << "=> LOGIN " << _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() << std::endl;
                 std::string response = "LOGIN " + _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() + '\n';
+                player->setPlayerCredit(_server->_save.findPlayerByName(_args.at(0)).get()->getCredit());
                 _socket.async_write_some(boost::asio::buffer(response),
                 [sharedThis = this](const boost::system::error_code& error,
                     size_t bytes_transferred) {});
@@ -168,6 +181,7 @@ void Parser::login() {
                 std::string response = "LOGIN " + _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() + '\n';
                 std::cout << "-> LOGIN " << _server->_save.findPlayerByName(_args.at(0)).get()->getUuid() << std::endl;
                 _server->_save.setPlayerStatus(true, _server->_save.findPlayerByName(_args.at(0)).get()->getUuid());
+                player->setPlayerCredit(_server->_save.findPlayerByName(_args.at(0)).get()->getCredit());
                 _socket.async_write_some(boost::asio::buffer(response),
                 [sharedThis = this](const boost::system::error_code& error,
                     size_t bytes_transferred) {});
@@ -221,6 +235,43 @@ void Parser::setEquipedWeapon(std::string player_uuid, std::string weapon_uuid) 
                 response += "KO\n", std::cout << "Weapon not exist" << std::endl;
             std::cout << "-> " << response;
             _socket.async_write_some(boost::asio::buffer(response),
+                [sharedThis = this](const boost::system::error_code& error,
+                    size_t bytes_transferred) {});
+            return;
+        }
+    }
+}
+
+void Parser::startCaseOpening (std::string player_uuid) {
+        std::string response = "OPEN_CASE ";
+        int error = 0;
+        for (std::shared_ptr<PlayerLobby> player : _server->players_) {
+        if (player->getUuid() == player_uuid) {
+            std::cout << "credit du player :" << player->getCredit() << std::endl;
+            if (player->getCredit() < 1000)
+                response += "KO\n";
+            else {
+                player->setPlayerCredit(player->getCredit() - 1000);
+                for (auto &jsonplayer : _server->_save.players_data["players"]) {
+                        if (jsonplayer["uuid"] == player_uuid) {
+                            jsonplayer["credits"] = player->getCredit();
+                            json new_weapon = {
+                                {"name", "special weapon"},
+                                {"degat", 150},
+                                {"cadence", 7},
+                                {"type", "Weapon2"},
+                                {"uuid", boost::uuids::to_string(boost::uuids::random_generator()())}
+                            };
+                            jsonplayer["weapons"].push_back(new_weapon);
+                            std::ofstream output_file("../server/Save/players.json");
+                            output_file <<  _server->_save.players_data;
+                            output_file.close();
+                            response += "OK\n";
+                        }
+                }
+            }
+                std::cout << "-> " << response;
+                _socket.async_write_some(boost::asio::buffer(response),
                 [sharedThis = this](const boost::system::error_code& error,
                     size_t bytes_transferred) {});
             return;

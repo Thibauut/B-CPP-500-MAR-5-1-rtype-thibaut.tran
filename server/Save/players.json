@@ -18,9 +18,10 @@
         },
         {
             "credit": 1000,
+            "credits": 0,
             "level": 1,
             "name": "Username",
-            "online": true,
+            "online": false,
             "uuid": "93c229bc-a626-4cb1-bba1-ef1f96331b8b",
             "weapons": [
                 {
@@ -36,6 +37,20 @@
                     "name": "weapon2",
                     "type": "Weapon2",
                     "uuid": "7hgec51d-26ed-45db-56e3-42f090ah5c2r"
+                },
+                {
+                    "cadence": 7,
+                    "degat": 150,
+                    "name": "special weapon",
+                    "type": "Weapon2",
+                    "uuid": "1e2eaa0b-8e4f-4af0-b0b8-8f227cd5ea5f"
+                },
+                {
+                    "cadence": 7,
+                    "degat": 150,
+                    "name": "special weapon",
+                    "type": "Weapon2",
+                    "uuid": "37ab177c-1762-4770-bb8d-94f6eb68c8e5"
                 }
             ]
         },

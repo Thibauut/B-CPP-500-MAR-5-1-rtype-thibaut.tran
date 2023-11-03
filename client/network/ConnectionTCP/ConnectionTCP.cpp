@@ -89,6 +89,12 @@ void ClientConnectionTCP::Login()
 
 void ClientConnectionTCP::Disconnect()
 {
+    GetPlayerWeapons();
+    OpenCase();
+    GetPlayerWeapons();
+    SetPlayerEquipedWeapon("7hgec51d-26ed-45db-56e3-42f090ah5c2r");
+    SetPlayerEquipedWeapon("7hgedfdfdf-26ed-45db-56e3-42f090ah5c2r");
+    // std::cout << "laaaaaaaaaaaaaaaaaaaaaaaaaaa"<< std::endl;
     setMessage("DISCONNECT \"" + uuid_ + "\"\n");
     sendMessage(message_);
     message_ = "";
@@ -130,6 +136,17 @@ void ClientConnectionTCP::SetPlayerEquipedWeapon(std::string weapon_uuid)
     message_ = "";
     readMessage();
     std::string tmp = extractArguments(response_, "SET_EQUIPED_WEAPON ");
+    std::cout << tmp << std::endl;
+}
+
+void ClientConnectionTCP::OpenCase()
+{
+    setMessage("OPEN_CASE \"" + uuid_ + "\"\n");
+    std::cout << message_ << std::endl;
+    sendMessage(message_);
+    message_ = "";
+    readMessage();
+    std::string tmp = extractArguments(response_, "OPEN_CASE ");
     std::cout << tmp << std::endl;
 }
 void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
@@ -203,6 +220,7 @@ void ClientConnectionTCP::GetRoomList()
         }
     }
     response_ = "";
+
 }
 
 void ClientConnectionTCP::CreateRoom(std::string roomName, std::string roomSize, std::string pathName, int gameType, std::string titleFirst)

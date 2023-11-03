@@ -48,6 +48,7 @@ class ClientConnectionTCP : public ThreadHandler {
         void Disconnect();
         void GetPlayerInfo();
         void GetPlayerWeapons();
+        void OpenCase();
         void SetPlayerEquipedWeapon(std::string weapon_uuid);
         void CreateRoom(std::string roomName, std::string roomSize, std::string pathName, int gameType, std::string titleGame);
         std::string JoinRoom(std::string roomuuid , std::string playeruuid);

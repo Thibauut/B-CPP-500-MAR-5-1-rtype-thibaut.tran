@@ -82,7 +82,6 @@ std::shared_ptr<PlayerLobby> HandleSave::findPlayerByName(std::string name) {
             int level = player["level"];
             int credit = player["credit"];
             PlayerLobby pl_tmp = PlayerLobby(name, uuid, level);
-            pl_tmp.setPlayerCredit(credit);
             for (auto &playerWeapon : player["weapons"]) {
                 std::string name = playerWeapon["name"];
                 double cadence = playerWeapon["cadence"];
@@ -92,6 +91,7 @@ std::shared_ptr<PlayerLobby> HandleSave::findPlayerByName(std::string name) {
                 pl_tmp.AddPlayerWeapons(cadence, degat, name, type, uuid);
             }
             std::shared_ptr<PlayerLobby> pl = std::make_shared<PlayerLobby>(pl_tmp);
+            pl->setPlayerCredit(credit);
             for (auto &weap : pl_tmp.weapons) {
                 if (weap->type == CONFIG::WeaponType::Weapon1)
                     pl->AddPlayerWeapons(weap->cadence, weap->degat, weap->name, "Weapon1", weap->uuid);
@@ -114,7 +114,6 @@ std::shared_ptr<PlayerLobby> HandleSave::findPlayerByUuid(std::string uuid) {
             int level = player["level"];
             int credit = player["credit"];
             PlayerLobby pl_tmp = PlayerLobby(name, uuid, level);
-            pl_tmp.setPlayerCredit(credit);
             for (auto &playerWeapon : player["weapons"]) {
                 std::string name = playerWeapon["name"];
                 double cadence = playerWeapon["cadence"];
@@ -124,6 +123,7 @@ std::shared_ptr<PlayerLobby> HandleSave::findPlayerByUuid(std::string uuid) {
                 pl_tmp.AddPlayerWeapons(cadence, degat, name, type, uuid);
             }
             std::shared_ptr<PlayerLobby> pl = std::make_shared<PlayerLobby>(pl_tmp);
+            pl->setPlayerCredit(credit);
             return pl;
         }
     }

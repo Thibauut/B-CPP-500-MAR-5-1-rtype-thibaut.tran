@@ -24,7 +24,8 @@ enum ACTION {
     GET_ROOM_INFO,
     START,
     GET_PLAYER_WEAPONS,
-    SET_EQUIPED_WEAPON
+    SET_EQUIPED_WEAPON,
+    OPEN_CASE
 };
 
 class Parser {
@@ -39,6 +40,7 @@ private:
     void setEquipedWeapon(std::string player_uuid, std::string weapon_uuid);
     void getWeapons(std::string player_uuid);
     void createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int GameType, std::string titleGame);
+    void startCaseOpening (std::string player_uuid);
     void joinRoom(std::string player_uuid, std::string room_uuid);
     void leaveRoom(std::string player_uuid, std::string room_uuid);
     void deleteRoom(std::string player_uuid, std::string room_uuid);
