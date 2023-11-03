@@ -164,7 +164,8 @@ void GameRtype::HandleEvents()
     if (_shooting) {
         _elapsedTime = _timeComp.getElapsedSeconds();
         my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(true, _elapsedTime);
-        _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+        if (my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->canShoot())
+            _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
     }
 }
 
