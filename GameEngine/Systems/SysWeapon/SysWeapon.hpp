@@ -102,9 +102,10 @@ namespace GameEngine {
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + (((33.2 * 3) * dir->getDirectionX()));
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
+                    int degat = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getDegat();
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0004, 20 , dir->getDirectionX(), dir->getOriantation(),"assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x, y, 0.0004, degat, dir->getDirectionX(), dir->getOriantation(),"assets/sprites/simpleBullet.png", spriteRect, team));
             }
 
             void Weapon2(std::shared_ptr<Entity> entity) {
@@ -112,10 +113,11 @@ namespace GameEngine {
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir->getDirectionX());
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
+                    int degat = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getDegat();
                     sf::IntRect spriteRect(0, 0, 16, 12);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0007, 15, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
-                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, 15, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x, y, 0.0007, degat, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x + 20 * 3 , y, 0.0007, degat, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/simpleBullet.png", spriteRect, team));
             }
 
             void Weapon3(std::shared_ptr<Entity> entity) {
@@ -123,9 +125,10 @@ namespace GameEngine {
                     int x = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() + ((33.2 * 3) * dir->getDirectionX());
                     int y = entity->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY() + (5 * 3);
                     int team = entity->getComponentByType<Team>(CONFIG::CompType::TEAM)->getTeam();
+                    int degat = entity->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getDegat();
                     sf::IntRect spriteRect(0, 0, 7, 6);
                     _manager->createEntity();
-                    _manager->addEntity(createNewBullet(x, y, 0.0005, 8, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/smallBullet.png", spriteRect, team));
+                    _manager->addEntity(createNewBullet(x, y, 0.0005, degat, dir->getDirectionX(), dir->getOriantation(), "assets/sprites/smallBullet.png", spriteRect, team));
             }
 
 
