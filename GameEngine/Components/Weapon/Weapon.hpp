@@ -97,7 +97,10 @@
                     _isShooting = isShooting;
                     _timePressed = timePressed;
                 }
-
+                void setDegat(int value){degat = value;};
+                void setCadence(double value){_coolDown.timeout_ = value;};
+                int getDegat(){return degat;};
+                double getCadence(){return _coolDown.timeout_;};
                 CONFIG::WeaponType getWeaponType(){return _weaponType;}
                 virtual CONFIG::CompType getType() {return _type;};
                 virtual void setType(const CONFIG::CompType type) {_type = type;};
@@ -111,6 +114,7 @@
                 bool _isShooting;
                 double _timePressed;
                 std::string _uuid;
+                int degat;
 
             private:
                 Timeout _coolDown;

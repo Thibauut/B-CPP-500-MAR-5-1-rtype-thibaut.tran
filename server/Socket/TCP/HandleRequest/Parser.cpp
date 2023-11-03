@@ -36,6 +36,17 @@ void Parser::parseAction(std::string data) {
         _action = GET_PLAYER_INFO;
         _args.push_back(data.substr(17, data.length() - 19));
     }
+    if (data.find("GET_PLAYER_WEAPONS") != std::string::npos) {
+        _action = GET_PLAYER_WEAPONS;
+        _args.push_back(data.substr(20, data.length() - 22));
+    }
+    if (data.find("SET_EQUIPED_WEAPON") != std::string::npos) {
+        _action = SET_EQUIPED_WEAPON;
+        int uuid = findQuote(data, 1);
+        int weapon_uuid = findQuote(data, 3);
+        _args.push_back(data.substr(uuid + 1, findQuote(data, 2) - findQuote(data, 1) - 1));
+        _args.push_back(data.substr(weapon_uuid + 1, findQuote(data, 4) - findQuote(data, 3) - 1));
+    }
     if (data.find("CREATE_ROOM") != std::string::npos) {
         _action = CREATE_ROOM;
         int posId = findQuote(data, 1);
@@ -171,6 +182,50 @@ void Parser::disconnect() {
     _socket.async_write_some(boost::asio::buffer(response),
         [sharedThis = this](const boost::system::error_code& error,
             size_t bytes_transferred) {});
+}
+
+void Parser::getWeapons(std::string player_uuid) {
+    std::string response = "GET_PLAYER_WEAPONS ";
+    for (std::shared_ptr<PlayerLobby> player : _server->players_) {
+        if (player->getUuid() == player_uuid) {
+            for (std::shared_ptr<PlayerWeapon> weapon : player->GetPlayerWeapons()) {
+                if (weapon != player->GetPlayerWeapons().back())
+                    response += "\"" + weapon.get()->name + "\" \"" + std::to_string(weapon.get()->degat) + "\" \"" + weapon.get()->uuid + "\" \""+ std::to_string(weapon.get()->cadence) + "\" ";
+                else
+                    response += "\"" + weapon.get()->name + "\" \"" + std::to_string(weapon.get()->degat) + "\" \"" + weapon.get()->uuid + "\" \""+ std::to_string(weapon.get()->cadence) + "\"";
+            }
+            response += "\n";
+            std::cout << "-> " << response;
+            _socket.async_write_some(boost::asio::buffer(response),
+                [sharedThis = this](const boost::system::error_code& error,
+                    size_t bytes_transferred) {});
+            return;
+        }
+    }
+}
+
+void Parser::setEquipedWeapon(std::string player_uuid, std::string weapon_uuid) {
+    std::string response = "SET_EQUIPED_WEAPON ";
+    int error = 0;
+    for (std::shared_ptr<PlayerLobby> player : _server->players_) {
+        if (player->getUuid() == player_uuid) {
+            for (std::shared_ptr<PlayerWeapon> weapon : player->GetPlayerWeapons()) {
+                if (weapon->uuid == weapon_uuid) {
+                    player->setPlayerEquipedWeapon(weapon);
+                    std::cout << "Weapon exist" << std::endl;
+                    response += "OK\n";
+                    error = 1;
+                }
+            }
+            if (error == 0)
+                response += "KO\n", std::cout << "Weapon not exist" << std::endl;
+            std::cout << "-> " << response;
+            _socket.async_write_some(boost::asio::buffer(response),
+                [sharedThis = this](const boost::system::error_code& error,
+                    size_t bytes_transferred) {});
+            return;
+        }
+    }
 }
 
 void Parser::createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int gameType, std::string titleGame) {

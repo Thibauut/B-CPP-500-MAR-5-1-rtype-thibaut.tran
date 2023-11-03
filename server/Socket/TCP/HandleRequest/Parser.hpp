@@ -23,6 +23,8 @@ enum ACTION {
     GET_ROOMS,
     GET_ROOM_INFO,
     START,
+    GET_PLAYER_WEAPONS,
+    SET_EQUIPED_WEAPON
 };
 
 class Parser {
@@ -34,7 +36,8 @@ private:
     void login();
     void disconnect();
     void getPlayerInfo() {};
-
+    void setEquipedWeapon(std::string player_uuid, std::string weapon_uuid);
+    void getWeapons(std::string player_uuid);
     void createRoom(std::string player_uuid, int nb_slots, std::string name, std::string pathMap, int GameType, std::string titleGame);
     void joinRoom(std::string player_uuid, std::string room_uuid);
     void leaveRoom(std::string player_uuid, std::string room_uuid);

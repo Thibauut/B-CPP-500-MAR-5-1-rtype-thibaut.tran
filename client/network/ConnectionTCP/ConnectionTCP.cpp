@@ -112,6 +112,26 @@ void ClientConnectionTCP::GetPlayerInfo()
     // std::cout << "Level : " << infoLevel_ << std::endl;
 }
 
+
+void ClientConnectionTCP::GetPlayerWeapons()
+{
+    setMessage("GET_PLAYER_WEAPONS \"" + uuid_ + "\"\n");
+    sendMessage(message_);
+    message_ = "";
+    readMessage();
+    std::string tmp = extractArguments(response_, "GET_PLAYER_WEAPONS ");
+    std::cout << tmp << std::endl;
+}
+void ClientConnectionTCP::SetPlayerEquipedWeapon(std::string weapon_uuid)
+{
+    setMessage("SET_EQUIPED_WEAPON \"" + uuid_ + "\" " + "\"" + weapon_uuid + "\"\n");
+    std::cout << message_ << std::endl;
+    sendMessage(message_);
+    message_ = "";
+    readMessage();
+    std::string tmp = extractArguments(response_, "SET_EQUIPED_WEAPON ");
+    std::cout << tmp << std::endl;
+}
 void ClientConnectionTCP::GetRoomInfo(std::string roomuuid)
 {
     players.clear();

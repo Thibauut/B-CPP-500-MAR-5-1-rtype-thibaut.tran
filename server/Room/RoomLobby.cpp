@@ -61,7 +61,7 @@ void RoomLobby::gameEntryPoint()
     std::cout << "Room " << _name << " started" << std::endl;
     std::cout << "GAME: " +  _titleGame << std::endl;
     if (_titleGame == "R-TYPE") {
-        std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
+       std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
         int id = 1;
         int id_comp = 0;
         Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
@@ -69,15 +69,13 @@ void RoomLobby::gameEntryPoint()
         Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
         Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 1, 0);
         Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, 1);
-
         Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
-
-        Weapon weapon = Weapon(
-            CONFIG::CompType::WEAPON,
-            id_comp,
-            CONFIG::WeaponType::Weapon3
-        );
         for (std::shared_ptr<PlayerLobby> player : _players) {
+            std::cout << player->GetPlayerWeapons().size() << std::endl;
+            player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
+            Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
+            weapon.setDegat(player->getEquipedWeapon()->degat);
+            weapon.setCadence(player->getEquipedWeapon()->cadence);
             entityManager->createEntity();
             Entity player_entity(id, 1);
             player_entity.init();
@@ -128,6 +126,7 @@ void RoomLobby::gameEntryPoint()
         game.run();
         t1.join();
         t.join();
+
 
     }
 
@@ -244,16 +243,14 @@ void RoomLobby::PvpEntryPoint()
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
 
     Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
-
-    Weapon weapon = Weapon(
-        CONFIG::CompType::WEAPON,
-        id_comp,
-        CONFIG::WeaponType::Weapon3
-    );
     int equipe = 1;
     int x = 200;
     int y = 300;
     for (std::shared_ptr<PlayerLobby> player : _players) {
+         player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
+        Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
+        weapon.setDegat(player->getEquipedWeapon()->degat);
+        weapon.setCadence(player->getEquipedWeapon()->cadence);
         Position position = Position(CONFIG::CompType::POSITION, id_comp, x, y);
         Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 1, 0);
         Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, equipe);
@@ -320,15 +317,14 @@ void RoomLobby::BattleRoyalEntryPoint()
     Health health = Health(CONFIG::CompType::HEALTH, id_comp, 100);
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
     Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
-    Weapon weapon = Weapon(
-        CONFIG::CompType::WEAPON,
-        id_comp,
-        CONFIG::WeaponType::Weapon3
-    );
     int equipe = 1;
     int x = 200;
     int y = 300;
     for (std::shared_ptr<PlayerLobby> player : _players) {
+        player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
+        Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
+        weapon.setDegat(player->getEquipedWeapon()->degat);
+        weapon.setCadence(player->getEquipedWeapon()->cadence);
         Position position = Position(CONFIG::CompType::POSITION, id_comp, x, y);
         Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 1, 0);
         Team team = Team(CONFIG::CompType::TEAM, id_comp+=1, equipe);
@@ -395,12 +391,6 @@ void RoomLobby::DuoPvpEntryPoint()
     Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
 
     Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
-
-    Weapon weapon = Weapon(
-        CONFIG::CompType::WEAPON,
-        id_comp,
-        CONFIG::WeaponType::Weapon3
-    );
     int equipe = 1;
     int team_count = 0;
     int x = 200;
@@ -410,6 +400,10 @@ void RoomLobby::DuoPvpEntryPoint()
             equipe += 1;
             team_count = 0;
         }
+         player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
+        Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
+        weapon.setDegat(player->getEquipedWeapon()->degat);
+        weapon.setCadence(player->getEquipedWeapon()->cadence);
         team_count++;
         Position position = Position(CONFIG::CompType::POSITION, id_comp, x, y);
         Direction direction = Direction (CONFIG::CompType::DIRECTION, id_comp, 1, 1, 0);
