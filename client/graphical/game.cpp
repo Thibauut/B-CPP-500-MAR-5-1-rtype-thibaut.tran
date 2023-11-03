@@ -106,7 +106,6 @@ void GameRtype::HandleEvents()
                     _shooting = true;
                     my_player->getComponentByType<Sound>(CONFIG::CompType::SOUND)->playSound();
                     my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
-                    _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
                 }
         }
         if (_event.type == sf::Event::KeyReleased) {
