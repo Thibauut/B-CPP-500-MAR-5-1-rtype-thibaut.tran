@@ -145,6 +145,7 @@ void Parser::callback() {
             break;
         case START:
             start(_args.at(0), _args.at(1));
+            break;
         case OPEN_CASE:
             startCaseOpening(_args.at(0));
             break;
@@ -255,11 +256,26 @@ void Parser::startCaseOpening (std::string player_uuid) {
                 for (auto &jsonplayer : _server->_save.players_data["players"]) {
                         if (jsonplayer["uuid"] == player_uuid) {
                             jsonplayer["credits"] = player->getCredit();
+                            double lower_cadence = 0.2;
+                            double upper_cadence = 4.0;
+                            double rend_cadence = lower_cadence + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX/(upper_cadence - lower_cadence)));
+                            double lower_degat = 0.5;
+                            double upper_degat = 40.0;
+                            double rend_degat = lower_degat + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX/(upper_degat - lower_degat)));
+                            int rendType = 1 + rand() % (3 - 1 + 1);
+                            std::string rend_type;
+                            std::string rend_name;
+                            if (rendType == 1)
+                                rend_type = "Weapon1", rend_name = "weapon1";
+                            if (rendType == 2)
+                                rend_type = "Weapon2", rend_name = "weapon2";
+                            if (rendType == 3)
+                                rend_type = "Weapon3", rend_name = "weapon3";
                             json new_weapon = {
-                                {"name", "special weapon"},
-                                {"degat", 150},
-                                {"cadence", 7},
-                                {"type", "Weapon2"},
+                                {"name", rend_name},
+                                {"degat", rend_degat},
+                                {"cadence", rend_cadence},
+                                {"type", rend_type},
                                 {"uuid", boost::uuids::to_string(boost::uuids::random_generator()())}
                             };
                             jsonplayer["weapons"].push_back(new_weapon);

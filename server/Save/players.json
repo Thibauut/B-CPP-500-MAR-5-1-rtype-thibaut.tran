@@ -21,36 +21,36 @@
             "credits": 0,
             "level": 1,
             "name": "Username",
-            "online": false,
+            "online": true,
             "uuid": "93c229bc-a626-4cb1-bba1-ef1f96331b8b",
             "weapons": [
                 {
                     "cadence": 0.2,
                     "degat": 15,
-                    "name": "weapon1",
-                    "type": "Weapon1",
+                    "name": "weapon3",
+                    "type": "Weapon3",
                     "uuid": "0c1bc51d-26ed-45db-96e3-02f790ab7c7b"
                 },
                 {
-                    "cadence": 0.5,
-                    "degat": 2,
-                    "name": "weapon2",
-                    "type": "Weapon2",
-                    "uuid": "7hgec51d-26ed-45db-56e3-42f090ah5c2r"
+                    "cadence": 3.3927133251878963,
+                    "degat": 16.078125609354174,
+                    "name": "weapon1",
+                    "type": "Weapon1",
+                    "uuid": "9bf1ffe8-3a70-45f7-8f20-9fc581d36e2c"
                 },
                 {
-                    "cadence": 7,
-                    "degat": 150,
-                    "name": "special weapon",
-                    "type": "Weapon2",
-                    "uuid": "1e2eaa0b-8e4f-4af0-b0b8-8f227cd5ea5f"
+                    "cadence": 3.3927133251878963,
+                    "degat": 16.078125609354174,
+                    "name": "weapon1",
+                    "type": "Weapon1",
+                    "uuid": "556d7e88-ca55-4237-a0a7-445b7cad2754"
                 },
                 {
-                    "cadence": 7,
-                    "degat": 150,
-                    "name": "special weapon",
-                    "type": "Weapon2",
-                    "uuid": "37ab177c-1762-4770-bb8d-94f6eb68c8e5"
+                    "cadence": 3.3927133251878963,
+                    "degat": 16.078125609354174,
+                    "name": "weapon1",
+                    "type": "Weapon1",
+                    "uuid": "52dd4282-1b6d-45ed-83c7-1f7547972625"
                 }
             ]
         },

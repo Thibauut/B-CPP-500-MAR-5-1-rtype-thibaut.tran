@@ -101,6 +101,7 @@ class PlayerLobby {
         std::string getUsername() const;
         std::string getUuid() const;
         std::string getIp() const;
+        int getCredit(){return credit;}
         int getLevel() const;
         boost::asio::ip::tcp::socket &getSocket();
         std::string username;
@@ -110,7 +111,7 @@ class PlayerLobby {
         std::string _uuid;
         std::string ip;
         int level;
-        int credit;
+        int credit = 0;
         std::shared_ptr<PlayerWeapon> equipedWeapon1;
 };
 

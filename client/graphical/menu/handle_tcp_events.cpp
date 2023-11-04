@@ -27,6 +27,9 @@ void Menu::HandleTcpEvents()
         sf::FloatRect buttonCreateRoomBounds = _buttonCreateRoom.getGlobalBounds();
         sf::FloatRect buttonCancelRoomBounds = _buttonCancel.getGlobalBounds();
         sf::FloatRect buttonReadyBounds = _buttonReady.getGlobalBounds();
+        sf::FloatRect inventoryBounds = _inventory.getGlobalBounds();
+        sf::FloatRect nextWeaponBounds = _nextWeapon.getGlobalBounds();
+        sf::FloatRect previousWeaponBounds = _previousWeapon.getGlobalBounds();
 
         //////////////////////////////////////////////////////
         //                  CONFIGURE SLOT                  //
@@ -207,6 +210,42 @@ void Menu::HandleTcpEvents()
                         UpdatePlayerList();
                     }
                 }
+            }
+        }
+
+
+        //////////////////////////////////////////////////////
+        //                      INVENTORY                   //
+        //////////////////////////////////////////////////////
+        if (nextWeaponBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
+            if (indexEquipedWeapon < _tcpConnection->GetPlayerWeapons().size() - 1) {
+                indexEquipedWeapon ++;
+                _tcpConnection->SetPlayerEquipedWeapon(_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.size() - 1));
+                _text_cadence.setString("Cadence : " + _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].cadence.substr(1, 4));
+                _text_degat.setString("Degat : " + _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].degat.substr(1, 4));
+                if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon1")
+                    _inventoryTexture.loadFromFile("assets/images/rocket.png");
+                if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon2")
+                    _inventoryTexture.loadFromFile("assets/images/mitraillette.png");
+                if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon3")
+                    _inventoryTexture.loadFromFile("assets/images/machinegun.png");
+
+            }
+        }
+        if (previousWeaponBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
+            if (indexEquipedWeapon > 0)
+                indexEquipedWeapon --;
+            if (indexEquipedWeapon >= 0) {
+                _tcpConnection->SetPlayerEquipedWeapon(_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.size() - 1));
+                _text_cadence.setString("Cadence : " + _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].cadence.substr(1, 4));
+                _text_degat.setString("Degat : " +_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].degat.substr(1, 4));
+                if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon1")
+                    _inventoryTexture.loadFromFile("assets/images/rocket.png");
+                if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon2")
+                    _inventoryTexture.loadFromFile("assets/images/mitraillette.png");
+                if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon3")
+                    _inventoryTexture.loadFromFile("assets/images/machinegun.png");
+
             }
         }
 

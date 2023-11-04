@@ -15,6 +15,7 @@
     #include "../ThreadHandler/ThreadHandler.hpp"
     #include <boost/asio.hpp>
     #include <boost/bind/bind.hpp>
+    #include "../../../GameEngine/Utils/Utils.hpp"
 
 inline std::atomic<bool> shouldStop(false);
 
@@ -47,7 +48,7 @@ class ClientConnectionTCP : public ThreadHandler {
         std::string extractArguments(const std::string&input, const std::string& keyword);
         void Disconnect();
         void GetPlayerInfo();
-        void GetPlayerWeapons();
+        std::vector<CLI_PlayerWeapon> GetPlayerWeapons();
         void OpenCase();
         void SetPlayerEquipedWeapon(std::string weapon_uuid);
         void CreateRoom(std::string roomName, std::string roomSize, std::string pathName, int gameType, std::string titleGame);

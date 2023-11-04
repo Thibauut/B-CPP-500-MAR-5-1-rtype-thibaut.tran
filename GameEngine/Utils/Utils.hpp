@@ -7,6 +7,22 @@
 
 #pragma once
 
+class CLI_PlayerWeapon {
+    public:
+    CLI_PlayerWeapon() {}
+    CLI_PlayerWeapon(std::string _degat, std::string _cadence, std::string _name, std::string _uuid) {
+        degat =_degat;
+        cadence =_cadence;
+        name = _name;
+        uuid = _uuid;
+    }
+    ~CLI_PlayerWeapon() {}
+    std::string degat = "NULL";
+    std::string cadence = "NULL";
+    std::string name = "NULL";
+    std::string uuid = "NULL";
+};
+
 namespace CONFIG {
 
     enum GameType {

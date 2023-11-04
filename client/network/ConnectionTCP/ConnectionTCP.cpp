@@ -89,12 +89,6 @@ void ClientConnectionTCP::Login()
 
 void ClientConnectionTCP::Disconnect()
 {
-    GetPlayerWeapons();
-    OpenCase();
-    GetPlayerWeapons();
-    SetPlayerEquipedWeapon("7hgec51d-26ed-45db-56e3-42f090ah5c2r");
-    SetPlayerEquipedWeapon("7hgedfdfdf-26ed-45db-56e3-42f090ah5c2r");
-    // std::cout << "laaaaaaaaaaaaaaaaaaaaaaaaaaa"<< std::endl;
     setMessage("DISCONNECT \"" + uuid_ + "\"\n");
     sendMessage(message_);
     message_ = "";
@@ -119,14 +113,30 @@ void ClientConnectionTCP::GetPlayerInfo()
 }
 
 
-void ClientConnectionTCP::GetPlayerWeapons()
+std::vector<CLI_PlayerWeapon> ClientConnectionTCP::GetPlayerWeapons()
 {
     setMessage("GET_PLAYER_WEAPONS \"" + uuid_ + "\"\n");
     sendMessage(message_);
     message_ = "";
     readMessage();
     std::string tmp = extractArguments(response_, "GET_PLAYER_WEAPONS ");
-    std::cout << tmp << std::endl;
+    std::istringstream iss(tmp);
+    std::vector<std::string> results;
+    std::string token;
+    while (std::getline(iss, token, ' '))
+        results.push_back(token);
+    // std::cout << tmp << std::endl;
+    std::vector <CLI_PlayerWeapon> weapons;
+    for (int i = 0 ; i < results.size(); i += 4) {
+            CLI_PlayerWeapon weapon = CLI_PlayerWeapon(
+                results[i + 1],
+                results[i + 3],
+                results[i],
+                results[i + 2]
+            );
+        weapons.push_back(weapon);
+    }
+    return weapons;
 }
 void ClientConnectionTCP::SetPlayerEquipedWeapon(std::string weapon_uuid)
 {

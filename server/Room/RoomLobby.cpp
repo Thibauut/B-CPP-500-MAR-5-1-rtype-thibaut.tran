@@ -72,7 +72,6 @@ void RoomLobby::gameEntryPoint()
         Sound soundBullet = Sound(CONFIG::CompType::SOUND, id_comp+=1, "assets/audio/gun.ogg");
         for (std::shared_ptr<PlayerLobby> player : _players) {
             std::cout << player->GetPlayerWeapons().size() << std::endl;
-            player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
             Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
             weapon.setDegat(player->getEquipedWeapon()->degat);
             weapon.setCadence(player->getEquipedWeapon()->cadence);
@@ -247,7 +246,6 @@ void RoomLobby::PvpEntryPoint()
     int x = 200;
     int y = 300;
     for (std::shared_ptr<PlayerLobby> player : _players) {
-         player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
         Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
         weapon.setDegat(player->getEquipedWeapon()->degat);
         weapon.setCadence(player->getEquipedWeapon()->cadence);
@@ -321,7 +319,6 @@ void RoomLobby::BattleRoyalEntryPoint()
     int x = 200;
     int y = 300;
     for (std::shared_ptr<PlayerLobby> player : _players) {
-        player->setPlayerEquipedWeapon(player->GetPlayerWeapons()[0]);
         Weapon weapon = Weapon(CONFIG::CompType::WEAPON,id_comp, player->getEquipedWeapon()->type);
         weapon.setDegat(player->getEquipedWeapon()->degat);
         weapon.setCadence(player->getEquipedWeapon()->cadence);

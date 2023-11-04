@@ -163,6 +163,19 @@ class Menu {
         sf::Sprite _roomDelete;
         sf::Texture _roomDeleteTexture;
 
+        sf::Sprite _inventory;
+        sf::Texture _inventoryTexture;
+        std::string weapon_degat = "15";
+        std::string weapon_cadence = "0.2";
+        std::string weapon_path = "assets/images/mitraillette.png";
+        sf::Text _text_degat;
+        sf::Text _text_cadence;
+        sf::Sprite _nextWeapon;
+        sf::Texture _nextWeaponTexture;
+        sf::Sprite _previousWeapon;
+        sf::Texture _previousWeaponTexture;
+        int indexEquipedWeapon = 0;
+
         sf::RectangleShape _buttonLeave;
         sf::Text _buttonLeaveText;
         sf::RectangleShape _buttonReady;

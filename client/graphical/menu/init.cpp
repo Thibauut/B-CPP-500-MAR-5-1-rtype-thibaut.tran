@@ -51,6 +51,11 @@ void Menu::InitSprites() {
     sfmlFunc.LoadSprite(_addSlot, _addSlotTexture, "assets/images/plus.png", 1370, 607, 0.1, 0.1);
     sfmlFunc.LoadSprite(_removeSlot, _removeSlotTexture, "assets/images/moins.png", 530, 607, 0.1, 0.1);
     sfmlFunc.LoadSprite(_roomDelete, _roomDeleteTexture, "assets/images/delete.png", 1660, 810, 0.2, 0.2);
+
+    sfmlFunc.LoadSprite(_inventory, _inventoryTexture, weapon_path, 135, 250, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_previousWeapon, _previousWeaponTexture, "assets/images/moins.png", 50, 250, 0.1, 0.1);
+    sfmlFunc.LoadSprite(_nextWeapon, _nextWeaponTexture, "assets/images/plus.png", 590, 250, 0.1, 0.1);
+    
 }
 
 void Menu::InitText() {
@@ -71,6 +76,10 @@ void Menu::InitText() {
 
     sfmlFunc.createText(_text_name_input_room, _font, "Room 1", 24, sf::Color::White, sf::Vector2f(655, 508));
     sfmlFunc.createText(_text_slot_input_room, _font, "0", 24, sf::Color::White, sf::Vector2f(655, 608));
+
+    sfmlFunc.createText(_text_degat, _font, "Degats: " + weapon_degat, 24, sf::Color::White, sf::Vector2f(320, 275));
+    sfmlFunc.createText(_text_cadence, _font, "Cadence: " + weapon_cadence, 24, sf::Color::White, sf::Vector2f(320, 225));
+
 }
 
 void Menu::InitButton() {

@@ -107,6 +107,14 @@ void Menu::Draw() {
         _window->draw(_background2);
     _window->draw(_title);
 
+        if (_isConnected) {
+        _window->draw(_inventory);
+        _window->draw(_nextWeapon);
+        _window->draw(_previousWeapon);
+        _window->draw(_text_degat);
+        _window->draw(_text_cadence);
+        }
+
     if (!_isConnected) {
         _window->draw(_textField);
         _window->draw(_text_name);
