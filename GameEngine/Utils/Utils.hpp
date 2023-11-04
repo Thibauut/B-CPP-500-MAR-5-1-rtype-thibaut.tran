@@ -43,6 +43,8 @@ namespace CONFIG {
         BUTTON_TEXT,
         EVENT,
         STRING,
+        BOOL,
+        RECTANGLESHAPE
     };
 
     enum Dir {

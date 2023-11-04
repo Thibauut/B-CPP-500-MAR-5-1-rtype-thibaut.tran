@@ -20,6 +20,10 @@ bool is_clicked(Event::event_data &data);
 void save(Event::event_data &data);
 void load(Event::event_data &data);
 void leave(Event::event_data &data);
+void select_element(Event::event_data &data);
+bool is_selected(Event::event_data &data);
+void move_element(Event::event_data &data);
+bool is_selected_and_pressed(Event::event_data &data);
 
 Editor::Editor(sf::RenderWindow *window) : _core() {
     EntityManager manager;
@@ -91,9 +95,7 @@ void Editor::loadButtonGUI() {
     buttonLeave.init();
     Event::event_config config1;
     config1.isActive = is_clicked; // Ton activation d'event qui return true / false
-    config1.action = save; // Ton event
-    config1.isActive = is_clicked;
-    config1.action = save;
+    config1.action = leave; // Ton event
     std::shared_ptr<Event> eventClick1 = std::make_shared<Event>(config1);
     std::shared_ptr<HitBoxSquare> rectangle_load1 = std::make_shared<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE, 64, sf::IntRect(0, 0, 300, 100));
     std::shared_ptr<Sprite> spriteButtonLeaveShared = std::make_shared<Sprite>(CONFIG::CompType::SPRITE, 58978);
@@ -179,7 +181,12 @@ void Editor::loadPalette() {
         std::shared_ptr<Sprite> sprite1Shared = std::make_shared<Sprite>(CONFIG::CompType::SPRITE, 56513);
         Position position1 = Position(CONFIG::CompType::POSITION, 521525, 1550, 650);
         sf::IntRect spriteRect1(entity_json["rectangle"]["left"], entity_json["rectangle"]["top"], entity_json["rectangle"]["width"], entity_json["rectangle"]["height"]);
-        sprite1Shared->setSprite(x, y, entity_json["sprite"], sf::Vector2f(4, 4), spriteRect1, CONFIG::SpriteType::ENEMYSPRITE);
+        sf::Vector2f scale = sf::Vector2f(4, 4);
+        if (spriteRect1.width > 40) {
+            scale.x = 2;
+            scale.y = 2;
+        }
+        sprite1Shared->setSprite(x, y, entity_json["sprite"], scale, spriteRect1, CONFIG::SpriteType::ENEMYSPRITE);
         sprite1Shared->initSprite();
         std::shared_ptr<Position> position1Shared = std::make_shared<Position>(position1);
         std::shared_ptr<Draggable> draggable1Shared = std::make_shared<Draggable>(CONFIG::CompType::DRAGGABLE);
@@ -200,8 +207,12 @@ void Editor::loadPalette() {
 
 void Editor::loadSystems() {
     _core.addSystem(std::make_shared<SysRenderGlobal>(_core._manager));
-    _core.addSystem(std::make_shared<SysPollEvent>(_core._manager));
+    _core.addSystem(std::make_shared<SysPollEvent>(_core._manager, _core.isRunning()));
     _core.addSystem(std::make_shared<SysCameraEditor>(_core._manager));
+}
+
+void leave(Event::event_data &data) {
+    data.is_running->setRunning(false);
 }
 
 bool is_dragging(Event::event_data &data) {
@@ -243,6 +254,7 @@ void drag(Event::event_data &data) {
     std::shared_ptr<String> path = std::make_shared<String>(data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString());
     std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
     spriteShared->setSprite(sprite->getSprite());
+    spriteShared->setScale(4);
     spriteShared->setRect(sprite->getRect());
     entity_dragged.addComponent(spriteShared);
     entity_dragged.addComponent(path);
@@ -266,6 +278,7 @@ void drop(Event::event_data &data) {
     std::shared_ptr<Entity> editor = data.entity_manager->getEntityById(550);
     std::shared_ptr<Camera> camera = editor->getComponentByType<Camera>(CONFIG::CompType::CAMERA);
     std::shared_ptr<HitBoxSquare> hitbox_c = editor->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
+    std::shared_ptr<RectangleShape> rectangle_c = editor->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
 
     sf::IntRect hitbox = hitbox_c->getRectangle();
     if (hitbox.contains(data.mouse)) {
@@ -277,14 +290,29 @@ void drop(Event::event_data &data) {
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
         std::shared_ptr<String> path = std::make_shared<String>(entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString());
         spriteShared->setSprite(sprite->getSprite());
+        Event::event_config select_element_config;
+        select_element_config.action = select_element;
+        select_element_config.isActive = is_selected;
+        Event::event_config move_element_config;
+        move_element_config.action = move_element;
+        move_element_config.isActive = is_selected_and_pressed;
+        std::shared_ptr<Event> event_move = std::make_shared<Event>(move_element_config);
+        std::shared_ptr<Event> event_select = std::make_shared<Event>(select_element_config);
         int editor_x = editor->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
         sf::IntRect rect = sprite->getRect();
         editor_x = (data.mouse.x - ((rect.width * 4) / 2)) + editor_x;
         int editor_y = (data.mouse.y - ((rect.height * 4) / 2));
+        spriteShared->setIntRect(sprite->getRect());
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(CONFIG::CompType::POSITION, 231865, editor_x, editor_y);
+        std::shared_ptr<String> isSelectedShared = std::make_shared<String>("null");
+        std::shared_ptr<RectangleShape> rectangleShared = std::make_shared<RectangleShape>();
         new_entity.addComponent(spriteShared);
         new_entity.addComponent(positionShared);
-        new_entity.addComponent(path);
+        // new_entity.addComponent(path);
+        new_entity.addComponent(event_move);
+        new_entity.addComponent(event_select);
+        new_entity.addComponent(isSelectedShared);
+        new_entity.addComponent(rectangleShared);
         camera->push(new_entity);
     }
     data.entity_manager->deleteEntity(draggable->getEntityDragged());
@@ -316,6 +344,7 @@ bool is_clicked(Event::event_data &data)
     std::shared_ptr<HitBoxSquare> hitbox = data.entity->getComponentByType<HitBoxSquare>(CONFIG::CompType::HITBOXSQUARE);
     std::shared_ptr<Position> position = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
     std::shared_ptr<Sprite> sprite = data.entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+    std::shared_ptr<Bool> bool_ = data.entity->getComponentByType<Bool>(CONFIG::CompType::BOOL);
     if (hitbox != nullptr) {
         if (data.event->type == sf::Event::MouseButtonPressed) {
             sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
@@ -359,7 +388,6 @@ void save(Event::event_data &data)
 void load(Event::event_data &data)
 {
     std::cout << "LOAD !" << std::endl;
-    
     std::string selectedFile;
     try {
         // selectedFile = std::filesystem::absolute(sf::String(sf::FileDialog::getOpenFileName()));
@@ -367,9 +395,78 @@ void load(Event::event_data &data)
     } catch (std::exception& e) {
         std::cerr << "File dialog error: " << e.what() << std::endl;
     }
-    
 }
 
-void leave(Event::event_data &data) {
-    std::cout << "leave" << std::endl;
+void select_element(Event::event_data &data) {
+    std::shared_ptr<RectangleShape> rectangle = data.entity->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
+
+    for (auto &entity : data.entity_manager->getEntities()) {
+        std::shared_ptr<Camera> camera = entity->getComponentByType<Camera>(CONFIG::CompType::CAMERA);
+        std::shared_ptr<Position> position = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+        if (camera) {
+            std::shared_ptr<Position> mob_position = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+            int x_cam = mob_position->getPositionX() - position->getPositionX();
+            rectangle->setRectangleShape(data.entity, x_cam);
+        }
+    }
+}
+
+bool is_selected(Event::event_data &data) {
+    std::shared_ptr<Sprite> sprite = data.entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+    std::shared_ptr<Position> pos = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+    std::shared_ptr<RectangleShape> rectangle = data.entity->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
+     sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
+    if (sprite->getSprite().getGlobalBounds().contains(mousePosF)) {
+        if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "null" && data.event->type == sf::Event::MouseButtonPressed) {
+            data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->setValue("clicked");
+            return false;
+        }
+        if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "clicked" && data.event->type == sf::Event::MouseButtonReleased) {
+            data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->setValue("selected");
+            return true;
+        }
+    } else {
+        if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "selected" && data.event->type == sf::Event::MouseButtonPressed) {
+            data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->setValue("null");
+            rectangle->setRectangleShape(data.entity, -1000);
+            return false;
+        }
+    }
+    return false;
+}
+
+void move_element(Event::event_data &data) {
+    std::shared_ptr<Sprite> sprite = data.entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+    std::shared_ptr<RectangleShape> rectangle = data.entity->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
+    sf::IntRect rect = sprite->getRect();
+    for (auto &entity : data.entity_manager->getEntities()) {
+        std::shared_ptr<Camera> camera = entity->getComponentByType<Camera>(CONFIG::CompType::CAMERA);
+        std::shared_ptr<Position> position2 = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+        if (camera) {
+            std::shared_ptr<Position> mob_position = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
+            int x_cam = mob_position->getPositionX() - position2->getPositionX();
+            rectangle->setRectangleShape(data.entity, x_cam);
+            mob_position->setPositionX((data.mouse.x - ((rect.width * 4) / 2)) + position2->getPositionX());
+            mob_position->setPositionY(data.mouse.y - ((rect.height * 4) / 2));
+        }
+    }
+}
+
+bool is_selected_and_pressed(Event::event_data &data) {
+    std::shared_ptr<Sprite> sprite = data.entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
+    sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
+    if (sprite->getSprite().getGlobalBounds().contains(mousePosF)) {
+        if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "selected" && data.event->type == sf::Event::MouseButtonPressed) {
+            data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->setValue("pressed");
+            return true;
+        }
+    }
+    if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "pressed" && data.event->type == sf::Event::MouseButtonReleased) {
+        data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->setValue("selected");
+        return false;
+    }
+    if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "pressed") {
+        return true;
+    }
+    return false;
 }

@@ -15,7 +15,7 @@
 namespace GameEngine {
     class SysPollEvent : public ISystem {
         public:
-            SysPollEvent(std::shared_ptr<EntityManager> entityManagerPtr) : _entityManager(entityManagerPtr) {};
+            SysPollEvent(std::shared_ptr<EntityManager> entityManagerPtr, std::shared_ptr<StateManager> isRunning) : _entityManager(entityManagerPtr), _is_running(isRunning) {};
             virtual ~SysPollEvent() = default;
 
             virtual void update() {
@@ -31,10 +31,12 @@ namespace GameEngine {
                     if (event.type == sf::Event::Closed)
                         win->getWindow()->close();
                     for (auto &entity : _entityManager->getEntities()) {
-                        std::shared_ptr<Event> eventComponent = entity->getComponentByType<Event>(CONFIG::CompType::EVENT);
-                        if (eventComponent != nullptr) {
-                            Event::event_data data = { _entityManager, entity, &event, mouse };
-                            eventComponent->run(data);
+                        std::vector<std::shared_ptr<Event>> eventComponents = entity->getComponentsByType<Event>(CONFIG::CompType::EVENT);
+                        for (auto &eventComponent : eventComponents) {
+                            if (eventComponent != nullptr) {
+                                Event::event_data data = { _entityManager, entity, &event, mouse, _is_running };
+                                eventComponent->run(data);
+                            }
                         }
                     }
                 }
@@ -42,5 +44,6 @@ namespace GameEngine {
 
         private:
             std::shared_ptr<EntityManager> _entityManager;
+            std::shared_ptr<StateManager> _is_running;
     };
 }

@@ -111,7 +111,7 @@ namespace GameEngine {
                 _sprite = sprite;
             }
 
-            sf::IntRect getRect() {
+            sf::IntRect &getRect() {
                 return _rect;
             }
 
@@ -182,6 +182,10 @@ namespace GameEngine {
 
             bool getDoAnimationDead() {
                 return doAnimationDead;
+            }
+
+            void setScale (float scale) {
+                _sprite.setScale(sf::Vector2f(scale, scale));
             }
 
             virtual CONFIG::CompType getType() {return _type;};

@@ -10,6 +10,7 @@
 #include "../../Utils/Utils.hpp"
 #include "../../Components/Sprite/Sprite.hpp"
 #include "../../Components/Window/Window.hpp"
+#include "../../Components/RectangleShape/RectangleShape.hpp"
 
 namespace GameEngine {
     class SysRenderGlobal : public ISystem {
@@ -29,6 +30,12 @@ namespace GameEngine {
                     std::shared_ptr<Sprite> sprite = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
                     if (sprite != nullptr)
                         win->draw(sprite->getSprite());
+                }
+                for (auto &entity : _entityManager->getEntities()) {
+                    std::shared_ptr<RectangleShape> rect = entity->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
+                    if (rect != nullptr) {
+                        win->draw(rect->getRectangleShape());
+                    }
                 }
                 win->display();
             }
