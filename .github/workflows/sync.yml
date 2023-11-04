@@ -20,7 +20,9 @@ jobs:
       working-directory: ${{ github.workspace }}
 
     - name: Verify temp directory contents
-      run: ls -l
+      run: |
+        cd ../
+        ls -l
       working-directory: ${{ github.workspace }}
 
     - name: Commit and push changes to public repo
