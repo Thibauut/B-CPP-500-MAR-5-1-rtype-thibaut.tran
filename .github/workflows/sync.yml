@@ -32,11 +32,17 @@ jobs:
         ls -l
         cd docs_public
         ls -l
-
+        cd ../
+        git init
+        git config user.name "raphael"
+        git config user.email "raphael.de-monchy@epitech.eu"
+        git add .
+        git commit -m "Sync documentation"
+        git branch -m main
       working-directory: ${{ github.workspace }}
 
     - name: Push changes to public repo
       run: |
         git push https://${{ secrets.GITHUB_TOKEN }}@github.com:raphaeldemonchy/myMkDoc.git main
-      working-directory: ${{ github.workspace }}../docs_public
+      working-directory: ${{ github.workspace }}/..
 
