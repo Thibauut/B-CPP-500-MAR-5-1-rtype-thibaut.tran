@@ -27,6 +27,7 @@ jobs:
 
     - name: Commit and push changes to public repo
       run: |
+        ll
         ls -l
         cd ../
         ls -l
