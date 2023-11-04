@@ -19,6 +19,10 @@ jobs:
         cp -r DOC-WIKI/* ../docs_public
       working-directory: ${{ github.workspace }}
 
+    - name: Verify temp directory contents
+      run: ls -l
+      working-directory: ${{ github.workspace }}
+
     - name: Commit and push changes to public repo
       run: |
         cd ../docs_public
