@@ -31,6 +31,7 @@ jobs:
         cd ../
         ls -l
         cd docs_public
+        ls -l
         git config user.name "raphael"
         git config user.email "raphael.de-monchy@epitech.eu"
         git add .
