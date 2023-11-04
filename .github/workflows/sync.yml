@@ -37,7 +37,6 @@ jobs:
 
     - name: Push changes to public repo
       run: |
-        cd docs_public
-        git push https://${{ secrets.GITHUB_TOKEN }}git@github.com:raphaeldemonchy/myMkDoc.git main
-      working-directory: ${{ github.workspace }}
+        git push https://${{ secrets.GITHUB_TOKEN }}@github.com:raphaeldemonchy/myMkDoc.git main
+      working-directory: ${{ github.workspace }}../docs_public
 
