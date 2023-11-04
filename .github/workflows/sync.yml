@@ -1,0 +1,30 @@
+name: Sync Documentation
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+
+    - name: Copy documentation files to public repo
+      run: |
+        mkdir -p ../docs_public
+        cp -r DOC-WIKI/RTypes_docs/* ../docs_public
+      working-directory: ${{ github.workspace }}
+
+    - name: Commit and push changes to public repo
+      run: |
+        cd ../docs_public
+        git config user.name "raphael"
+        git config user.email "raphael.de-monchy@epitech.eu"
+        git add .
+        git commit -m "Sync documentation"
+        git push https://${{ secrets.GITHUB_TOKEN }}git@github.com:raphaeldemonchy/myMkDoc.git HEAD:main
+      working-directory: ${{ github.workspace }}/../docs_public
