@@ -16,7 +16,7 @@ jobs:
     - name: Copy documentation files to public repo
       run: |
         mkdir -p ../docs_public
-        cp -r DOC-WIKI/RTypes_docs/* ../docs_public
+        cp -r DOC-WIKI/* ../docs_public
       working-directory: ${{ github.workspace }}
 
     - name: Commit and push changes to public repo
