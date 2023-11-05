@@ -183,6 +183,11 @@ class Menu {
         sf::Texture _previousWeaponTexture;
         int indexEquipedWeapon = 0;
 
+        sf::Sprite _caseOpening;
+        sf::Texture _caseOpeningTexture;
+        int _credit;
+        sf::Text _text_credit;
+
         sf::RectangleShape _buttonLeave;
         sf::Text _buttonLeaveText;
         sf::RectangleShape _buttonReady;

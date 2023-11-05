@@ -31,6 +31,7 @@ void Menu::HandleTcpEvents()
         sf::FloatRect inventoryBounds = _inventory.getGlobalBounds();
         sf::FloatRect nextWeaponBounds = _nextWeapon.getGlobalBounds();
         sf::FloatRect previousWeaponBounds = _previousWeapon.getGlobalBounds();
+        sf::FloatRect caseOpeningBounds = _caseOpening.getGlobalBounds();
 
         //////////////////////////////////////////////////////
         //                  EDITOR MAP                      //
@@ -264,6 +265,10 @@ void Menu::HandleTcpEvents()
                     _inventoryTexture.loadFromFile("assets/images/machinegun.png");
 
             }
+        }
+
+        if ( _titleFirst == "R-TYPE" && caseOpeningBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
+            _tcpConnection->OpenCase();
         }
 
         //////////////////////////////////////////////////////

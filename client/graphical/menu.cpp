@@ -113,6 +113,7 @@ void Menu::Draw() {
         _window->draw(_previousWeapon);
         _window->draw(_text_degat);
         _window->draw(_text_cadence);
+        _window->draw(_caseOpening);
     }
 
     if (!_isConnected) {

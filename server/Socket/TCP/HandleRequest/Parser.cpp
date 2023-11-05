@@ -252,10 +252,14 @@ void Parser::startCaseOpening (std::string player_uuid) {
             if (player->getCredit() < 1000)
                 response += "KO\n";
             else {
+                std::cout << "player credit "<<  player->getCredit() <<std::endl;
                 player->setPlayerCredit(player->getCredit() - 1000);
+                std::cout << "player credit "<<  player->getCredit() <<std::endl;
                 for (auto &jsonplayer : _server->_save.players_data["players"]) {
                         if (jsonplayer["uuid"] == player_uuid) {
-                            jsonplayer["credits"] = player->getCredit();
+                            jsonplayer["credit"] = player->getCredit();
+                            std::cout << "json player credit "<<  jsonplayer["credits"] <<std::endl;
+                            srand(static_cast<unsigned int>(std::time(0)));
                             double lower_cadence = 0.2;
                             double upper_cadence = 4.0;
                             double rend_cadence = lower_cadence + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX/(upper_cadence - lower_cadence)));

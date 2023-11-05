@@ -56,6 +56,7 @@ void Menu::InitSprites() {
         sfmlFunc.LoadSprite(_inventory, _inventoryTexture, weapon_path, 135, 250, 0.1, 0.1);
         sfmlFunc.LoadSprite(_previousWeapon, _previousWeaponTexture, "assets/images/moins.png", 50, 250, 0.1, 0.1);
         sfmlFunc.LoadSprite(_nextWeapon, _nextWeaponTexture, "assets/images/plus.png", 590, 250, 0.1, 0.1);
+        sfmlFunc.LoadSprite(_caseOpening, _caseOpeningTexture, "assets/images/boite-mystere.png", 1600, 200, 0.2, 0.2);
     }
 }
 
