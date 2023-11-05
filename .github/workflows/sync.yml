@@ -29,7 +29,6 @@ jobs:
         cd ../
         cd myMkDoc
         cd docs
-        ls -l
       working-directory: ${{ github.workspace }}
 
     - name: Commit and push changes to public repo
