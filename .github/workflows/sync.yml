@@ -13,16 +13,19 @@ jobs:
     - name: Checkout source repository
       uses: actions/checkout@v3
 
-    - name: Copy documentation files to public repo
-      run: |
-        cp -r DOC-WIKI/* docs
-      working-directory: ${{ github.workspace }}
 
     - name: Verify temp directory contents
       run: |
         cd ../
         ls -l
         git clone https://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@github.com/raphaeldemonchy/myMkDoc.git
+        ls -l
+      working-directory: ${{ github.workspace }}
+
+    - name: Copy documentation files to public repo
+      run: |
+        ls -l
+        cp -r DOC-WIKI/* docs/RTypes_docs/
         ls -l
       working-directory: ${{ github.workspace }}
 
