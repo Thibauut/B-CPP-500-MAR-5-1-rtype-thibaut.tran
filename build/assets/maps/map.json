@@ -1,0 +1,237 @@
+{
+    "enemies": [
+        {
+            "animDelay": 0.1,
+            "animDelayDead": 0.1,
+            "health": 10,
+            "maxHeight": 36,
+            "maxHeightDead": 85,
+            "maxWidth": 264,
+            "maxWidthDead": 199,
+            "name": "Bat",
+            "positions": [
+                {
+                    "x": 1111,
+                    "y": 176
+                }
+            ],
+            "rectangle": {
+                "height": 32,
+                "left": 0,
+                "top": 0,
+                "width": 32
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet5.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 0,
+            "weapon": "Weapon1"
+        },
+        {
+            "animDelay": 0.1,
+            "animDelayDead": 0.1,
+            "health": 10,
+            "maxHeight": 36,
+            "maxHeightDead": 85,
+            "maxWidth": 264,
+            "maxWidthDead": 199,
+            "name": "Bat",
+            "positions": [
+                {
+                    "x": 1014,
+                    "y": 294
+                }
+            ],
+            "rectangle": {
+                "height": 32,
+                "left": 0,
+                "top": 0,
+                "width": 32
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet5.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 0,
+            "weapon": "Weapon1"
+        },
+        {
+            "animDelay": 0.1,
+            "animDelayDead": 0.1,
+            "health": 10,
+            "maxHeight": 36,
+            "maxHeightDead": 85,
+            "maxWidth": 264,
+            "maxWidthDead": 199,
+            "name": "Bat",
+            "positions": [
+                {
+                    "x": 902,
+                    "y": 411
+                }
+            ],
+            "rectangle": {
+                "height": 32,
+                "left": 0,
+                "top": 0,
+                "width": 32
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet5.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 0,
+            "weapon": "Weapon1"
+        },
+        {
+            "animDelay": 0.1,
+            "animDelayDead": 0.1,
+            "health": 10,
+            "maxHeight": 36,
+            "maxHeightDead": 85,
+            "maxWidth": 264,
+            "maxWidthDead": 199,
+            "name": "Bat",
+            "positions": [
+                {
+                    "x": 798,
+                    "y": 547
+                }
+            ],
+            "rectangle": {
+                "height": 32,
+                "left": 0,
+                "top": 0,
+                "width": 32
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet5.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 0,
+            "weapon": "Weapon1"
+        },
+        {
+            "animDelay": 0.15,
+            "animDelayDead": 0.1,
+            "health": 100,
+            "maxHeight": 36,
+            "maxHeightDead": 85,
+            "maxWidth": 132,
+            "maxWidthDead": 199,
+            "name": "Botty",
+            "positions": [
+                {
+                    "x": 1062,
+                    "y": 758
+                }
+            ],
+            "rectangle": {
+                "height": 34,
+                "left": 0,
+                "top": 0,
+                "width": 33
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet11.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 1,
+            "weapon": "Weapon1"
+        },
+        {
+            "animDelay": 0.1,
+            "animDelayDead": 0.1,
+            "health": 300,
+            "maxHeight": 66,
+            "maxHeightDead": 85,
+            "maxWidth": 522,
+            "maxWidthDead": 199,
+            "name": "Sancho",
+            "positions": [
+                {
+                    "x": 289,
+                    "y": 779
+                }
+            ],
+            "rectangle": {
+                "height": 66,
+                "left": 0,
+                "top": 0,
+                "width": 65
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet17.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 2,
+            "weapon": "Weapon1"
+        },
+        {
+            "animDelay": 0.1,
+            "animDelayDead": 0.1,
+            "health": 10,
+            "maxHeight": 36,
+            "maxHeightDead": 85,
+            "maxWidth": 264,
+            "maxWidthDead": 199,
+            "name": "Bat",
+            "positions": [
+                {
+                    "x": 1640,
+                    "y": 274
+                }
+            ],
+            "rectangle": {
+                "height": 32,
+                "left": 0,
+                "top": 0,
+                "width": 32
+            },
+            "rectangleDead": {
+                "height": 34,
+                "left": -6,
+                "top": 55,
+                "width": 34
+            },
+            "speed": 1,
+            "sprite": "assets/sprites/r-typesheet5.gif",
+            "spriteDead": "assets/sprites/r-typesheet43.gif",
+            "type": 0,
+            "weapon": "Weapon1"
+        }
+    ],
+    "name": "Test de Map",
+    "size": 3000
+}

@@ -19,6 +19,10 @@
 #include <functional>
 #include <atomic>
 #include "../network/ConnectionTCP/ConnectionTCP.hpp"
+#include "../network/OpenUDP/OpenUDP.hpp"
+#include "../editor/Editor.hpp"
+#include "../graphical/game.cpp"
+// #include <opendir.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <nlohmann/json.hpp>
@@ -115,6 +119,9 @@ class Menu {
         sf::Text _text_name;
         sf::Text _text_name_input;
         std::string _inputName;
+
+        sf::RectangleShape _buttonEditor;
+        sf::Text _buttonEditorText;
 
         sf::RectangleShape _textField2;
         sf::Text _text_ip;

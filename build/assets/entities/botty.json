@@ -1,0 +1,27 @@
+{
+    "name": "Botty",
+    "type": 1,
+    "speed": 1,
+    "health": 100,
+    "weapon": "Weapon1",
+    "sprite": "assets/sprites/r-typesheet11.gif",
+    "rectangle": {
+        "left": 0,
+        "top": 0,
+        "width": 33,
+        "height": 34
+    },
+    "maxWidth": 132,
+    "maxHeight": 36,
+    "animDelay": 0.15,
+    "rectangleDead": {
+        "left": -6,
+        "top": 55,
+        "width": 34,
+        "height": 34
+    },
+    "spriteDead": "assets/sprites/r-typesheet43.gif",
+    "maxWidthDead": 199,
+    "maxHeightDead": 85,
+    "animDelayDead": 0.1
+}

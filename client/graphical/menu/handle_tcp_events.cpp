@@ -13,6 +13,7 @@ void Menu::HandleTcpEvents()
         sf::Vector2f mousePos = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
         sf::FloatRect buttonBounds = _button.getGlobalBounds();
         sf::FloatRect buttonCreateBounds = _buttonCreate.getGlobalBounds();
+        sf::FloatRect buttonEditor = _buttonEditor.getGlobalBounds();
         sf::FloatRect buttonDisconnectBounds = _buttonDisconnect.getGlobalBounds();
         sf::FloatRect addSlotBounds = _addSlot.getGlobalBounds();
         sf::FloatRect nextMapBounds = _next_level_choose.getGlobalBounds();
@@ -31,6 +32,12 @@ void Menu::HandleTcpEvents()
         sf::FloatRect nextWeaponBounds = _nextWeapon.getGlobalBounds();
         sf::FloatRect previousWeaponBounds = _previousWeapon.getGlobalBounds();
 
+        //////////////////////////////////////////////////////
+        //                  EDITOR MAP                      //
+        //////////////////////////////////////////////////////
+        if (buttonEditor.contains(mousePos) && _isConnected == false) {
+            Editor editor(_window);
+        }
         //////////////////////////////////////////////////////
         //                  CONFIGURE SLOT                  //
         //////////////////////////////////////////////////////

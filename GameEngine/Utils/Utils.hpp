@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include <string>
 
 class CLI_PlayerWeapon {
     public:
@@ -60,6 +61,14 @@ namespace CONFIG {
         DAMAGE,
         TEAM,
         SOUND,
+        WINDOW,
+        DRAGGABLE,
+        BUTTON_TEXT,
+        EVENT,
+        STRING,
+        BOOL,
+        RECTANGLESHAPE,
+        PATH,
         CAMERA,
         MENU
     };
@@ -78,6 +87,8 @@ namespace CONFIG {
         ENEMYSPRITE,
         DEATHSPRITE,
         BULLETSPRITE,
+        GUI,
+        BUTTON,
         BALLSPRITE,
     };
 

@@ -37,7 +37,7 @@ namespace GameEngine {
                         return entityPtr;
                     }
                 }
-                throw std::runtime_error("Entity not found");
+                throw std::runtime_error("Entity not found for uuid " + uuid);
             }
 
             std::shared_ptr<Entity>& getEntityById(unsigned int id) {
@@ -46,7 +46,7 @@ namespace GameEngine {
                         return entityPtr;
                     }
                 }
-                throw std::runtime_error("Entity not found");
+                throw std::runtime_error("Entity not found for id " + id);
             }
 
             std::shared_ptr<EntityManager> getEntityManager() {

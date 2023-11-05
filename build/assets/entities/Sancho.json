@@ -1,0 +1,27 @@
+{
+    "name": "Sancho",
+    "type": 2,
+    "speed": 1,
+    "health": 300,
+    "weapon": "Weapon1",
+    "sprite": "assets/sprites/r-typesheet17.gif",
+    "rectangle": {
+        "left": 0,
+        "top": 0,
+        "width": 65,
+        "height": 66
+    },
+    "maxWidth": 522,
+    "maxHeight": 66,
+    "animDelay": 0.1,
+    "rectangleDead": {
+        "left": -6,
+        "top": 55,
+        "width": 34,
+        "height": 34
+    },
+    "spriteDead": "assets/sprites/r-typesheet43.gif",
+    "maxWidthDead": 199,
+    "maxHeightDead": 85,
+    "animDelayDead": 0.1
+}
