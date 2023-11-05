@@ -31,18 +31,20 @@ namespace GameEngine {
             void timerThread(Menu* menu) {
                 int counter = 0;
                 while (shouldStop == false) {
-                    if (menu->_isConnected && !menu->_selectedRoom && !menu->_isCreatingRoom && menu->_inGame == false && menu->ReadyGame == false) {
-                        menu->_1Mutex.lock();
-                        menu->UpdateRoom();
-                        menu->_1Mutex.unlock();
+                    if (shouldPause == false) {
+                        if (menu->_isConnected && !menu->_selectedRoom && !menu->_isCreatingRoom && menu->_inGame == false && menu->ReadyGame == false) {
+                            menu->_1Mutex.lock();
+                            menu->UpdateRoom();
+                            menu->_1Mutex.unlock();
+                        }
+                        if (menu->_isConnected && menu->_selectedRoom && !menu->_isCreatingRoom && menu->_inGame == false && menu->ReadyGame == false) {
+                            menu->_1Mutex.lock();
+                            menu->UpdateRoom();
+                            menu->UpdatePlayerList();
+                            menu->_1Mutex.unlock();
+                        }
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                     }
-                    if (menu->_isConnected && menu->_selectedRoom && !menu->_isCreatingRoom && menu->_inGame == false && menu->ReadyGame == false) {
-                        menu->_1Mutex.lock();
-                        menu->UpdateRoom();
-                        menu->UpdatePlayerList();
-                        menu->_1Mutex.unlock();
-                    }
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 }
             }
 

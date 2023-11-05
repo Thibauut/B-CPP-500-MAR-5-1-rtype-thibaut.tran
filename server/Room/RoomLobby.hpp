@@ -34,8 +34,8 @@ class RoomLobby {
         std::vector<std::shared_ptr<PlayerLobby>>&  getPlayers() { return _players; }
         std::string getUuid() const { return _uuid; }
         unsigned int getNbReadyPlayers() const { return _nbReadyPlayers; }
-        bool isStarted() const { return _isStarted; }
-        void setStarted(bool started) { _isStarted = started; }
+        bool isStarted() const { return *_isStarted.get(); }
+        void setStarted(bool started) { *_isStarted.get() = started; }
 
     private:
         void gameEntryPoint();
@@ -55,5 +55,6 @@ class RoomLobby {
         std::shared_ptr<PlayerLobby> _owner;
         std::vector<std::shared_ptr<PlayerLobby>> _players;
         std::thread _thread;
-        bool _isStarted;
+        std::shared_ptr<bool> _isStarted;
+        bool _isRunning;
 };

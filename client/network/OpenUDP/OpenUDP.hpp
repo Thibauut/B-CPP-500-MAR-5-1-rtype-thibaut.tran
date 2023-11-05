@@ -21,6 +21,7 @@
     #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
     #include "../../../GameEngine/Components/Position/Position.hpp"
     #include "../../../GameEngine/Components/Cooldown/Cooldown.hpp"
+    #include "../../../GameEngine/GameEngine.hpp"
 
 class ClientOpenUDP : public ThreadHandler {
     public:
@@ -41,7 +42,7 @@ class ClientOpenUDP : public ThreadHandler {
         void init(std::shared_ptr<Entity> &);
         void recursRead(std::shared_ptr<Entity> &);
         void run() override {};
-        void run(unsigned int my_id);
+        void run(unsigned int my_id, std::shared_ptr<StateManager> state_manager);
 
         void sendMessageSync(const std::string&);
 
