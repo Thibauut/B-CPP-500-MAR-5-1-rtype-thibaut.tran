@@ -25,7 +25,10 @@ jobs:
     - name: Copy documentation files to public repo
       run: |
         ls -l
-        cp -r DOC-WIKI/* ../myMkDoc/docs/RTypes_docs/
+        cp -r DOC-WIKI/* ../myMkDoc/docs/
+        cd ../
+        cd myMkDoc
+        cd docs
         ls -l
       working-directory: ${{ github.workspace }}
 
