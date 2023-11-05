@@ -26,7 +26,7 @@ namespace GameEngine {
                 std::shared_ptr<EntityManager> entity_manager;
                 std::shared_ptr<Entity> entity;
                 sf::Event *event;
-                sf::Vector2i mouse;
+                sf::Vector2f mouse;
                 std::shared_ptr<StateManager> is_running;
             };
 

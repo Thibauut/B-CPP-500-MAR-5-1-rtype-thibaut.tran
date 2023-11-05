@@ -10,6 +10,7 @@
 #include "../ASystem/ASystem.hpp"
 #include "../../Utils/Utils.hpp"
 #include "../../Components/Event/Event.hpp"
+#include "../../GameEngine.hpp"
 #include "../../Components/Window/Window.hpp"
 
 namespace GameEngine {
@@ -34,7 +35,8 @@ namespace GameEngine {
                         std::vector<std::shared_ptr<Event>> eventComponents = entity->getComponentsByType<Event>(CONFIG::CompType::EVENT);
                         for (auto &eventComponent : eventComponents) {
                             if (eventComponent != nullptr) {
-                                Event::event_data data = { _entityManager, entity, &event, mouse, _is_running };
+                                sf::Vector2f mousePos = win->getWindow()->mapPixelToCoords(sf::Mouse::getPosition(*win->getWindow()));
+                                Event::event_data data = { _entityManager, entity, &event, mousePos, _is_running };
                                 eventComponent->run(data);
                             }
                         }

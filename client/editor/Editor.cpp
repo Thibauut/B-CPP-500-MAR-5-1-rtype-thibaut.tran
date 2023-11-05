@@ -222,8 +222,7 @@ bool is_dragging(Event::event_data &data) {
         if (draggable->isBeingDragged())
             return true;
         if (data.event->type == sf::Event::MouseButtonPressed) {
-            sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
-            if (sprite->getSprite().getGlobalBounds().contains(mousePosF) && !draggable->isBeingDragged())
+            if (sprite->getSprite().getGlobalBounds().contains(data.mouse) && !draggable->isBeingDragged())
                 return true;
         }
         if (data.event->type == sf::Event::MouseButtonReleased && draggable->isBeingDragged())
@@ -281,7 +280,8 @@ void drop(Event::event_data &data) {
     std::shared_ptr<RectangleShape> rectangle_c = editor->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
 
     sf::IntRect hitbox = hitbox_c->getRectangle();
-    if (hitbox.contains(data.mouse)) {
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition();
+    if (hitbox.contains(mouse_pos)) {
         std::shared_ptr<Entity> entity = data.entity_manager->getEntity(draggable->getEntityDragged());
         Entity new_entity;
         new_entity.init();
@@ -347,11 +347,10 @@ bool is_clicked(Event::event_data &data)
     std::shared_ptr<Bool> bool_ = data.entity->getComponentByType<Bool>(CONFIG::CompType::BOOL);
     if (hitbox != nullptr) {
         if (data.event->type == sf::Event::MouseButtonPressed) {
-            sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
             sf::IntRect rect = hitbox->getRectangle();
             rect.left = position->getPositionX();
             rect.top = position->getPositionY();
-            if (sprite->getSprite().getGlobalBounds().contains(data.mouse.x, data.mouse.y))
+            if (sprite->getSprite().getGlobalBounds().contains(data.mouse))
                 return true;
         }
     }
@@ -446,16 +445,15 @@ void move_element(Event::event_data &data) {
             std::shared_ptr<Position> mob_position = data.entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
             int x_cam = mob_position->getPositionX() - position2->getPositionX();
             rectangle->setRectangleShape(data.entity, x_cam);
-            mob_position->setPositionX((data.mouse.x - ((rect.width * 4) / 2)) + position2->getPositionX());
-            mob_position->setPositionY(data.mouse.y - ((rect.height * 4) / 2));
+            mob_position->setPositionX((((int) data.mouse.x) - ((rect.width * 4) / 2)) + position2->getPositionX());
+            mob_position->setPositionY(((int) data.mouse.y) - ((rect.height * 4) / 2));
         }
     }
 }
 
 bool is_selected_and_pressed(Event::event_data &data) {
     std::shared_ptr<Sprite> sprite = data.entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
-    sf::Vector2f mousePosF(static_cast<float>(data.mouse.x), static_cast<float>(data.mouse.y));
-    if (sprite->getSprite().getGlobalBounds().contains(mousePosF)) {
+    if (sprite->getSprite().getGlobalBounds().contains(data.mouse)) {
         if (data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString() == "selected" && data.event->type == sf::Event::MouseButtonPressed) {
             data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->setValue("pressed");
             return true;
