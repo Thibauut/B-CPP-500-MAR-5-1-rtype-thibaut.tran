@@ -36,7 +36,7 @@ class ClientOpenUDP : public ThreadHandler {
             int posY;
         };
 
-        ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::shared_ptr<EntityManager> &entities, const std::string my_id);
+        ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::shared_ptr<EntityManager> &entities, const std::string my_id, std::string titleGame);
         void setMessage(const std::string&);
         void init(std::shared_ptr<Entity> &);
         void recursRead(std::shared_ptr<Entity> &);
@@ -70,6 +70,7 @@ class ClientOpenUDP : public ThreadHandler {
         bool is4 = false;
 
         std::mutex mutex_;
+        std::string _titleGame;
 
         // std::vector<std::shared_ptr<PlayerUDP>> &players_;
 

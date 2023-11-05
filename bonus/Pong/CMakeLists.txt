@@ -12,6 +12,7 @@ find_package(nlohmann_json REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/build/Cona
 # Client
 set(SRC_CLIENT  client/client.cpp
                 client/graphical/game.cpp
+                ../../client/editor/Editor.cpp
                 ../../GameEngine/Components/test.cpp
                 ../../client/network/ConnectionTCP/ConnectionTCP.cpp
                 ../../client/network/ThreadHandler/ThreadHandler.cpp

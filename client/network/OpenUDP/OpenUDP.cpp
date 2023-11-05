@@ -20,8 +20,8 @@
 #include "OpenUDP.hpp"
 #include <future>
 
-ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::shared_ptr<EntityManager> &entities, const std::string my_id)
-    : udpAddress_(serverIp), udpPort_(serverPort), socket_(ioService), my_id_(my_id), entities_(entities)
+ClientOpenUDP::ClientOpenUDP(const std::string& serverIp, const std::string& serverPort, std::shared_ptr<EntityManager> &entities, const std::string my_id , std::string titleGame)
+    : udpAddress_(serverIp), udpPort_(serverPort), socket_(ioService), my_id_(my_id), entities_(entities), _titleGame(titleGame)
 {
     try {
         boost::asio::ip::address ip_address = boost::asio::ip::address::from_string(udpAddress_);
@@ -72,7 +72,7 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
     entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
         if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false && ent->getId() != my_id) {
-            if (ent->getType() == 6 || ent->getType() == 2) {
+            if (_titleGame == "¨PONG") {
                 std::shared_ptr<Score> scoreComp = entity->getComponentByType<Score>(CONFIG::CompType::SCORE);
                 std::shared_ptr<Score> newEntScore = ent->getComponentByType<Score>(CONFIG::CompType::SCORE);
                 if (newEntScore == nullptr || scoreComp == nullptr) {

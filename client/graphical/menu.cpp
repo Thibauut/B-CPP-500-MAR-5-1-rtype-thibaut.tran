@@ -48,7 +48,7 @@ void Menu::Loop()
             std::cout << "game port: " << _game->portUDP_ << std::endl;
 
             //client udp initialize
-            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>(_inputIp, _game->portUDP_, _game->gameEngine_._manager, _game->my_id_);
+            std::shared_ptr<ClientOpenUDP> clientudp = std::make_shared<ClientOpenUDP>(_inputIp, _game->portUDP_, _game->gameEngine_._manager, _game->my_id_, _titleFirst);
             _game->_clientOpenUDP = clientudp;
 
             //add systems
