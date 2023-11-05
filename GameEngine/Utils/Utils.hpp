@@ -44,7 +44,8 @@ namespace CONFIG {
         EVENT,
         STRING,
         BOOL,
-        RECTANGLESHAPE
+        RECTANGLESHAPE,
+        PATH,
     };
 
     enum Dir {

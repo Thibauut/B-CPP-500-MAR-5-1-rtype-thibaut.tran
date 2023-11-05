@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** B-CPP-500-MAR-5-1-rtype-maori.dino
 ** File description:
-** String.hpp
+** Path.hpp
 */
 
 #pragma once
@@ -13,30 +13,30 @@
 
 namespace GameEngine {
 
-    class String : public AComponent {
+    class Path : public AComponent {
         public:
             friend class boost::serialization::access;
             friend class AComponent;
-            String() : AComponent() {};
-            String(std::string string)
-            : AComponent(CONFIG::CompType::STRING), _idComponent(895), _type(CONFIG::CompType::STRING) {
+            Path() : AComponent() {};
+            Path(std::string string)
+            : AComponent(CONFIG::CompType::PATH), _idComponent(895), _type(CONFIG::CompType::PATH) {
                 _string = string;
             }
 
-            String(String const &string) : AComponent() {
+            Path(Path const &string) : AComponent() {
                 _idComponent = string._idComponent;
-                _type = CONFIG::CompType::STRING;
+                _type = CONFIG::CompType::PATH;
             }
 
-            ~String() = default;
+            ~Path() = default;
 
-            std::string getString() {return _string;};
+            std::string getPath() {return _string;};
             void setValue(const std::string string) {_string = string;};
-            void setString(std::string &string) { _string = string; };
+            void setPath(std::string &string) { _string = string; };
 
             template<class Archive>
             void serialize(Archive & ar, const unsigned int version) {
-                ar.template register_type<String>();
+                ar.template register_type<Path>();
                 ar & boost::serialization::base_object<AComponent>(*this);
                 ar & _idComponent;
                 ar & _type;
@@ -58,4 +58,4 @@ namespace GameEngine {
     };
 }
 
-BOOST_CLASS_EXPORT_KEY(GameEngine::String);
+BOOST_CLASS_EXPORT_KEY(GameEngine::Path);

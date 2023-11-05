@@ -191,7 +191,7 @@ void Editor::loadPalette() {
         std::shared_ptr<Position> position1Shared = std::make_shared<Position>(position1);
         std::shared_ptr<Draggable> draggable1Shared = std::make_shared<Draggable>(CONFIG::CompType::DRAGGABLE);
         std::string path(entry.path().c_str());
-        std::shared_ptr<String> pathJson = std::make_shared<String>(path);
+        std::shared_ptr<Path> pathJson = std::make_shared<Path>(path);
         Event::event_config config_event;
         config_event.isActive = is_dragging;
         config_event.action = drag_and_drop;
@@ -251,7 +251,7 @@ void drag(Event::event_data &data) {
     Entity entity_dragged(50, 30);
     entity_dragged.init();
     Sprite sp(CONFIG::CompType::SPRITE, 59878);
-    std::shared_ptr<String> path = std::make_shared<String>(data.entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString());
+    std::shared_ptr<Path> path = std::make_shared<Path>(data.entity->getComponentByType<Path>(CONFIG::CompType::PATH)->getPath());
     std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
     spriteShared->setSprite(sprite->getSprite());
     spriteShared->setScale(4);
@@ -288,7 +288,7 @@ void drop(Event::event_data &data) {
         Sprite sp(CONFIG::CompType::SPRITE, 59912);
         std::shared_ptr<Sprite> sprite = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sp);
-        std::shared_ptr<String> path = std::make_shared<String>(entity->getComponentByType<String>(CONFIG::CompType::STRING)->getString());
+        std::shared_ptr<Path> path = std::make_shared<Path>(entity->getComponentByType<Path>(CONFIG::CompType::PATH)->getPath());
         spriteShared->setSprite(sprite->getSprite());
         Event::event_config select_element_config;
         select_element_config.action = select_element;
@@ -308,7 +308,7 @@ void drop(Event::event_data &data) {
         std::shared_ptr<RectangleShape> rectangleShared = std::make_shared<RectangleShape>();
         new_entity.addComponent(spriteShared);
         new_entity.addComponent(positionShared);
-        // new_entity.addComponent(path);
+        new_entity.addComponent(path);
         new_entity.addComponent(event_move);
         new_entity.addComponent(event_select);
         new_entity.addComponent(isSelectedShared);
@@ -369,8 +369,8 @@ void save(Event::event_data &data)
     for (Entity entity : entities) {
         std::shared_ptr<Sprite> sprite = entity.getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
         std::shared_ptr<Position> position = entity.getComponentByType<Position>(CONFIG::CompType::POSITION);
-        std::shared_ptr<String> path = entity.getComponentByType<String>(CONFIG::CompType::STRING);
-        std::ifstream input_file(path->getString());
+        std::shared_ptr<Path> path = entity.getComponentByType<Path>(CONFIG::CompType::PATH);
+        std::ifstream input_file(path->getPath());
         nlohmann::json entity_json;
         input_file >> entity_json;
         input_file.close();

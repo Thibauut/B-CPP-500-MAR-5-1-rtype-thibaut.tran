@@ -14,6 +14,7 @@
 #include "../../GameEngine/Components/String/String.hpp"
 #include "../../GameEngine/Components/Bool/Bool.hpp"
 #include "../../GameEngine/Components/RectangleShape/RectangleShape.hpp"
+#include "../../GameEngine/Components/Path/Path.hpp"
 #include <filesystem>
 #include <iostream>
 #include <fstream>
