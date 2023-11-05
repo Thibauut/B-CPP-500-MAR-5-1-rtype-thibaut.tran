@@ -19,8 +19,10 @@
 #include "Components/Sprite/Sprite.hpp"
 #include "Components/Weapon/Weapon.hpp"
 #include "Components/Cooldown/Cooldown.hpp"
+#include "Components/Draggable/Draggable.hpp"
 #include "Components/Sound/Sound.hpp"
 #include "Components/Score/Score.hpp"
+#include "Components/Window/Window.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"
@@ -47,31 +49,54 @@
 
 namespace GameEngine {
 
+    class StateManager {
+        public:
+            StateManager() {
+                this->running = true;
+            }
+            ~StateManager() {}
+
+            void stop() {
+                this->running = false;
+            }
+
+            void start() {
+                this->running = true;
+            }
+
+            void setRunning(bool running) {
+                this->running = running;
+            }
+
+            bool isRunning() {
+                return this->running;
+            }
+
+            bool running;
+    };
+
     class Engine {
         public:
-            Engine(EntityManager manager) : _manager(std::make_shared<EntityManager>(manager)) {_isRunning = false;}
-            Engine(Engine &other) {
-                _manager = other._manager;
-                _isRunning = other._isRunning;
-                _systems = other._systems;
+            Engine(EntityManager manager) : _manager(std::make_shared<EntityManager>(manager)) {
+                _stateManager = std::make_shared<StateManager>();
             }
+
+            Engine() : _manager(std::make_shared<EntityManager>()) {
+                _stateManager = std::make_shared<StateManager>();
+            }
+
             ~Engine() {}
 
             void init() {
-                _isRunning = false;
+                _stateManager->setRunning(true);
             }
 
             void run() {
-                _isRunning = true;
-                for (;;) {
+                while (_stateManager->isRunning()) {
                     for (std::shared_ptr<ISystem> &_system : _systems) {
                         _system->update();
                     }
                 }
-            }
-
-            void stop() {
-                _isRunning = false;
             }
 
             std::shared_ptr<EntityManager> getManager() {
@@ -86,9 +111,13 @@ namespace GameEngine {
                 _systems.remove(system);
             }
 
+            std::shared_ptr<StateManager> isRunning() {
+                return _stateManager;
+            }
+
             std::shared_ptr<EntityManager> _manager;
         private:
-            bool _isRunning;
+            std::shared_ptr<StateManager> _stateManager;
             std::list<std::shared_ptr<ISystem>> _systems;
     };
 

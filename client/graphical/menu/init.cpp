@@ -85,6 +85,7 @@ void Menu::InitText() {
 
 void Menu::InitButton() {
     sfmlFunc.CreateButton(_button, _buttonText, _font, "Connect", sf::Vector2f(200, 50), sf::Vector2f(860, 800), 45);
+    sfmlFunc.CreateButton(_buttonEditor, _buttonEditorText, _font, "MZ Editor", sf::Vector2f(200, 50), sf::Vector2f(120, 120), 45);
 
     sfmlFunc.CreateButton(_buttonCreate, _buttonCreateText, _font, "Create", sf::Vector2f(200, 50), sf::Vector2f(1210, 800), 57);
     sfmlFunc.CreateButton(_buttonDisconnect, _buttonDisconnectText, _font, "Disconnect", sf::Vector2f(200, 50), sf::Vector2f(510, 800), 25);

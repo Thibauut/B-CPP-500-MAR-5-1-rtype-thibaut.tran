@@ -7,6 +7,8 @@
 #pragma once
 #include "../AComponent/AComponent.hpp"
 #include "../../Utils/Utils.hpp"
+#include <SFML/Graphics.hpp>
+
 
 namespace GameEngine {
 

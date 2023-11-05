@@ -42,7 +42,6 @@ namespace GameEngine {
                     ar & _type;
                 }
 
-
             void sortEntitiesByX() {
                 std::sort(_entities.begin(), _entities.end(), [](Entity a, Entity b) {
                     return a.getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() < b.getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();

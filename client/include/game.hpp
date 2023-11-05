@@ -26,8 +26,8 @@
 
 class GameRtype: public AGame {
     public:
-        GameRtype(std::shared_ptr<Engine> engine);
-        virtual ~GameRtype();
+        inline GameRtype(std::shared_ptr<Engine> engine);
+        inline virtual ~GameRtype();
 
         // game
         virtual void InitBackground() override;

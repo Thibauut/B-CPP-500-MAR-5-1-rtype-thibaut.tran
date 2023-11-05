@@ -20,7 +20,7 @@ GameRtype::GameRtype(std::shared_ptr<Engine> engine) {
 
 GameRtype::~GameRtype() {}
 
-void GameRtype::LoadSprite(sf::Sprite& sprite,  sf::Texture &texture, const std::string& imagePath, float posX, float posY, float scaleX, float scaleY) {
+inline void GameRtype::LoadSprite(sf::Sprite& sprite,  sf::Texture &texture, const std::string& imagePath, float posX, float posY, float scaleX, float scaleY) {
     if (texture.loadFromFile(imagePath)) {
         sprite.setTexture(texture);
         sprite.setPosition(posX, posY);
@@ -30,7 +30,7 @@ void GameRtype::LoadSprite(sf::Sprite& sprite,  sf::Texture &texture, const std:
     }
 }
 
-void GameRtype::InitBackground()
+inline void GameRtype::InitBackground()
 {
     LoadSprite(_background, _backgroundTexture, "assets/images/background_1.png", 0, 0, 8, 8);
     sf::IntRect rectBackground(0, 0, 256, 224);
@@ -51,7 +51,7 @@ void GameRtype::InitBackground()
     _background2.setColor(spriteColor2);
 }
 
-void GameRtype::AnimateBackground()  {
+inline void GameRtype::AnimateBackground()  {
     sf::Time elapsed = _clock.getElapsedTime();
     if (elapsed.asSeconds() > 0.03) {
         _rectBackground.left += 1;
@@ -68,7 +68,7 @@ void GameRtype::AnimateBackground()  {
     }
 }
 
-void GameRtype::Loop()
+inline void GameRtype::Loop()
 {
     _timeMove.Start();
     gameEngine_._manager->getEntities().push_back(my_player);
@@ -81,7 +81,7 @@ void GameRtype::Loop()
     }
 }
 
-void GameRtype::HandleEvents()
+inline void GameRtype::HandleEvents()
 {
     while (_window->pollEvent(_event)) {
         if (_event.type == sf::Event::Closed) {
@@ -169,7 +169,7 @@ void GameRtype::HandleEvents()
     }
 }
 
-void GameRtype::Draw()
+inline void GameRtype::Draw()
 {
         _window->clear(sf::Color::Black);
         _window->draw(_background);

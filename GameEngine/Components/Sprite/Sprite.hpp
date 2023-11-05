@@ -19,6 +19,24 @@ namespace GameEngine {
             Sprite(CONFIG::CompType type, int id)
             : AComponent(), _idComponent(id), _type(type) {}
 
+            Sprite(Sprite const &sprite) : AComponent() {
+                _idComponent = sprite._idComponent;
+                _type = sprite._type;
+                _x = sprite._x;
+                _y = sprite._y;
+                _leftRect = sprite._leftRect;
+                _topRect = sprite._topRect;
+                width = sprite.width;
+                height = sprite.height;
+                _scaleX = sprite._scaleX;
+                _scaleY = sprite._scaleY;
+                _path = sprite._path;
+                maxWidth = sprite.maxWidth;
+                maxHeight = sprite.maxHeight;
+                animDelay = sprite.animDelay;
+                _typeSprite = sprite._typeSprite;
+            }
+
             ~Sprite() = default;
 
             template<class Archive>
@@ -73,7 +91,6 @@ namespace GameEngine {
                 _sprite.setTextureRect(_rect);
             }
 
-
             int getSpriteWidth() {
                 return width;
             }
@@ -86,7 +103,7 @@ namespace GameEngine {
                 return _y;
             }
 
-            sf::Sprite getSprite() {
+            sf::Sprite &getSprite() {
                 return _sprite;
             }
 
@@ -94,7 +111,7 @@ namespace GameEngine {
                 _sprite = sprite;
             }
 
-            sf::IntRect getRect() {
+            sf::IntRect &getRect() {
                 return _rect;
             }
 
@@ -167,6 +184,10 @@ namespace GameEngine {
                 return doAnimationDead;
             }
 
+            void setScale (float scale) {
+                _sprite.setScale(sf::Vector2f(scale, scale));
+            }
+
             virtual CONFIG::CompType getType() {return _type;};
             virtual void setType(const CONFIG::CompType type) {_type = type;};
             virtual int getId() {return _idComponent;};
@@ -183,8 +204,8 @@ namespace GameEngine {
             int _topRect;
             int width;
             int height;
-            int _scaleX;
-            int _scaleY;
+            float _scaleX;
+            float _scaleY;
 
             bool doAnimationUp = false;
             bool doAnimationDown = false;

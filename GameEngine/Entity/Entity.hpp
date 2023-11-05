@@ -27,13 +27,21 @@ using namespace GameEngine;
 namespace GameEngine {
     class Entity {
         public:
-            Entity() {}
+            Entity() : _id(84), _entityType(42) {}
             Entity(unsigned int id, int type) : _id(id), _entityType(type), _isDeath(false) {
                 _Destroy.timeout_ = 0.03;
             }
 
             Entity(int type) : _id(0), _entityType(type), _isDeath(false) {
                 _Destroy.timeout_ = 0.03;
+            }
+
+            Entity(const Entity &entity) {
+                _id = entity._id;
+                _entityType = entity._entityType;
+                _entityContent = entity._entityContent;
+                _isDeath = entity._isDeath;
+                _uuid = entity._uuid;
             }
 
             void init() {
