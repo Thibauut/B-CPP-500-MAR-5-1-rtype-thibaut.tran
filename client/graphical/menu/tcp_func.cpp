@@ -8,6 +8,7 @@
 #include "../../include/menu.hpp"
 
 void Menu::UpdateRoom() {
+    std::lock_guard<std::mutex> lock(mutexGlobal);
     _tcpConnection->GetRoomList();
     _roomList.clear();
     if (!_tcpConnection->rooms.empty()) {
@@ -26,6 +27,7 @@ void Menu::UpdateRoom() {
 }
 
 void Menu::UpdatePlayerList() {
+    std::lock_guard<std::mutex> lock(mutexGlobal);
     _tcpConnection->GetRoomInfo(_selectedRoom->roomuuid);
     _playerList.clear();
     if (!_tcpConnection->players.empty()) {

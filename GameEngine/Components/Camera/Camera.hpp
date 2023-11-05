@@ -47,9 +47,9 @@ namespace GameEngine {
                     return a.getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() < b.getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX();
                 });
                 // A ENLEVER - START
-                for (auto& entity : _entities)
-                    std::cout << "x: " << entity.getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() << std::endl;
-                std::cout << "--------------------" << std::endl;
+                // for (auto& entity : _entities)
+                //     std::cout << "x: " << entity.getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX() << std::endl;
+                // std::cout << "--------------------" << std::endl;
                 // A ENLEVER - END
             }
 

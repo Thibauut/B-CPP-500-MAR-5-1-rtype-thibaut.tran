@@ -61,7 +61,7 @@ bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
             Entity entity = deserialize(serializedEntity);
             std::cout << "Player " << player_id << " connected" << std::endl;
             socket_.send_to(boost::asio::buffer(serializedEntity), client);
-            std::cout << "Player " << serializedEntity << " connected" << std::endl;
+            // std::cout << "Player " << serializedEntity << " connected" << std::endl;
 
         return true;
     }

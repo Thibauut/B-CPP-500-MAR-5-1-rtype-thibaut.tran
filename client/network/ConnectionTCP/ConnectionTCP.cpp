@@ -115,6 +115,7 @@ void ClientConnectionTCP::GetPlayerInfo()
 
 std::vector<CLI_PlayerWeapon> ClientConnectionTCP::GetPlayerWeapons()
 {
+    std::lock_guard<std::mutex> lock(mutexGlobal);
     setMessage("GET_PLAYER_WEAPONS \"" + uuid_ + "\"\n");
     sendMessage(message_);
     message_ = "";
@@ -140,6 +141,7 @@ std::vector<CLI_PlayerWeapon> ClientConnectionTCP::GetPlayerWeapons()
 }
 void ClientConnectionTCP::SetPlayerEquipedWeapon(std::string weapon_uuid)
 {
+    std::lock_guard<std::mutex> lock(mutexGlobal);
     setMessage("SET_EQUIPED_WEAPON \"" + uuid_ + "\" " + "\"" + weapon_uuid + "\"\n");
     std::cout << message_ << std::endl;
     sendMessage(message_);

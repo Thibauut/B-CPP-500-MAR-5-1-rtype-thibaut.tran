@@ -18,6 +18,7 @@
     #include "../../../GameEngine/Utils/Utils.hpp"
 
 inline std::atomic<bool> shouldStop(false);
+std::mutex mutexGlobal;
 
 class ClientConnectionTCP : public ThreadHandler {
     struct Room {
