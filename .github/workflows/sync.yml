@@ -15,8 +15,8 @@ jobs:
 
     - name: Copy documentation files to public repo
       run: |
-        mkdir -p ../docs_public
-        cp -r DOC-WIKI/* ../docs_public
+        mkdir -p ../docs
+        cp -r DOC-WIKI/* ../docs
       working-directory: ${{ github.workspace }}
 
     - name: Verify temp directory contents
@@ -30,12 +30,13 @@ jobs:
         ls -l
         cd ../
         ls -l
-        cd docs_public
+        cd docs
         ls -l
         cd ../
         git init
         git config user.name "raphael"
         git config user.email "raphael.de-monchy@epitech.eu"
+        git pull origin main
         git add .
         git commit -m "Sync documentation"
         git branch -m main
