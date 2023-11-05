@@ -21,6 +21,7 @@
 #include "Components/Cooldown/Cooldown.hpp"
 #include "Components/Draggable/Draggable.hpp"
 #include "Components/Sound/Sound.hpp"
+#include "Components/Score/Score.hpp"
 #include "Components/Window/Window.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"

@@ -26,7 +26,7 @@ namespace GameEngine {
 
             virtual void update() {
                 for (std::shared_ptr<Entity> &entity : _entityManager->getEntities()) {
-                    if (entity->getType() != 3) {
+                    if (entity->getType() != 3 && entity->getType() != 6) {
                         std::shared_ptr<Position> comp_positionPlayer = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
                         std::shared_ptr<Position> comp_positionBall = _entityManager.get()->getEntityByType(3)->getComponentByType<Position>(CONFIG::CompType::POSITION);
 

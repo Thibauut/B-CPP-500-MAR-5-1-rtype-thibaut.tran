@@ -70,7 +70,8 @@ namespace CONFIG {
         RECTANGLESHAPE,
         PATH,
         CAMERA,
-        MENU
+        MENU,
+        SCORE,
     };
 
     enum Dir {

@@ -134,7 +134,7 @@ void RoomLobby::gameEntryPoint()
         int id = 1;
         int id_comp = 0;
         Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
-
+        Score score = Score(CONFIG::CompType::SCORE, id_comp, 0);
         for (std::shared_ptr<PlayerLobby> player : _players) {
             entityManager->createEntity();
             Entity player_entity(id, id);
@@ -148,6 +148,7 @@ void RoomLobby::gameEntryPoint()
                 position = Position(CONFIG::CompType::POSITION, id_comp, (1920 - 70), 400);
             HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp, spriteRect);
             sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/images/pongPlayer.png", sf::Vector2f(1, 1), spriteRect, CONFIG::SpriteType::PLAYERSPRITE);
+
             sprite.setMaxDimensions(70, 250);
             sprite.setId(id_comp+=1);
             position.setId(id_comp+=1);
@@ -155,9 +156,11 @@ void RoomLobby::gameEntryPoint()
             std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
             std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
             std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
+            std::shared_ptr<Score> scoreShared = std::make_shared<Score>(score);
             player_entity.addComponent(positionShared);
             player_entity.addComponent(spriteShared);
             player_entity.addComponent(hitboxShared);
+            player_entity.addComponent(scoreShared);
             entityManager->addEntity(player_entity);
             id++, id_comp++;
         }
@@ -168,6 +171,7 @@ void RoomLobby::gameEntryPoint()
             Position position = Position(CONFIG::CompType::POSITION, id_comp+=1, (1920 - 70), 400);
             HitBoxSquare hitbox = HitBoxSquare(CONFIG::CompType::HITBOXSQUARE, id_comp+=1);
             Cooldown coolDown = Cooldown(CONFIG::CompType::TIMECOMP, id_comp+=1);
+            Score score = Score(CONFIG::CompType::SCORE, id_comp, 0);
 
             sf::IntRect spriteRect(0, 0, 70, 240);
             sprite.setSprite(position.getPositionX(), position.getPositionY(), "assets/images/pongPlayer.png", sf::Vector2f(1, 1), spriteRect, CONFIG::SpriteType::PLAYERSPRITEAI);
@@ -180,12 +184,14 @@ void RoomLobby::gameEntryPoint()
             std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
             std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
             std::shared_ptr<Cooldown> coolDownShared = std::make_shared<Cooldown>(coolDown);
+            std::shared_ptr<Score> scoreShared = std::make_shared<Score>(score);
 
             pongAi_entity.addComponent(aiShared);
             pongAi_entity.addComponent(positionShared);
             pongAi_entity.addComponent(spriteShared);
             pongAi_entity.addComponent(hitboxShared);
             pongAi_entity.addComponent(coolDownShared);
+            pongAi_entity.addComponent(scoreShared);
             entityManager->addEntity(pongAi_entity);
         }
 
@@ -201,7 +207,6 @@ void RoomLobby::gameEntryPoint()
         sprite.initRect();
         hitbox.setHitboxSize(60, 60);
 
-
         std::shared_ptr<Position> positionShared = std::make_shared<Position>(position);
         std::shared_ptr<Sprite> spriteShared = std::make_shared<Sprite>(sprite);
         std::shared_ptr<HitBoxSquare> hitboxShared = std::make_shared<HitBoxSquare>(hitbox);
@@ -213,14 +218,23 @@ void RoomLobby::gameEntryPoint()
         ballEntity.addComponent(hitboxShared);
         entityManager->addEntity(ballEntity);
 
+        Entity playerScore = Entity(6);
+        playerScore.init();
+        Score scoreP = Score(CONFIG::CompType::SCORE, id_comp, 0);
+        std::shared_ptr<Score> scoreShared = std::make_shared<Score>(scoreP);
+        playerScore.addComponent(scoreShared);
+        entityManager->addEntity(playerScore);
         Engine game(*entityManager.get());
         // ---------------------------------
         if (_players.size() == 1) {
             game.addSystem(std::make_shared<SysAIPong>(game.getManager()));
         }
+        // ---------------------------------
+
         game.addSystem(std::make_shared<SysCollisionPong>(game.getManager()));
         game.addSystem(std::make_shared<SysMoveBallPong>(game.getManager()));
         // ---------------------------------
+
         boost::asio::io_context io_context = boost::asio::io_context();
         std::thread t([&io_context](){ io_context.run(); });
         std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });

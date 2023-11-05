@@ -12,7 +12,10 @@ GamePong::GamePong(std::shared_ptr<Engine> engine) {
     InitBackground();
     _timeMove = Timeout(0.01);
 
-    _soundPath = "assets/audio/a.ogg";
+
+    _soundPath = "assets/audio/mario_theme.ogg";
+
+
     _sound.openFromFile(_soundPath);
     _sound.setVolume(5);
     _sound.setLoop(true);
@@ -59,7 +62,7 @@ void GamePong::Loop()
 {
     _timeMove.Start();
     gameEngine_._manager->getEntities().push_back(my_player);
-    // _sound.play();
+    _sound.play();
     std::cout << "GAME STARTED" << std::endl;
     while (_window->isOpen()) {
         HandleEvents();
@@ -129,6 +132,21 @@ void GamePong::Draw()
                 }
                 if (spriteComp->getSpriteType() == CONFIG::SpriteType::PLAYERSPRITE)
                     _window->draw(spriteComp->getSprite());
+            }
+            if (entity->getType() == 2 || entity->getType() == 6) {
+                std::shared_ptr<Score> scoreComp = entity->getComponentByType<Score>(CONFIG::CompType::SCORE);
+                if (scoreComp != nullptr) {
+                    sf::Text text;
+                    text.setFont(_font);
+                    text.setString(std::to_string(scoreComp->getScore()));
+                    text.setCharacterSize(100);
+                    text.setFillColor(sf::Color::White);
+                    if (entity->getType() == 2)
+                        text.setPosition(1920 / 2 + 300, 100);
+                    else
+                        text.setPosition(1920 / 2 - 300, 100);
+                    _window->draw(text);
+                }
             }
         }
         _window->draw(my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE).get()->getSprite());
