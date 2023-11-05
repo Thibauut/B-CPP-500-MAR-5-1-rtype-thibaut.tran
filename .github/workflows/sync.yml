@@ -22,7 +22,7 @@ jobs:
       run: |
         cd ../
         ls -l
-        git clone git clone https://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@github.com/raphaeldemonchy/myMkDoc.git
+        git clone https://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@github.com/raphaeldemonchy/myMkDoc.git
         ls -l
       working-directory: ${{ github.workspace }}
 
