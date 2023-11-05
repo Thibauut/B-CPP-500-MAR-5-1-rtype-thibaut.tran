@@ -20,6 +20,7 @@
 #include "Components/Weapon/Weapon.hpp"
 #include "Components/Cooldown/Cooldown.hpp"
 #include "Components/Sound/Sound.hpp"
+#include "Components/Score/Score.hpp"
 
 #include "Systems/ASystem/ASystem.hpp"
 #include "Systems/SysAI/SysAI.hpp"

@@ -15,7 +15,7 @@ void Menu::Init() {
     _font.loadFromFile(_fontFirst);
     if (_titleFirst == "PONG") {
         sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title_pong.png", 0, 0, 1, 1);
-        std::cout << "PONG" << std::endl;
+        std::cout << _titleFirst << std::endl;
     }
     else if (_titleFirst == "R-TYPE")
         sfmlFunc.LoadSprite(_title, _titleTexture, "assets/images/title.png", 0, 0, 1, 1);
@@ -52,10 +52,11 @@ void Menu::InitSprites() {
     sfmlFunc.LoadSprite(_removeSlot, _removeSlotTexture, "assets/images/moins.png", 530, 607, 0.1, 0.1);
     sfmlFunc.LoadSprite(_roomDelete, _roomDeleteTexture, "assets/images/delete.png", 1660, 810, 0.2, 0.2);
 
-    sfmlFunc.LoadSprite(_inventory, _inventoryTexture, weapon_path, 135, 250, 0.1, 0.1);
-    sfmlFunc.LoadSprite(_previousWeapon, _previousWeaponTexture, "assets/images/moins.png", 50, 250, 0.1, 0.1);
-    sfmlFunc.LoadSprite(_nextWeapon, _nextWeaponTexture, "assets/images/plus.png", 590, 250, 0.1, 0.1);
-    
+    if (_titleFirst == "R-TYPE") {
+        sfmlFunc.LoadSprite(_inventory, _inventoryTexture, weapon_path, 135, 250, 0.1, 0.1);
+        sfmlFunc.LoadSprite(_previousWeapon, _previousWeaponTexture, "assets/images/moins.png", 50, 250, 0.1, 0.1);
+        sfmlFunc.LoadSprite(_nextWeapon, _nextWeaponTexture, "assets/images/plus.png", 590, 250, 0.1, 0.1);
+    }
 }
 
 void Menu::InitText() {

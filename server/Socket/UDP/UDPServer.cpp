@@ -111,6 +111,10 @@ void UDPServer::setPlayerPosition(Entity &player)
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionX(),
         player.getComponentByType<Position>(CONFIG::CompType::POSITION).get()->getPositionY()
     );
+    std::shared_ptr<Score> entityScore = entityManagerPtr_->getEntity(player.getUuid())->getComponentByType<Score>(CONFIG::CompType::SCORE);
+    if (entityScore) {
+        player.getComponentByType<Score>(CONFIG::CompType::SCORE)->setScore(entityScore->getScore());
+    }
     if (entityManagerPtr_->getEntity(player.getUuid())->getComponentByType<Weapon>(CONFIG::CompType::WEAPON).get()) {
         entityManagerPtr_->getEntity(player.getUuid())->getComponentByType<Weapon>(CONFIG::CompType::WEAPON).get()->setShooting(
             player.getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->getIsShooting(),

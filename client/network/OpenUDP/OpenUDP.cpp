@@ -72,14 +72,25 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
     entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
         if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false && ent->getId() != my_id) {
+            if (ent->getType() == 6 || ent->getType() == 2) {
+                std::shared_ptr<Score> scoreComp = entity->getComponentByType<Score>(CONFIG::CompType::SCORE);
+                std::shared_ptr<Score> newEntScore = ent->getComponentByType<Score>(CONFIG::CompType::SCORE);
+                if (newEntScore == nullptr || scoreComp == nullptr) {
+                    entities_->unlock();
+                    return;
+                }
+                scoreComp->setScore(newEntScore->getScore());
+            }
             std::shared_ptr<Sprite> spriteComp = entity->getComponentByType<Sprite>(CONFIG::CompType::SPRITE);
             std::shared_ptr<Position> positionComp = entity->getComponentByType<Position>(CONFIG::CompType::POSITION);
             std::shared_ptr<Cooldown> cooldownDeleteComp = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
             if (cooldownDeleteComp != nullptr) {
                 cooldownDeleteComp->reset("delete");
             }
-            if (spriteComp == nullptr || positionComp == nullptr)
+            if (spriteComp == nullptr || positionComp == nullptr) {
+                entities_->unlock();
                 return;
+            }
             positionComp->setPositionX(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionX());
             positionComp->setPositionY(ent->getComponentByType<Position>(CONFIG::CompType::POSITION)->getPositionY());
             spriteComp->setPositionSprite(sf::Vector2f(positionComp->getPositionX(), positionComp->getPositionY()));
@@ -87,7 +98,6 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
             return;
         }
          if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == true) {
-
             for (std::shared_ptr<Sprite> &spriteComp : entity->getComponentsByType<Sprite>(CONFIG::CompType::SPRITE)) {
                 if (spriteComp->getSpriteType() == CONFIG::SpriteType::DEATHSPRITE && entity->getType() == 2)
                     spriteComp->setDoAnimationDead(true);

@@ -23,7 +23,7 @@ namespace GameEngine {
 
             virtual void update() {
                 for (std::shared_ptr<Entity>& entity : _entityManager->getEntities()) {
-                    if (entity->getComponentByType<AI>(CONFIG::CompType::AI) != nullptr) {
+                    if (entity->getType() == 2 && entity->getComponentByType<AI>(CONFIG::CompType::AI) != nullptr) {
                         std::shared_ptr<AI> aiComponent = entity->getComponentByType<AI>(CONFIG::CompType::AI);
                         if (aiComponent->getAiType() == CONFIG::AiType::PLAYER) {
                             std::shared_ptr<Entity> posBall = _entityManager->getEntityByType(3);

@@ -8,6 +8,7 @@
 #pragma once
 #include "../ASystem/ASystem.hpp"
 #include "../../Components/Position/Position.hpp"
+#include "../../Components/Score/Score.hpp"
 #include "../../Components/Direction/Direction.hpp"
 #include "../../Utils/Utils.hpp"
 #include "../../Utils/Timeout.hpp"
@@ -40,12 +41,32 @@ namespace GameEngine {
                             //if the ball goes left & right means the player x scorect
                             if (posBall.first < 0 - 60) {
                                 resetPosBall(posBall, positionComponent, directionComponent);
+                                for (std::shared_ptr<Entity> &entityPtr : _entityManager->getEntities()) {
+                                    if (entityPtr->getType() == 2) {
+                                        std::shared_ptr<Score> score = entityPtr->getComponentByType<Score>(CONFIG::CompType::SCORE);
+                                        if (score) {
+                                            int score2 = score->getScore();
+                                            score2 += 1;
+                                            score->setScore(score2);
+                                            break;
+                                        }
+                                    }
+                                }
                             }
-
                             if (posBall.first > 1920 + 60) {
                                 resetPosBall(posBall, positionComponent, directionComponent);
+                                for (std::shared_ptr<Entity> &entityPtr : _entityManager->getEntities()) {
+                                    if (entityPtr->getType() == 6) {
+                                        std::shared_ptr<Score> score = entityPtr->getComponentByType<Score>(CONFIG::CompType::SCORE);
+                                        if (score) {
+                                            int score1 = score->getScore();
+                                            score1 += 1;
+                                            score->setScore(score1);
+                                            break;
+                                        }
+                                    }
+                                }
                             }
-
                             //set positions
                             posBall.first += speed * directionComponent->getDirectionX();
                             posBall.second += speed * directionComponent->getDirectionY();

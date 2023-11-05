@@ -61,7 +61,8 @@ namespace CONFIG {
         TEAM,
         SOUND,
         CAMERA,
-        MENU
+        MENU,
+        SCORE,
     };
 
     enum Dir {

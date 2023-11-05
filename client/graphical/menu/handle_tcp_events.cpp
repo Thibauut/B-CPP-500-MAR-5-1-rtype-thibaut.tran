@@ -213,11 +213,10 @@ void Menu::HandleTcpEvents()
             }
         }
 
-
         //////////////////////////////////////////////////////
         //                      INVENTORY                   //
         //////////////////////////////////////////////////////
-        if (nextWeaponBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
+        if (_titleFirst == "R-TYPE" && nextWeaponBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
             if (indexEquipedWeapon < _tcpConnection->GetPlayerWeapons().size() - 1) {
                 indexEquipedWeapon ++;
                 _tcpConnection->SetPlayerEquipedWeapon(_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.size() - 1));
@@ -232,7 +231,7 @@ void Menu::HandleTcpEvents()
 
             }
         }
-        if (previousWeaponBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
+        if ( _titleFirst == "R-TYPE" && previousWeaponBounds.contains(mousePos) && _isConnected && !_isCreatingRoom && !_selectedRoom) {
             if (indexEquipedWeapon > 0)
                 indexEquipedWeapon --;
             if (indexEquipedWeapon >= 0) {
