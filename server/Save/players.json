@@ -17,8 +17,8 @@
             ]
         },
         {
-            "credit": 1000,
-            "credits": 0,
+            "credit": 7000,
+            "credits": null,
             "level": 1,
             "name": "Username",
             "online": true,
@@ -32,25 +32,25 @@
                     "uuid": "0c1bc51d-26ed-45db-96e3-02f790ab7c7b"
                 },
                 {
-                    "cadence": 3.3927133251878963,
-                    "degat": 16.078125609354174,
-                    "name": "weapon1",
-                    "type": "Weapon1",
-                    "uuid": "9bf1ffe8-3a70-45f7-8f20-9fc581d36e2c"
+                    "cadence": 0.4379650015560747,
+                    "degat": 20.848810516460244,
+                    "name": "weapon3",
+                    "type": "Weapon3",
+                    "uuid": "03aba746-b655-475d-a5e2-b88e4cf6e631"
                 },
                 {
-                    "cadence": 3.3927133251878963,
-                    "degat": 16.078125609354174,
+                    "cadence": 1.3931721440484617,
+                    "degat": 36.31852822625941,
                     "name": "weapon1",
                     "type": "Weapon1",
-                    "uuid": "556d7e88-ca55-4237-a0a7-445b7cad2754"
+                    "uuid": "a65615b8-f181-44d4-a726-380a486905a8"
                 },
                 {
-                    "cadence": 3.3927133251878963,
-                    "degat": 16.078125609354174,
-                    "name": "weapon1",
-                    "type": "Weapon1",
-                    "uuid": "52dd4282-1b6d-45ed-83c7-1f7547972625"
+                    "cadence": 2.027243723174205,
+                    "degat": 7.111406943579859,
+                    "name": "weapon3",
+                    "type": "Weapon3",
+                    "uuid": "91e0ac59-27b3-4190-84bb-e459c81f6042"
                 }
             ]
         },
