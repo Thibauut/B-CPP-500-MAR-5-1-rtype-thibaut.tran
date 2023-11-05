@@ -48,13 +48,9 @@ std::string ClientOpenUDP::serialize(std::shared_ptr<Entity> entity) {
 
 Entity ClientOpenUDP::deserialize(std::string serializedData) {
     std::istringstream received_data(serializedData);
-    // std::cout << "serializedData: " << serializedData << std::endl;
     boost::archive::binary_iarchive ia(received_data);
-    // std::cout << "HERE !!" << std::endl;
     Entity received_obj(971);
-    // std::cout << "Maybe here !!" << std::endl;
     ia >> received_obj;
-    // std::cout << "Or here !!" << std::endl;
     return received_obj;
 }
 
@@ -63,8 +59,10 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
     std::array<char, 1024> buffer;
     boost::asio::ip::udp::endpoint senderEndpoint;
     size_t size = socket_.receive_from(boost::asio::buffer(buffer), senderEndpoint);
+    Compressor compressor;
+    std::string decompressedEntity = compressor.decompress(std::string(buffer.data(), size));
+    std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(decompressedEntity));
 
-    std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(std::string(buffer.data(), size)));
     if (!ent)
         return;
 
@@ -132,7 +130,14 @@ void ClientOpenUDP::recursRead(std::shared_ptr<Entity> &player) {
     std::array<char, 1024> buffer;
     boost::asio::ip::udp::endpoint senderEndpoint;
     size_t size = socket_.receive_from(boost::asio::buffer(buffer), senderEndpoint);
-    std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(std::string(buffer.data(), size)));
+
+    //decompress
+    Compressor compressor;
+    std::string decompressedEntity = compressor.decompress(std::string(buffer.data(), size));
+    // std::cout << "Decompressed size: " << decompressedEntity.size() << std::endl;
+
+    std::shared_ptr<Entity> ent = std::make_shared<Entity>(deserialize(decompressedEntity));
+
     std::cout << "Ici la vida" << std::endl;
     if (ent == nullptr)
         recursRead(player);

@@ -58,10 +58,14 @@ bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
     if (cmd[0] == "LOGIN") {
             int player_id = std::atoi(cmd[1].c_str());
             std::string serializedEntity = serialize(entityManagerPtr_->getEntityById(player_id));
+            // compress
+            Compressor compressor;
+            std::string compressesEntity = compressor.compress(serializedEntity);
+            // deserialize
             Entity entity = deserialize(serializedEntity);
             std::cout << "Player " << player_id << " connected" << std::endl;
-            socket_.send_to(boost::asio::buffer(serializedEntity), client);
-            // std::cout << "Player " << serializedEntity << " connected" << std::endl;
+
+            socket_.send_to(boost::asio::buffer(compressesEntity), client);
 
         return true;
     }
@@ -71,7 +75,6 @@ bool UDPServer::PlayerLogin(std::string data, udp::endpoint &client)
 void UDPServer::sendToClient(const std::string& message, udp::endpoint &client_t)
 {
     std::string new_message = message + "\n";
-    // std::cout << "    -> " << new_message;;
     socket_.send_to(boost::asio::buffer(new_message), client_t);
 
 }
@@ -80,7 +83,9 @@ void UDPServer::sendAll(const std::string& message, std::vector<std::shared_ptr<
 {
     for (std::shared_ptr<udp::endpoint> remote_client : endpoints) {
         try {
-            socket_.send_to(boost::asio::buffer(message), *remote_client.get());
+            Compressor compressor;
+            std::string compressesEntity = compressor.compress(message);
+            socket_.send_to(boost::asio::buffer(compressesEntity), *remote_client.get());
         } catch(const std::exception& e) {
             std::cerr << e.what() << '\n';
         }

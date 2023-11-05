@@ -21,6 +21,7 @@
     #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
     #include "../../../GameEngine/Components/Position/Position.hpp"
     #include "../../../GameEngine/Components/Cooldown/Cooldown.hpp"
+    #include "../../../Utils/Compressor/Compress.hpp"
 
 class ClientOpenUDP : public ThreadHandler {
     public:

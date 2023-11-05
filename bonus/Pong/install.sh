@@ -15,4 +15,5 @@ conan install .. --build=missing --output-folder=ConanLibs/
 cmake -DCMAKE_TOOLCHAIN_FILE=build/ConanLibs/conan_toolchain.cmake -DCMAKE_PREFIX_PATH=/build/ -DCMAKE_BUILD_TYPE=Release ..
 cd ..
 make -C ./build/ CXX=g++-17
+zip -r build_archive.zip build/
 cd build

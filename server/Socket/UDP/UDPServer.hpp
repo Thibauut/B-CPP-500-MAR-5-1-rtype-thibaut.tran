@@ -12,6 +12,8 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <sstream>
+#include <memory>
 #include "../../../GameEngine/Entity/EntityManager/EntityManager.hpp"
 #include "../../../GameEngine/Utils/Utils.hpp"
 #include "../../../GameEngine/Components/Position/Position.hpp"
@@ -19,6 +21,8 @@
 #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
 #include "../../../GameEngine/Components/Weapon/Weapon.hpp"
 #include "../../../GameEngine/Components/Score/Score.hpp"
+
+#include "../../../Utils/Compressor/Compress.hpp"
 
 using boost::asio::ip::udp;
 
