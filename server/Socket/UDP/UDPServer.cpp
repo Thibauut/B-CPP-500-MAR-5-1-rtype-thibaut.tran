@@ -12,13 +12,14 @@
 #define mob_type 2
 #define bullet_type 3
 
-UDPServer::UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager)
-    : socket_(io_context, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager) {
+UDPServer::UDPServer(boost::asio::io_context &io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager, std::shared_ptr<StateManager> state_manager)
+    : socket_(io_context, udp::endpoint(udp::v4(), port)), entityManagerPtr_(entity_manager), stateManagerPtr_(state_manager) {
         port_ = port;
         remote_endpoints_.clear();
         // init();
         send_thread_ = std::thread(&UDPServer::sendThread, this);
         StartReceive();
+        send_thread_.join();
 }
 
 void UDPServer::init() {
@@ -32,12 +33,15 @@ void UDPServer::init() {
 }
 
 void UDPServer::StartReceive() {
-    for (;;) {
+    while (stateManagerPtr_->isRunning()) {
         recv_buf_ = {0};
         size_t size = socket_.receive_from(boost::asio::buffer(recv_buf_), client);
         std::string message(recv_buf_.begin(), recv_buf_.end());
+        if (message.find("STOP") != std::string::npos)
+            break;
         handleReceive(message);
     }
+    std::cout << "END" << std::endl;
 }
 
 void UDPServer::handleReceive(std::string &data) {
@@ -104,10 +108,13 @@ void  UDPServer::sendAllEntitys()
 
 void UDPServer::sendThread() {
     std::this_thread::sleep_for(std::chrono::seconds(5));
-    while(1) {
+    while (stateManagerPtr_->isRunning()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         sendAllEntitys();
     }
+    boost::asio::ip::udp::endpoint localEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), port_);
+    sendToClient("STOP", localEndpoint);
+    std::cout << "SEND THREAD STOPPED" << std::endl;
 }
 
 void UDPServer::setPlayerPosition(Entity &player)

@@ -201,7 +201,7 @@ void ClientConnectionTCP::GetRoomList()
     setMessage("GET_ROOMS\n");
     sendMessage(message_);
     message_ = "";
-    if (shouldStop == false)
+    if (shouldStop == false && shouldPause == false)
         readMessage();
     std::string tmp = extractArguments(response_, "GET_ROOMS ");
     std::istringstream stream(tmp);
@@ -257,7 +257,7 @@ std::string ClientConnectionTCP::JoinRoom(std::string roomuuid , std::string pla
 
 bool ClientConnectionTCP::Ready(std::string roomuuid, std::string playeruuid, std::string& startId, std::string& portUdp)
 {
-    shouldStop.store(true, std::memory_order_relaxed);
+    shouldPause.store(true, std::memory_order_relaxed);
     readyGame_ = false;
     setMessage("READY \"" + playeruuid + "\"" + " \"" + roomuuid + "\"" + "\n");
     sendMessage(message_);

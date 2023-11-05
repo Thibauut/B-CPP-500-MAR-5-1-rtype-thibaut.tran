@@ -152,21 +152,22 @@ void ClientOpenUDP::init(std::shared_ptr<Entity> &player) {
     recursRead(player);
 }
 
-void ClientOpenUDP::run(unsigned int my_id) {
-    for (std::shared_ptr<Entity> entity: entities_->getEntities()) {
-        if (entity->getType() != 4)
-            continue;
-        std::shared_ptr<Cooldown> cooldown = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
-        if (cooldown == nullptr)
-            continue;
-        cooldown->create(1, "delete");
-        if (cooldown->isFinish("delete")) {
-            entities_->deleteEntity(entity->getUuid());
-            break;
-        }
-    }
-    for (;;)
+void ClientOpenUDP::run(unsigned int my_id, std::shared_ptr<StateManager> state_manager) {
+    // for (std::shared_ptr<Entity> entity: entities_->getEntities()) {
+    //     if (entity->getType() != 4)
+    //         continue;
+    //     std::shared_ptr<Cooldown> cooldown = entity->getComponentByType<Cooldown>(CONFIG::CompType::TIMECOMP);
+    //     if (cooldown == nullptr)
+    //         continue;
+    //     cooldown->create(1, "delete");
+    //     if (cooldown->isFinish("delete")) {
+    //         entities_->deleteEntity(entity->getUuid());
+    //         break;
+    //     }
+    // }
+    while (state_manager->isRunning()) {
         readMessageGlobal(my_id);
+    }
     // std::cout << "size: " << entities_->getEntities().size() << std::endl;
     ioService.stop();
 }

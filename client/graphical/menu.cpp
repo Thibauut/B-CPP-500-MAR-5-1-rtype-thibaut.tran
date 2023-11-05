@@ -66,17 +66,19 @@ void Menu::Loop()
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
             clientudp->init(_game->my_player);
             _game->my_player->getComponentByType<Sprite>(CONFIG::CompType::SPRITE)->initSprite();
-            std::thread th([clientudp, my_id = _game->my_player->getId()]() {
-                clientudp->run(my_id);
+            std::thread th([clientudp, my_id = _game->my_player->getId(), state = _game->gameEngine_.isRunning()]() {
+                clientudp->run(my_id, state);
             });
 
             //start game
             _game->Loop();
-
+            clientudp->ioService.stop();
             //stop threads
             thGameEngine.join();
             th.join();
             ioThread.join();
+            _inGame = false;
+            shouldPause.store(false, std::memory_order_relaxed);
         }
     }
     _tcpConnection->stop();

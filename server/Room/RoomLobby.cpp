@@ -25,20 +25,20 @@ RoomLobby::RoomLobby(std::shared_ptr<PlayerLobby> owner, unsigned int nbSlots, s
     _name = name;
     _uuid = uuid;
     _nbReadyPlayers = 0;
-    _isStarted = false;
+    _isStarted = std::make_shared<bool>(false);
     _pathMap = pathMap;
     _gameType = gametype;
     _titleGame = titleGame;
+    _isRunning = false;
 }
 
 RoomLobby::~RoomLobby() {
-    stopGame();
 }
 
 void RoomLobby::startGame()
 {
     try {
-        _isStarted = true;
+        *_isStarted = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
         if (_gameType == 0)
@@ -120,12 +120,25 @@ void RoomLobby::gameEntryPoint()
         // apl du serv---------------
         boost::asio::io_context io_context = boost::asio::io_context();
         std::thread t([&io_context](){ io_context.run(); });
-        std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
+        std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
+        std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+            while (state->isRunning()) {
+                std::cout << "Running: " << *isGo.get() << std::endl;
+                if (!*isGo.get()) {
+                    std::cout << "! STOP !" << std::endl;
+                    state->stop();
+                }
+            }
+        });
         // --------------------------
         game.run();
-        t1.join();
-        t.join();
 
+        io_context.stop();
+        t.join();
+        exit_thread.join();
+        t1.join();
 
     }
 
@@ -237,9 +250,19 @@ void RoomLobby::gameEntryPoint()
 
         boost::asio::io_context io_context = boost::asio::io_context();
         std::thread t([&io_context](){ io_context.run(); });
-        std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+        std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
+        std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
+        std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+            while (state->isRunning()) {
+                if (!*isGo.get()) {
+                    state->stop();
+                }
+            }
+        });
         // --------------------------
         game.run();
+        io_context.stop();
+        exit_thread.join();
         t1.join();
         t.join();
     }
@@ -311,9 +334,19 @@ void RoomLobby::PvpEntryPoint()
     // apl du serv---------------
     boost::asio::io_context io_context = boost::asio::io_context();
     std::thread t([&io_context](){ io_context.run(); });
-    std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+    std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
+    std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
+    std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+        while (state->isRunning()) {
+            if (!*isGo.get()) {
+                state->stop();
+            }
+        }
+    });
     // --------------------------
     game.run();
+    io_context.stop();
+    exit_thread.join();
     t1.join();
     t.join();
 
@@ -383,12 +416,23 @@ void RoomLobby::BattleRoyalEntryPoint()
     game.addSystem(std::make_shared<SysCamera>(game.getManager()));
     // apl du serv---------------
     boost::asio::io_context io_context = boost::asio::io_context();
+    std::shared_ptr<bool> isGo = std::make_shared<bool>(_isStarted);
     std::thread t([&io_context](){ io_context.run(); });
-    std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+    std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
+    std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
+    std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+        while (state->isRunning()) {
+            if (!*isGo.get()) {
+                state->stop();
+            }
+        }
+    });
     // --------------------------
     game.run();
-    t1.join();
+    io_context.stop();
     t.join();
+    exit_thread.join();
+    t1.join();
 
     std::cout << "Room " << _name << " stopped" << std::endl;
 }
@@ -463,11 +507,21 @@ void RoomLobby::DuoPvpEntryPoint()
     // apl du serv---------------
     boost::asio::io_context io_context = boost::asio::io_context();
     std::thread t([&io_context](){ io_context.run(); });
-    std::thread t1([&io_context, &gamee = game, my_port = _port](){ UDPServer server(io_context, my_port, gamee.getManager()); });
+    std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
+    std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
+    std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+        while (state->isRunning()) {
+            std::cout << "Running: " << *isGo.get() << std::endl;
+            if (!*isGo.get()) {
+                state->stop();
+            }
+        }
+    });
     // --------------------------
     game.run();
-    t1.join();
+    io_context.stop();
     t.join();
+    t1.join();
 
     std::cout << "Room " << _name << " stopped" << std::endl;
 
@@ -478,8 +532,9 @@ void RoomLobby::SurvivalEntryPoint()
 }
 void RoomLobby::stopGame()
 {
-    if (_thread.joinable())
-        _thread.join();
+    std::cout << "Need to stop" << std::endl;
+    *_isStarted.get() = false;
+    _thread.join();
 }
 
 bool RoomLobby::addReadyPlayer()

@@ -20,6 +20,7 @@
 #include "../../../GameEngine/Components/Health/Health.hpp"
 #include "../../../GameEngine/Components/Sprite/Sprite.hpp"
 #include "../../../GameEngine/Components/Weapon/Weapon.hpp"
+#include "../../../GameEngine/GameEngine.hpp"
 #include "../../../GameEngine/Components/Score/Score.hpp"
 
 #include "../../../Utils/Compressor/Compress.hpp"
@@ -28,7 +29,7 @@ using boost::asio::ip::udp;
 
 class UDPRequest {
     public:
-        UDPRequest(std::string data, udp::endpoint &client): data_(data), client_(client) {}
+        UDPRequest(std::string data, udp::endpoint &client, std::shared_ptr<StateManager> state): data_(data), client_(client) {}
         ~UDPRequest() {}
         std::string data_;
         udp::endpoint &client_;
@@ -36,7 +37,7 @@ class UDPRequest {
 
 class UDPServer {
 public:
-    UDPServer(boost::asio::io_context& io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager);
+    UDPServer(boost::asio::io_context &io_context, unsigned short port, std::shared_ptr<EntityManager> entity_manager, std::shared_ptr<StateManager> state_manager);
     bool EndpointExist(udp::endpoint client) {
         if (remote_endpoints_.empty()) {
             return false;
@@ -95,6 +96,7 @@ private:
     std::vector<std::shared_ptr<udp::endpoint>> remote_endpoints_;
     udp::socket socket_;
     std::shared_ptr<EntityManager> entityManagerPtr_;
+    std::shared_ptr<StateManager> stateManagerPtr_;
     std::thread recv_thread_;
     std::thread send_thread_;
 };

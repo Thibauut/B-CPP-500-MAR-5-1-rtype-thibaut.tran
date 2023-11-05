@@ -74,7 +74,7 @@ inline void GameRtype::Loop()
     gameEngine_._manager->getEntities().push_back(my_player);
     _sound.play();
     std::cout << "GAME STARTED" << std::endl;
-    while (_window->isOpen()) {
+    while (gameEngine_.isRunning()->isRunning()) {
         HandleEvents();
         AnimateBackground();
         Draw();
@@ -121,6 +121,9 @@ inline void GameRtype::HandleEvents()
                 _shooting = false;
                 my_player->getComponentByType<Weapon>(CONFIG::CompType::WEAPON)->setShooting(false, 0.0);
                 _clientOpenUDP->sendMessageSync(_clientOpenUDP->serialize(my_player));
+            }
+            if (_event.key.code == sf::Keyboard::Escape) {
+                gameEngine_.isRunning()->stop();
             }
         }
     }
