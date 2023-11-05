@@ -53,7 +53,7 @@ void Menu::InitSprites() {
     sfmlFunc.LoadSprite(_roomDelete, _roomDeleteTexture, "assets/images/delete.png", 1660, 810, 0.2, 0.2);
 
     if (_titleFirst == "R-TYPE") {
-        sfmlFunc.LoadSprite(_inventory, _inventoryTexture, weapon_path, 135, 250, 0.1, 0.1);
+        sfmlFunc.LoadSprite(_inventory, _inventoryTexture, weapon_path, 135, 210, 0.2, 0.2);
         sfmlFunc.LoadSprite(_previousWeapon, _previousWeaponTexture, "assets/images/moins.png", 50, 250, 0.1, 0.1);
         sfmlFunc.LoadSprite(_nextWeapon, _nextWeaponTexture, "assets/images/plus.png", 590, 250, 0.1, 0.1);
     }
