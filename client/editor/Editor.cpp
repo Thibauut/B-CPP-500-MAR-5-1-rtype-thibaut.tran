@@ -280,10 +280,9 @@ void drop(Event::event_data &data) {
     std::shared_ptr<RectangleShape> rectangle_c = editor->getComponentByType<RectangleShape>(CONFIG::CompType::RECTANGLESHAPE);
 
     sf::IntRect hitbox = hitbox_c->getRectangle();
-    sf::Vector2i mouse_pos = sf::Mouse::getPosition();
-    std::cout << "Mouse(" << mouse_pos.x << "," << mouse_pos.y << ")" << std::endl;
+    std::cout << "Mouse(" << ((int) data.mouse.x) << "," << ((int) data.mouse.y) << ")" << std::endl;
     std::cout << "Hitbox(" << hitbox.left << "," << hitbox.top << " " << hitbox.width << "," << hitbox.height << ")" << std::endl;
-    if (hitbox.contains(mouse_pos)) {
+    if (hitbox.contains(sf::Vector2i(data.mouse))) {
         std::shared_ptr<Entity> entity = data.entity_manager->getEntity(draggable->getEntityDragged());
         Entity new_entity;
         new_entity.init();
