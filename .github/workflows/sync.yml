@@ -34,6 +34,8 @@ jobs:
 
     - name: Commit and push changes to public repo
       run: |
+        cd ../
+        cd myMkDoc
         git config user.name "raphael"
         git config user.email "raphael.de-monchy@epitech.eu"
         git add .
