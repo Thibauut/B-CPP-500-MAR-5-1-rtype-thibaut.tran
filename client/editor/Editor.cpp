@@ -281,6 +281,8 @@ void drop(Event::event_data &data) {
 
     sf::IntRect hitbox = hitbox_c->getRectangle();
     sf::Vector2i mouse_pos = sf::Mouse::getPosition();
+    std::cout << "Mouse(" << mouse_pos.x << "," << mouse_pos.y << ")" << std::endl;
+    std::cout << "Hitbox(" << hitbox.left << "," << hitbox.top << " " << hitbox.width << "," << hitbox.height << ")" << std::endl;
     if (hitbox.contains(mouse_pos)) {
         std::shared_ptr<Entity> entity = data.entity_manager->getEntity(draggable->getEntityDragged());
         Entity new_entity;
