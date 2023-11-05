@@ -35,7 +35,6 @@ jobs:
         cd ../
         git config user.name "raphael"
         git config user.email "raphael.de-monchy@epitech.eu"
-        git pull
         git add .
         git commit -m "Sync documentation"
         git branch -m main
