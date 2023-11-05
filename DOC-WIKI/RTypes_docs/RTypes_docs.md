@@ -134,15 +134,16 @@ stateDiagram-v2
                     direction LR
                     state Damage {
                         direction LR
-                        zzz
+                        int damage
                     }
                     state Life {
                         direction LR
-                        yyy
+                        int life
                    }
                    state HitBox {
                         direction LR
-                        xxx
+                        int x
+			int y
                    }
                }
 
@@ -151,15 +152,15 @@ stateDiagram-v2
                 direction LR
                 state SysRender {
                     direction LR
-                    1
+                    update()
                 }
                 state SysShoot {
                     direction LR
-                    2
+                    update()
                 }
                 state SysAI {
                     direction LR
-                    3
+                    update()
                 }
             }
     }
