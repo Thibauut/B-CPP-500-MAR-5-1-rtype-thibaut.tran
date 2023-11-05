@@ -15,8 +15,7 @@ jobs:
 
     - name: Copy documentation files to public repo
       run: |
-        mkdir -p ../docs
-        cp -r DOC-WIKI/* ../docs
+        cp -r DOC-WIKI/* docs
       working-directory: ${{ github.workspace }}
 
     - name: Verify temp directory contents
@@ -27,17 +26,10 @@ jobs:
 
     - name: Commit and push changes to public repo
       run: |
-        ls -l
-        cd ../
-        ls -l
-        cd docs
-        ls -l
-        cd ../
         git config user.name "raphael"
         git config user.email "raphael.de-monchy@epitech.eu"
         git add .
         git commit -m "Sync documentation"
-        git branch -m main
       working-directory: ${{ github.workspace }}
 
     - name: Push changes to public repo
