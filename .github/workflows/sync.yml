@@ -44,6 +44,8 @@ jobs:
 
     - name: Push changes to public repo
       run: |
-        git push https://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@github.com/raphaeldemonchy/myMkDoc.git main
+        cd ../
+        cd myMkDoc
+        git push
       working-directory: ${{ github.workspace }}
 
