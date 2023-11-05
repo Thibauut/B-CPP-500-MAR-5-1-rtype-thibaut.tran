@@ -22,6 +22,8 @@ jobs:
       run: |
         cd ../
         ls -l
+        git clone git@github.com:raphaeldemonchy/myMkDoc.git
+        ls -l
       working-directory: ${{ github.workspace }}
 
     - name: Commit and push changes to public repo
