@@ -35,8 +35,10 @@ def execute_path(event):
     clicked_item = canvas.find_withtag(tk.CURRENT)
     if clicked_item:
         file_path = canvas.gettags(clicked_item[0])[1]
+        file_path2 = "./r-type_server"
         print("Executing path:", file_path)
     os.system(f'{file_path} &')
+    os.system(f'{file_path2} &')
     exit()
 
 # Créer la fenêtre principale
