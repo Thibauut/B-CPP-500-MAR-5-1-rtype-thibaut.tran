@@ -62,7 +62,7 @@ void RoomLobby::gameEntryPoint()
     std::cout << "GAME: " +  _titleGame << std::endl;
     if (_titleGame == "R-TYPE") {
        std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
-       *_isStarted = true;
+       *_isStarted.get() = true;
         int id = 1;
         int id_comp = 0;
         Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
