@@ -73,6 +73,26 @@ The client uses a combination of network protocols for seamless gaming. It emplo
 - [Introduction](#introduction)
 - [Protocole-TCP/UDP](#protocole-tcp/udp)
   * [TCP](#tcp)
+
+The server is an important part of building a game.
+It allows you to play with other players !
+
+> It has 2 importants informations: **IPv4**and **port**
+
+## TCP
+Our programme lets you use the TCP network to manage the menu and lobbies beforehand.
+
+The Transmission Control Protocol (TCP) is one of the main [protocols](https://en.wikipedia.org/wiki/Communications_protocol) of the [Internet protocol suite](https://en.wikipedia.org/wiki/Internet_protocol_suite). It originated in the initial network implementation in which it complemented the [Internet Protocol](https://en.wikipedia.org/wiki/Internet_Protocol) (IP). Therefore, the entire suite is commonly referred to as [TCP/IP](https://en.wikipedia.org/wiki/TCP/IP). TCP provides [reliable](https://en.wikipedia.org/wiki/Reliability_(computer_networking)), ordered, and [error-checked](https://en.wikipedia.org/wiki/Error_detection_and_correction) delivery of a [stream](https://en.wikipedia.org/wiki/Reliable_byte_stream) of [octets](https://en.wikipedia.org/wiki/Octet_(computing)) (bytes) between applications running on hosts communicating via an IP network. Major internet applications such as the [World Wide Web](https://en.wikipedia.org/wiki/World_Wide_Web), [email](https://en.wikipedia.org/wiki/Email), [remote administration](https://en.wikipedia.org/wiki/Remote_administration), and [file transfer](https://en.wikipedia.org/wiki/File_transfer) rely on TCP, which is part of the [Transport Layer](https://en.wikipedia.org/wiki/Transport_layer) of the TCP/IP suite. [SSL/TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) often runs on top of TCP.
+
+TCP is [connection-oriented](https://en.wikipedia.org/wiki/Connection-oriented_communication), and a connection between client and server is established before data can be sent. The server must be listening (passive open) for connection requests from clients before a connection is established. Three-way [handshake](https://en.wikipedia.org/wiki/Handshake_(computing)) (active open), [retransmission](https://en.wikipedia.org/wiki/Retransmission_(data_networks)), and error detection adds to reliability but lengthens [latency](https://en.wikipedia.org/wiki/Network_latency). Applications that do not require reliable [data stream](https://en.wikipedia.org/wiki/Data_stream) service may use the [User Datagram Protocol](https://en.wikipedia.org/wiki/User_Datagram_Protocol) (UDP) instead, which provides a [connectionless](https://en.wikipedia.org/wiki/Connectionless_communication) [datagram](https://en.wikipedia.org/wiki/Datagram) service that prioritizes time over reliability. TCP employs [network congestion avoidance](https://en.wikipedia.org/wiki/TCP_congestion_control). However, there are vulnerabilities in TCP, including [denial of service](https://en.wikipedia.org/wiki/Denial-of-service_attack), [connection hijacking](https://en.wikipedia.org/wiki/TCP_sequence_prediction_attack), TCP veto, and [reset attack](https://en.wikipedia.org/wiki/TCP_reset_attack).
+
+Our TCP protocol follows the RFC standard, and is available to help you understand how the server works so that you can make your own changes and updates.
+
+## UDP
+In [computer networking](https://en.wikipedia.org/wiki/Computer_network), the User Datagram Protocol (UDP) is one of the core [communication protocols](https://en.wikipedia.org/wiki/Communication_protocol) of the [Internet protocol suite](https://en.wikipedia.org/wiki/Internet_protocol_suite) used to send messages (transported as [datagrams](https://en.wikipedia.org/wiki/Datagram) in [packets](https://en.wikipedia.org/wiki/Network_packet)) to other hosts on an [Internet Protocol](https://en.wikipedia.org/wiki/Internet_Protocol) (IP) network. Within an IP network, UDP does not require prior communication to set up [communication channels](https://en.wikipedia.org/wiki/Communication_channel) or data paths.
+
+Our **UDP** use the serialisation of our entities to make it easier to use. You can use the network in-game with the encapsulation of *UDPServer*.
+
   * [UDP](#udp)
 
 - [Rooms](#rooms)
