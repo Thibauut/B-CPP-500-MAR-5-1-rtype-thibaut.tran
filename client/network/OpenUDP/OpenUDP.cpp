@@ -70,7 +70,7 @@ void ClientOpenUDP::readMessageGlobal(unsigned int my_id)
     entities_->lock();
     for (std::shared_ptr<Entity> &entity: entities_->getEntities()) {
         if (entity->getUuid() == ent->getUuid() && ent->getIsDeath() == false && ent->getId() != my_id) {
-            if (_titleGame == "PONG") {
+            if (_titleGame == "PONG" && ent->getType() != 3) {
                 std::shared_ptr<Score> scoreComp = entity->getComponentByType<Score>(CONFIG::CompType::SCORE);
                 std::shared_ptr<Score> newEntScore = ent->getComponentByType<Score>(CONFIG::CompType::SCORE);
                 if (newEntScore == nullptr || scoreComp == nullptr) {
