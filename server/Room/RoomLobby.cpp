@@ -62,6 +62,7 @@ void RoomLobby::gameEntryPoint()
     std::cout << "GAME: " +  _titleGame << std::endl;
     if (_titleGame == "R-TYPE") {
        std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
+       *_isStarted = true;
         int id = 1;
         int id_comp = 0;
         Position position = Position(CONFIG::CompType::POSITION, id_comp, 200, 300);
@@ -122,10 +123,13 @@ void RoomLobby::gameEntryPoint()
         std::thread t([&io_context](){ io_context.run(); });
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
-        std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
         std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             while (state->isRunning()) {
-                if (!*isGo.get()) {
+                bool needToStop = *isGo.get();
+                // std::cout << "isGo: " << needToStop << std::endl;
+                if (needToStop == false) {
+                    std::cout << "STOP !" << std::endl;
                     state->stop();
                 }
             }
@@ -141,8 +145,8 @@ void RoomLobby::gameEntryPoint()
     }
 
     if (_titleGame == "PONG") {
-        _isStarted = std::make_shared<bool>(true);
         std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
+        *_isStarted.get() = true;
         int id = 1;
         int id_comp = 0;
         Sprite sprite = Sprite(CONFIG::CompType::SPRITE, id_comp);
@@ -249,8 +253,10 @@ void RoomLobby::gameEntryPoint()
 
         boost::asio::io_context io_context = boost::asio::io_context();
         std::thread t([&io_context](){ io_context.run(); });
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
         std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             while (state->isRunning()) {
                 if (!*isGo.get()) {
                     state->stop();
