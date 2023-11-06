@@ -1,0 +1,1 @@
+. "/Users/thibaut/Documents/B-CPP-500-MAR-5-1-rtype-maori.dino/bonus/ConanLibs/conanrunenv-release-x86_64.sh"
