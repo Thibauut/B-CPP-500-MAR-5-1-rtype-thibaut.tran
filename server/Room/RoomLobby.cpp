@@ -125,9 +125,7 @@ void RoomLobby::gameEntryPoint()
         std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
         std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
             while (state->isRunning()) {
-                std::cout << "Running: " << *isGo.get() << std::endl;
                 if (!*isGo.get()) {
-                    std::cout << "! STOP !" << std::endl;
                     state->stop();
                 }
             }
@@ -511,7 +509,6 @@ void RoomLobby::DuoPvpEntryPoint()
     std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
     std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
         while (state->isRunning()) {
-            std::cout << "Running: " << *isGo.get() << std::endl;
             if (!*isGo.get()) {
                 state->stop();
             }
