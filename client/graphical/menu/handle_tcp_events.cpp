@@ -226,6 +226,17 @@ void Menu::HandleTcpEvents()
                         std::cerr << "Error until room join" << std::endl;
                     } else {
                         _selectedRoom = room;
+                        _tcpConnection->GetPlayerWeapons();
+                        _tcpConnection->SetPlayerEquipedWeapon(_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].uuid.size()));
+                        _text_cadence.setString("Cadence : " + _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].cadence.substr(1, 4));
+                        _text_degat.setString("Degat : " + _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].degat.substr(1, 4));
+                        if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon1")
+                            _inventoryTexture.loadFromFile("assets/images/rocket.png");
+                        if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon2")
+                            _inventoryTexture.loadFromFile("assets/images/mitraillette.png");
+                        if (_tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.substr(1, _tcpConnection->GetPlayerWeapons()[indexEquipedWeapon].name.size() - 2) == "weapon3")
+                            _inventoryTexture.loadFromFile("assets/images/machinegun.png");
+
                         UpdatePlayerList();
                     }
                 }
