@@ -143,7 +143,7 @@ void RoomLobby::gameEntryPoint()
     }
 
     if (_titleGame == "PONG") {
-        _isStarted
+        _isStarted = std::make_shared<bool>(true);
         std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
         int id = 1;
         int id_comp = 0;
