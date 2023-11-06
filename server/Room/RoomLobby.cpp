@@ -38,7 +38,7 @@ RoomLobby::~RoomLobby() {
 void RoomLobby::startGame()
 {
     try {
-        *_isStarted = true;
+        *_isStarted.get() = true;
         _port = findOpenPort();
         std::cout << "Le port "<< _port<< " est libre." << std::endl;
         if (_gameType == 0)
@@ -143,6 +143,7 @@ void RoomLobby::gameEntryPoint()
     }
 
     if (_titleGame == "PONG") {
+        _isStarted
         std::shared_ptr<EntityManager> entityManager = std::shared_ptr<EntityManager>(new EntityManager());
         int id = 1;
         int id_comp = 0;
@@ -251,7 +252,6 @@ void RoomLobby::gameEntryPoint()
         boost::asio::io_context io_context = boost::asio::io_context();
         std::thread t([&io_context](){ io_context.run(); });
         std::thread t1([&io_context, &gamee = game, my_port = _port, state = game.isRunning()](){ UDPServer server(io_context, my_port, gamee.getManager(), state); });
-        std::shared_ptr<bool> isStarted = std::make_shared<bool>(_isStarted);
         std::thread exit_thread([state = game.isRunning(), isGo = _isStarted](){
             while (state->isRunning()) {
                 if (!*isGo.get()) {
